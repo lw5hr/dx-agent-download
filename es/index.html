@@ -34,7 +34,7 @@
   "description": "Vigila el DX cluster y el Reverse Beacon Network, compara cada spot con tu log ADIF y te avisa cuando esta en el aire una estacion que te falta.",
   "url": "https://lw5hr.github.io/dx-agent-download/es/",
   "downloadUrl": "https://github.com/lw5hr/dx-agent-download/releases/latest",
-  "softwareVersion": "0.4.14",
+  "softwareVersion": "0.4.19",
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
   "screenshot": "https://lw5hr.github.io/dx-agent-download/images/station.es.png",
@@ -124,8 +124,13 @@
     <li><b>Cerca tuyo</b> Si la estación está siendo escuchada por receptores cerca de tu estación
       (RBN, cluster, PSKReporter en vivo y los decodes de tu propio WSJT-X), para saber si el camino
       está abierto para vos.</li>
-    <li><b>Te escuchan</b> Tu propio indicativo spoteado: qué skimmers te escuchan, a qué distancia y
-      en qué país, en la lista y en el mapa.</li>
+    <li><b>Propagación: VOACAP y el camino</b> La chance de un QSO con cada estación a esta hora, en
+      los dos sentidos, con VOACAP incluido (no hay nada que instalar), las próximas 24 horas por
+      banda, y si tu propia señal se reportó cerca de la estación.</li>
+    <li><b>Te escuchan</b> Tu propio indicativo spoteado: qué skimmers y receptores de PSKReporter te
+      escuchan, a qué distancia y en qué país, en la lista y en el mapa.</li>
+    <li><b>Aperturas en VHF</b> Una alerta cuando 6 m o 2 m se abren a tu alrededor, con los reportes
+      en vivo de PSKReporter.</li>
     <li><b>CQ DX Marathon</b> Tu puntaje del año o del Sprint, los países y zonas CQ que te faltan, y
       una alerta cuando sale al aire uno de ellos.</li>
     <li><b>Varios indicativos</b> Cada uno con su log; las alertas y los diplomas de todos juntos, o
@@ -133,6 +138,9 @@
     <li><b>Un clic a la radio</b> Sintonizá el spot desde el panel: Log4OM, N1MM, DXLog.net, OmniRig,
       Hamlib, flrig, DXLab, WSJT-X o TCI (una FlexRadio con AetherSDR, con las alertas en su
       panadaptador; en prueba). Y Spotear publica un spot en el DX cluster.</li>
+    <li><b>Su propio logbook (experimental)</b> DX Agent puede llevar tu log él mismo: guardá un QSO con
+      el formulario completado desde el spot y la radio, editalo, filtralo, subilo a LoTW y a Club Log,
+      y mirá quién te confirmó en LoTW.</li>
   </ul>
 
   <h2 id="pantallas">Pantallas</h2>

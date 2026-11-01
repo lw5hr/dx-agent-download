@@ -33,7 +33,7 @@
   "description": "Watches the DX cluster and the Reverse Beacon Network, compares every spot against your ADIF log, and alerts you when a station you still need is on the air.",
   "url": "https://lw5hr.github.io/dx-agent-download/",
   "downloadUrl": "https://github.com/lw5hr/dx-agent-download/releases/latest",
-  "softwareVersion": "0.4.14",
+  "softwareVersion": "0.4.19",
   "inLanguage": ["en", "es"],
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
@@ -124,8 +124,13 @@
     <li><b>Near you</b> Whether the station is being heard by receivers close to your own station
       (RBN, cluster, PSKReporter live, and your own WSJT-X's decodes), so you know if the path is
       open to you.</li>
-    <li><b>Who hears you</b> Your own call spotted: which skimmers hear you, how far away and in
-      which country, on the list and the map.</li>
+    <li><b>Propagation: VOACAP and the path</b> The chance of a QSO with each station this hour, both
+      ways, with VOACAP built in (nothing to install), the next 24 hours by band, and whether your
+      own signal was reported near the station.</li>
+    <li><b>Who hears you</b> Your own call spotted: which skimmers and PSKReporter receivers hear
+      you, how far away and in which country, on the list and the map.</li>
+    <li><b>VHF openings</b> An alert when 6 m or 2 m opens around you, from PSKReporter's live
+      reports.</li>
     <li><b>CQ DX Marathon</b> Your score for the year or the Sprint, the countries and CQ zones still
       missing, and an alert when one of them is on the air.</li>
     <li><b>Several callsigns</b> Each with its own log; alerts and awards for all of them together,
@@ -133,6 +138,9 @@
     <li><b>One click to the radio</b> Tune to the spot from the dashboard: Log4OM, N1MM, DXLog.net,
       OmniRig, Hamlib, flrig, DXLab, WSJT-X or TCI (a FlexRadio on AetherSDR, with the alerts on its
       panadapter; in testing). And Spot it posts a spot to the DX cluster.</li>
+    <li><b>Its own logbook (experimental)</b> DX Agent can keep your log itself: log a QSO with the
+      form filled from the spot and the radio, edit it, filter it, upload it to LoTW and Club Log, and
+      see who confirmed in LoTW.</li>
   </ul>
 
   <h2 id="screens">Screens</h2>
