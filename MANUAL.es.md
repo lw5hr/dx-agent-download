@@ -1,6 +1,6 @@
 # DX Agent — Manual de usuario
 
-*Versión 0.4.14 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
+*Versión 0.4.19 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
 
 DX Agent vigila el DX cluster y la Reverse Beacon Network (RBN), compara cada estación
 reportada con tu log y te avisa cuando sale al aire una que todavía necesitás: un país nuevo,
@@ -21,9 +21,10 @@ Contenido:
 10. [El mapa](#10-el-mapa)
 11. [CQ DX Marathon](#11-cq-dx-marathon)
 12. [LoTW](#12-lotw)
-13. [Actualizar a una versión nueva](#13-actualizar-a-una-versión-nueva)
-14. [Problemas frecuentes](#14-problemas-frecuentes)
-15. [Ayuda y contacto](#15-ayuda-y-contacto)
+13. [El logbook de DX Agent (experimental)](#13-el-logbook-de-dx-agent-experimental)
+14. [Actualizar a una versión nueva](#14-actualizar-a-una-versión-nueva)
+15. [Problemas frecuentes](#15-problemas-frecuentes)
+16. [Ayuda y contacto](#16-ayuda-y-contacto)
 
 ---
 
@@ -38,7 +39,9 @@ Contenido:
     o una exportación ADIF de cualquier otro programa;
   - o tu cuenta de **LoTW**, si no tenés un archivo ADIF: DX Agent baja de ahí todos los QSOs
     que subiste;
-  - o nada todavía, si estás empezando de cero: DX Agent te crea un log nuevo (sección 3).
+  - o nada todavía, si estás empezando de cero: DX Agent te crea un log nuevo (sección 3);
+  - o el **logbook de DX Agent** (experimental): DX Agent lleva tu log él mismo, lo sube a LoTW y
+    a Club Log, y baja tus confirmaciones de LoTW (sección 13).
 - Opcional: tu **contraseña de LoTW**, para que DX Agent sepa qué tenés confirmado aunque tu
   programa de log no esté sincronizado.
 
@@ -47,7 +50,7 @@ Contenido:
 1. Bajá el último `dx-agent-<versión>-windows.zip` de la página
    [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest).
 2. Descomprimilo donde quieras, por ejemplo en `Documentos`. Tu configuración y tus datos no
-   quedan ahí, sino en una carpeta tuya que usan todas las versiones (sección 13): la carpeta
+   quedan ahí, sino en una carpeta tuya que usan todas las versiones (sección 14): la carpeta
    del programa se puede reemplazar o borrar.
 3. Hacé doble clic en **start-dx-agent.bat**. El panel se abre en el navegador, en
    **http://localhost:8073**.
@@ -119,7 +122,8 @@ log. Hacé clic en **Configuración** (arriba a la derecha) y completá:
    - **Tu log:** *Archivo ADIF*, *Solo LoTW* o *Empezar de cero (log nuevo)*: DX Agent crea un
      log vacío, `data\<INDICATIVO>.adi` en tu carpeta de DX Agent, y le agrega los QSOs que tus programas le mandan al
      loguearlos (WSJT-X, N1MM... ver la sección 7). Cuando empieces a usar un programa de log,
-     importá ese archivo ahí y elegí Archivo ADIF.
+     importá ese archivo ahí y elegí Archivo ADIF. O **Logbook de DX Agent (experimental)**, para
+     llevar tu log en DX Agent (sección 13).
    - **Ruta del log:** hacé clic en **Buscar…** y elegí el archivo. Si elegís un backup de
      Log4OM con fecha (`LW1ABC_20261016_124613_backup.adi`), DX Agent lo convierte en
      `…/LW1ABC_*_backup.adi`, así usa siempre el más nuevo. **Probar** muestra qué archivo
@@ -135,13 +139,19 @@ log. Hacé clic en **Configuración** (arriba a la derecha) y completá:
    nunca en texto.
 3. **Alertas:** qué tipos de alerta querés, en qué bandas y modos. Para empezar, los valores
    de fábrica andan bien.
-4. **Radio (botón Sintonizar):** el programa que maneja tu radio (ver sección 6). Si no
+4. **Propagación:** tu potencia, la ganancia de tu antena y el ruido donde estás, para las
+   predicciones de VOACAP; y las aperturas en VHF, 6 m y 2 m (sección 5).
+5. **Radio:** el programa que maneja tu radio (ver sección 6). Si no
    querés que DX Agent mueva la radio, dejalo en *Desactivado*.
-5. Hacé clic en **Guardar y aplicar**. No hace falta reiniciar: en unos segundos vuelve a
+6. Hacé clic en **Guardar y aplicar**. No hace falta reiniciar: en unos segundos vuelve a
    leer el log (arriba dice "Leyendo tu log…") y se conecta a las fuentes de spots.
 
 Si algo está mal (un indicativo inválido, ninguna banda elegida...), aparece una lista en
 rojo junto al botón y no se guarda nada hasta corregirlo.
+
+La configuración está en pestañas: Estación, Log (solo con el logbook de DX Agent), LoTW,
+Alertas, Propagación, Marathon, Fuentes de spots, Radio y Otros. Al guardar se respeta lo que
+cambiaste a mano en `config.toml` y la página no muestra.
 
 El panel aparece en el idioma del navegador; el botón **EN/ES/PT** del encabezado lo cambia:
 inglés, español o portugués (Brasil).
@@ -152,15 +162,20 @@ inglés, español o portugués (Brasil).
 
 **Encabezado:** tu indicativo (con varios, un selector: **Todos** o uno solo, para ver qué le
 falta a ese); una pastilla por cada fuente de spots (verde = conectada,
-ámbar = conectando, rojo = caída); la pastilla **DXpediciones** ("48 · 6 en el aire": cuántas
-están dentro de sus fechas y cuántas se spotearon en los últimos 15 minutos; un clic abre su
-pestaña); los totales de tu log, en una pastilla azul; botones con íconos (al pasar el mouse
-dicen qué hace cada uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (claro /
-oscuro / automático), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
+ámbar = conectando, rojo = caída): Cluster, RBN CW, RBN FT8, y PSKReporter, WSJT-X, TCI y VHF
+cuando los usás. **Un clic en la pastilla de una fuente** deja solo las estaciones que escuchó esa
+fuente (otro clic, o **Limpiar filtros**, vuelve a mostrar todas). La pastilla **DXpediciones**
+("48 · 6 en el aire": cuántas están dentro de sus fechas y cuántas se spotearon en los últimos 15
+minutos; un clic abre su pestaña); los totales de tu log: los QSOs en azul, los países trabajados
+en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
+uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (un menú con una vista previa de
+cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
+Dracula y Sepia), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
 **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y
 **Detener**, en rojo; el reloj UTC. **Acerca de** cuenta qué es DX Agent, quién lo hizo y sus
 colaboradores, y tiene los links para apoyarlo, al sitio, a este manual y para reportar un
-problema.
+problema. En una ventana más angosta las pastillas pasan a una segunda línea, y la flecha que
+tienen después las pliega a sus puntos de estado.
 
 **Filtros**, arriba de la lista, en tres filas:
 
@@ -191,13 +206,16 @@ problema.
 
 **La lista de alertas:** una fila por alerta, la más nueva arriba, con el color de su tipo.
 Columnas: hora UTC, tipo de alerta, indicativo, frecuencia, banda, modo, país, **qué te falta**,
-LoTW, **cerca tuyo** y quién la escuchó. Las filas nuevas destellan. Cuando la estación vuelve a
+LoTW, **VOACAP** (la chance de un QSO a esta hora, sección 5), **cerca tuyo** y quién la
+escuchó. Las filas nuevas destellan. Cuando la estación vuelve a
 aparecer en la misma banda y modo, su fila se actualiza (hora, frecuencia, quién la escuchó, ×N):
 muestra dónde está ahora. Las filas se atenúan a los 10 y a los 30 minutos del último spot de la
 estación ahí.
 
 **Limpiar lista** (en rojo, arriba a la derecha): vacía la lista, después de preguntar. Lo que
-siga en el aire vuelve a avisar en su próximo spot.
+siga en el aire vuelve a avisar en su próximo spot. **Una sola estación:** la **✕** al lado de su
+indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la
+lista**.
 
 **Ordenar por una columna:** al hacer clic en el encabezado de una columna la lista se ordena por
 ella: por frecuencia, por banda, por modo (CW, fonía y digitales juntos), por país... **Alerta** y
@@ -229,6 +247,10 @@ frecuencia) se abre la estación:
   lo tenés en la banda en que la spotearon: "Grid DN39 · 20 m: GRID NUEVO", o confirmado, y en qué
   otras bandas lo trabajaste. La grilla banda × modo de arriba es la del país; esta fila es la del
   grid;
+- **el camino**: si tu señal llega a la zona de la estación y la de ella a la tuya, con lo
+  medido en los últimos 15 minutos (sección 5);
+- **Propagación (VOACAP)**: las próximas 24 horas por banda, para CW, SSB, FT8, FT4 o RTTY, con
+  la hora actual marcada; pasando el mouse por un cuadro se ven sus números (sección 5);
 - con el CQ DX Marathon activado, qué te suma en el Marathon (sección 11);
 - para una estación en un **parque POTA o una cumbre SOTA**, una tarjeta con lo que dicen pota.app
   o SOTA: nombre, tipo y lugar, cuántas activaciones y QSOs, quién la activó primero, sus últimas
@@ -239,7 +261,11 @@ frecuencia) se abre la estación:
 - **Ver solo** este indicativo, **☆ seguimiento** para sumarlo a tu lista de seguimiento,
   **Spotear** (ver abajo), sus **Últimos spots** y enlaces a QRZ.com, HamQTH y DXWatch.
   **Últimos spots** y **Quién lo escucha** son pastillas: al pasar el mouse dicen qué lista cada
-  una.
+  una;
+- una tira de **íconos a su derecha**, uno por sección: un clic oculta esa sección para todas las
+  estaciones, otro la vuelve a mostrar. El navegador recuerda cuáles.
+
+Las referencias WWFF, IOTA y COTA también tienen su tarjeta, como POTA y SOTA.
 
 **Spotear** (el botón de la antena) publica un spot de la estación en el DX cluster al que está
 conectado DX Agent, con tu indicativo: por ejemplo `DX 14025.0 3Y0K up 2`. Abre un formulario
@@ -262,7 +288,8 @@ en un ícono lo abre en esa pestaña. Mientras está plegado, al pasar el mouse 
 lista aparece la ficha de esa estación: su país, su estado y su grilla banda × modo. El
 navegador lo recuerda.
 
-**Lista / Mapa:** a la izquierda de los filtros, cambia entre la lista y el mapa (sección 10).
+**Lista / Mapa / Log:** a la izquierda de los filtros, cambia entre la lista, el mapa (sección 10)
+y, con el logbook de DX Agent, tu log (sección 13).
 
 ## 5. Las alertas
 
@@ -277,9 +304,11 @@ navegador lo recuerda.
 | **SIGUIENDO** | Un indicativo de tu lista de seguimiento | activada |
 | **BANDA+MODO** | País no trabajado en esta combinación de banda y modo | desactivada |
 | **GRID NUEVO** | Un grid que no trabajaste en esta banda, en cualquier modo (VUCC, FFMA). Solo avisan los spots que dicen el locator: los decodes de tu WSJT-X y FT8/FT4 de la RBN (sección 10) | desactivada |
+| **PREFIJO NUEVO** | Un prefijo que nunca trabajaste, en ninguna banda ni modo, como los cuenta el diploma CQ WPX (LU1ABC: LU1; N8BJQ/KH9: KH9). Muchas menos que INDICATIVO NUEVO | desactivada |
 | **INDICATIVO NUEVO** | Este indicativo exacto no está en tu log (genera muchísimas alertas) | desactivada |
 | **MARATHON** | Un país o una zona CQ que todavía no trabajaste en el CQ DX Marathon (sección 11) | activada, si seguís el Marathon |
-| **TE ESCUCHAN** | Spotearon tu propio indicativo, en cualquier banda y modo: la fila va resaltada en rosa y dice a qué distancia y en qué país está el skimmer ("te escuchan a 8.912 km, en United States"). Al hacer clic se ven todos los receptores que te escucharon, también en el mapa | activada |
+| **TE ESCUCHAN** | Spotearon tu propio indicativo, en cualquier banda y modo, en el cluster, la RBN o, con PSKReporter en vivo, un receptor de PSKReporter: la fila va resaltada en rosa y dice a qué distancia y en qué país está el receptor ("te escuchan a 8.912 km, en United States"). Al hacer clic se ven todos los receptores que te escucharon, también en el mapa | activada |
+| **50 MHz**, **144 MHz** | 6 m o 2 m abiertos a tu alrededor (ver Aperturas en VHF, más abajo); resaltada en verde | desactivada |
 
 - **Qué te falta** dice exactamente qué te suma la estación: "banda nueva", "17m DIGI nunca
   trabajado", "grid EN52 nunca trabajado en 6m", "país no confirmado", o "ya lo tenés".
@@ -291,7 +320,11 @@ navegador lo recuerda.
   anunció LoTW, o "no LoTW".
 - **Cerca tuyo:** **● 732 km · 7 dB** en verde = la escuchó un receptor dentro de tu radio
   "cerca" (1.500 km de fábrica); en gris, la distancia al receptor más cercano; **—** = nadie
-  la reportó en los últimos 15 minutos.
+  la reportó en los últimos 15 minutos. Antes de la distancia, **el camino**, con lo medido en
+  los últimos 15 minutos en esa banda: **⇄** (verde) en los dos sentidos, **→** (verde) tu señal se
+  reportó cerca de la estación, **←** (ámbar) la estación llega hasta acá pero tu señal todavía no
+  se reportó allá, un **·** tenue nada medido todavía. Es una medición, no una predicción: cuanto
+  más transmitís (unos CQ en FT8), más sabe. La pestaña Estación lo dice en palabras.
 - La misma alerta no se repite durante 15 minutos (se cambia en Configuración), ni siquiera al
   guardar la Configuración o volver a abrir DX Agent: la estación vuelve a la lista cuando la
   spotean, pero no muestra otra notificación ni vuelve a sonar.
@@ -299,7 +332,8 @@ navegador lo recuerda.
   una estación que escuchó un solo skimmer de la RBN avisa cuando la escucha otro skimmer, o
   alguien en el cluster o en PSKReporter (unos minutos como mucho), así un indicativo mal
   decodificado por un skimmer (P9DX como ATNO) no avisa. Los spots del cluster, que publican
-  personas, avisan enseguida. Desmarcado: avisan enseguida, marcados con **?**.
+  personas, y las DXpediciones activas avisan enseguida. Desmarcado: avisan todos enseguida,
+  marcados con **?**.
 - **Un tipo de alerta que apagás en Configuración también sale de la lista:** una alerta solo de
   ese tipo se va, y una que tiene otro motivo pasa a mostrarlo (BANDA NUEVA en vez de INDICATIVO
   NUEVO).
@@ -330,7 +364,44 @@ estación abierta en la pestaña Estación y las alertas digitales de la lista. 
 cuentan para "cerca tuyo" y el mapa sin apretar ningún botón, y una pastilla **PSKReporter** en el
 encabezado muestra la conexión. Necesita tu grid locator. Con **Avisar solo si se escucha cerca
 tuyo**, una estación digital que no avisó por escucharse solo lejos avisa apenas un receptor de
-PSKReporter cerca tuyo la reporta en esa banda.
+PSKReporter cerca tuyo la reporta en esa banda. También se siguen tus propios indicativos: cada
+receptor que te reporta es una fila **TE ESCUCHAN**, con su SNR y su distancia.
+
+### La predicción: VOACAP
+
+El camino dice lo medido; **VOACAP** dice qué esperar: la ionosfera mediana del mes a esa hora,
+entre vos y la estación, en los dos sentidos (tu señal allá y la de ellos acá). Viene incluido
+(DVOACAP de VE3NEA, en Python: no hay nada que instalar), y el número de manchas solares es el de
+NOAA, bajado cada día. Necesita tu grid locator. En **Configuración → Propagación** poné tu
+potencia, la ganancia de tu antena (unos 3 dBi un dipolo o una vertical, 8 a 10 una Yagi) y el
+ruido donde estás (residencial, rural o silencioso).
+
+- La columna **VOACAP** de la lista: la chance de un QSO en la banda y el modo de la fila a esta
+  hora, verde desde 50%, ámbar desde 10%; pasando el mouse, la SNR de cada sentido y la MUF. Para
+  FT8 y FT4 también da la SNR como la informa WSJT-X, para comparar con los reportes que recibís.
+  VOACAP llega hasta 30 MHz: nada en 6 m para arriba.
+- **Propagación (VOACAP)** en la pestaña Estación: las próximas 24 horas por banda, con la hora
+  actual marcada, para CW, SSB, FT8, FT4 o RTTY.
+
+Es una predicción, la mediana del mes: un día dado la banda puede estar mejor o peor; el camino,
+cuando hay algo medido, dice lo que pasa ahora.
+
+### Aperturas en VHF: 6 m y 2 m
+
+**Configuración → Propagación → Aperturas en VHF** vigila los reportes en vivo de PSKReporter y pone
+una alerta **50 MHz** o **144 MHz** en la lista cuando la banda se abre a tu alrededor. Necesita tu
+grid locator. De dos formas, cada una se activa por separado:
+
+- **Estaciones cerca tuyo que escuchan lejos:** varias estaciones cerca tuyo escuchan varias
+  estaciones de un mismo lugar (un país, un continente o un field). Sirve donde hay estaciones
+  activas cerca.
+- **Estaciones que te escuchan:** varias estaciones lejanas de un mismo lugar te reportan. Solo
+  mientras transmitís (FT8, FT4, CW...); sirve donde no hay nadie más en el aire.
+
+Qué te falta lo dice ("abierta a Japón: 3 cerca tuyo escuchan 2"). Una apertura avisa una vez; su
+fila la sigue y dice "cerrada" cuando dejan de llegar reportes. La pastilla **VHF** cuenta las
+aperturas abiertas ahora. Todos los números (cuántas estaciones, a qué distancia, por cuánto
+tiempo) se pueden configurar.
 
 ## 6. Sintonizar la radio y pasar el indicativo al logger
 
@@ -366,15 +437,29 @@ derecha dice si funcionó.
   Con **Mostrar las alertas en el panadaptador de la radio**
   (activado de fábrica), cada estación de la lista aparece en el panadaptador de AetherSDR con su
   color, su título y su país; se mueve cuando cambia de frecuencia y se saca cuando dejan de
-  spotearla. Un clic en una sintoniza ahí y la abre en la pestaña Estación de DX Agent. Una
-  pastilla **TCI** en el encabezado muestra la conexión; si abrís AetherSDR después de DX Agent,
-  Sintonizar se conecta en el momento. Está probado con la radio de demostración
-  de AetherSDR; si lo usás con una Flex, contanos cómo te fue en el
+  spotearla. Van todas las alertas, primero las de la banda donde está la radio; al cambiar de
+  banda se vuelven a ordenar. Una estación que después trabajás sale del panadaptador, o queda en
+  gris con **Dejar en el panadaptador, en gris, las estaciones que después trabajás**. Un clic en
+  una sintoniza ahí y la abre en la pestaña Estación de DX Agent. Una pastilla **TCI** en el
+  encabezado muestra la conexión y cuántas alertas hay en el panadaptador; un clic en ella deja en
+  la lista las alertas que están en el panadaptador. Si abrís AetherSDR después de DX Agent,
+  Sintonizar se conecta en el momento. Está probado con la radio de demostración de AetherSDR; si
+  lo usás con una Flex, contanos cómo te fue en el
   [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
+- **Split (TCI):** cuando los spots de una estación dicen dónde escucha (**UP 5**, **UP 1-3**,
+  **QSX 14.205**...), Sintonizar pone la radio en split: AetherSDR abre un segundo slice que
+  transmite ahí, y el mensaje lo dice ("split: TX 14026.0 kHz"). **UP** solo sube 1 kHz en CW y
+  RTTY, 5 en fonía (se puede cambiar). Sintonizar una estación sin split lo termina. No en FT8 ni
+  FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de fábrica.
+- **No mientras transmitís (TCI):** un Sintonizar con la radio en el aire no la mueve, ni le da
+  a WSJT-X un indicativo nuevo. Configuración → Radio → **Mientras transmitís**: no sintonizar (de
+  fábrica), sintonizar cuando termina la transmisión, o sintonizar igual. DX Agent nunca pone la
+  radio a transmitir.
 - **WSJT-X:** marcá en DX Agent **Mandar también el indicativo a WSJT-X** y en WSJT-X
   Settings → Reporting → **Accept UDP requests**. Un clic en un spot de FT8/FT4 pone la radio
   en la frecuencia de FT8/FT4, completa **DX Call** y **DX Grid** y mueve el audio a la
-  frecuencia de la estación; vos hacés clic en **Enable Tx**.
+  frecuencia de la estación; vos hacés clic en **Enable Tx**. Con TCI se mueve el slice de
+  WSJT-X, así WSJT-X sigue un cambio de banda.
 
 ## 7. Que DX Agent vea tus QSOs al instante
 
@@ -386,7 +471,9 @@ puede avisarle cada QSO apenas lo guardás:
 - **Log4OM 2: no hay que hacer nada.** DX Agent lee los QSOs nuevos directo de la base de
   Log4OM, cada 10 segundos.
 - **Otros programas, por UDP:** agregá en tu programa el destino `127.0.0.1`, puerto `12065`,
-  junto a los que ya tengas:
+  junto a los que ya tengas. Ese puerto está en Configuración → Otros → **Puerto UDP de los QSOs
+  logueados**, debajo de "Revisar el archivo del log cada". No es el puerto del panel (8073) ni el
+  de la radio (el 50001 de TCI, por ejemplo): no los confundas.
 
 | Programa | Dónde se configura |
 |----------|--------------------|
@@ -414,11 +501,16 @@ en la lista aunque nadie la haya spoteado. Cuenta como escuchada **a 0 km tuyo**
 Llega al mismo puerto que los QSOs. WSJT-X manda a un solo destino (Settings → Reporting → UDP
 Server), así que si ya lo usa otro programa (Log4OM, JTAlert, GridTracker):
 
-- **un grupo multicast:** en WSJT-X, UDP Server `239.255.0.1`, puerto `2237`; en DX Agent, en
-  `config.toml`, `[logbook]` → `udp_group = "239.255.0.1"` y `udp_port = 2237`. Lo escuchan a la
-  vez DX Agent y los programas que se unen a grupos (GridTracker, JTAlert);
+- **un grupo multicast:** en WSJT-X, UDP Server `239.255.0.1`, puerto `2237`; en DX Agent,
+  Configuración → Otros → **Puerto UDP de los QSOs logueados** `2237` y, al lado, el grupo
+  multicast `239.255.0.1`. Lo escuchan a la vez DX Agent y los programas que se unen a grupos
+  (GridTracker, JTAlert);
 - o **que el programa que ya lo recibe lo reenvíe** a `127.0.0.1:12065` (JTAlert y GridTracker
   pueden reenviar los mensajes de WSJT-X).
+
+La estación que llamás en WSJT-X (un doble clic en su decode) se abre en la pestaña Estación de DX
+Agent: qué tenés de su país, el camino, VOACAP... Los decodes del período en que cambiás de banda
+no cuentan en la banda nueva.
 
 ## 8. DXpediciones
 
@@ -490,6 +582,12 @@ Clic en **Mapa** (al lado de **Lista**). Los filtros valen igual que en la lista
 - Rueda del mouse o **+ / −** para el zoom, arrastrar para moverse, **⟲** para ver el mundo.
   Arrastrando hacia el este o el oeste se da la vuelta al mundo (pasando el Pacífico, el mapa
   sigue del otro lado).
+- **Rectangular / Azimutal** (el primer menú de la barra del mapa): el mapa azimutal está
+  centrado en tu grid locator, así el camino corto a cualquier estación es una línea recta desde
+  el centro: su rumbo es el ángulo, con el norte arriba, y su distancia el radio, con círculos
+  cada 2.500 km. Bajo el mouse, una línea punteada dice el rumbo y la distancia a ese punto. Todo
+  lo demás (DXCC, WAZ, Grillas, las alertas, la noche) funciona igual que en el rectangular.
+  Necesita tu grid locator.
 - **DXCC** (arriba a la izquierda) pinta cada entidad según tu diploma: verde = confirmada,
   ámbar = trabajada, rojo = falta. Se puede elegir Mixto, Fonía, CW, Digital, una banda,
   Satélite o el Challenge.
@@ -560,8 +658,64 @@ como permiten las reglas).
   elegí **Solo LoTW**. Solo cuenta lo que subiste a LoTW.
 - **Varios indicativos:** alcanza con una cuenta de LoTW con los certificados de todos tus
   indicativos: cada uno toma sus confirmaciones.
+- **Subir a LoTW** desde DX Agent: con el logbook de DX Agent (sección 13).
 
-## 13. Actualizar a una versión nueva
+## 13. El logbook de DX Agent (experimental)
+
+DX Agent puede llevar tu log él mismo, en vez de leer el archivo de tu programa de log:
+Configuración → Estación → **Tu log** → **Logbook de DX Agent (experimental)**. Sus opciones están
+en Configuración → **Log**.
+
+- **Cada uno de tus indicativos tiene su propio logbook**, con todos los campos de cada QSO. Nunca
+  se mezclan (cada uno se sube como su indicativo); las alertas, el DXCC y el WAZ los siguen
+  sumando juntos.
+- **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**.
+  Solo entran los QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y
+  uno por día (los últimos 10, en `data\backups`).
+- **Los QSOs nuevos** llegan por UDP desde tus programas, como antes (WSJT-X, N1MM, Log4OM...
+  sección 7), con DXCC, país, zonas y continente agregados, o desde la **pestaña Log**, a la
+  derecha.
+
+**La pestaña Log:** un formulario que se llena solo cuando elegís una estación en la lista o en el
+mapa (el indicativo, su grid, el parque o la cumbre), con la frecuencia y el modo en que está tu
+radio (por OmniRig o TCI; en split, donde transmitiste y donde recibiste). La fecha y la hora
+siguen al reloj hasta que las escribís, así el QSO queda con la hora en que lo guardás. Un
+indicativo escrito a mano muestra su estación cuando dejás de escribir. **Esc** en el indicativo lo
+borra, y con él lo que DX Agent había completado para esa estación. **Guardar QSO** (ahí o en la
+pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se completa solo: 59 en
+fonía, 599 en CW.
+
+**Callbooks:** nombre, QTH y grid desde **QRZ.com**, **HamQTH** o **QRZCQ**, con tu propia cuenta en
+cada uno (Configuración → Log). **Consultar primero** elige cuál se consulta primero: HamQTH, por
+ejemplo, si no tenés suscripción a QRZ.com.
+
+**La vista Log** (al lado de Lista y Mapa): tu log, lo más nuevo primero, con búsqueda por
+indicativo, orden por cualquier columna (clic en su encabezado) y filtros arriba: banda, modo (CW,
+fonía, digitales, FT8, FT4, RTTY), país, fechas desde y hasta, LoTW (confirmados, la última bajada,
+subidos sin confirmar, sin subir) y Club Log (subidos, a subir de nuevo, rechazados, sin subir).
+**Limpiar filtros** los saca. Un clic en un QSO muestra su estación debajo del formulario; **✎**, un
+doble clic o **Editar este QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar
+(no se borra de LoTW ni de Club Log).
+
+**Subidas y bajadas**, arriba de la vista Log, cada una con cuántos QSOs van y un cuadro con su
+progreso:
+
+- **Subir a LoTW:** DX Agent corre **TQSL**, que firma los QSOs con tu certificado y los sube.
+  TQSL tiene que estar instalado, con tu certificado y una ubicación de estación (Station
+  Location) para cada indicativo (Configuración → Log → **Ubicación de estación**). TQSL guarda tu
+  frase de acceso; DX Agent nunca la ve.
+- **Bajar de LoTW:** tus confirmaciones nuevas, cada una marcada en su QSO. Debajo del mensaje,
+  **quién confirmó** (indicativo, banda y modo), y **Verlos en el log**, que deja en la vista Log
+  los QSOs que confirmó esa bajada. Necesita tu contraseña de LoTW (Configuración → LoTW).
+- **Subir a Club Log:** con tu email de Club Log y una **contraseña de aplicación** (Club Log →
+  Settings → App Passwords; no tu contraseña de Club Log), en Configuración → Log. Un QSO que Club
+  Log rechaza queda marcado con **✗** y el motivo.
+
+Un QSO que editás después de subirlo queda marcado para subir de nuevo. La subida a QRZ.com
+todavía no está. Mientras el logbook sea experimental, guardá una copia de tu log en otro lado
+también.
+
+## 14. Actualizar a una versión nueva
 
 Una pastilla junto al número de versión te avisa cuando sale una nueva, con un link a su página
 (DX Agent le pregunta a GitHub cada hora; no se manda nada tuyo ni se instala nada). Para
@@ -574,7 +728,7 @@ actualizar:
 3. La carpeta de la versión vieja se puede borrar.
 
 **Tu configuración y tus datos** (`config.toml` y la carpeta `data`: el historial de alertas, la
-contraseña de LoTW guardada, el log si empezaste de cero) no están en la carpeta del programa,
+contraseña de LoTW guardada, el log si empezaste de cero, los logbooks de DX Agent) no están en la carpeta del programa,
 sino en una carpeta tuya que usan todas las versiones:
 
 | Sistema | Carpeta |
@@ -588,7 +742,7 @@ programa: la primera vez que abrís una versión más nueva, copia tu configurac
 desde ahí (o desde la versión anterior que esté al lado) y lo avisa en el panel. La versión vieja
 queda como estaba.
 
-## 14. Problemas frecuentes
+## 15. Problemas frecuentes
 
 | Qué pasa | Qué hacer |
 |----------|-----------|
@@ -596,6 +750,7 @@ queda como estaba.
 | El panel no abre | Abrí `http://localhost:8073` a mano. Si dice que el puerto está ocupado, otro programa (u otra copia de DX Agent) lo usa |
 | "Se perdió la conexión con DX Agent" | DX Agent se cerró: abrilo de nuevo con start-dx-agent.bat (Mac: start-dx-agent.command; Linux: start-dx-agent.sh); la página se reconecta sola |
 | Una estación que acabo de trabajar sigue alertando | Ver la sección 7. Sin aviso del programa de log, se actualiza cuando tu programa escribe el archivo ADIF |
+| Mi programa de log o WSJT-X manda sus QSOs y a DX Agent no le llegan | El destino tiene que ser el **Puerto UDP de los QSOs logueados** (Configuración → Otros, `12065` de fábrica), no el 8073 del panel ni el puerto de la radio (sección 7) |
 | Tarda en arrancar con un log muy grande | La primera vez lee todo el log (con 250.000 QSOs, unos 15 segundos); después guarda un caché en `data\cache` (en tu carpeta de DX Agent) y arranca en un segundo, salvo que el log haya cambiado |
 | Demasiadas alertas | En Configuración → Alertas dejá solo **ATNO** y **DXpedición**, o sacá bandas que no operás |
 | Muy pocas alertas del cluster | Es normal: el cluster manda pocos spots por minuto y la RBN suele reportar primero la misma estación. Si un servidor sigue conectado pero no manda ningún spot en 10 minutos, DX Agent pasa solo al siguiente |
@@ -603,14 +758,14 @@ queda como estaba.
 | Mac: "No se puede abrir start-dx-agent.command" | No está firmado por Apple: Configuración del Sistema → Privacidad y seguridad → **Abrir igualmente** (sección 2) |
 | El botón Sintonizar no mueve la radio | Revisá en tu programa el control remoto (sección 6) y que esté abierto; el mensaje arriba a la derecha dice qué falló |
 | AetherSDR: la pastilla **TCI** está en rojo o ámbar | En AetherSDR activá Settings → **Autostart TCI with AetherSDR** (o **Enable** en su applet TCI) y revisá que el puerto sea 50001 |
-| Un cambio de configuración lo empeoró | `config.toml.bak`, en tu carpeta de DX Agent (sección 13), tiene la configuración anterior: copialo sobre `config.toml` y volvé a abrirlo |
+| Un cambio de configuración lo empeoró | `config.toml.bak`, en tu carpeta de DX Agent (sección 14), tiene la configuración anterior: copialo sobre `config.toml` y volvé a abrirlo |
 | "saved password could not be read" | La contraseña de LoTW la guardó otro usuario de Windows u otra PC: escribila de nuevo en Configuración |
 | Mi programa de log dice que una banda y modo está confirmada y DX Agent dice que no (**W** ámbar) | Lo más probable es que la única confirmación sea una **eQSL**. DX Agent sigue las reglas del DXCC de la ARRL: solo cuentan LoTW o la QSL en papel, eQSL no (para el WAZ, que acepta eQSL, sí cuenta). Muchos programas de log cuentan eQSL como confirmado. Para la ARRL, esa banda y modo todavía necesita una confirmación por LoTW o en papel |
 
 Lo que DX Agent va haciendo queda en `data\dx-agent.log`, en tu carpeta de DX Agent (en Windows,
 `%APPDATA%\DX Agent\data\dx-agent.log`). Si reportás un problema, ese archivo ayuda mucho.
 
-## 15. Ayuda y contacto
+## 16. Ayuda y contacto
 
 ![La ventana Acerca de](images/about.es.png)
 

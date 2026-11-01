@@ -1,6 +1,6 @@
 # DX Agent — User manual
 
-*Version 0.4.14 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
+*Version 0.4.19 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
 
 DX Agent watches the DX cluster and the Reverse Beacon Network (RBN), checks every station
 spotted against your log, and tells you when one you still need is on the air: a new country,
@@ -21,9 +21,10 @@ Contents:
 10. [The map](#10-the-map)
 11. [CQ DX Marathon](#11-cq-dx-marathon)
 12. [LoTW](#12-lotw)
-13. [Updating to a new version](#13-updating-to-a-new-version)
-14. [Common problems](#14-common-problems)
-15. [Help and contact](#15-help-and-contact)
+13. [DX Agent's logbook (experimental)](#13-dx-agents-logbook-experimental)
+14. [Updating to a new version](#14-updating-to-a-new-version)
+15. [Common problems](#15-common-problems)
+16. [Help and contact](#16-help-and-contact)
 
 ---
 
@@ -38,7 +39,9 @@ Contents:
   - or your **LoTW** account, if you have no ADIF file: DX Agent downloads every QSO you
     uploaded there;
   - or nothing yet, if you're starting from scratch: DX Agent creates a new log for you
-    (section 3).
+    (section 3);
+  - or **DX Agent's logbook** (experimental): DX Agent keeps your log itself, uploads it to LoTW
+    and Club Log, and downloads your LoTW confirmations (section 13).
 - Optional: your **LoTW password**, so DX Agent knows what you have confirmed even when your
   logger isn't synced with LoTW.
 
@@ -47,7 +50,7 @@ Contents:
 1. Download the latest `dx-agent-<version>-windows.zip` from the
    [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest) page.
 2. Unzip it wherever you like, for example in `Documents`. Your settings and data aren't kept
-   there but in a folder of your own that every version uses (section 13): the program's folder
+   there but in a folder of your own that every version uses (section 14): the program's folder
    can be replaced or deleted.
 3. Double-click **start-dx-agent.bat**. The dashboard opens in your browser at
    **http://localhost:8073**.
@@ -115,7 +118,8 @@ yet. Click **Settings** (top right) and fill in:
    - **Your log:** an ADIF file, **LoTW only (no ADIF file)**, or **Start from scratch (a new
      log)**: DX Agent creates an empty log, `data\<CALL>.adi` in your DX Agent folder, and adds to it the QSOs your
      programs send it as you log them (WSJT-X, N1MM... see section 7). When you start using a
-     logger, import that file there and choose ADIF file.
+     logger, import that file there and choose ADIF file. Or **DX Agent's logbook
+     (experimental)**, to keep your log in DX Agent (section 13).
    - **ADIF log:** click **Browse…** and pick the file. If you pick a dated Log4OM backup
      (`W1ABC_20261016_124613_backup.adi`), DX Agent turns it into `…/W1ABC_*_backup.adi`, so the
      newest backup is always used. **Test** shows which file it found and how many QSOs it has.
@@ -130,13 +134,19 @@ yet. Click **Settings** (top right) and fill in:
    plain text.
 3. **Alerts:** which alert types you want, on which bands and modes. The defaults are a good
    start.
-4. **Radio (Tune button):** the program that controls your radio (see section 6). If you don't
+4. **Propagation:** your power, your antenna's gain and the noise where you are, for VOACAP's
+   predictions; and the VHF openings on 6 m and 2 m (section 5).
+5. **Radio:** the program that controls your radio (see section 6). If you don't
    want DX Agent to move your radio, leave it off.
-5. Click **Save and apply**. No restart needed: within seconds it reads your log again (the top
+6. Click **Save and apply**. No restart needed: within seconds it reads your log again (the top
    says "Reading your log…") and connects to the spot sources.
 
 If something is wrong (an invalid callsign, no band picked...), a list appears in red next to
 the button, and nothing is saved until it's fixed.
+
+The settings are in tabs: Station, Log (only with DX Agent's logbook), LoTW, Alerts,
+Propagation, Marathon, Spot sources, Radio and Other. Saving keeps what you changed by hand in
+`config.toml` and the page doesn't show.
 
 The dashboard follows your browser's language; the **EN/ES/PT** button in the header switches it:
 English, Spanish or Portuguese (Brazil).
@@ -147,14 +157,18 @@ English, Spanish or Portuguese (Brazil).
 
 **Header:** your callsign (with several, a picker: **All**, or one alone to see what that one
 still needs); one pill per spot source (green = connected, amber = connecting,
-red = down); the **DXpeditions** pill ("48 · 6 on the air": how many are within their dates and
-how many were spotted in the last 15 minutes; a click opens their tab); your log's totals, in a
-blue pill; icon buttons (hover one to see what it does): **About** ⓘ, **Settings** ⚙,
-**EN/ES/PT**, **Theme** (light / dark / auto), **Sound** (a beep for the important alerts, off by
-default), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop**, in
-red; the UTC clock. **About** tells what DX Agent is, who made it and its
-collaborators, and has the links to support it, to the website, to this manual and to report a
-problem.
+red = down): Cluster, RBN CW, RBN FT8, and PSKReporter, WSJT-X, TCI and VHF when you use them. **A
+click on a source's pill** leaves only the stations that source heard (another click, or **Clear
+filters**, shows them all again). The **DXpeditions** pill ("48 · 6 on the air": how many are
+within their dates and how many were spotted in the last 15 minutes; a click opens their tab);
+your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
+(hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT**, **Theme** (a menu with
+a preview of each: Auto, Light, Dark, High contrast dark and light, Solarized dark and light,
+Nord, Dracula and Sepia), **Sound** (a beep for the important alerts, off by default), **Full
+screen** (four corners; the **F** key too, F or Esc to leave) and **Stop**, in red; the UTC
+clock. **About** tells what DX Agent is, who made it and its collaborators, and has the links to
+support it, to the website, to this manual and to report a problem. On a narrower window the
+pills go on a second line, and the chevron after them folds them to their status dots.
 
 **Filters**, above the list, in three rows:
 
@@ -183,13 +197,14 @@ problem.
   the search, Clear filters, the count and Clear list stay. Your browser remembers it.
 
 **The alert list:** one row per alert, newest on top, coloured by type. Columns: UTC time,
-alert type, callsign, frequency, band, mode, country, **what you need**, LoTW, **near you** and
-who heard it. New rows flash. When the station is spotted again on the same band and mode, its
+alert type, callsign, frequency, band, mode, country, **what you need**, LoTW, **VOACAP** (the
+chance of a QSO this hour, section 5), **near you** and who heard it. New rows flash. When the station is spotted again on the same band and mode, its
 row updates (time, frequency, who heard it, ×N): it shows where the station is now. Rows fade 10
 and 30 minutes after the station's last spot there.
 
 **Clear list** (in red, top right): empties the list, after asking. Whatever is still on the air
-alerts again at its next spot.
+alerts again at its next spot. **One station only:** the **✕** next to its call (it shows with the
+mouse on the row), or a right click on the row → **Remove from the list**.
 
 **Sort by a column:** click a column's header to sort the list by it: by frequency, by band, by
 mode (CW, phone and digital together), by country... **Alert** and **What you need** put the
@@ -218,6 +233,10 @@ station:
   square** and where you stand with it on the band it was spotted on: "Grid DN39 · 20 m: NEW
   GRID", or confirmed, and the other bands you worked it on. The band × mode grid above is the
   country's; this line is the square's;
+- **the path**: whether your signal gets to the station's area and its signal gets to yours,
+  from what was measured in the last 15 minutes (section 5);
+- **Propagation (VOACAP)**: the next 24 hours by band, for CW, SSB, FT8, FT4 or RTTY, this hour
+  marked; hover a square for its figures (section 5);
 - with the CQ DX Marathon on, what it adds to the Marathon (section 11);
 - for a station on a **POTA park or SOTA summit**, a card with what pota.app or SOTA say about
   it: name, type and place, how many activations and QSOs, who activated it first, its latest
@@ -226,7 +245,11 @@ station:
   with PSKReporter live, the receivers as they report it: section 5);
 - **Show only** this call, **☆ Add to watchlist**, **Spot it** (below), its **Latest spots**, and
   links to QRZ.com, HamQTH and DXWatch. **Latest spots** and **Who hears it** are pills: hover one
-  to see what it lists.
+  to see what it lists;
+- a strip of **icons at its right**, one per section: a click hides that section for every
+  station, another shows it again. Your browser remembers which.
+
+WWFF, IOTA and COTA references get a card too, as POTA and SOTA.
 
 **Spot it** (the antenna button) posts a DX spot of the station on the DX cluster DX Agent is
 logged in to, as your callsign: `DX 14025.0 3Y0K up 2`, say. It opens a small form with the
@@ -247,7 +270,8 @@ their icons, with the DXpeditions on the air and the Marathon score still showin
 icon opens it at that tab. While it is folded, hovering over a row of the list shows that
 station's card: its country, status and band × mode grid. Your browser remembers it.
 
-**List / Map:** to the left of the filters, switches between the list and the map (section 10).
+**List / Map / Log:** to the left of the filters, switches between the list, the map (section 10)
+and, with DX Agent's logbook, your log (section 13).
 
 ## 5. Alerts
 
@@ -262,9 +286,11 @@ station's card: its country, status and band × mode grid. Your browser remember
 | **WATCHLIST** | A call on your watchlist | on |
 | **NEW SLOT** | Country not worked on this band and mode combination | off |
 | **NEW GRID** | A grid square not worked on this band, any mode (VUCC, FFMA). Only spots that say the locator can alert: your WSJT-X's decodes and RBN's FT8/FT4 (section 10) | off |
+| **NEW PREFIX** | A prefix you have never worked, on any band or mode, as the CQ WPX award counts them (LU1ABC: LU1; N8BJQ/KH9: KH9). Far fewer than NEW CALL | off |
 | **NEW CALL** | This exact call isn't in your log (lots of alerts) | off |
 | **MARATHON** | A country or CQ zone you haven't worked yet in the CQ DX Marathon (section 11) | on, while you follow the Marathon |
-| **YOU'RE HEARD** | Your own call spotted, on any band and mode: the row is highlighted in pink and says how far away and in which country the skimmer is ("heard 8,912 km away, in United States"). Click it for every receiver that heard you, on the map too | on |
+| **YOU'RE HEARD** | Your own call spotted, on any band and mode, by the cluster, the RBN or, with PSKReporter live, a PSKReporter receiver: the row is highlighted in pink and says how far away and in which country the receiver is ("heard 8,912 km away, in United States"). Click it for every receiver that heard you, on the map too | on |
+| **50 MHz**, **144 MHz** | 6 m or 2 m open around you (see VHF openings, below); highlighted in green | off |
 
 - **What you need** says exactly what the station adds: "new band", "17m DIGI never worked",
   "grid EN52 never worked on 6m", "entity not confirmed", or "have it".
@@ -275,14 +301,19 @@ station's card: its country, status and band × mode grid. Your browser remember
   DXpedition announced LoTW, or "no LoTW".
 - **Near you:** green **● 732 km · 7 dB** = heard by a receiver within your "near" radius (1,500
   km by default); in grey, the distance to the nearest receiver; **—** = nobody reported it in
-  the last 15 minutes.
+  the last 15 minutes. Before the distance, **the path**, from what was measured in the last 15
+  minutes on that band: **⇄** (green) both ways, **→** (green) your signal was reported near the
+  station, **←** (amber) the station gets here but your signal hasn't been reported there yet, a
+  faint **·** nothing measured yet. It is a measurement, not a prediction: the more you transmit
+  (a few CQs on FT8), the more it knows. The Station tab says it in words.
 - The same alert isn't repeated for 15 minutes (change it in Settings), not even after saving
   Settings or opening DX Agent again: the station is listed again as it is spotted, but doesn't
   pop up or beep a second time.
 - **RBN alerts: wait for a second skimmer** (Settings → Alerts, on by default): a station heard by
   one RBN skimmer only alerts once another skimmer, or someone on the cluster or PSKReporter,
   hears it too (a few minutes at most), so a skimmer's busted call (P9DX as an ATNO) doesn't
-  alert. Cluster spots, posted by people, alert at once. Off: they alert at once, marked **?**.
+  alert. Cluster spots, posted by people, and active DXpeditions alert at once. Off: they all
+  alert at once, marked **?**.
 - **An alert type turned off in Settings also leaves the list:** an alert only for it goes, and
   one with another reason shows that one (NEW BAND rather than NEW CALL).
 - An alert can be of several types: a NEW BAND that is a new grid square too shows under the
@@ -310,7 +341,42 @@ PSKReporter's reports as they arrive, with no limit, for the station open in the
 the digital alerts in the list. Their receivers count for "near you" and the map without a button,
 and a **PSKReporter** pill in the header shows the connection. It needs your grid square. With
 **Only alert when heard near you**, a digital station kept back for being heard only far away
-alerts as soon as a PSKReporter receiver near you reports it on that band.
+alerts as soon as a PSKReporter receiver near you reports it on that band. Your own calls are
+followed too: each receiver that reports you is a **YOU'RE HEARD** row, with its SNR and distance.
+
+### The prediction: VOACAP
+
+The path says what is measured; **VOACAP** says what to expect: the month's median ionosphere at
+that hour, between you and the station, both ways (your signal there and theirs here). It is
+built in (VE3NEA's DVOACAP, in Python: nothing to install), and the sunspot number is NOAA's,
+downloaded daily. It needs your grid square. In **Settings → Propagation** set your power, your
+antenna's gain (about 3 dBi for a dipole or a vertical, 8 to 10 for a Yagi) and the noise where
+you are (residential, rural or quiet).
+
+- The **VOACAP** column in the list: the chance of a QSO on the row's band and mode this hour,
+  green from 50%, amber from 10%; hover it for the SNR each way and the MUF. For FT8 and FT4 it
+  also gives the SNR as WSJT-X reports it, to compare with the reports you get. VOACAP stops at
+  30 MHz: nothing on 6 m and up.
+- **Propagation (VOACAP)** in the Station tab: the next 24 hours by band, this hour marked, for
+  CW, SSB, FT8, FT4 or RTTY.
+
+It is a prediction, the month's median: on a given day the band can be better or worse; the path,
+when something was measured, says what is happening now.
+
+### VHF openings: 6 m and 2 m
+
+**Settings → Propagation → VHF openings** watches PSKReporter's live reports and puts a **50 MHz**
+or **144 MHz** alert in the list when the band opens around you. It needs your grid square. Two
+ways, each turned on by itself:
+
+- **Stations near you hearing far ones:** several stations near you hear several stations in one
+  place (a country, a continent or a grid field). Good where there are active stations around you.
+- **Stations hearing you:** several far stations in one place report you. Only while you transmit
+  (FT8, FT4, CW...); good where no one else is on.
+
+What you need says it ("open to Japan: 3 near you hear 2"). An opening alerts once; its row
+follows it and says "closed" when the reports stop. The **VHF** pill counts the openings open now.
+Every number (how many stations, how far, for how long) is a setting.
 
 ## 6. Tune the radio and pass the call to your logger
 
@@ -345,14 +411,27 @@ has a **Tune** button. A message at the top right says whether it worked.
   it. With **Show the alerts on the radio's panadapter (TCI)** (on
   by default), each station of the list shows on AetherSDR's panadapter in its colour, with its
   headline and country; it moves when the station changes frequency and leaves when it's no
-  longer spotted. A click on one tunes there and opens it in DX Agent's Station tab. A **TCI**
-  pill in the header shows the connection; if you open AetherSDR after DX Agent, Tune connects
-  right then. Tested with AetherSDR's demo radio; if you use it with
-  a Flex, tell us how it went in [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
+  longer spotted. Every alert goes, those of the band the radio is on first; when you change band
+  they are sorted again. A station you then work leaves the panadapter, or stays in grey with
+  **Leave the stations you then work on the panadapter, in grey**. A click on one tunes there and
+  opens it in DX Agent's Station tab. A **TCI** pill in the header shows the connection and how
+  many alerts are on the panadapter; a click on it leaves in the list the alerts on the
+  panadapter. If you open AetherSDR after DX Agent, Tune connects right then. Tested with
+  AetherSDR's demo radio; if you use it with a Flex, tell us how it went in
+  [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
+- **Split (TCI):** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
+  14.205**...), Tune puts the radio in split: AetherSDR opens a second slice that transmits there,
+  and the message says it ("split: TX 14026.0 kHz"). **UP** alone goes up 1 kHz on CW and RTTY, 5
+  on phone (you can change it). The next Tune to a station without split ends it. Not on FT8 and
+  FT4. Settings → Radio → **Split when the spot says so**, on by default.
+- **Not while transmitting (TCI):** a Tune while the radio is on the air doesn't move it, nor
+  give WSJT-X a new call. Settings → Radio → **While transmitting**: don't tune (the default), tune
+  when the transmission ends, or tune anyway. DX Agent never keys the radio.
 - **WSJT-X:** tick **Also send the call to WSJT-X** in DX Agent, and in WSJT-X tick Settings →
   Reporting → **Accept UDP requests**. Clicking an FT8/FT4 spot puts the radio on the FT8/FT4
   frequency, fills in **DX Call** and **DX Grid**, and moves the audio to the station's
-  frequency; you click **Enable Tx**.
+  frequency; you click **Enable Tx**. With TCI, WSJT-X's slice is the one that moves, so WSJT-X
+  follows a band change.
 
 ## 7. Let DX Agent see your QSOs at once
 
@@ -363,7 +442,9 @@ worked keeps alerting. To avoid that, your logger can tell DX Agent each QSO as 
 - **Log4OM 2: nothing to do.** DX Agent reads the new QSOs straight from Log4OM's database,
   every 10 seconds.
 - **Other loggers, over UDP:** in your logger, add the destination `127.0.0.1`, port `12065`,
-  next to the ones you already have:
+  next to the ones you already have. That port is in Settings → Other → **UDP port for logged
+  QSOs**, under "Check the log file every". It isn't the dashboard's port (8073) nor the radio's
+  (TCI's 50001, say): don't mix them up.
 
 | Logger | Where |
 |--------|-------|
@@ -391,11 +472,16 @@ only** filter always shows it. The row says your call, the SNR and the message (
 It comes on the same port as the QSOs. WSJT-X sends to one destination (Settings → Reporting → UDP
 Server), so if another program already uses it (Log4OM, JTAlert, GridTracker):
 
-- **a multicast group:** in WSJT-X, UDP Server `239.255.0.1`, port `2237`; in DX Agent, in
-  `config.toml`, `[logbook]` → `udp_group = "239.255.0.1"` and `udp_port = 2237`. DX Agent and
-  the programs that join groups (GridTracker, JTAlert) hear it at once;
+- **a multicast group:** in WSJT-X, UDP Server `239.255.0.1`, port `2237`; in DX Agent,
+  Settings → Other → **UDP port for logged QSOs** `2237` and, next to it, the multicast group
+  `239.255.0.1`. DX Agent and the programs that join groups (GridTracker, JTAlert) hear it at
+  once;
 - or **the program that already gets it forwards it** to `127.0.0.1:12065` (JTAlert and
   GridTracker can resend WSJT-X's messages).
+
+The station you call in WSJT-X (a double click on its decode) opens in DX Agent's Station tab:
+what you have of its country, the path, VOACAP... Decodes of the period in which you change band
+don't count on the new band.
 
 ## 8. DXpeditions
 
@@ -463,6 +549,12 @@ Click **Map** (next to **List**). The filters work the same as in the list.
   card, the beam headings to its centre, its status and grid.
 - Mouse wheel or **+ / −** to zoom, drag to move, **⟲** for the whole world. Dragging east or
   west goes round the world (past the Pacific, the map continues on the other side).
+- **Rectangular / Azimuthal** (the first menu in the map's bar): the azimuthal map is centred on
+  your grid square, so the short path to any station is a straight line from the centre: its
+  beam heading is the angle, north up, and its distance the radius, with circles every 2,500 km.
+  Under the mouse, a dashed line says the heading and distance to that point. Everything else
+  (DXCC, WAZ, Grids, the alerts, the night) works as on the rectangular map. It needs your grid
+  square.
 - **DXCC** (top left) paints each entity by your award standing: green = confirmed, amber =
   worked, red = missing. Pick Mixed, Phone, CW, Digital, one band, Satellite or the Challenge.
 - **WAZ** paints the 40 CQ zones the same way, with its variants (by mode, by band, 5BWAZ...).
@@ -532,8 +624,58 @@ rules allow).
   only (no ADIF file)**. Only what you uploaded to LoTW counts.
 - **Several callsigns:** one LoTW account with every callsign's certificate is enough: each
   callsign takes its own confirmations.
+- **Uploading to LoTW** from DX Agent: with DX Agent's logbook (section 13).
 
-## 13. Updating to a new version
+## 13. DX Agent's logbook (experimental)
+
+DX Agent can keep your log itself, instead of reading your logger's file: Settings → Station →
+**Your log** → **DX Agent's logbook (experimental)**. Its options are in Settings → **Log**.
+
+- **Each of your callsigns has its own logbook**, with every field of every QSO. They never mix
+  (each uploads as its callsign); alerts, DXCC and WAZ still count them together.
+- **Import your logger's ADIF once:** Settings → Log → **Import ADIF…**. Only that callsign's QSOs
+  go in, and a QSO already there is skipped. A backup is made first, and one every day (the last
+  10, in `data\backups`).
+- **New QSOs** come in over UDP from your programs, as before (WSJT-X, N1MM, Log4OM... section 7),
+  with DXCC, country, zones and continent added, or from the **Log tab**, on the right.
+
+**The Log tab:** a form that fills itself when you pick a station in the list or on the map (the
+call, its grid square, the park or summit), with the frequency and mode your radio is on (through
+OmniRig or TCI; in split, where you transmitted and where you received). The date and time follow
+the clock until you type them, so the QSO is logged at the time you save it. A call typed by hand
+shows its station once you stop typing. **Esc** in the call clears it, and what DX Agent filled for
+that station. **Log QSO** (there or in the Station tab) saves it and says what it adds to your log
+("new band"). The RST is filled for you: 59 on phone, 599 on CW.
+
+**Callbooks:** name, QTH and grid square from **QRZ.com**, **HamQTH** or **QRZCQ**, with your own
+account on each (Settings → Log). **Ask first** picks the one asked first: HamQTH, say, if you have
+no QRZ.com subscription.
+
+**The Log view** (next to List and Map): your log, newest first, with a search by call, a sort by
+any column (click its header), and filters above it: band, mode (CW, phone, digital, FT8, FT4,
+RTTY), country, from and to dates, LoTW (confirmed, the last download, uploaded not confirmed, not
+uploaded) and Club Log (uploaded, to upload again, rejected, not uploaded). **Clear filters** takes
+them off. A click on a QSO shows its station under the form; **✎**, a double click or **Edit this
+QSO** edits it (**Save changes**), **✕** deletes it once you confirm (it isn't deleted from LoTW or
+Club Log).
+
+**Uploads and downloads**, at the top of the Log view, each with how many QSOs will go and a
+progress box:
+
+- **Upload to LoTW:** DX Agent runs **TQSL**, which signs the QSOs with your certificate and uploads
+  them. TQSL must be installed, with your certificate and a Station Location for each callsign
+  (Settings → Log → **Station Location**). TQSL keeps your passphrase; DX Agent never sees it.
+- **Download from LoTW:** your new confirmations, each marked on its QSO. Under its message, **who
+  confirmed** (call, band and mode), and **Show them in the log**, which leaves in the Log view
+  the QSOs that download confirmed. Needs your LoTW password (Settings → LoTW).
+- **Upload to Club Log:** with your Club Log email and an **application password** (Club Log →
+  Settings → App Passwords; not your Club Log password), in Settings → Log. A QSO Club Log rejects
+  is marked **✗** with its reason.
+
+A QSO you edit after uploading it is marked to upload again. Uploading to QRZ.com isn't there
+yet. While the logbook is experimental, keep a copy of your log elsewhere too.
+
+## 14. Updating to a new version
 
 A pill next to the version number tells you when a new one is out, with a link to its page (DX
 Agent asks GitHub every hour; nothing of yours is sent, nothing is installed). To update:
@@ -546,7 +688,7 @@ Agent asks GitHub every hour; nothing of yours is sent, nothing is installed). T
 3. The old version's folder can be deleted.
 
 **Your settings and data** (`config.toml` and the `data` folder: the alert history, the saved
-LoTW password, the log if you started from scratch) aren't in the program's folder but in a
+LoTW password, the log if you started from scratch, DX Agent's logbooks) aren't in the program's folder but in a
 folder of your own that every version uses:
 
 | System | Folder |
@@ -559,7 +701,7 @@ folder of your own that every version uses:
 time you open a newer version, it copies your settings and data from there (or from the older
 version beside it) and says so on the dashboard. The old version stays as it was.
 
-## 14. Common problems
+## 15. Common problems
 
 | What happens | What to do |
 |--------------|------------|
@@ -567,6 +709,7 @@ version beside it) and says so on the dashboard. The old version stays as it was
 | The dashboard doesn't open | Open `http://localhost:8073` yourself. If it says the port is taken, another program (or another copy of DX Agent) is using it |
 | "Lost connection to DX Agent" | DX Agent closed: open it again with start-dx-agent.bat (Mac: start-dx-agent.command; Linux: start-dx-agent.sh); the page reconnects by itself |
 | A station I just worked keeps alerting | See section 7. Without your logger telling DX Agent, it updates when your logger writes its ADIF file |
+| My logger or WSJT-X sends its QSOs and DX Agent doesn't get them | The destination must be the **UDP port for logged QSOs** (Settings → Other, `12065` by default), not the dashboard's 8073 nor the radio's port (section 7) |
 | Slow to start with a very big log | The first time it reads the whole log (250,000 QSOs: about 15 seconds); then it keeps a cache in `data\cache` (in your DX Agent folder) and starts in a second, unless the log changed |
 | Too many alerts | In Settings → Alerts keep only **ATNO** and **DXpedition**, or untick bands you don't operate |
 | Very few cluster alerts | Normal: the cluster sends a few spots a minute, and the RBN usually reports the same station first. If a server stays connected but sends no spot for 10 minutes, DX Agent moves on to the next one by itself |
@@ -574,14 +717,14 @@ version beside it) and says so on the dashboard. The old version stays as it was
 | Mac: "start-dx-agent.command cannot be opened" | It isn't signed by Apple: System Settings → Privacy & Security → **Open Anyway** (section 2) |
 | Tune doesn't move the radio | Check your program's remote control (section 6) and that it's running; the message at the top right says what failed |
 | AetherSDR: the **TCI** pill is red or amber | In AetherSDR turn on Settings → **Autostart TCI with AetherSDR** (or **Enable** in its TCI applet) and check the port is 50001 |
-| A settings change made things worse | `config.toml.bak`, in your DX Agent folder (section 13), has the previous settings: copy it over `config.toml` and open DX Agent again |
+| A settings change made things worse | `config.toml.bak`, in your DX Agent folder (section 14), has the previous settings: copy it over `config.toml` and open DX Agent again |
 | "saved password could not be read" | The LoTW password was saved by another Windows user or PC: type it again in Settings |
 | My logger says a band and mode is confirmed, DX Agent says not (amber **W**) | Most likely the only confirmation is an **eQSL**. DX Agent follows the ARRL's DXCC rules: only LoTW or a paper QSL count, eQSL doesn't (for WAZ, which accepts eQSL, it does count). Many loggers count eQSL as confirmed. For the ARRL, that band and mode still needs a LoTW or paper confirmation |
 
 What DX Agent does is written to `data\dx-agent.log`, in your DX Agent folder (on Windows,
 `%APPDATA%\DX Agent\data\dx-agent.log`). If you report a problem, that file helps a lot.
 
-## 15. Help and contact
+## 16. Help and contact
 
 ![The About window](images/about.en.png)
 
