@@ -1,6 +1,6 @@
 # DX Agent — User manual
 
-*Version 0.4.19 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
+*Version 0.4.20 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
 
 DX Agent watches the DX cluster and the Reverse Beacon Network (RBN), checks every station
 spotted against your log, and tells you when one you still need is on the air: a new country,
@@ -205,6 +205,12 @@ and 30 minutes after the station's last spot there.
 **Clear list** (in red, top right): empties the list, after asking. Whatever is still on the air
 alerts again at its next spot. **One station only:** the **✕** next to its call (it shows with the
 mouse on the row), or a right click on the row → **Remove from the list**.
+
+**Pin a station:** the **📌** next to the ✕ keeps it in the list on that band however long ago it
+was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent takes
+it out. It goes on top whatever the order, with its 📌 always in sight, and stays on the radio's
+panadapter too. It leaves when you work it on that band, with its ✕, or with another click on its
+📌.
 
 **Sort by a column:** click a column's header to sort the list by it: by frequency, by band, by
 mode (CW, phone and digital together), by country... **Alert** and **What you need** put the
@@ -636,6 +642,11 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
 - **Import your logger's ADIF once:** Settings → Log → **Import ADIF…**. Only that callsign's QSOs
   go in, and a QSO already there is skipped. A backup is made first, and one every day (the last
   10, in `data\backups`).
+- **Backups in the cloud:** Settings → Log → **Backups** picks the folder (**Browse…**, or the
+  **OneDrive**, **Google Drive** or **Dropbox** buttons if they're on your PC), how many hours apart
+  and how many to keep. In a OneDrive, Google Drive or Dropbox folder, its program uploads them to
+  the cloud. **Back up now** makes one at once. If the folder isn't there (the drive isn't
+  connected), the backup goes to `data\backups`.
 - **New QSOs** come in over UDP from your programs, as before (WSJT-X, N1MM, Log4OM... section 7),
   with DXCC, country, zones and continent added, or from the **Log tab**, on the right.
 
@@ -654,8 +665,9 @@ no QRZ.com subscription.
 **The Log view** (next to List and Map): your log, newest first, with a search by call, a sort by
 any column (click its header), and filters above it: band, mode (CW, phone, digital, FT8, FT4,
 RTTY), country, from and to dates, LoTW (confirmed, the last download, uploaded not confirmed, not
-uploaded) and Club Log (uploaded, to upload again, rejected, not uploaded). **Clear filters** takes
-them off. A click on a QSO shows its station under the form; **✎**, a double click or **Edit this
+uploaded), Club Log (uploaded, to upload again, rejected, not uploaded) and **QSL card**
+(received, sent not received, none). **Clear filters** takes them off. The chevron next to List /
+Map / Log folds the search and the filters to one line that says what is picked. A click on a QSO shows its station under the form; **✎**, a double click or **Edit this
 QSO** edits it (**Save changes**), **✕** deletes it once you confirm (it isn't deleted from LoTW or
 Club Log).
 

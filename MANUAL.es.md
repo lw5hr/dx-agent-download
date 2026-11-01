@@ -1,6 +1,6 @@
 # DX Agent — Manual de usuario
 
-*Versión 0.4.19 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
+*Versión 0.4.20 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
 
 DX Agent vigila el DX cluster y la Reverse Beacon Network (RBN), compara cada estación
 reportada con tu log y te avisa cuando sale al aire una que todavía necesitás: un país nuevo,
@@ -216,6 +216,12 @@ estación ahí.
 siga en el aire vuelve a avisar en su próximo spot. **Una sola estación:** la **✕** al lado de su
 indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la
 lista**.
+
+**Fijar una estación:** el **📌** al lado de la ✕ la deja en la lista en esa banda aunque haga
+mucho que no se spotea: no la saca **Quitar de la lista después de**, ni Limpiar lista, ni
+reiniciar DX Agent. Va arriba de todo con cualquier orden, con su 📌 siempre a la vista, y también
+queda en el panadaptador de la radio. Sale cuando la trabajás en esa banda, con su ✕, o con otro
+clic en su 📌.
 
 **Ordenar por una columna:** al hacer clic en el encabezado de una columna la lista se ordena por
 ella: por frecuencia, por banda, por modo (CW, fonía y digitales juntos), por país... **Alerta** y
@@ -672,6 +678,11 @@ en Configuración → **Log**.
 - **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**.
   Solo entran los QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y
   uno por día (los últimos 10, en `data\backups`).
+- **Backups en la nube:** Configuración → Log → **Backups** elige la carpeta (**Buscar…**, o los
+  botones **OneDrive**, **Google Drive** o **Dropbox** si están en tu PC), cada cuántas horas y
+  cuántos guardar. En una carpeta de OneDrive, Google Drive o Dropbox, su programa los sube a la
+  nube. **Hacer backup ahora** hace uno en el momento. Si la carpeta no está (la unidad no está
+  conectada), el backup va a `data\backups`.
 - **Los QSOs nuevos** llegan por UDP desde tus programas, como antes (WSJT-X, N1MM, Log4OM...
   sección 7), con DXCC, país, zonas y continente agregados, o desde la **pestaña Log**, a la
   derecha.
@@ -692,8 +703,9 @@ ejemplo, si no tenés suscripción a QRZ.com.
 **La vista Log** (al lado de Lista y Mapa): tu log, lo más nuevo primero, con búsqueda por
 indicativo, orden por cualquier columna (clic en su encabezado) y filtros arriba: banda, modo (CW,
 fonía, digitales, FT8, FT4, RTTY), país, fechas desde y hasta, LoTW (confirmados, la última bajada,
-subidos sin confirmar, sin subir) y Club Log (subidos, a subir de nuevo, rechazados, sin subir).
-**Limpiar filtros** los saca. Un clic en un QSO muestra su estación debajo del formulario; **✎**, un
+subidos sin confirmar, sin subir), Club Log (subidos, a subir de nuevo, rechazados, sin subir) y
+**QSL papel** (recibida, enviada sin recibir, ninguna). **Limpiar filtros** los saca. La flecha al
+lado de Lista / Mapa / Log pliega la búsqueda y los filtros en una línea que dice lo elegido. Un clic en un QSO muestra su estación debajo del formulario; **✎**, un
 doble clic o **Editar este QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar
 (no se borra de LoTW ni de Club Log).
 
