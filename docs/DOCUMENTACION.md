@@ -1,6 +1,6 @@
 # DX Agent — Guía de uso
 
-*Creado por Diego – LW5HR, con **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH. Licencia MIT. Apoyá DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · desde Argentina, [Cafecito](https://cafecito.app/lw5hr) · con tarjeta o transferencia, [Wise](https://wise.com/pay/me/diegod2572).
+*Creado por Diego – LW5HR, con **Javi – LU5FF** (QA Product Advocate). Gracias a Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW y Daniel – LU1HLH por probar las primeras versiones. Licencia MIT. Gracias a Pancho – LU4DCW, Javi – LU5FF y Enrique – CP6UA por su aporte. Apoyá DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · también con cripto, [Cafecito](https://cafecito.app/lw5hr) · con tarjeta o transferencia, [Wise](https://wise.com/pay/me/diegod2572).
 English version: [DOCUMENTATION.md](DOCUMENTATION.md).*
 
 DX Agent vigila el DX cluster y la Reverse Beacon Network (RBN), compara cada
@@ -37,7 +37,7 @@ Contenido:
 
 **Lo más fácil:** descomprimir `dx-agent-<versión>-windows.zip` en cualquier carpeta y
 hacer doble clic en **start-dx-agent.bat**. Ese zip ya trae Python, así que no hay que
-instalar nada. DX Agent corre sin ventana: el panel se abre en el navegador,
+instalar nada. DX Agent corre sin ventana (y le pide a Windows que no lo pase a "modo de eficiencia", que con DX Agent esperando spots en segundo plano lo hacía 3 a 4 veces más lento: la vista Log con un log grande, ordenar o borrar un QSO tardaban segundos): el panel se abre en el navegador,
 **Detener** (arriba a la derecha del panel) lo cierra, y si se hace doble clic de nuevo
 mientras corre, solo abre el panel. Si se abre una versión nueva con la anterior todavía
 corriendo, primero se detiene la anterior (como con su botón Detener) y arranca la nueva. Si no puede arrancar, un cartel de Windows dice por
@@ -174,7 +174,7 @@ python -m dxagent run --no-ui       # solo terminal
 | **Encabezado** | Tu indicativo; una pastilla por fuente de spots (verde = conectada, ámbar = conectando, rojo = caída) con la cantidad de spots (al pasar el mouse muestra el servidor y la hora del último spot; un clic deja en la lista y el mapa solo las estaciones que escuchó, ver Filtros); una pastilla **DXpediciones** al lado: cuántas están dentro de sus fechas y cuántas de ellas se spotearon en los últimos 15 minutos ("48 · 6 en el aire", con el punto verde mientras alguna lo está; al hacer clic abre la pestaña DXpediciones); los totales de tu log; botones con íconos (al pasar el mouse dicen qué hace cada uno): **Acerca de** ⓘ (qué es DX Agent, quién lo hizo, los colaboradores, cómo apoyarlo, y ayuda: el sitio web, el manual de usuario y la página de issues), **Configuración** ⚙ (en la página de Configuración, un ícono de lista vuelve a las alertas), **EN/ES/PT** (idioma), **Tema** (medio círculo = Auto, sol = Claro, luna = Oscuro, una paleta = otro tema; un clic abre el menú de temas), **Sonido** (parlante, tachado si está apagado), **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y **Detener** (rojo); reloj UTC. `#about` abre la ventana Acerca de. En una ventana más angosta (hasta 1800 px) las pastillas van debajo de tu indicativo y los botones, a todo el ancho; el chevron después de ellas las pliega a sus puntos de estado, en una sola pastilla resaltada al lado de tu indicativo (un clic la vuelve a abrir; se recuerda en el navegador) |
 | **Filtros** | Tres filas separadas por una línea: tipo de alerta (con **Lista** / **Mapa** y **Limpiar lista**); banda, modo y los demás; continente y un cuadro de búsqueda por indicativo o país. **Continente** (AF, AN, AS, EU, NA, OC, SA) deja las estaciones de los continentes elegidos, para quedarte con hacia donde apunta tu antena; tu propio indicativo spoteado se ve siempre. Solo aparecen los tipos de alerta, las bandas y los modos de tus alertas en Configuración; el ⚙ junto a Limpiar filtros (o Configuración → Filtros sobre la lista) elige cuáles de Continente, Solo cerca tuyo, Ocultar confirmados, Solo LoTW y Actividad se ven, y uno oculto queda apagado. El ⚙ al final de los tipos de alerta (o Configuración → Tipos de alerta sobre la lista) hace lo mismo con ellos: un tipo oculto ahí sigue alertando, solo se va su filtro. Cada opción dice cuántas estaciones mostraría, con los demás filtros como están (con 20 m elegido, los modos dicen cuántas hay en 20 m; una estación en varias bandas es una). Sin ningún botón seleccionado se muestra todo. Una alerta cuenta para cada uno de sus motivos, así que una DXpedición en tu lista de seguimiento aparece tanto en **DXPED FALTA** como en **SIGUIENDO**; **SIGUIENDO** además muestra los spots de tus indicativos en seguimiento que no dieron alerta (filas grises **SPOT**), para que veas cuándo están en el aire. Con varios tipos elegidos se ve cualquiera de ellos, salvo **SIGUIENDO**: junto con otro tipo, solo tus indicativos en seguimiento que además son de ese tipo (**SIGUIENDO** + **BANDA+MODO**: los que seguís en una banda y modo que te faltan; sus filas SPOT según lo que suman). Las filas SPOT son una por estación, banda y modo: el spot más reciente, con **×N** la cantidad (un CQ lo escuchan varios skimmers de la RBN a la vez; pasando el mouse se ve quién la escuchó); los anteriores a una alerta de esa estación, banda y modo quedan representados por la alerta. Una fila SPOT que todavía te suma algo (no dio alerta propia porque la misma alerta no se repite durante el tiempo de espera) va con el color de lo que suma, no en gris. **Ocultar confirmados** saca las estaciones cuya entidad ya tenés confirmada en esa banda y modo (una alerta de indicativo nuevo, una fila SPOT): quedan solo las que suman a tu log. **Solo LoTW** deja las estaciones que subieron a LoTW en los últimos 12 meses y las DXpediciones que anunciaron LoTW: las que probablemente confirmen ahí. Un clic en la pastilla de una fuente en el encabezado (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) deja las filas que spoteó esa fuente (las de la lista son alertas, lo que te suma al log: muchas menos que los spots que cuenta la pastilla) y las estaciones que escuchó en esa banda en los últimos 15 minutos, la haya spoteado quien sea primero (WSJT-X: las que decodificó tu propio WSJT-X o JTDX, las que se escuchan donde estás); la pastilla queda resaltada y los filtros plegados lo dicen, y otro clic o **Limpiar filtros** vuelve a mostrar todas las fuentes. El navegador recuerda los filtros. **Limpiar lista** (después de confirmar) vacía la lista de alertas, en todos los paneles abiertos y también al recargar, y reinicia el tiempo sin repetir: lo que siga en el aire vuelve a avisar en su próximo spot. El historial de alertas (`data/dxagent.db`) y los últimos spots de la pestaña Estación se conservan. Una sola estación: la **✕** al lado de su indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la lista**, saca esa estación en esa banda de la lista (y del panadaptador de la radio) en todos los paneles abiertos; su tiempo sin repetir sigue, así que vuelve a avisar cuando termine. El **ancla** al lado de la ✕ (**Fijar en la lista**) deja esa estación en esa banda en la lista aunque haga mucho que no se spotea (no la saca **Quitar de la lista después de**, ni que la lista esté llena, ni **Limpiar lista**, ni reiniciar DX Agent), arriba de todo con cualquier orden, resaltada y con su ancla siempre a la vista, y en el panadaptador de la radio; queda fijada hasta que la saques con su ✕, la trabajes en esa banda (tu log lo dice) o hagas clic otra vez en su ancla. En todos los paneles abiertos. La flecha al lado de **Lista** / **Mapa** pliega los filtros en una línea que dice lo elegido ("FILTROS 20m · CW", resaltada mientras haya un filtro puesto); la búsqueda, Limpiar filtros, el contador y Limpiar lista quedan. Plegado o no, el navegador lo recuerda |
 | **Tabla de alertas** | Una fila por alerta, la más nueva arriba, coloreada según el tipo: UTC, alerta, indicativo, kHz, banda, modo, país, qué te falta, LoTW, **VOACAP** (la chance de un QSO a esta hora, ver La predicción: VOACAP), **cerca tuyo** (ver más abajo), quién la escuchó. Al hacer clic en el encabezado de una columna se ordena por ella (kHz, banda, modo agrupado CW / fonía / digital, país...; **Alerta** y **Qué te falta** ponen primero lo más buscado, **LoTW** las subidas más recientes); otro clic, al revés; un tercero vuelve a lo más nuevo arriba. La flecha muestra el orden; las filas sin dato en esa columna van al final, los empates quedan con la más nueva primero, las alertas nuevas entran en su lugar y el orden se recuerda en el navegador. Las filas nuevas destellan. Un spot más nuevo de la estación en la misma banda y modo (uno que no avisó porque no se repite) actualiza su fila: hora, frecuencia, modo, quién la escuchó (×N); así la fila muestra dónde está la estación ahora, y el botón Sintonizar va ahí. Las filas se atenúan a los 10 minutos del último spot de la estación y más a los 30 (al pasar el mouse se ve la antigüedad y la hora de la alerta); con **Quitar de la lista después de** en Configuración, salen de la lista pasados esos minutos |
-| **Pestaña Estación** | Al hacer clic en una alerta, o escribir un indicativo en el cuadro, muestra la grilla banda × modo de ese país (C verde = confirmado, W ámbar = trabajado, gris = no trabajado; un anillo verde marca las bandas y modos donde la spotearon en los últimos 15 minutos, el más reciente parpadeando, con un punto sobre la banda), si trabajaste ese indicativo exacto, el estado de LoTW, los datos de la DXpedición, quién lo escucha más cerca tuyo, un botón **Consultar PSKReporter** (o, en vivo, los receptores que la reportan a medida que llegan), los botones **Ver solo** este indicativo, **☆ seguimiento** y **Spotear**, sus últimos spots y enlaces a QRZ.com, HamQTH y DXWatch. La flecha a la derecha de las pestañas pliega el panel a una columna con sus íconos (una radio, el globo, una montaña, un trofeo), donde se siguen viendo las DXpediciones en el aire y el puntaje del Marathon; al hacer clic en un ícono se abre en esa pestaña (abajo de la lista en una pantalla angosta: solo la fila de pestañas). Mientras está plegado, al pasar el mouse por una fila de la lista aparece la tarjeta de esa estación: su país, el estado y la grilla banda × modo. Plegado o no, el navegador lo recuerda |
+| **Pestaña Estación** | Al hacer clic en una alerta, o escribir un indicativo en el cuadro, muestra la grilla banda × modo de ese país (C verde = confirmado, W ámbar = trabajado, gris = no trabajado; un anillo verde marca las bandas y modos donde la spotearon en los últimos 15 minutos, el más reciente parpadeando, con un punto sobre la banda), debajo, dónde trabajaste ese indicativo exacto (una fila por modo como lo registraste, FT8, FT4, SSB..., en las mismas columnas: ✓ verde confirmado, ✓ ámbar trabajado, NEW una banda y modo todavía nuevos para el país), el estado de LoTW, los datos de la DXpedición, quién lo escucha más cerca tuyo, un botón **Consultar PSKReporter** (o, en vivo, los receptores que la reportan a medida que llegan), los botones **Ver solo** este indicativo, **☆ seguimiento** y **Spotear**, sus últimos spots y enlaces a QRZ.com, HamQTH y DXWatch. La flecha a la derecha de las pestañas pliega el panel a una columna con sus íconos (una radio, el globo, una montaña, un trofeo), donde se siguen viendo las DXpediciones en el aire y el puntaje del Marathon; al hacer clic en un ícono se abre en esa pestaña (abajo de la lista en una pantalla angosta: solo la fila de pestañas). Mientras está plegado, al pasar el mouse por una fila de la lista aparece la tarjeta de esa estación: su país, el estado y la grilla banda × modo. Plegado o no, el navegador lo recuerda |
 | **Pestaña DXpediciones** | DXpediciones activas y las que empiezan en los próximos 30 días. Etiqueta: **ATNO**, **No confirmado** o cuántas bandas tenés (por ejemplo "1 de 10 bandas", resaltada cuando son menos de la mitad). Marcar **solo las que faltan** oculta las que ya tenés en la mayoría de las bandas. Ordenadas por las que están **en el aire** (spoteadas en los últimos 15 minutos, la más reciente arriba), por el puesto en el **Most Wanted** de Club Log (el país más buscado primero) o por fecha de inicio: **Orden**, arriba. Cada tarjeta muestra sus fuentes y el puesto en el **Most Wanted** de Club Log; las spoteadas en los últimos 15 minutos se marcan en verde como **EN EL AIRE**. Al hacer clic se abre su grilla; la **☆** la agrega a tu lista de seguimiento |
 
 **¿Qué estación fue?** Al pasar el mouse sobre una celda **C** o **W** de la grilla de la pestaña
@@ -226,12 +226,17 @@ DXpediciones quedan en inglés, porque vienen así de sus fuentes.
 **Tema** abre un menú de temas, cada uno con una vista previa de sus colores: **Auto** (sigue el
 modo claro/oscuro de Windows), **Claro**, **Oscuro**, **Alto contraste** (blanco sobre negro) y
 **Alto contraste claro** (negro sobre blanco), **Solarized oscuro** y **claro**, **Nord**,
-**Dracula** y **Sepia** (tonos cálidos de papel). Un clic lo aplica y el menú queda abierto para
-probar otro; un clic afuera o Esc lo cierra. Los temas cambian el fondo, los paneles, el texto, el
-color de acento y el mar y la tierra del mapa; los colores de bandas, modos y alertas siguen siendo
-los del tema claro u oscuro, elegidos para distinguirse también con daltonismo. El navegador
+**Dracula** y **Dracula naranja** (el mismo, con el acento en el naranja de la paleta), **Alucard**
+(su pareja clara) y **Alucard negro** (esa paleta sobre su gris oscuro), y **Sepia** (tonos cálidos
+de papel). Un clic lo aplica y el menú queda abierto para probar otro; un clic afuera o Esc lo
+cierra. Los temas cambian el fondo, los paneles, el texto, el color de acento y el mar y la tierra
+del mapa; los colores de bandas y modos siguen siendo los del tema claro u oscuro, elegidos para
+distinguirse también con daltonismo. Los temas de Dracula y Alucard traen además sus propios
+colores de alertas, estados y cuadrícula (del [spec de Dracula](https://draculatheme.com/spec)), con
+sus grises aclarados donde los del spec quedarían por debajo de un contraste legible. El navegador
 recuerda la elección. Un enlace también puede forzar uno: `http://localhost:8073/?theme=light`
-(o `dark`, `hc`, `hcl`, `sol-dark`, `sol-light`, `nord`, `dracula`, `sepia`).
+(o `dark`, `hc`, `hcl`, `sol-dark`, `sol-light`, `nord`, `dracula`, `dracula-orange`, `alucard`,
+`alucard-black`, `sepia`).
 
 **Sonido** emite un pitido en la pestaña del navegador para las alertas ATNO
 y de prioridad 2. Está apagado por defecto; el agente en sí no hace ningún sonido.
@@ -260,10 +265,18 @@ indica si funcionó.
 | N1MM Logger+ | UDP `radio_setfrequency` | 13064 | no (N1MM no tiene campo de modo) |
 | DXLog.net | UDP `radio_setfrequency` (como N1MM); en Options → Configure network agregar el puerto al UDP broadcast listener, y activar Options → Broadcast → Receive broadcasts | 13064 | no (solo la frecuencia) |
 | OmniRig | COM de Windows, mediante PowerShell; radio 1 o 2 | — | sí |
-| Hamlib rigctld | TCP `F <Hz>` / `M <modo> -1` | 4532 | sí |
+| Hamlib rigctld | TCP `F <Hz>` / `M <modo> -1` (split: `I <Hz>` y `S 1 VFOB`); la lee (`f`, `m`, `t`, `s`, `l STRENGTH`, los dos VFO) para la vista Log; DX Agent puede arrancarlo solo (**Iniciar rigctld con DX Agent**) | 4532 | sí |
 | flrig | XML-RPC `rig.set_frequency` / `rig.set_mode` | 12345 | sí |
 | DXLab Commander | TCP `CmdSetFreqMode` | 52002 | sí |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, por una conexión que DX Agent mantiene abierta; también pone las alertas en el panadaptador | 50001 | sí |
+
+**Hamlib es el primero a probar** si conoce tu radio: es el que más hace. Sintoniza, pone el
+modo y el split, y además lee la radio —frecuencia, modo, PTT, split, el S-meter y, de una radio
+que lo informe, los dos VFO—, que es lo que muestra la caja de la radio en la vista Log; y DX
+Agent puede arrancarle y cerrarle el `rigctld`. OmniRig lee casi lo mismo (sin S-meter) y necesita
+Windows y el archivo del fabricante; TCI lee más que ninguno, pero solo con esos tres programas.
+Los loggers (Log4OM, N1MM, DXLog.net) solo reciben una frecuencia, y flrig y DXLab Commander solo
+sintonizan: con ellos la caja de la vista Log muestra dónde se sintonizó la radio, no dónde está.
 
 - **Modo elegido:** CW para spots de CW; USB o LSB para fonía (LSB por debajo de
   10 MHz, salvo 60 m); RTTY para RTTY; para FT8/FT4, USB con OmniRig (como WSJT-X usa
@@ -316,16 +329,19 @@ panadaptador), y:
   0,3 s después de que termina (si la radio sigue en el aire más de un minuto, se descarta);
   **Sintonizar igual** sintoniza enseguida, como antes. DX Agent nunca pone la radio a
   transmitir: solo lee si está transmitiendo.
-- **Split** (**Split cuando el spot lo dice (TCI)**, activado por defecto): cuando los spots de
+- **Split** (**Split cuando el spot lo dice**, activado por defecto): cuando los spots de
   la estación de los últimos 15 minutos en esa frecuencia dicen dónde escucha (**UP 5**,
   **UP5K**, **5 UP**, **UP 1-3**: el medio, **DN 2**, **QSX 14.205**, **QSX 205**: los kHz después
-  de los MHz), Sintonizar pone la radio en split: AetherSDR abre un segundo slice que transmite
-  ahí (split por TCI), y DX Agent dice "split: transmitís en 14026.0 kHz". **UP** o **SPLIT**
-  solos suben lo que diga la opción para el modo (1 kHz en CW y RTTY, 5 en fonía, al lado de la
-  opción). El próximo Sintonizar mueve el slice que recibe, no el que transmite; sintonizar una
-  estación sin split lo termina, y AetherSDR cierra el slice que había abierto. No en FT8 ni FT4
-  (el Fox/Hound de una DXpedición no es un split de la radio), ni un split fuera de la banda o a
-  más de 50 kHz.
+  de los MHz), Sintonizar pone la radio en split: escucha en la frecuencia del spot y transmite
+  donde la estación, y DX Agent dice "split: transmitís en 14026.0 kHz". Con AetherSDR abre un
+  segundo slice que transmite ahí (split por TCI); por OmniRig, Hamlib rigctld y flrig pone el
+  split propio de la radio (la frecuencia de la estación en el VFO B). **UP** o **SPLIT** solos
+  suben lo que diga la opción para el modo (1 kHz en CW y RTTY, 5 en fonía, al lado de la opción).
+  El próximo Sintonizar a una estación sin split lo termina: por TCI mueve el slice que recibe y
+  AetherSDR cierra el que había abierto; por los otros, DX Agent apaga el split que encendió (el
+  tuyo propio lo deja como está). A N1MM, DXLog.net, Log4OM y DXLab Commander se los sintoniza,
+  pero no se les pide split. No en FT8 ni FT4 (el Fox/Hound de una DXpedición no es un split de la
+  radio), ni un split fuera de la banda o a más de 50 kHz.
 - **WSJT-X también por TCI:** un spot de FT8 o FT4 que se manda a WSJT-X mueve el slice de WSJT-X
   (el que está en el dial que dice el Status de WSJT-X), no el de TX ni el que tiene el foco, así
   WSJT-X cambia de banda con él: AetherSDR les avisa a todos los programas la frecuencia de cada
@@ -364,6 +380,47 @@ los mensajes estándar: vos hacés clic en **Enable Tx**. Funciona con cualquier
 controles de radio de arriba o solo (control de radio: ninguno). DX Agent encuentra
 WSJT-X solo (no hay que configurar puerto) y no ocupa el puerto UDP 2237 de WSJT-X, así
 que Log4OM, JTAlert o GridTracker siguen funcionando.
+
+**Hamlib.** DX Agent habla con `rigctld` de Hamlib, que tiene que estar corriendo: se arranca
+con el modelo de tu radio, su puerto COM y su velocidad, por ejemplo para un IC-9100 en COM7
+
+```
+& "C:\Program Files\hamlib-w64-4.5.4\bin\rigctld.exe" -m 3068 -r COM7 -s 19200
+```
+
+(eso es PowerShell: `&` antes de la ruta entre comillas; en `cmd`, sin él). `rigctl -l` lista
+los modelos. Una segunda radio: su propio `rigctld`, con `-t 4533`, y ese puerto en DX Agent.
+Un puerto COM lo abre un programa por vez, así que esa radio no puede estar también en
+OmniRig. DX Agent la sintoniza por ahí y la lee para la vista Log, con su S-meter.
+
+**DX Agent puede arrancar rigctld solo:** marcá **Iniciar rigctld con DX Agent** en la
+configuración de esa radio y poné en **Argumentos de rigctld** lo que escribirías después de
+`rigctld` (`-m 3068 -r COM7 -s 19200`), más su **programa** si no está en el PATH. Así no hay
+consola que abrir: DX Agent lo arranca cuando arranca, le agrega `-t` con el puerto de la radio,
+manda su salida al log de DX Agent y lo cierra cuando se cierra (solo el suyo). Si ya hay algo
+respondiendo en ese puerto —tu propio `rigctld`, o el de la otra radio— lo deja y lo usa. Si se
+corta, lo vuelve a arrancar, cada vez un poco más tarde; si el programa no está, lo dice y
+espera (Configuración → Radio para corregir la ruta). Cada una de las dos radios puede tener el
+suyo, en su propio puerto.
+
+**Dos radios.** Configuración → Radio tiene una **Radio 2** debajo de la **Radio 1**, cada
+una con su programa, su dirección y su nombre (vacío: como la llama OmniRig o el programa
+TCI, IC-7300, AetherSDR); **Las dos radios** tiene lo común (WSJT-X, el split, y las opciones del
+panadaptador y de "mientras transmitís", que solo se ven con una radio por TCI). Por ejemplo una
+Flex por AetherSDR (TCI) y un IC-7300 por OmniRig, o la Radio 1 y
+la Radio 2 de OmniRig. Solo una de las dos puede ir por TCI, y dos por OmniRig tienen que
+ser su Radio 1 y su Radio 2.
+
+- **La radio activa** es la última que sintonizaste o con la que transmitiste; un clic en la
+  otra, en el cuadro de la vista Log, la hace la activa. El formulario del QSO la sigue, y
+  las frecuencias de la lista de alertas la sintonizan.
+- **La pestaña Estación** tiene un botón Sintonizar para cada radio (para cada slice de la
+  que va por AetherSDR), con dónde está ahora; la activa se destaca.
+- **El cuadro de la vista Log** muestra las dos una al lado de la otra, cada una completa con
+  su nombre arriba y una línea entre ellas; el nombre de la activa en el color de acento. En
+  una pantalla de menos de 1600 píxeles de ancho van debajo del formulario, así conserva su ancho.
+- **Las dos en N1MM o DXLog.net (SO2R):** Sintonizar le manda a cada una su número de
+  radio, 1 o 2.
 
 ### Seguir una estación
 
@@ -718,7 +775,7 @@ logbook de DX Agent como tu log.
 | **LoTW** | Activar o desactivar la descarga de confirmaciones; usuario de LoTW (vacío = tu indicativo); contraseña de LoTW; cada cuánto descargar. **Probar ingreso** prueba el usuario y la contraseña con LoTW |
 | **Alertas** | Qué tipos de alerta querés (y **Tu propio indicativo**: quién te escucha; un tipo que apagás también sale de la lista: una alerta que era solo de ese tipo se va, y otra muestra su siguiente título, BANDA NUEVA en vez de INDICATIVO NUEVO); bandas; modos; cuándo una DXpedición o un indicativo de la lista de seguimiento cuenta como trabajado; **Lista de seguimiento**; **Ignorar**; cuánto esperar antes de repetir la misma alerta y **Dejar solo la última fila de cada estación** (mismo indicativo, frecuencia y modo: cuando vuelve a aparecer, sus filas anteriores salen de la lista); **Quitar de la lista después de** N minutos (las estaciones que no se spotean en esa banda y modo durante ese tiempo salen de la lista; 0 = nunca, el valor por defecto); el radio de "cerca tuyo" y **Avisar solo si se escucha cerca tuyo**; notificaciones de Windows y para qué alertas |
 | **Fuentes de spots** | DX cluster activado o no, sus servidores (`servidor:puerto`, en orden) y comandos al conectar; **Spots recientes al conectar** (minutos, 0 = no); de qué continentes tomar los spotters del cluster; RBN activada o no, fuentes CW/RTTY y FT8/FT4; de qué continentes cuentan los skimmers |
-| **Radio (botón Sintonizar)** | Qué programa sintoniza la radio (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con TCI si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite |
+| **Radio (botón Sintonizar)** | Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios): qué programa la sintoniza (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su nombre, su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con Hamlib si DX Agent arranca el rigctld y con qué argumentos; para **Las dos radios**, WSJT-X, el split, y —solo visible con una radio por TCI— si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite |
 | **CQ DX Marathon** | Seguirlo o no; el anual o el Sprint, y las fechas del Sprint; los modos que cuentan (todos, CW, fonía, digital, o Classic: CW y fonía); alertas por país nuevo y por zona nueva del Marathon |
 | **Aperturas en VHF** | Vigilar las estaciones cerca tuyo que escuchan lejos, y las estaciones que te escuchan; las bandas (6 m, 2 m); a qué distancia es cerca; cuántas estaciones tienen que escucharla, y cuántas de ahí; qué es un lugar (un país, un continente, un campo de grilla); a qué distancia mínima, y el tiempo de vida, para cada banda; dejar afuera el rebote lunar; un aviso de Windows cuando abre la banda (ver Aperturas en VHF) |
 | **DXpediciones, log y panel** | Mostrar DXpediciones que ya tenés; fuentes de DXpediciones y cada cuánto releerlas; cada cuánto revisar el archivo del log; puerto del panel; abrir el navegador al iniciar |
@@ -1174,10 +1231,17 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | rbn         | `enabled`                   | `true`                                            | Usar la Reverse Beacon Network |
 | rbn         | `cw` / `digital`            | `true` / `true`                                   | Fuente CW+RTTY (puerto 7000) y FT8/FT4 (puerto 7001) |
 | rbn         | `spotter_continents`        | `SA, NA`                                          | Avisar solo cuando un skimmer de estos continentes escucha la estación |
-| rig         | `target`                    | `none`                                            | Botón Sintonizar: `none`, `log4om`, `n1mm`, `dxlog`, `omnirig`, `hamlib`, `flrig` o `dxlab` |
+| rig         | `target`                    | `none`                                            | Botón Sintonizar: `none`, `log4om`, `n1mm`, `dxlog`, `omnirig`, `hamlib`, `flrig`, `dxlab` o `tci` |
 | rig         | `host` / `port`             | `127.0.0.1` / `0`                                 | Dónde escucha ese programa; 0 = su puerto por defecto |
 | rig         | `set_mode`                  | `true`                                            | También cambiar el modo (CW, USB/LSB, datos/RTTY) |
 | rig         | `omnirig_rig`               | `1`                                               | Radio 1 o 2 de OmniRig |
+| rig         | `name`                      | `""`                                              | Cómo llama el tablero a la radio (vacío: como la llama OmniRig o el programa TCI) |
+| rig         | `wsjtx`                     | `false`                                           | Sintonizar un spot de FT8/FT4 también pone el indicativo en WSJT-X |
+| rig         | `split`, `split_cw_khz`, `split_ssb_khz` | `true`, `1`, `5`                     | Split cuando el spot dice dónde escucha la estación; kHz arriba para un "UP" solo en CW/RTTY y en fonía |
+| rig         | `tci_spots`, `tci_keep_worked`, `tci_tx_guard` | `true`, `false`, `block`            | Con TCI: las alertas en el panadaptador, las que trabajás quedan en gris, y qué hace Sintonizar mientras la radio transmite (`block`, `wait` u `off`) |
+| rig, rig2   | `rigctld`                   | `false`                                           | Con Hamlib: DX Agent arranca el `rigctld` él mismo, y lo cierra cuando se cierra |
+| rig, rig2   | `rigctld_path` / `rigctld_args` | `""` / `""`                                   | El programa (vacío: el `rigctld` del PATH) y lo que se le pasa, por ejemplo `-m 3078 -r COM3 -s 19200`; el puerto es `port` |
+| rig2        | `name`, `target`, `host`, `port`, `set_mode`, `omnirig_rig`, `rigctld`, `rigctld_path`, `rigctld_args` | como `[rig]`, `2` en `omnirig_rig` | Una segunda radio, como `[rig]` (`none`: una sola); solo una de las dos en `tci` |
 | marathon    | `enabled`                   | `false`                                           | Seguir el CQ DX Marathon (una pestaña Marathon y alertas MARATHON) |
 | marathon    | `event`                     | `year`                                            | `year` (del 1 de enero al 31 de diciembre) o `sprint` |
 | marathon    | `sprint_start` / `sprint_end` | `2026-10-17` / `2026-10-26`                     | Primer y último día del Sprint (UTC) |
@@ -1250,7 +1314,7 @@ importalo ahí y elegí **Archivo ADIF**.
 
 DX Agent puede llevar tu log él mismo: Configuración → Estación → **Tu log** → **Logbook de DX
 Agent (experimental)** (`log_source = "logbook"`). Sus opciones quedan entonces en su propia
-pestaña, Configuración → **Log**, que solo aparece con el logbook (como el tab Log y la vista Log). Cada uno de tus indicativos tiene su propio
+pestaña, Configuración → **Log**, que solo aparece con el logbook (como el tab Acciones y la vista Log). Cada uno de tus indicativos tiene su propio
 logbook, `data/log-<INDICATIVO>.db` (SQLite), con todos los campos de cada QSO, incluidos los
 `APP_*` y los tuyos: no se pierde nada de lo que escribió un logger. Los logbooks de cada
 indicativo nunca se mezclan (cada uno va a subir como su indicativo); las alertas, el DXCC y
@@ -1263,43 +1327,49 @@ necesitan archivo: cada uno tiene su logbook.
   indicativo (`STATION_CALLSIGN`) queda afuera y se cuenta, con un aviso para importar el
   archivo en el logbook de ese indicativo. Un log de 50.000 QSOs tarda de 15 a 30 segundos.
 - **Los QSOs nuevos** llegan por UDP como antes (WSJT-X, N1MM, Log4OM...), cada uno al logbook
-  del indicativo que dice, y desde el **tab Log**: su formulario se llena solo cuando elegís
-  una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), con la
-  frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig o TCI: `rig.target =
-  "omnirig"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
+  del indicativo que dice, y desde el formulario arriba de la **vista Log**: se llena solo
+  cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), con la
+  frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib o TCI: `rig.target =
+  "omnirig"`, `"hamlib"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
   del spot). En split, el QSO se guarda con la frecuencia en que transmitiste (`FREQ`) y la
-  que recibiste (`FREQ_RX`). Escribir la frecuencia o el modo deja de seguir la radio
+  que recibiste (`FREQ_RX`). Al lado del formulario, la radio como AetherSDR muestra un slice:
+  el VFO que sigue en grande, con su letra en su color (A cian, B magenta, C verde, D amarillo),
+  **TX** en el que transmite (en rojo lleno mientras transmite), **SPLIT**, su banda y su modo;
+  debajo, el otro VFO de la radio, o los otros slices de AetherSDR, uno por línea (el VFO B de
+  OmniRig cuando el archivo de la radio lo lee; en Thetis o ExpertSDR, el A y el B de cada
+  receptor). Por TCI y Hamlib, también el S-meter como lo informa el programa: una barra debajo de la
+  frecuencia con su lectura (S7, S9+20), verde hasta S9 y roja arriba, y una chica en cada una
+  de las otras líneas (OmniRig no lo lee). Por Hamlib, el VFO en el que está, y el otro solo en split (donde transmite), de una radio que lo informa sin pasar a él (un TS-590, un IC-7300): rigctld pasaría la radio al otro VFO para leerlo, y no se quedaría en el que elegís. Por eso, por Hamlib, el renglón del otro VFO muestra dónde quedó la última vez que la radio estuvo en él (— hasta entonces). **Un clic en el renglón del otro VFO pasa la radio a ese VFO** (por Hamlib, o por OmniRig si el archivo de la radio lo permite: el TS-590 sí, el IC-9100 no). Escribir la frecuencia o el modo deja de seguir la radio
   hasta la próxima estación. La fecha y la hora siguen al reloj (en azul) hasta que las
   escribas, así el QSO queda con la hora en que lo guardás; **Ahora** las vuelve a poner en hora.
-  Un indicativo escrito a mano: cuando dejás de escribir aparece su estación (callbook,
-  cuadro de trabajadas, QSOs anteriores) y se va lo que DX Agent había llenado para la anterior (nombre, QTH, grid,
+  Un indicativo escrito a mano: cuando dejás de escribir aparece su estación en el tab **Acciones** del
+  costado, debajo de los filtros (callbook, cuadro de trabajadas, QSOs anteriores) y se va lo que DX Agent había llenado para la anterior (nombre, QTH, grid,
   referencias); lo que escribiste vos queda. **Esc** en el indicativo lo borra, y con él lo que
   DX Agent había llenado para esa estación. **Guardar QSO**, ahí o en el tab Estación,
   lo guarda, y dice qué te suma ("te suma: banda nueva"), según tu log antes de ese QSO. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
   (cty.csv), tu grid y tu indicativo.
-- **La vista Log**, al lado de Lista y Mapa: tu log, lo más nuevo primero, de a 100, con
+- **La vista Log**, al lado de Lista y Mapa: el formulario que carga un QSO arriba, con la
+  frecuencia y el modo de la radio al lado, y después tu log, lo más nuevo primero, de a 100, con
   búsqueda por indicativo (con Todos, el de cada indicativo); ahí no aparecen los filtros de las
-  alertas, sino los del log, arriba de la lista: banda (las que hay en tu log), modo (CW, Fonía,
-  Digitales, FT8, FT4, RTTY), el país (una parte de su nombre como lo escribe el log, o un prefijo: `LU`, `VP8`, `3Y`, `LU5`, por el DXCC del QSO según cty.csv), fechas desde y hasta, LoTW (confirmados, la
-  última bajada, subidos sin confirmar, sin subir), Club Log (subidos, a subir de nuevo,
-  rechazados, sin subir) y QSL papel (recibida, enviada sin recibir, ninguna: `QSL_RCVD` y
-  `QSL_SENT`, salvo que su `_VIA` diga `E`, electrónica). Son botones como los de la lista, agrupados con su nombre (BANDA, MODO, PAÍS, FECHA, LOTW, CLUB LOG, QSL PAPEL): un clic elige una opción, otro clic en la misma la saca; cada una dice cuántos QSOs mostraría con la búsqueda y los otros filtros como están (con 20m elegido, los modos dicen cuántos en 20m). Tu log se tiene en memoria y se pone al día solo con lo que cambió, así que filtrar y ordenar no lo vuelven a leer entero. Se combinan con la búsqueda y el orden; el que está puesto se resalta,
-  **Limpiar filtros** los saca, y no se guardan al recargar. La flecha al lado de **Lista** /
-  **Mapa** / **Log** pliega la búsqueda y los filtros del log en la línea de la flecha, que dice
-  lo puesto ("FILTROS QSL papel: recibida"); el contador, Limpiar filtros, Importar QSOs… y las subidas quedan.
-  Se pliega aparte de los filtros de la lista y el navegador lo recuerda. Un clic en el encabezado de una columna ordena todo el log por ella (otra vez: al
+  alertas: los del log están en el tab **Acciones** del costado, uno debajo del otro bajo FILTROS —
+  **Banda** (las que hay en tu log), **Modo** (CW, Fonía, Digitales, FT8, FT4, RTTY), **País y
+  fecha** (una parte de su nombre como lo escribe el log, o un prefijo: `LU`, `VP8`, `3Y`, `LU5`, por el DXCC del QSO según cty.csv; y desde y hasta) y **Confirmaciones**
+  (LoTW: confirmados, la última bajada, subidos sin confirmar, sin subir; Club Log: subidos, a subir de nuevo,
+  rechazados, sin subir; QSL papel: recibida, enviada sin recibir, ninguna: `QSL_RCVD` y
+  `QSL_SENT`, salvo que su `_VIA` diga `E`, electrónica). Son botones como los de la lista, agrupados con su nombre (BANDA, MODO, PAÍS, FECHA, LOTW, CLUB LOG, QSL PAPEL): un clic elige una opción, otro clic en la misma la saca; cada una dice cuántos QSOs mostraría con la búsqueda y los otros filtros como están (con 20m elegido, los modos dicen cuántos en 20m), y una tira de íconos a la derecha del tab lleva a cada parte (subir y bajar, Banda, Modo, País y fecha, Confirmaciones, la estación), con un punto en las que tienen un filtro puesto. Tu log se tiene en memoria y se pone al día solo con lo que cambió, así que filtrar y ordenar no lo vuelven a leer entero. Se combinan con la búsqueda y el orden; el que está puesto se resalta,
+  **Limpiar filtros** los saca, y no se guardan al recargar. Un clic en el encabezado de una columna ordena todo el log por ella (otra vez: al
   revés; una tercera: lo más nuevo primero); los QSOs sin valor ahí van al final, y el orden se
   recuerda. Cada subida o bajada se ve en un recuadro arriba del log mientras corre (en qué paso
   está, una barra que se mueve, cuánto lleva), después en verde o rojo con cómo terminó hasta que
-  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **✎** edita un QSO en el formulario del tab Log (**Guardar cambios**; **Cancelar** lo
+  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **✎** edita un QSO en el formulario arriba de la lista (**Guardar cambios**; **Cancelar** lo
   deja como estaba): solo cambia lo que muestra el formulario, todos los demás campos quedan, y
   lo que era queda guardado en el logbook (tabla `edited`). Cambiar el indicativo, la hora, la
   banda o el modo de un QSO ya subido lo marca para subirlo otra vez (Club Log y QRZ.com: `M`;
   LoTW: `N`, LoTW lo toma como un QSO nuevo y el viejo queda ahí). **✕** borra un QSO cuando
   confirmás: queda guardado aparte en el logbook (tabla `deleted`), y no se borra de LoTW,
   QRZ.com ni Club Log.
-- Los botones de subir y bajar, arriba de la vista Log, aparecen solo para lo que está configurado: **Subir a LoTW** con TQSL instalado, **Bajar de LoTW** con el usuario y la contraseña de LoTW, **Subir a Club Log** con tu email y la contraseña de aplicación de Club Log, **Subir a QRZ** y **Bajar de QRZ** con la clave de la API del logbook de QRZ.com. Si la página no puede leer su estado (el log ocupado con una importación), lo vuelve a pedir a los pocos segundos.
-- **Subir a LoTW**, arriba de la vista Log, con cuántos QSOs todavía no están ahí
+- Los botones de subir y bajar, con **Importar QSOs…**, en el tab **Acciones** del costado (Subir y bajar), aparecen solo para lo que está configurado: **Subir a LoTW** con TQSL instalado, **Bajar de LoTW** con el usuario y la contraseña de LoTW, **Subir a Club Log** con tu email y la contraseña de aplicación de Club Log, **Subir a QRZ** y **Bajar de QRZ** con la clave de la API del logbook de QRZ.com. Si la página no puede leer su estado (el log ocupado con una importación), lo vuelve a pedir a los pocos segundos.
+- **Subir a LoTW**, en el tab Acciones del costado, con cuántos QSOs todavía no están ahí
   (`LOTW_QSL_SENT` no es `Y`): DX Agent los escribe en un archivo y corre **TQSL** con él
   (`tqsl -q -d -u -a compliant -l <ubicación>`), que los firma con tu certificado y los sube;
   los que TQSL ya había subido se saltean. Cuando TQSL dice que LoTW los tiene, quedan marcados
@@ -1344,10 +1414,10 @@ necesitan archivo: cada uno tiene su logbook.
   API contesta que la key no está autorizada y DX Agent frena ese indicativo (el botón dice por
   qué) hasta que cambies la key. **Probar**, en Configuración → Log, hace un solo pedido
   (`STATUS`, que no cambia nada) y dice si la key sirve.
-- Las subidas y la bajada corren en segundo plano, cada una en su recuadro arriba del log.
+- Las subidas y la bajada corren en segundo plano, cada una en su recuadro debajo de los botones.
   Antes de subir, DX Agent dice cuántos QSOs de cada indicativo van a ir.
-- **Una estación clickeada en la vista Log** se abre en el tab Log, no en el tab Estación (el
-  formulario queda como está): debajo del formulario, el QSO clickeado con un botón **Editar
+- **Una estación clickeada en la vista Log** se abre en el tab Acciones, no en el tab Estación (el
+  formulario queda como está, arriba de la lista): debajo de los filtros, el QSO clickeado con un botón **Editar
   este QSO**, lo que dicen tus callbooks de la estación, las bandas y modos en que la trabajaste
   y confirmaste (el cuadro del tab Estación, con su detalle en cada celda) y tus QSOs con ella.
   La estación del formulario se muestra ahí de la misma forma, sin el nombre, QTH y grid que ya
@@ -1656,7 +1726,7 @@ hace falta.
 | `dxagent/livelog.py`       | Los QSOs que Log4OM guardó desde su último backup, de su base |
 | `dxagent/udplog.py`        | QSOs que otros programas mandan por UDP al loguearlos (XML de N1MM / DXLog.net, ADIF, WSJT-X), y lo que decodifica WSJT-X |
 | `dxagent/qsolog.py`        | El logbook de DX Agent (experimental): un archivo SQLite por indicativo, importar, backups |
-| `dxagent/qsoentry.py`      | Un QSO cargado en el tab Log como ADIF, la edición de uno, y lo que un logger agrega a un QSO (DXCC, zonas...) |
+| `dxagent/qsoentry.py`      | Un QSO cargado en el formulario de la vista Log como ADIF, la edición de uno, y lo que un logger agrega a un QSO (DXCC, zonas...) |
 | `dxagent/tqsl.py`          | Subida a LoTW con TQSL: lo encuentra, sus ubicaciones de estación, firma y sube |
 | `dxagent/clublog.py`       | Subida a Club Log (realtime.php, putlogs.php), como mucho un pedido por minuto |
 | `dxagent/callbook.py`      | El nombre, QTH y grid de una estación desde QRZ.com, HamQTH o QRZCQ (tus cuentas) |

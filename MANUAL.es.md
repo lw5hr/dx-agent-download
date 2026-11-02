@@ -170,7 +170,7 @@ minutos; un clic abre su pestaña); los totales de tu log: los QSOs en azul, los
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
 uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (un menú con una vista previa de
 cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
-Dracula y Sepia), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
+Dracula, Dracula naranja, Alucard, Alucard negro y Sepia), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
 **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y
 **Detener**, en rojo; el reloj UTC. **Acerca de** cuenta qué es DX Agent, quién lo hizo y sus
 colaboradores, y tiene los links para apoyarlo, al sitio, a este manual y para reportar un
@@ -422,8 +422,26 @@ derecha dice si funcionó.
 | **N1MM Logger+** | nada | no |
 | **DXLog.net** | Options → Configure network: agregar el puerto `13064` al **UDP broadcast listener**; Options → Broadcast → **Receive broadcasts** | no |
 | **OmniRig** | elegir en DX Agent la radio 1 o 2 de OmniRig | sí |
-| **Hamlib (rigctld)**, **flrig**, **DXLab Commander** | que el programa esté abierto | sí |
+| **Hamlib (rigctld)**, la opción para empezar | que rigctld esté corriendo, o que lo arranque DX Agent (abajo) | sí |
+| **flrig**, **DXLab Commander** | que el programa esté abierto | sí |
 | **TCI** (AetherSDR para FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (o **Enable** en su applet TCI, puerto 50001) | sí |
+
+- **Hamlib, la opción para empezar.** Sintoniza, cambia el modo y el split, y lee la radio para la
+  vista Log: frecuencia, modo, TX, split y S-meter.
+  - **Su `rigctld` tiene que estar corriendo.** Marcá **Iniciar rigctld con DX Agent** y escribí sus
+    argumentos: el modelo de tu radio, su puerto COM y su velocidad, por ejemplo
+    `-m 3068 -r COM7 -s 19200` para un IC-9100 (`rigctl -l` lista los modelos). DX Agent arranca
+    rigctld junto con él y lo cierra cuando se detiene.
+  - **Un puerto COM lo abre un programa por vez**, así que esa radio no puede estar también en
+    OmniRig.
+- **Dos radios.** Configuración → Radio tiene una **Radio 2** debajo de la Radio 1, con su propio
+  programa, dirección y nombre.
+  - **Solo una de las dos puede ir por TCI.** Dos por Hamlib necesitan un rigctld cada una, en su
+    propio puerto.
+  - **La radio activa** es la última que sintonizaste o con la que transmitiste, o la que elegís con
+    un clic en la vista Log (sección 13). Las frecuencias de la lista de alertas la sintonizan, y la
+    pestaña Estación tiene un botón Sintonizar para cada radio.
+  - **Las dos en N1MM o DXLog.net (SO2R):** cada radio recibe su propio número de radio.
 
 - **Con Log4OM, además de la frecuencia se completa el indicativo** en su ventana de QSO,
   listo para loguear. Si ya escribiste un indicativo a mano ahí, Log4OM no lo reemplaza.
@@ -676,7 +694,7 @@ en Configuración → **Log**.
   se mezclan (cada uno se sube como su indicativo); las alertas, el DXCC y el WAZ los siguen
   sumando juntos.
 - **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**, o
-  **Importar QSOs…** arriba de la vista Log (con Todos, elegís en qué indicativo). Solo entran los
+  **Importar QSOs…** en la pestaña **Acciones** de la vista Log (con Todos, elegís en qué indicativo). Solo entran los
   QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y uno por día (los
   últimos 10, en `data\backups`).
 - **Para volver a un backup**, importá su `.zip` de la misma forma: los QSOs que falten vuelven a
@@ -687,46 +705,61 @@ en Configuración → **Log**.
   nube. **Hacer backup ahora** hace uno en el momento. Si la carpeta no está (la unidad no está
   conectada), el backup va a `data\backups`.
 - **Los QSOs nuevos** llegan por UDP desde tus programas, como antes (WSJT-X, N1MM, Log4OM...
-  sección 7), con DXCC, país, zonas y continente agregados, o desde la **pestaña Log**, a la
-  derecha.
+  sección 7), con DXCC, país, zonas y continente agregados, o desde el formulario arriba de la
+  **vista Log**.
 
-**La pestaña Log:** un formulario que se llena solo cuando elegís una estación en la lista o en el
-mapa (el indicativo, su grid, el parque o la cumbre), con la frecuencia y el modo en que está tu
-radio (por OmniRig o TCI; en split, donde transmitiste y donde recibiste). La fecha y la hora
+**El formulario del QSO**, arriba de la vista Log: se llena solo cuando elegís una estación en la
+lista o en el mapa (el indicativo, su grid, el parque o la cumbre), con la frecuencia y el modo en
+que está tu radio (por OmniRig, Hamlib o TCI; en split, donde transmitiste y donde recibiste). La fecha y la hora
 siguen al reloj hasta que las escribís, así el QSO queda con la hora en que lo guardás. Un
 indicativo escrito a mano muestra su estación cuando dejás de escribir. **Esc** en el indicativo lo
 borra, y con él lo que DX Agent había completado para esa estación. **Guardar QSO** (ahí o en la
 pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se completa solo: 59 en
 fonía, 599 en CW. Si tenés más de un indicativo, **Tu indicativo** elige en qué logbook va. Además
 tiene **Nombre**, **QTH**, grid, **Referencias** (parque, cumbre, isla) y **Comentario**; **Ahora**
-pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Debajo se ven los **QSOs
-anteriores** con esa estación.
+pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Su estación aparece en la
+pestaña **Acciones** del panel lateral: el callbook, los **QSOs anteriores** con ella y **Este
+indicativo**, una tabla de las bandas y los modos en que la trabajaste (**✓** verde confirmado,
+ámbar trabajado, **NEW** una banda y un modo todavía nuevos para su país).
+
+**El cuadro de la radio**, a la derecha del formulario, muestra tu radio como AetherSDR muestra un
+slice.
+- **El VFO que sigue el formulario** va en grande, con su letra en su color (A cian, B magenta,
+  C verde, D amarillo), **TX** en el que transmite (en rojo lleno mientras transmite), **SPLIT**, y
+  su banda y su modo.
+- **Por TCI y Hamlib, un S-meter** va debajo de la frecuencia.
+- **El otro VFO**, o los otros slices de AetherSDR, van debajo, uno por línea.
+- **Un clic en el renglón del otro VFO pasa la radio a ese VFO**, por Hamlib, o por OmniRig si el
+  archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, ese renglón muestra
+  dónde quedó el VFO la última vez que la radio estuvo en él.
+- **Con dos radios** van una al lado de la otra, con el nombre de la activa en color; un clic en la
+  otra la hace la activa.
 
 **Callbooks:** nombre, QTH y grid desde **QRZ.com**, **HamQTH** o **QRZCQ**, con tu propia cuenta en
 cada uno (Configuración → Log). **Consultar primero** elige cuál se consulta primero: HamQTH, por
 ejemplo, si no tenés suscripción a QRZ.com.
 
 **La vista Log** (al lado de Lista y Mapa): tu log, lo más nuevo primero, con búsqueda por
-indicativo, orden por cualquier columna (clic en su encabezado) y filtros arriba, como los de la
-lista: **Banda**, **Modo** (CW, fonía, digitales, FT8, FT4, RTTY), **País**, **Fecha** (desde y
+indicativo, orden por cualquier columna (clic en su encabezado) y filtros en la pestaña
+**Acciones** del panel lateral (que aparece solo en la vista Log), uno debajo del otro: **Banda**, **Modo** (CW, fonía, digitales, FT8, FT4, RTTY), **País**, **Fecha** (desde y
 hasta), **LoTW** (confirmados, la última bajada, subidos sin confirmar, sin subir), **Club Log**
 (subidos, a subir de nuevo, rechazados, sin subir) y **QSL papel** (recibida, enviada sin recibir,
 ninguna). Un clic elige una opción y otro clic la saca; cada una dice cuántos QSOs mostraría con
 los otros filtros como están (con 20m elegido, los modos dicen cuántos en 20m). El país se busca
 por su nombre (como lo escribe tu log, en inglés: "Spain") o por un prefijo (`LU`, `VP8`, `3Y`,
-`LU5`). **Limpiar filtros** los saca. La flecha al lado de Lista / Mapa / Log pliega la búsqueda y
-los filtros en una línea que dice lo elegido.
+`LU5`). **Limpiar filtros** los saca. Una tira de íconos a la derecha de la pestaña lleva a cada
+parte, con un punto en las que tienen un filtro puesto.
 
 Las columnas **LoTW** y **CL** dicen cómo está cada QSO: en LoTW, **✓** confirmado y **↑** subido;
 en Club Log, **↑** subido, **↻** a subir de nuevo (lo editaste) y **✗** rechazado (el motivo, con el
 mouse encima).
 
-Un clic en un QSO muestra su estación debajo del formulario; **✎**, un doble clic o **Editar este
+Un clic en un QSO muestra su estación en la pestaña Acciones; **✎**, un doble clic o **Editar este
 QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar. Un QSO borrado queda
 guardado aparte en el logbook, por si fue un error, y no se borra de LoTW, QRZ.com ni Club Log.
 
-**Subidas y bajadas**, arriba de la vista Log, cada una con cuántos QSOs van y un cuadro con su
-progreso. Cada botón aparece solo cuando su servicio está configurado:
+**Subidas y bajadas**, en la pestaña Acciones, cada una con cuántos QSOs van y un cuadro con su
+progreso debajo de los botones. Cada botón aparece solo cuando su servicio está configurado:
 
 - **Subir a LoTW:** DX Agent corre **TQSL**, que firma los QSOs con tu certificado y los sube.
   TQSL tiene que estar instalado, con tu certificado y una ubicación de estación (Station
