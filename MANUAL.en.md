@@ -1,6 +1,6 @@
 # DX Agent — User manual
 
-*Version 0.4.20 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
+*Version 0.4.21 · Made by Diego – LW5HR · Collaborators: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [Versión en castellano](MANUAL.es.md)*
 
 DX Agent watches the DX cluster and the Reverse Beacon Network (RBN), checks every station
 spotted against your log, and tells you when one you still need is on the air: a new country,
@@ -40,8 +40,8 @@ Contents:
     uploaded there;
   - or nothing yet, if you're starting from scratch: DX Agent creates a new log for you
     (section 3);
-  - or **DX Agent's logbook** (experimental): DX Agent keeps your log itself, uploads it to LoTW
-    and Club Log, and downloads your LoTW confirmations (section 13).
+  - or **DX Agent's logbook** (experimental): DX Agent keeps your log itself, uploads it to LoTW,
+    Club Log and QRZ.com, and downloads your LoTW and QRZ.com confirmations (section 13).
 - Optional: your **LoTW password**, so DX Agent knows what you have confirmed even when your
   logger isn't synced with LoTW.
 
@@ -206,11 +206,11 @@ and 30 minutes after the station's last spot there.
 alerts again at its next spot. **One station only:** the **✕** next to its call (it shows with the
 mouse on the row), or a right click on the row → **Remove from the list**.
 
-**Pin a station:** the **📌** next to the ✕ keeps it in the list on that band however long ago it
-was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent takes
-it out. It goes on top whatever the order, with its 📌 always in sight, and stays on the radio's
-panadapter too. It leaves when you work it on that band, with its ✕, or with another click on its
-📌.
+**Pin a station:** the **anchor** next to the ✕ keeps it in the list on that band however long ago
+it was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent
+takes it out. It goes on top whatever the order, with its anchor always in sight (in the skin's
+colour), and stays on the radio's panadapter too. It leaves when you work it on that band, with
+its ✕, or with another click on its anchor.
 
 **Sort by a column:** click a column's header to sort the list by it: by frequency, by band, by
 mode (CW, phone and digital together), by country... **Alert** and **What you need** put the
@@ -639,9 +639,12 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
 
 - **Each of your callsigns has its own logbook**, with every field of every QSO. They never mix
   (each uploads as its callsign); alerts, DXCC and WAZ still count them together.
-- **Import your logger's ADIF once:** Settings → Log → **Import ADIF…**. Only that callsign's QSOs
-  go in, and a QSO already there is skipped. A backup is made first, and one every day (the last
-  10, in `data\backups`).
+- **Import your logger's ADIF once:** Settings → Log → **Import ADIF…**, or **Import QSOs…** at
+  the top of the Log view (with All, you pick which callsign). Only that callsign's QSOs go in, and
+  a QSO already there is skipped. A backup is made first, and one every day (the last 10, in
+  `data\backups`).
+- **To go back to a backup**, import its `.zip` the same way: the QSOs that are missing come back
+  in.
 - **Backups in the cloud:** Settings → Log → **Backups** picks the folder (**Browse…**, or the
   **OneDrive**, **Google Drive** or **Dropbox** buttons if they're on your PC), how many hours apart
   and how many to keep. In a OneDrive, Google Drive or Dropbox folder, its program uploads them to
@@ -656,23 +659,36 @@ OmniRig or TCI; in split, where you transmitted and where you received). The dat
 the clock until you type them, so the QSO is logged at the time you save it. A call typed by hand
 shows its station once you stop typing. **Esc** in the call clears it, and what DX Agent filled for
 that station. **Log QSO** (there or in the Station tab) saves it and says what it adds to your log
-("new band"). The RST is filled for you: 59 on phone, 599 on CW.
+("new band"). The RST is filled for you: 59 on phone, 599 on CW. With more than one callsign,
+**Your call** picks which logbook it goes into. It also has **Name**, **QTH**, grid square,
+**References** (park, summit, island) and **Comment**; **Now** sets the date and time to this
+moment and **Clear** empties the form. Under it, the **earlier QSOs** with that station.
 
 **Callbooks:** name, QTH and grid square from **QRZ.com**, **HamQTH** or **QRZCQ**, with your own
 account on each (Settings → Log). **Ask first** picks the one asked first: HamQTH, say, if you have
 no QRZ.com subscription.
 
 **The Log view** (next to List and Map): your log, newest first, with a search by call, a sort by
-any column (click its header), and filters above it: band, mode (CW, phone, digital, FT8, FT4,
-RTTY), country, from and to dates, LoTW (confirmed, the last download, uploaded not confirmed, not
-uploaded), Club Log (uploaded, to upload again, rejected, not uploaded) and **QSL card**
-(received, sent not received, none). **Clear filters** takes them off. The chevron next to List /
-Map / Log folds the search and the filters to one line that says what is picked. A click on a QSO shows its station under the form; **✎**, a double click or **Edit this
-QSO** edits it (**Save changes**), **✕** deletes it once you confirm (it isn't deleted from LoTW or
-Club Log).
+any column (click its header), and filters above it, as the list's: **Band**, **Mode** (CW, phone,
+digital, FT8, FT4, RTTY), **Country**, **Date** (from and to), **LoTW** (confirmed, the last
+download, uploaded not confirmed, not uploaded), **Club Log** (uploaded, to upload again, rejected,
+not uploaded) and **QSL card** (received, sent not received, none). A click picks a choice and
+another click takes it off; each says how many QSOs it would show with the other filters as they
+are (with 20m picked, the modes say how many on 20m). The country is found by its name (as your log
+writes it: "Spain") or by a prefix (`LU`, `VP8`, `3Y`, `LU5`). **Clear filters** takes them off.
+The chevron next to List / Map / Log folds the search and the filters to one line that says what
+is picked.
+
+The **LoTW** and **CL** columns say where each QSO stands: in LoTW, **✓** confirmed and **↑**
+uploaded; in Club Log, **↑** uploaded, **↻** to upload again (you edited it) and **✗** rejected (the
+reason, with the mouse on it).
+
+A click on a QSO shows its station under the form; **✎**, a double click or **Edit this QSO** edits
+it (**Save changes**), **✕** deletes it once you confirm. A deleted QSO is kept aside in the
+logbook, in case it was a mistake, and it isn't deleted from LoTW, QRZ.com or Club Log.
 
 **Uploads and downloads**, at the top of the Log view, each with how many QSOs will go and a
-progress box:
+progress box. Each button shows only once its service is set up:
 
 - **Upload to LoTW:** DX Agent runs **TQSL**, which signs the QSOs with your certificate and uploads
   them. TQSL must be installed, with your certificate and a Station Location for each callsign
@@ -683,9 +699,17 @@ progress box:
 - **Upload to Club Log:** with your Club Log email and an **application password** (Club Log →
   Settings → App Passwords; not your Club Log password), in Settings → Log. A QSO Club Log rejects
   is marked **✗** with its reason.
+- **Upload to QRZ** and **Download from QRZ:** with each callsign's QRZ.com **Logbook API key**
+  (on QRZ.com → Logbook → its API key, in the form ABCD-0A0B-1C1D-2E2F), in Settings → Log;
+  **Test** says whether QRZ takes it. QRZ's Logbook API needs an active subscription on that
+  account. Upload sends the missing QSOs one at a time (QRZ's way: the first time, with a big log,
+  it takes a while), and Download brings what changed in QRZ since the last time.
 
-A QSO you edit after uploading it is marked to upload again. Uploading to QRZ.com isn't there
-yet. While the logbook is experimental, keep a copy of your log elsewhere too.
+A QSO you edit after uploading it is marked to upload again.
+
+**If you keep using another logger alongside** (Log4OM, say), turn off its automatic uploads to
+LoTW, Club Log and QRZ.com, so each QSO is uploaded by one program only. While the logbook is
+experimental, keep a copy of your log elsewhere too: the cloud backups are a good way.
 
 ## 14. Updating to a new version
 

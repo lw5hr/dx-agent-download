@@ -1,6 +1,6 @@
 # DX Agent — Manual de usuario
 
-*Versión 0.4.20 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
+*Versión 0.4.21 · Creado por Diego – LW5HR · Colaboradores: **Javi – LU5FF** (QA Product Advocate), Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW, Daniel – LU1HLH · [English version](MANUAL.en.md)*
 
 DX Agent vigila el DX cluster y la Reverse Beacon Network (RBN), compara cada estación
 reportada con tu log y te avisa cuando sale al aire una que todavía necesitás: un país nuevo,
@@ -40,8 +40,8 @@ Contenido:
   - o tu cuenta de **LoTW**, si no tenés un archivo ADIF: DX Agent baja de ahí todos los QSOs
     que subiste;
   - o nada todavía, si estás empezando de cero: DX Agent te crea un log nuevo (sección 3);
-  - o el **logbook de DX Agent** (experimental): DX Agent lleva tu log él mismo, lo sube a LoTW y
-    a Club Log, y baja tus confirmaciones de LoTW (sección 13).
+  - o el **logbook de DX Agent** (experimental): DX Agent lleva tu log él mismo, lo sube a LoTW,
+    Club Log y QRZ.com, y baja tus confirmaciones de LoTW y QRZ.com (sección 13).
 - Opcional: tu **contraseña de LoTW**, para que DX Agent sepa qué tenés confirmado aunque tu
   programa de log no esté sincronizado.
 
@@ -217,11 +217,11 @@ siga en el aire vuelve a avisar en su próximo spot. **Una sola estación:** la 
 indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la
 lista**.
 
-**Fijar una estación:** el **📌** al lado de la ✕ la deja en la lista en esa banda aunque haga
+**Fijar una estación:** el **ancla** al lado de la ✕ la deja en la lista en esa banda aunque haga
 mucho que no se spotea: no la saca **Quitar de la lista después de**, ni Limpiar lista, ni
-reiniciar DX Agent. Va arriba de todo con cualquier orden, con su 📌 siempre a la vista, y también
-queda en el panadaptador de la radio. Sale cuando la trabajás en esa banda, con su ✕, o con otro
-clic en su 📌.
+reiniciar DX Agent. Va arriba de todo con cualquier orden, con su ancla siempre a la vista (en el
+color del skin), y también queda en el panadaptador de la radio. Sale cuando la trabajás en esa
+banda, con su ✕, o con otro clic en su ancla.
 
 **Ordenar por una columna:** al hacer clic en el encabezado de una columna la lista se ordena por
 ella: por frecuencia, por banda, por modo (CW, fonía y digitales juntos), por país... **Alerta** y
@@ -675,9 +675,12 @@ en Configuración → **Log**.
 - **Cada uno de tus indicativos tiene su propio logbook**, con todos los campos de cada QSO. Nunca
   se mezclan (cada uno se sube como su indicativo); las alertas, el DXCC y el WAZ los siguen
   sumando juntos.
-- **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**.
-  Solo entran los QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y
-  uno por día (los últimos 10, en `data\backups`).
+- **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**, o
+  **Importar QSOs…** arriba de la vista Log (con Todos, elegís en qué indicativo). Solo entran los
+  QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y uno por día (los
+  últimos 10, en `data\backups`).
+- **Para volver a un backup**, importá su `.zip` de la misma forma: los QSOs que falten vuelven a
+  entrar.
 - **Backups en la nube:** Configuración → Log → **Backups** elige la carpeta (**Buscar…**, o los
   botones **OneDrive**, **Google Drive** o **Dropbox** si están en tu PC), cada cuántas horas y
   cuántos guardar. En una carpeta de OneDrive, Google Drive o Dropbox, su programa los sube a la
@@ -694,23 +697,36 @@ siguen al reloj hasta que las escribís, así el QSO queda con la hora en que lo
 indicativo escrito a mano muestra su estación cuando dejás de escribir. **Esc** en el indicativo lo
 borra, y con él lo que DX Agent había completado para esa estación. **Guardar QSO** (ahí o en la
 pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se completa solo: 59 en
-fonía, 599 en CW.
+fonía, 599 en CW. Si tenés más de un indicativo, **Tu indicativo** elige en qué logbook va. Además
+tiene **Nombre**, **QTH**, grid, **Referencias** (parque, cumbre, isla) y **Comentario**; **Ahora**
+pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Debajo se ven los **QSOs
+anteriores** con esa estación.
 
 **Callbooks:** nombre, QTH y grid desde **QRZ.com**, **HamQTH** o **QRZCQ**, con tu propia cuenta en
 cada uno (Configuración → Log). **Consultar primero** elige cuál se consulta primero: HamQTH, por
 ejemplo, si no tenés suscripción a QRZ.com.
 
 **La vista Log** (al lado de Lista y Mapa): tu log, lo más nuevo primero, con búsqueda por
-indicativo, orden por cualquier columna (clic en su encabezado) y filtros arriba: banda, modo (CW,
-fonía, digitales, FT8, FT4, RTTY), país, fechas desde y hasta, LoTW (confirmados, la última bajada,
-subidos sin confirmar, sin subir), Club Log (subidos, a subir de nuevo, rechazados, sin subir) y
-**QSL papel** (recibida, enviada sin recibir, ninguna). **Limpiar filtros** los saca. La flecha al
-lado de Lista / Mapa / Log pliega la búsqueda y los filtros en una línea que dice lo elegido. Un clic en un QSO muestra su estación debajo del formulario; **✎**, un
-doble clic o **Editar este QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar
-(no se borra de LoTW ni de Club Log).
+indicativo, orden por cualquier columna (clic en su encabezado) y filtros arriba, como los de la
+lista: **Banda**, **Modo** (CW, fonía, digitales, FT8, FT4, RTTY), **País**, **Fecha** (desde y
+hasta), **LoTW** (confirmados, la última bajada, subidos sin confirmar, sin subir), **Club Log**
+(subidos, a subir de nuevo, rechazados, sin subir) y **QSL papel** (recibida, enviada sin recibir,
+ninguna). Un clic elige una opción y otro clic la saca; cada una dice cuántos QSOs mostraría con
+los otros filtros como están (con 20m elegido, los modos dicen cuántos en 20m). El país se busca
+por su nombre (como lo escribe tu log, en inglés: "Spain") o por un prefijo (`LU`, `VP8`, `3Y`,
+`LU5`). **Limpiar filtros** los saca. La flecha al lado de Lista / Mapa / Log pliega la búsqueda y
+los filtros en una línea que dice lo elegido.
+
+Las columnas **LoTW** y **CL** dicen cómo está cada QSO: en LoTW, **✓** confirmado y **↑** subido;
+en Club Log, **↑** subido, **↻** a subir de nuevo (lo editaste) y **✗** rechazado (el motivo, con el
+mouse encima).
+
+Un clic en un QSO muestra su estación debajo del formulario; **✎**, un doble clic o **Editar este
+QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar. Un QSO borrado queda
+guardado aparte en el logbook, por si fue un error, y no se borra de LoTW, QRZ.com ni Club Log.
 
 **Subidas y bajadas**, arriba de la vista Log, cada una con cuántos QSOs van y un cuadro con su
-progreso:
+progreso. Cada botón aparece solo cuando su servicio está configurado:
 
 - **Subir a LoTW:** DX Agent corre **TQSL**, que firma los QSOs con tu certificado y los sube.
   TQSL tiene que estar instalado, con tu certificado y una ubicación de estación (Station
@@ -722,10 +738,18 @@ progreso:
 - **Subir a Club Log:** con tu email de Club Log y una **contraseña de aplicación** (Club Log →
   Settings → App Passwords; no tu contraseña de Club Log), en Configuración → Log. Un QSO que Club
   Log rechaza queda marcado con **✗** y el motivo.
+- **Subir a QRZ** y **Bajar de QRZ:** con la **clave de la API del logbook** de QRZ.com de cada
+  indicativo (en QRZ.com → Logbook → la clave de la API, de la forma ABCD-0A0B-1C1D-2E2F), en
+  Configuración → Log; **Probar** dice si QRZ la acepta. La API del logbook de QRZ necesita una
+  suscripción activa en esa cuenta. Subir manda los QSOs que faltan de a uno (así lo pide QRZ: la
+  primera vez, con un log grande, tarda), y Bajar trae lo que cambió en QRZ desde la última vez.
 
-Un QSO que editás después de subirlo queda marcado para subir de nuevo. La subida a QRZ.com
-todavía no está. Mientras el logbook sea experimental, guardá una copia de tu log en otro lado
-también.
+Un QSO que editás después de subirlo queda marcado para subir de nuevo.
+
+**Si seguís usando otro programa de log a la par** (Log4OM, por ejemplo), apagá en él la subida
+automática a LoTW, Club Log y QRZ.com, así cada QSO lo sube uno solo. Mientras el logbook sea
+experimental, guardá una copia de tu log en otro lado también: los backups en la nube son una
+buena forma.
 
 ## 14. Actualizar a una versión nueva
 
