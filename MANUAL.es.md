@@ -315,7 +315,13 @@ y, con el logbook de DX Agent, tu log (sección 13).
 | **MARATHON** | Un país o una zona CQ que todavía no trabajaste en el CQ DX Marathon (sección 11) | activada, si seguís el Marathon |
 | **TE ESCUCHAN** | Spotearon tu propio indicativo, en cualquier banda y modo, en el cluster, la RBN o, con PSKReporter en vivo, un receptor de PSKReporter: la fila va resaltada en rosa y dice a qué distancia y en qué país está el receptor ("te escuchan a 8.912 km, en United States"). Al hacer clic se ven todos los receptores que te escucharon, también en el mapa | activada |
 | **50 MHz**, **144 MHz** | 6 m o 2 m abiertos a tu alrededor (ver Aperturas en VHF, más abajo); resaltada en verde | desactivada |
+| **SU HORA** | Al empezar cada hora UTC, un país que te falta y que suele escucharse cerca tuyo a esa hora (ver Ventanas, más abajo) | activada |
 
+- **Avisos arriba a la derecha:** las alertas de tu nivel de notificación (Configuración →
+  Notificaciones de Windows; de fábrica, solo ATNO), toda apertura en VHF, un ducto en 2 m y una
+  DXpedición que sale al aire aparecen también arriba a la derecha del panel, uno debajo del otro.
+  Cada uno queda 2 minutos (no mientras tenés el mouse encima), con su ✕ y **Cerrar todos**; un clic
+  te lleva a la fila de la alerta, con el panel de su estación abierto.
 - **Qué te falta** dice exactamente qué te suma la estación: "banda nueva", "17m DIGI nunca
   trabajado", "grid EN52 nunca trabajado en 6m", "país no confirmado", o "ya lo tenés".
 - **Confirmado** es LoTW o QSL en papel, como en el DXCC de la ARRL (eQSL no cuenta). Solo
@@ -409,6 +415,41 @@ fila la sigue y dice "cerrada" cuando dejan de llegar reportes. La pastilla **VH
 aperturas abiertas ahora. Todos los números (cuántas estaciones, a qué distancia, por cuánto
 tiempo) se pueden configurar.
 
+- **Qué es probablemente:** cada fila empieza con su tipo: Es, Es multisalto, F2, TEP (de la noche
+  o de la tarde), tropo, aurora o meteor scatter, según la banda, la distancia, si el camino cruza
+  el ecuador geomagnético, el Kp y las manchas solares del mes. Es solo una etiqueta: no decide si
+  avisa.
+- **Clima espacial:** la pastilla **VHF** muestra el Kp, el índice A y el flujo solar de NOAA, con
+  el Kp en rojo durante una tormenta (Kp 5 o más). **☄ MS** parpadea en los dos días alrededor del
+  pico de una de las diez lluvias de meteoros principales.
+- **Una fila sale de la lista** 45 minutos después de su último reporte (una de tropo, 60), y
+  mientras tanto se va apagando; una anclada se queda.
+- **En el mapa:** los últimos caminos de cada apertura en su color, los puntos donde rebota la Es
+  agrupados en nubes, y la tropo como un pasillo ancho.
+- **Tropo en 2 m por el pronóstico** (se activa aparte): una vez por hora, el pronóstico de
+  Open-Meteo para tu QTH y 24 puntos alrededor dice dónde hay un ducto antes de que se escuche la
+  banda. Un ducto sobre vos, o en dos puntos de un mismo rumbo, avisa una vez (notificación de
+  Windows, sonido y aviso en el panel) y la pastilla muestra **≋ TROPO**; en un solo punto es
+  posible, **≋ TROPO?** en amarillo, sin sonido. Uno pegado al suelo y fino (sobre el mar a la
+  tarde) no sirve para 2 m: se muestra y no avisa. Con la pastilla **VHF** activa, el mapa muestra
+  los puntos y una línea desde tu QTH hasta cada ducto ("NE 400 km").
+
+### Ventanas: cuándo se escucha cada país que te falta
+
+La pestaña **Ventanas** cuenta, por hora UTC, banda y modo, en cuántos días se escuchó cerca tuyo
+cada país que todavía te falta: los spots del cluster, la RBN, PSKReporter y tu WSJT-X escuchados
+dentro de tu distancia "cerca tuyo".
+
+- **Una fila por país,** con sus 24 horas como una línea de barras y su puesto en el **Most Wanted**
+  de Club Log. **Orden:** A–Z, Most Wanted o Esta hora. Un país con un spot en los últimos 15 minutos
+  va en verde.
+- **Un clic en un país** muestra cada banda y modo hora por hora: lleno donde se escuchó, tenue
+  donde VOACAP lo predice.
+- **La alerta SU HORA:** al empezar cada hora UTC, el país que te falta que más se escucha a esa
+  hora, si se escuchó en 2 días o más (y en los últimos 45). Hacen falta unos días de conteo; hasta
+  entonces, filtrar por SU HORA dice por qué la lista está vacía. Se configura en Configuración →
+  Ventanas.
+
 ## 6. Sintonizar la radio y pasar el indicativo al logger
 
 Con una radio configurada (Configuración → **Radio (botón Sintonizar)**), al hacer clic en
@@ -419,11 +460,11 @@ derecha dice si funcionó.
 | Programa | Qué hay que hacer en el programa | ¿Cambia el modo? |
 |----------|----------------------------------|------------------|
 | **Log4OM 2** | Settings → Software integration → Connections → activar **Remote control** (puerto 2241) | sí, si Log4OM usa OmniRig |
-| **N1MM Logger+** | nada | no |
-| **DXLog.net** | Options → Configure network: agregar el puerto `13064` al **UDP broadcast listener**; Options → Broadcast → **Receive broadcasts** | no |
+| **N1MM Logger+** | no sintoniza (ver abajo) | — |
+| **DXLog.net** | no sintoniza (ver abajo) | — |
 | **OmniRig** | elegir en DX Agent la radio 1 o 2 de OmniRig | sí |
 | **Hamlib (rigctld)**, la opción para empezar | que rigctld esté corriendo, o que lo arranque DX Agent (abajo) | sí |
-| **flrig**, **DXLab Commander** | que el programa esté abierto | sí |
+| **flrig**, **DXLab Commander** | no sintonizan (ver abajo) | — |
 | **TCI** (AetherSDR para FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (o **Enable** en su applet TCI, puerto 50001) | sí |
 
 - **Hamlib, la opción para empezar.** Sintoniza, cambia el modo y el split, y lee la radio para la
@@ -431,7 +472,8 @@ derecha dice si funcionó.
   - **Su `rigctld` tiene que estar corriendo.** Marcá **Iniciar rigctld con DX Agent** y escribí sus
     argumentos: el modelo de tu radio, su puerto COM y su velocidad, por ejemplo
     `-m 3068 -r COM7 -s 19200` para un IC-9100 (`rigctl -l` lista los modelos). DX Agent arranca
-    rigctld junto con él y lo cierra cuando se detiene.
+    rigctld junto con él y lo cierra cuando se detiene, y le agrega `-C cache_timeout=0` para leer
+    el PTT de la radio (si arrancás rigctld vos, agregalo a sus argumentos).
   - **Un puerto COM lo abre un programa por vez**, así que esa radio no puede estar también en
     OmniRig.
 - **Dos radios.** Configuración → Radio tiene una **Radio 2** debajo de la Radio 1, con su propio
@@ -443,6 +485,12 @@ derecha dice si funcionó.
     pestaña Estación tiene un botón Sintonizar para cada radio.
   - **Las dos en N1MM o DXLog.net (SO2R):** cada radio recibe su propio número de radio.
 
+- **Nunca mientras transmitís.** Antes de cada cambio de frecuencia, banda, modo o VFO, DX Agent
+  comprueba que la radio esté en recepción; si está transmitiendo, o el programa no puede decirlo,
+  no la mueve. Por eso **N1MM, DXLog.net, flrig y DXLab Commander ya no sintonizan**: su conexión
+  no dice si la radio transmite (los QSOs de esos loggers siguen llegando). Con Log4OM, la
+  frecuencia y el modo van por OmniRig; sin OmniRig no sintoniza. No es un enclavamiento absoluto:
+  la transmisión puede empezar entre la comprobación y el comando.
 - **Con Log4OM, además de la frecuencia se completa el indicativo** en su ventana de QSO,
   listo para loguear. Si ya escribiste un indicativo a mano ahí, Log4OM no lo reemplaza.
 - **Con Log4OM, el modo** cambia por OmniRig, el programa con el que Log4OM maneja la radio:
@@ -470,11 +518,13 @@ derecha dice si funcionó.
   Sintonizar se conecta en el momento. Está probado con la radio de demostración de AetherSDR; si
   lo usás con una Flex, contanos cómo te fue en el
   [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
-- **Split (TCI):** cuando los spots de una estación dicen dónde escucha (**UP 5**, **UP 1-3**,
-  **QSX 14.205**...), Sintonizar pone la radio en split: AetherSDR abre un segundo slice que
-  transmite ahí, y el mensaje lo dice ("split: TX 14026.0 kHz"). **UP** solo sube 1 kHz en CW y
-  RTTY, 5 en fonía (se puede cambiar). Sintonizar una estación sin split lo termina. No en FT8 ni
-  FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de fábrica.
+- **Split:** cuando los spots de una estación dicen dónde escucha (**UP 5**, **UP 1-3**,
+  **QSX 14.205**...), Sintonizar pone la radio en split, y el mensaje lo dice ("split: TX 14026.0
+  kHz"): AetherSDR abre un segundo slice que transmite ahí (TCI); por OmniRig y Hamlib, la
+  frecuencia de la estación va al VFO B. **UP** solo sube 1 kHz en CW y RTTY, 5 en fonía (se puede
+  cambiar). Sintonizar una estación sin split lo termina, lo haya puesto quien sea (también WSJT-X
+  o vos). No en FT8 ni FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de
+  fábrica.
 - **No mientras transmitís (TCI):** un Sintonizar con la radio en el aire no la mueve, ni le da
   a WSJT-X un indicativo nuevo. Configuración → Radio → **Mientras transmitís**: no sintonizar (de
   fábrica), sintonizar cuando termina la transmisión, o sintonizar igual. DX Agent nunca pone la
@@ -707,6 +757,10 @@ en Configuración → **Log**.
 - **Los QSOs nuevos** llegan por UDP desde tus programas, como antes (WSJT-X, N1MM, Log4OM...
   sección 7), con DXCC, país, zonas y continente agregados, o desde el formulario arriba de la
   **vista Log**.
+- **Log rápido, en la vista Lista:** debajo de los filtros, un formulario plegable para guardar un
+  QSO sin ir a la vista Log: indicativo, fecha y hora, kHz, modo y RST. Se llena con la estación que
+  elegís y la radio, con 599 o 59 según el modo. Lo que dice al guardar va debajo, en una pastilla
+  verde (o roja si no se guardó), con su ✕; la verde se va sola a los 20 s.
 
 **El formulario del QSO**, arriba de la vista Log: se llena solo cuando elegís una estación en la
 lista o en el mapa (el indicativo, su grid, el parque o la cumbre), con la frecuencia y el modo en
@@ -730,8 +784,12 @@ slice.
 - **Por TCI y Hamlib, un S-meter** va debajo de la frecuencia.
 - **El otro VFO**, o los otros slices de AetherSDR, van debajo, uno por línea.
 - **Un clic en el renglón del otro VFO pasa la radio a ese VFO**, por Hamlib, o por OmniRig si el
-  archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, ese renglón muestra
-  dónde quedó el VFO la última vez que la radio estuvo en él.
+  archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, DX Agent lee los dos
+  VFOs una vez al conectarse (un parpadeo en la pantalla de la radio), y después ese renglón
+  muestra dónde quedó el VFO la última vez que la radio estuvo en él.
+- **La banda y el modo son listas que los cambian en la radio.** Una banda la lleva a donde estuvo
+  la última vez en ella, en el modo que tenía; la primera vez, a CW, SSB o FT8 según el modo en que
+  está. Un modo (CW, LSB, USB, DATA, RTTY) deja la frecuencia como está.
 - **Con dos radios** van una al lado de la otra, con el nombre de la activa en color; un clic en la
   otra la hace la activa.
 

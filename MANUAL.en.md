@@ -297,7 +297,13 @@ and, with DX Agent's logbook, your log (section 13).
 | **MARATHON** | A country or CQ zone you haven't worked yet in the CQ DX Marathon (section 11) | on, while you follow the Marathon |
 | **YOU'RE HEARD** | Your own call spotted, on any band and mode, by the cluster, the RBN or, with PSKReporter live, a PSKReporter receiver: the row is highlighted in pink and says how far away and in which country the receiver is ("heard 8,912 km away, in United States"). Click it for every receiver that heard you, on the map too | on |
 | **50 MHz**, **144 MHz** | 6 m or 2 m open around you (see VHF openings, below); highlighted in green | off |
+| **ITS HOUR** | At the top of each UTC hour, a country you need that is usually heard near you at that hour (see Ventanas, below) | on |
 
+- **Notices at the top right:** the alerts at your pop-up level (Settings → Windows pop-ups; by
+  default ATNO only), every VHF opening, a 2 m duct and a DXpedition coming on the air also show at
+  the top right of the dashboard, one under the other. Each stays 2 minutes (not while the mouse is
+  on it), with its ✕ and **Close all**; a click takes you to the alert's row, its station's panel
+  open.
 - **What you need** says exactly what the station adds: "new band", "17m DIGI never worked",
   "grid EN52 never worked on 6m", "entity not confirmed", or "have it".
 - **Confirmed** means LoTW or paper QSL, as in the ARRL's DXCC (eQSL doesn't count). Only the
@@ -384,6 +390,39 @@ What you need says it ("open to Japan: 3 near you hear 2"). An opening alerts on
 follows it and says "closed" when the reports stop. The **VHF** pill counts the openings open now.
 Every number (how many stations, how far, for how long) is a setting.
 
+- **What it probably is:** each row starts with its kind: Es, multi-hop Es, F2, TEP (evening or
+  afternoon), tropo, aurora or meteor scatter, by the band, the distance, whether the path crosses
+  the geomagnetic equator, the Kp and the month's sunspots. A label only: it doesn't decide whether
+  it alerts.
+- **Space weather:** the **VHF** pill shows NOAA's Kp, A index and solar flux, the Kp in red during
+  a storm (Kp 5 or more). **☄ MS** blinks within two days of one of the ten main meteor showers'
+  peak.
+- **A row leaves the list** 45 minutes after its last report (a tropo one, 60), fading meanwhile; a
+  pinned one stays.
+- **On the map:** each opening's latest paths in its colour, the points where the Es bounces grouped
+  into clouds, and tropo as a wide corridor.
+- **2 m tropo from the forecast** (turned on by itself): once an hour, Open-Meteo's forecast for
+  your QTH and 24 points around it says where there is a duct before the band is heard. A duct over
+  you, or at two points of one bearing, alerts once (a Windows pop-up, the sound and a notice) and
+  the pill shows **≋ TROPO**; at one point only it is a possible one, **≋ TROPO?** in yellow, with
+  no sound. One against the ground and thin (over the sea in the afternoon) is no use on 2 m: shown,
+  never told. With the **VHF** pill on, the map shows the points and a line from your QTH to each
+  duct ("NE 400 km").
+
+### Ventanas: when each country you need is heard
+
+The **Ventanas** tab counts, by UTC hour, band and mode, on how many days each country you still
+need was heard near you: the spots from the cluster, the RBN, PSKReporter and your WSJT-X heard within
+your "near you" distance.
+
+- **One row per country,** with its 24 hours as a line of bars and its Club Log **Most Wanted** rank.
+  **Order:** A–Z, Most Wanted or This hour. A country with a spot in the last 15 minutes is green.
+- **Click a country** for every band and mode hour by hour: solid where it was heard, faint where
+  VOACAP predicts it.
+- **The ITS HOUR alert:** at the top of each UTC hour, the country you need that is heard the most at
+  that hour, if it was heard on 2 days or more (within the last 45). It takes a few days of counting;
+  until then, filtering by ITS HOUR says why the list is empty. Set up in Settings → Ventanas.
+
 ## 6. Tune the radio and pass the call to your logger
 
 With a radio set up (Settings → **Radio (Tune button)**), clicking an alert's **frequency** has
@@ -393,11 +432,11 @@ has a **Tune** button. A message at the top right says whether it worked.
 | Program | What to do in the program | Mode too? |
 |---------|---------------------------|-----------|
 | **Log4OM 2** | Settings → Software integration → Connections → turn on **Remote control** (port 2241) | yes, when Log4OM uses OmniRig |
-| **N1MM Logger+** | nothing | no |
-| **DXLog.net** | Options → Configure network: add port `13064` to the **UDP broadcast listener**; Options → Broadcast → **Receive broadcasts** | no |
+| **N1MM Logger+** | doesn't tune (see below) | — |
+| **DXLog.net** | doesn't tune (see below) | — |
 | **OmniRig** | pick OmniRig's rig 1 or 2 in DX Agent | yes |
 | **Hamlib (rigctld)**, the one to start with | have rigctld running, or let DX Agent start it (below) | yes |
-| **flrig**, **DXLab Commander** | have the program running | yes |
+| **flrig**, **DXLab Commander** | don't tune (see below) | — |
 | **TCI** (AetherSDR for FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (or **Enable** in its TCI applet, port 50001) | yes |
 
 - **Hamlib, the one to start with.** It tunes, sets the mode and the split, and reads the radio
@@ -405,7 +444,8 @@ has a **Tune** button. A message at the top right says whether it worked.
   - **Its `rigctld` must be running.** Tick **Start rigctld with DX Agent** and type its arguments:
     your radio's model, its COM port and its speed, for example `-m 3068 -r COM7 -s 19200` for an
     IC-9100 (`rigctl -l` lists the models). DX Agent starts rigctld with itself and closes it when it
-    stops.
+    stops, and adds `-C cache_timeout=0` so the PTT is read from the radio (if you start rigctld
+    yourself, add it to its arguments).
   - **A COM port takes one program at a time**, so that radio can't be on OmniRig as well.
 - **Two radios.** Settings → Radio has a **Radio 2** under Radio 1, with its own program, address
   and name.
@@ -441,11 +481,18 @@ has a **Tune** button. A message at the top right says whether it worked.
   panadapter. If you open AetherSDR after DX Agent, Tune connects right then. Tested with
   AetherSDR's demo radio; if you use it with a Flex, tell us how it went in
   [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
-- **Split (TCI):** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
-  14.205**...), Tune puts the radio in split: AetherSDR opens a second slice that transmits there,
-  and the message says it ("split: TX 14026.0 kHz"). **UP** alone goes up 1 kHz on CW and RTTY, 5
-  on phone (you can change it). The next Tune to a station without split ends it. Not on FT8 and
-  FT4. Settings → Radio → **Split when the spot says so**, on by default.
+- **Never while you transmit.** Before each change of frequency, band, mode or VFO, DX Agent checks
+  that the radio is receiving; if it transmits, or the program can't say, it doesn't move it. So
+  **N1MM, DXLog.net, flrig and DXLab Commander no longer tune**: their connection doesn't say
+  whether the radio transmits (QSOs from those loggers still come in). With Log4OM, frequency and
+  mode go through OmniRig; without OmniRig it doesn't tune. It isn't an absolute interlock:
+  transmission can start between the check and the command.
+- **Split:** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
+  14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
+  AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, the
+  station's frequency goes to VFO B. **UP** alone goes up 1 kHz on CW and RTTY, 5 on phone (you can
+  change it). The next Tune to a station without split ends it, whoever set it (WSJT-X or you too).
+  Not on FT8 and FT4. Settings → Radio → **Split when the spot says so**, on by default.
 - **Not while transmitting (TCI):** a Tune while the radio is on the air doesn't move it, nor
   give WSJT-X a new call. Settings → Radio → **While transmitting**: don't tune (the default), tune
   when the transmission ends, or tune anyway. DX Agent never keys the radio.
@@ -668,6 +715,10 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
   connected), the backup goes to `data\backups`.
 - **New QSOs** come in over UDP from your programs, as before (WSJT-X, N1MM, Log4OM... section 7),
   with DXCC, country, zones and continent added, or from the form at the top of the **Log view**.
+- **Quick log, in the List view:** under the filters, a folding form to log a QSO without going to
+  the Log view: call, date and time, kHz, mode and RST. It fills from the station you pick and the
+  radio, with 599 or 59 by mode. What it says when you log goes under it in a pill, green (red when
+  it wasn't logged), with its ✕; a green one goes by itself after 20 s.
 
 **The QSO form**, at the top of the Log view: it fills itself when you pick a station in the list or
 on the map (the call, its grid square, the park or summit), with the frequency and mode your radio
@@ -690,8 +741,12 @@ country).
 - **On TCI and Hamlib, an S-meter** shows under the frequency.
 - **The other VFO**, or AetherSDR's other slices, show under it, one line each.
 - **A click on the other VFO's line puts the radio on it**, through Hamlib, or OmniRig where the
-  radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, that line shows where
-  the VFO was the last time the radio was on it.
+  radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, DX Agent reads both
+  VFOs once when it connects (a blink on the radio's display), and then that line shows where the
+  VFO was the last time the radio was on it.
+- **The band and the mode are lists that change them on the radio.** A band takes it back where it
+  last was on it, in its mode then; the first time, to CW, SSB or FT8 by the mode it is in. A mode
+  (CW, LSB, USB, DATA, RTTY) keeps the frequency.
 - **With two radios** they show side by side, with the active one's name in colour; a click on the
   other one makes it the active one.
 
