@@ -24,6 +24,7 @@ Nothing to install: Python comes inside.
   radio, your logger, DXpeditions, POTA/SOTA, the map, the CQ DX Marathon, LoTW, the logbook.
 - [Technical documentation](docs/DOCUMENTATION.md) — every setting and how it works inside.
 - Problems or ideas: [Issues](https://github.com/lw5hr/dx-agent-download/issues).
+- Questions and conversations: [GitHub Discussions](https://github.com/lw5hr/dx-agent-download/discussions).
 - Page for sharing: **https://lw5hr.github.io/dx-agent-download/** (and [/es/](https://lw5hr.github.io/dx-agent-download/es/) in Spanish) — screenshots and the answers to the usual questions, to send someone instead of the whole README.
 
 What it does:
@@ -75,6 +76,7 @@ clic en `start-dx-agent.command`. No hay nada que instalar: trae Python adentro.
 - [Documentación técnica](docs/DOCUMENTACION.md) — todas las opciones y cómo funciona por
   dentro.
 - Problemas o ideas: [Issues](https://github.com/lw5hr/dx-agent-download/issues).
+- Preguntas y conversaciones: [Discussions de GitHub](https://github.com/lw5hr/dx-agent-download/discussions).
 
 ---
 
@@ -83,4 +85,6 @@ Made by / Creado por Diego – LW5HR · Collaborators / Colaboradores: **Javi �
 Free software, [MIT License](LICENSE) / Software libre, licencia MIT.
 
 Support DX Agent / Apoyá DX Agent:
-[Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1)
+[Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) ·
+[Cafecito](https://cafecito.app/lw5hr) (also with crypto / también con cripto) ·
+[Wise](https://wise.com/pay/me/diegod2572) (card or bank transfer / tarjeta o transferencia)
