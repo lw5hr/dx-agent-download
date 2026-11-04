@@ -521,8 +521,9 @@ tiempo) se pueden configurar.
   pico de una de las diez lluvias de meteoros principales.
 - **Una fila sale de la lista** 45 minutos después de su último reporte (una de tropo, 60), y
   mientras tanto se va apagando; una anclada se queda.
-- **En el mapa:** los últimos caminos de cada apertura en su color, los puntos donde rebota la Es
-  agrupados en nubes, y la tropo como un pasillo ancho.
+- **En el mapa**, con el filtro **50-144 MHz** o la pastilla **VHF** activados: los últimos caminos
+  de cada apertura en su color, los puntos donde rebota la Es agrupados en nubes, y la tropo como un
+  pasillo ancho. Sin ninguno de los dos no se dibujan, para no tapar el mapa del DX.
 - **Tropo en 2 m por el pronóstico** (se activa aparte): una vez por hora, el pronóstico de
   Open-Meteo para tu QTH y 24 puntos alrededor dice dónde hay un ducto antes de que se escuche la
   banda. Un ducto sobre vos, o en dos puntos de un mismo rumbo, avisa una vez (notificación de
@@ -618,7 +619,7 @@ derecha dice si funcionó.
 - **Split:** cuando los spots de una estación dicen dónde escucha (**UP 5**, **UP 1-3**,
   **QSX 14.205**...), Sintonizar pone la radio en split, y el mensaje lo dice ("split: TX 14026.0
   kHz"): AetherSDR abre un segundo slice que transmite ahí (TCI); por OmniRig y Hamlib, la
-  frecuencia de la estación va al VFO B. **UP** solo sube 1 kHz en CW y RTTY, 5 en fonía (se puede
+  frecuencia donde escucha la estación va al VFO B, y la radio queda escuchando en el VFO A. **UP** solo sube 1 kHz en CW y RTTY, 5 en fonía (se puede
   cambiar). Sintonizar una estación sin split lo termina, lo haya puesto quien sea (también WSJT-X
   o vos). No en FT8 ni FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de
   fábrica.

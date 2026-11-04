@@ -494,8 +494,9 @@ Every number (how many stations, how far, for how long) is a setting.
   peak.
 - **A row leaves the list** 45 minutes after its last report (a tropo one, 60), fading meanwhile; a
   pinned one stays.
-- **On the map:** each opening's latest paths in its colour, the points where the Es bounces grouped
-  into clouds, and tropo as a wide corridor.
+- **On the map**, with the **50-144 MHz** filter or the **VHF** pill on: each opening's latest paths
+  in its colour, the points where the Es bounces grouped into clouds, and tropo as a wide corridor.
+  Without either they aren't drawn, so they don't cover the DX map.
 - **2 m tropo from the forecast** (turned on by itself): once an hour, Open-Meteo's forecast for
   your QTH and 24 points around it says where there is a duct before the band is heard. A duct over
   you, or at two points of one bearing, alerts once (a Windows pop-up, the sound and a notice) and
@@ -584,8 +585,8 @@ has a **Tune** button. A message at the top right says whether it worked.
   transmission can start between the check and the command.
 - **Split:** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
   14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
-  AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, the
-  station's frequency goes to VFO B. **UP** alone goes up 1 kHz on CW and RTTY, 5 on phone (you can
+  AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, where the
+  station listens goes to VFO B, and the radio keeps listening on VFO A. **UP** alone goes up 1 kHz on CW and RTTY, 5 on phone (you can
   change it). The next Tune to a station without split ends it, whoever set it (WSJT-X or you too).
   Not on FT8 and FT4. Settings → Radio → **Split when the spot says so**, on by default.
 - **Not while transmitting (TCI):** a Tune while the radio is on the air doesn't move it, nor
