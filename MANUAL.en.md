@@ -331,13 +331,14 @@ and, with DX Agent's logbook, your log (section 13).
 - An alert can be of several types: a NEW BAND that is a new grid square too shows under the
   **NEW GRID** filter, and with that filter picked the row says NEW GRID.
 - Settings → Alerts also has **Keep only the latest row of each station** (same call,
-  frequency and mode) and **Take out of the list after** N minutes without a spot (0 = never):
+  band and mode, within 3 kHz) and **Take out of the list after** N minutes without a spot (0 = never):
   both off by default.
 - The list keeps the last 500 alerts. When it's full, NEW CALL ones leave first; the others
   stay at least an hour.
 - When you work the station, its alerts in the list change by themselves: a NEW SLOT you worked
-  isn't one any more (nor under that filter), a DXpedition becomes DXPED CFM or DXPED HAVE, and an
-  alert that adds nothing now shows as **WORKED**, in grey.
+  isn't one any more (nor under that filter), and an alert that adds nothing now shows as
+  **WORKED**, in grey. A DXpedition too: worked on that band and mode it shows as WORKED; on
+  another band or mode it still alerts.
 - **Windows pop-ups** are shown for ATNO only by default; in Settings you can turn them on for
   more types. Clicking one opens the dashboard at that station.
 
@@ -356,6 +357,95 @@ and a **PSKReporter** pill in the header shows the connection. It needs your gri
 alerts as soon as a PSKReporter receiver near you reports it on that band. Your own calls are
 followed too: each receiver that reports you is a **YOU'RE HEARD** row, with its SNR and distance.
 
+### How DX Agent decides to alert
+
+A spot goes through two sets of filters. DX Agent's decide whether it **is** an alert: if it
+doesn't pass them, there is no row, no pop-up and no sound. The dashboard's only decide which
+alerts you **see** in the list and on the map: what they hide is kept, and shows as soon as you
+change the filter. That is why the Windows pop-up doesn't depend on the dashboard's filters, and
+the sound and the notice at the top right do.
+
+![Figure 1: from the spot to the screen](images/alerts-flow.en.svg)
+
+*Figure 1: from the spot to the screen.* Ventanas (ITS HOUR) and the VHF openings don't go through
+the gates: each has settings of its own (below). PSKReporter makes no alerts by itself. It tells
+whether a station is heard near you, and confirms what only one skimmer heard.
+
+**The gates.** Every spot goes through these questions, in this order. At the first one it doesn't
+pass, there is no alert. Only your own call skips the others.
+
+![Figure 2: the gates, when a spot is an alert](images/alerts-gates.en.svg)
+
+*Figure 2: the gates.* In grey, the spot is dropped. In amber, it waits for another receiver to
+confirm it:
+
+- **Heard by one skimmer only** (with **RBN alerts: wait for a second skimmer** on): it alerts
+  when another skimmer, or someone on the cluster or PSKReporter, hears it within 10 minutes. An
+  active DXpedition doesn't wait. Off, it alerts at once, marked **?**.
+- **Heard only far away** (with **Only alert when heard near you**): it alerts with the next spot
+  from someone near you. On digital, with PSKReporter live, it alerts as soon as a receiver near
+  you reports it.
+
+A DXpedition you already have confirmed on that band and mode only alerts (DXPED HAVE, in grey)
+with **DXpeditions you already have: Still show them**. Each gate shows its key in `config.toml`;
+the table at the end says where to change it in Settings.
+
+**The same alert.** For **Don't repeat for** (15 minutes by default), an alert isn't repeated.
+What counts as "the same" depends on why it alerted:
+
+| It alerted for | It is the same when these match |
+|----------------|---------------------------------|
+| ATNO, NEW BAND, NEW MODE, NEW SLOT | The country, band and mode: one US station on 20 m CW is enough, the second doesn't sound |
+| DXPED, WATCHLIST, NEW CALL, YOU'RE HEARD, ITS HOUR | The call, band and mode |
+| NEW GRID, NEW PREFIX | The grid square or prefix, and the band |
+| MARATHON | The country or CQ zone, band and mode |
+
+If it alerted for several reasons at once, it keeps quiet only while all of them are within that
+time. **Clear list** forgets what alerted too: what is still on the air alerts again at its next
+spot.
+
+**The dashboard's filters.** An alert that reaches the dashboard shows if it passes every filter
+picked, all at once:
+
+![Figure 3: the dashboard's filters](images/alerts-page.en.svg)
+
+*Figure 3: the dashboard's filters.* An alert from before DX Agent was opened again is listed, but
+with no sound or notice. The map uses the same filters as the list: one marker per station.
+
+| Filter | What it shows |
+|--------|---------------|
+| **Band**, **Mode** | Those bands and modes (CW, phone, digital) |
+| **Alert type** (ATNO, NEW BAND…) | Those types. Only the ones ticked in **Alert me for** appear. WATCHLIST with another type: the calls you follow that are that type too |
+| **50-144 MHz** | The VHF openings, and their paths on the map |
+| **Search** | A call or a country, also by its name in the dashboard's language ("Estados Unidos", "Japon", accents or not) |
+| **Only** *call* | One station; TF/X and X/TF count as the same |
+| **Continent** | The stations on that continent |
+| **Activity** | Activations: POTA, SOTA, WWFF, IOTA… |
+| **Hide confirmed** | What you don't have confirmed yet on that band and mode |
+| **Near you only** | What a receiver within your "near you" distance heard |
+| **Only LoTW** | Stations that uploaded to LoTW in the last 12 months, and DXpeditions that announced it |
+| A header **pill** (cluster, RBN, PSKReporter, WSJT-X, VHF) | Only what that feed heard. With **VHF**, only the openings, with their paths on the map |
+
+YOU'RE HEARD and the openings aren't filtered by continent, confirmed, near you or LoTW, as they
+are about you, not about a station. YOU'RE HEARD also passes any pill. Pinned alerts are always on
+top. **Keep only the latest row of each station** and **Take out of the list after** (Settings →
+Alerts) only change the list.
+
+**Where each one is changed:**
+
+| In Settings | In `config.toml` | What it changes |
+|-------------|------------------|-----------------|
+| **Alert me for** | `[alerts] alert_on` | Which reasons are alerts |
+| **Bands**, **Modes** | `[alerts] bands`, `modes` | The band and mode gates |
+| **Watchlist**, **Ignore** | `[alerts] watchlist`, `ignore` | Calls that always or never alert (`*` works) |
+| **Cluster spotters from**, **Only skimmers in** | `[cluster] spotter_continents`, `[rbn] spotter_continents` | The spotter gate, one for the cluster and one for the RBN |
+| **RBN alerts: wait for a second skimmer** | `[alerts] rbn_confirm` | The second-skimmer gate |
+| **Only alert when heard near you**, **"Near you" means within** | `[alerts] near_only`, `near_km` | The near-you gate, and the distance of the **Near you only** filter |
+| **Don't repeat for** | `[alerts] cooldown_minutes` | The last gate |
+| **Windows pop-ups** | `[alerts] desktop`, `notify_max_priority` | Whether pop-ups show, and for which alerts (the notice at the top right too) |
+| **Your own call** | `[alerts] self_spots` | YOU'RE HEARD |
+| **Ventanas**, **CQ DX Marathon**, **VHF openings** | `[windows]`, `[marathon]`, `[vhf]` | Their own alerts: ITS HOUR, MARATHON, 50 MHz and 144 MHz |
+
 ### The prediction: VOACAP
 
 The path says what is measured; **VOACAP** says what to expect: the month's median ionosphere at
@@ -371,6 +461,11 @@ you are (residential, rural or quiet).
   30 MHz: nothing on 6 m and up.
 - **Propagation (VOACAP)** in the Station tab: the next 24 hours by band, this hour marked, for
   CW, SSB, FT8, FT4 or RTTY.
+- **Short path or long path:** it works out both, the direct one and the one the other way round
+  the world, and shows the better: beside the percentage the list says **SP** (short path) or **LP**
+  (long path, highlighted). By the long path, the Station tab stripes that hour, and hovering shows the distance and where to point the antenna (from
+  South America, Japan on 15 m at dusk, say). In the Station tab's **Beam**, the path that is better
+  now is highlighted and the other one faint. The long path's prediction is rougher.
 
 It is a prediction, the month's median: on a given day the band can be better or worse; the path,
 when something was measured, says what is happening now.

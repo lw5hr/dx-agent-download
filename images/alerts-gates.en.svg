@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+<title>The gates: when a spot is an alert</title>
+<style>
+  .bg { fill: #ffffff; }
+  .bx { fill: #ffffff; stroke: #c3cdd7; stroke-width: 1.2; }
+  .bx-main { fill: #dcecf2; stroke: #0d6a8a; stroke-width: 1.4; }
+  .bx-group { fill: none; stroke: #c3cdd7; stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .bx-pass { fill: #dcefe4; stroke: #1b7547; stroke-width: 1.4; }
+  text { font-family: -apple-system, "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif; }
+  .t { fill: #16212c; font-size: 13px; font-weight: 600; }
+  .s { fill: #586877; font-size: 11.5px; }
+  .km { fill: #586877; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: 11px; }
+  .lbl { fill: #586877; font-size: 11px; font-style: italic; }
+  .ar { stroke: #16212c; stroke-width: 1.3; fill: none; }
+  .ar-dash { stroke: #586877; stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
+  .ar-drop { stroke: #7d8995; stroke-width: 1.3; fill: none; }
+  .ar-wait { stroke: #a86300; stroke-width: 1.3; fill: none; }
+  .ar-pass { stroke: #1b7547; stroke-width: 1.3; fill: none; }
+  .x-drop { fill: #7d8995; font-size: 12px; }
+  .x-wait { fill: #a86300; font-size: 12px; font-weight: 500; }
+  .x-pass { fill: #1b7547; font-size: 12px; font-weight: 600; }
+  .m-ink { fill: #16212c; } .m-muted { fill: #586877; } .m-drop { fill: #7d8995; }
+  .m-wait { fill: #a86300; } .m-pass { fill: #1b7547; }
+  .edge { stroke: #0d6a8a; stroke-width: 1.2; stroke-dasharray: 2 5; }
+  .edge-t { fill: #0d6a8a; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: 11px; letter-spacing: .06em; }
+  @media (prefers-color-scheme: dark) {
+    .bg { fill: #161f28; }
+    .bx { fill: #161f28; stroke: #3a4857; }
+    .bx-main { fill: #15303c; stroke: #5bb6d8; }
+    .bx-group { stroke: #3a4857; }
+    .bx-pass { fill: #12301f; stroke: #55c48c; }
+    .t { fill: #e2e8ee; } .s, .km, .lbl { fill: #93a2b0; }
+    .ar { stroke: #e2e8ee; } .ar-dash { stroke: #93a2b0; } .ar-drop { stroke: #6f7d8a; }
+    .ar-wait { stroke: #e3a548; } .ar-pass { stroke: #55c48c; }
+    .x-drop { fill: #6f7d8a; } .x-wait { fill: #e3a548; } .x-pass { fill: #55c48c; }
+    .m-ink { fill: #e2e8ee; } .m-muted { fill: #93a2b0; } .m-drop { fill: #6f7d8a; }
+    .m-wait { fill: #e3a548; } .m-pass { fill: #55c48c; }
+    .edge { stroke: #5bb6d8; } .edge-t { fill: #5bb6d8; }
+  }
+</style>
+<rect class="bg" x="0" y="0" width="720" height="720" rx="10"/>
+      <defs>
+        <marker id="b1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="m-ink"/></marker>
+        <marker id="bd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="m-drop"/></marker>
+        <marker id="bw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="m-wait"/></marker>
+        <marker id="bp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="m-pass"/></marker>
+      </defs>
+
+      <rect class="bx" x="135" y="8" width="180" height="30" rx="15"/>
+      <text class="t" x="225" y="28" text-anchor="middle">Spot prepared</text>
+      <line class="ar" x1="225" y1="38" x2="225" y2="54" marker-end="url(#b1)"/>
+
+      <!-- gate rows: y = 56 + i*54, box h 40 -->
+      <g>
+        <rect class="bx" x="20" y="56" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="81">Is it your own call?</text>
+        <text class="km" x="418" y="81" text-anchor="end">self_spots</text>
+        <line class="ar-pass" x1="430" y1="76" x2="468" y2="76" marker-end="url(#bp)"/>
+        <text class="lbl" x="436" y="70">yes</text>
+        <text class="x-pass" x="476" y="72">YOU'RE HEARD</text>
+        <text class="s" x="476" y="87">alerts at once, any band and mode</text>
+      </g>
+      <line class="ar" x1="225" y1="96" x2="225" y2="108" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="110" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="135">Is it a beacon?</text>
+        <line class="ar-drop" x1="430" y1="130" x2="468" y2="130" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="124">yes</text>
+        <text class="x-drop" x="476" y="134">dropped</text>
+      </g>
+      <line class="ar" x1="225" y1="150" x2="225" y2="162" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="164" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="189">Is the band one of yours?</text>
+        <text class="km" x="418" y="189" text-anchor="end">bands</text>
+        <line class="ar-drop" x1="430" y1="184" x2="468" y2="184" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="178">no</text>
+        <text class="x-drop" x="476" y="188">dropped</text>
+      </g>
+      <line class="ar" x1="225" y1="204" x2="225" y2="216" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="218" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="243">Is the mode one of yours?</text>
+        <text class="km" x="418" y="243" text-anchor="end">modes</text>
+        <line class="ar-drop" x1="430" y1="238" x2="468" y2="238" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="232">no</text>
+        <text class="x-drop" x="476" y="242">dropped</text>
+      </g>
+      <line class="ar" x1="225" y1="258" x2="225" y2="270" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="272" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="297">Is it on your Ignore list?</text>
+        <text class="km" x="418" y="297" text-anchor="end">ignore</text>
+        <line class="ar-drop" x1="430" y1="292" x2="468" y2="292" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="286">yes</text>
+        <text class="x-drop" x="476" y="296">dropped</text>
+      </g>
+      <line class="ar" x1="225" y1="312" x2="225" y2="324" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="326" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="351">Is the spotter on your continents?</text>
+        <text class="km" x="418" y="351" text-anchor="end">spotter_continents</text>
+        <line class="ar-drop" x1="430" y1="346" x2="468" y2="346" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="340">no</text>
+        <text class="x-drop" x="476" y="342">dropped</text>
+        <text class="s" x="476" y="357">cluster and RBN, each its own</text>
+      </g>
+      <line class="ar" x1="225" y1="366" x2="225" y2="378" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx-main" x="20" y="380" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="405">Do you need anything from it?</text>
+        <text class="km" x="418" y="405" text-anchor="end">Logbook</text>
+        <line class="ar-drop" x1="430" y1="400" x2="468" y2="400" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="394">no</text>
+        <text class="x-drop" x="476" y="396">dropped</text>
+        <text class="s" x="476" y="411">ATNO, new band… (table below)</text>
+      </g>
+      <line class="ar" x1="225" y1="420" x2="225" y2="432" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx-main" x="20" y="434" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="459">Is it ticked in “Alert me for”?</text>
+        <text class="km" x="418" y="459" text-anchor="end">alert_on</text>
+        <line class="ar-drop" x1="430" y1="454" x2="468" y2="454" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="448">no</text>
+        <text class="x-drop" x="476" y="450">dropped</text>
+        <text class="s" x="476" y="465">plus the Marathon, if it's on</text>
+      </g>
+      <line class="ar" x1="225" y1="474" x2="225" y2="486" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="488" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="513">Heard by more than one skimmer?</text>
+        <text class="km" x="418" y="513" text-anchor="end">rbn_confirm</text>
+        <line class="ar-wait" x1="430" y1="508" x2="468" y2="508" marker-end="url(#bw)"/>
+        <text class="lbl" x="436" y="502">one</text>
+        <text class="x-wait" x="476" y="504">waits for a 2nd (up to 10 min)</text>
+        <text class="s" x="476" y="519">off: it passes, marked “?”</text>
+      </g>
+      <line class="ar" x1="225" y1="528" x2="225" y2="540" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="542" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="567">Is it heard near you?</text>
+        <text class="km" x="418" y="567" text-anchor="end">near_only · near_km</text>
+        <line class="ar-wait" x1="430" y1="562" x2="468" y2="562" marker-end="url(#bw)"/>
+        <text class="lbl" x="436" y="556">far</text>
+        <text class="x-wait" x="476" y="558">held</text>
+        <text class="s" x="476" y="573">FT8: PSKReporter near you frees it</text>
+      </g>
+      <line class="ar" x1="225" y1="582" x2="225" y2="594" marker-end="url(#b1)"/>
+
+      <g>
+        <rect class="bx" x="20" y="596" width="410" height="40" rx="6"/>
+        <text class="t" x="34" y="621">Alerted less than 15 min ago?</text>
+        <text class="km" x="418" y="621" text-anchor="end">cooldown_minutes</text>
+        <line class="ar-drop" x1="430" y1="616" x2="468" y2="616" marker-end="url(#bd)"/>
+        <text class="lbl" x="436" y="610">yes</text>
+        <text class="x-drop" x="476" y="620">silenced</text>
+      </g>
+      <line class="ar" x1="225" y1="636" x2="225" y2="656" marker-end="url(#b1)"/>
+
+      <rect class="bx-pass" x="115" y="658" width="220" height="44" rx="22"/>
+      <text class="x-pass" x="225" y="685" text-anchor="middle" style="font-size:14px">ALERT</text>
+      <text class="s" x="345" y="678">console, Windows,</text>
+      <text class="s" x="345" y="693">database, dashboard</text>
+    </svg>

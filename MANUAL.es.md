@@ -352,13 +352,14 @@ y, con el logbook de DX Agent, tu log (sección 13).
 - Una alerta puede ser de varios tipos a la vez: una BANDA NUEVA que además es un grid nuevo
   aparece con el filtro **GRID NUEVO**, y con ese filtro elegido la fila dice GRID NUEVO.
 - En Configuración → Alertas también están **Dejar solo la última fila de cada estación** (mismo
-  indicativo, frecuencia y modo) y **Quitar de la lista después de** N minutos sin spot (0 =
+  indicativo, banda y modo, a 3 kHz o menos) y **Quitar de la lista después de** N minutos sin spot (0 =
   nunca): las dos apagadas de fábrica.
 - La lista guarda las últimas 500 alertas. Cuando se llena, se van primero las de INDICATIVO
   NUEVO; las demás quedan al menos una hora.
 - Cuando trabajás la estación, sus alertas en la lista cambian solas: una BANDA+MODO que ya
-  trabajaste deja de serlo (y de aparecer con ese filtro), una DXpedición pasa a DXPED CONFIRMAR o
-  DXPED YA TENGO, y una alerta que ya no te suma nada queda como **TRABAJADO**, en gris.
+  trabajaste deja de serlo (y de aparecer con ese filtro), y una alerta que ya no te suma nada queda
+  como **TRABAJADO**, en gris. Una DXpedición también: trabajada en esa banda y modo queda como
+  TRABAJADO; en otra banda o modo sigue avisando.
 - Las **notificaciones de Windows** salen de fábrica solo para ATNO; en Configuración se
   pueden activar para más tipos. Al hacer clic en una se abre el panel en esa estación.
 
@@ -379,6 +380,96 @@ tuyo**, una estación digital que no avisó por escucharse solo lejos avisa apen
 PSKReporter cerca tuyo la reporta en esa banda. También se siguen tus propios indicativos: cada
 receptor que te reporta es una fila **TE ESCUCHAN**, con su SNR y su distancia.
 
+### Cómo decide DX Agent si avisa
+
+Un spot pasa por dos etapas de filtros. Las de DX Agent deciden si **es** una alerta: si no las
+pasa, no hay fila, ni notificación, ni sonido. Las del panel solo deciden qué alertas **ves** en la
+lista y en el mapa: lo que ocultan sigue guardado y aparece apenas cambiás el filtro. Por eso la
+notificación de Windows no depende de los filtros del panel. El sonido y el aviso de arriba a la
+derecha, en cambio, sí.
+
+![Figura 1: del spot a la pantalla](images/alerts-flow.es.svg)
+
+*Figura 1: del spot a la pantalla.* Ventanas (SU HORA) y las aperturas en VHF no pasan por las
+puertas: cada una tiene sus propios ajustes (más abajo). PSKReporter no genera alertas por sí solo.
+Sirve para saber si una estación se escucha cerca tuyo y para confirmar lo que oyó un solo skimmer.
+
+**Las puertas.** Cada spot pasa estas preguntas, en este orden. En la primera que no pasa, no hay
+alerta. La única que se saltea las demás es tu propio indicativo.
+
+![Figura 2: las puertas, cuándo un spot es alerta](images/alerts-gates.es.svg)
+
+*Figura 2: las puertas.* En gris, el spot se descarta. En ámbar, espera a que otro receptor lo
+confirme:
+
+- **Lo oyó un solo skimmer** (con **Alertas de la RBN: esperar a un 2.º skimmer** activado): avisa
+  cuando lo oye otro skimmer, o alguien en el cluster o en PSKReporter, dentro de los 10 minutos.
+  Una DXpedición activa no espera. Desactivado, avisa enseguida, marcado con **?**.
+- **Se escucha solo lejos** (con **Avisar solo si se escucha cerca tuyo**): avisa con el próximo
+  spot de alguien cerca tuyo. En digital, con PSKReporter en vivo, avisa apenas un receptor cerca
+  tuyo la reporta.
+
+Una DXpedición que ya tenés confirmada en esa banda y modo solo avisa (DXPED YA TENGO, en gris) con
+**DXpediciones que ya tenés: Mostrarlas igual**. Al lado de cada puerta está su clave en
+`config.toml`; la tabla del final dice dónde se cambia en Configuración.
+
+**La misma alerta.** Durante **No repetir durante** (15 minutos de fábrica), una alerta no se
+repite. Qué cuenta como «la misma» depende de por qué avisó:
+
+| Avisó por | Es la misma si coincide |
+|-----------|-------------------------|
+| ATNO, BANDA NUEVA, MODO NUEVO, BANDA+MODO | El país, la banda y el modo: con una estación de EE. UU. en 20 m CW alcanza, la segunda no suena |
+| DXPED, SIGUIENDO, INDICATIVO NUEVO, TE ESCUCHAN, SU HORA | El indicativo, la banda y el modo |
+| GRID NUEVO, PREFIJO NUEVO | El grid o el prefijo, y la banda |
+| MARATHON | El país o la zona CQ, la banda y el modo |
+
+Si avisó por varios motivos a la vez, se calla solo cuando todos están dentro de ese tiempo.
+**Limpiar lista** también olvida lo avisado: lo que siga en el aire vuelve a avisar en su próximo
+spot.
+
+**Los filtros del panel.** Una alerta que llega al panel se muestra si pasa todos los filtros
+elegidos a la vez:
+
+![Figura 3: los filtros del panel](images/alerts-page.es.svg)
+
+*Figura 3: los filtros del panel.* Una alerta de antes de volver a abrir DX Agent entra en la
+lista, pero sin sonido ni aviso. El mapa usa los mismos filtros que la lista: un punto por
+estación.
+
+| Filtro | Qué deja ver |
+|--------|--------------|
+| **Banda**, **Modo** | Esas bandas y esos modos (CW, fonía, digital) |
+| **Tipo de alerta** (ATNO, BANDA NUEVA…) | Esos tipos. Solo aparecen los que marcaste en **Avisarme de**. SIGUIENDO junto con otro tipo: los que seguís que además son de ese tipo |
+| **50-144 MHz** | Las aperturas en VHF, y sus caminos en el mapa |
+| **Búsqueda** | Un indicativo o un país, también por su nombre en castellano: «Estados Unidos», «Japon», con o sin acento |
+| **Solo** *indicativo* | Una sola estación; TF/X y X/TF cuentan como la misma |
+| **Continente** | Las estaciones de ese continente |
+| **Actividad** | Las activaciones: POTA, SOTA, WWFF, IOTA… |
+| **Ocultar confirmados** | Lo que todavía no tenés confirmado en esa banda y modo |
+| **Solo cerca tuyo** | Lo que escuchó un receptor dentro de tu distancia «cerca tuyo» |
+| **Solo LoTW** | Las estaciones que subieron a LoTW en los últimos 12 meses, y las DXpediciones que lo anunciaron |
+| Una **pastilla** del encabezado (cluster, RBN, PSKReporter, WSJT-X, VHF) | Solo lo que escuchó esa fuente. Con **VHF**, solo las aperturas, con sus caminos en el mapa |
+
+TE ESCUCHAN y las aperturas no se filtran por continente, confirmados, cerca tuyo ni LoTW, porque
+son sobre vos, no sobre una estación. TE ESCUCHAN pasa además cualquier pastilla. Las alertas
+fijadas van siempre arriba. **Dejar solo la última fila de cada estación** y **Quitar de la lista
+después de** (Configuración → Alertas) cambian solo la lista.
+
+**Dónde se cambia cada cosa:**
+
+| En Configuración | En `config.toml` | Qué cambia |
+|------------------|------------------|------------|
+| **Avisarme de** | `[alerts] alert_on` | Qué motivos son alerta |
+| **Bandas**, **Modos** | `[alerts] bands`, `modes` | Las puertas de banda y modo |
+| **Lista de seguimiento**, **Ignorar** | `[alerts] watchlist`, `ignore` | Indicativos que siempre o nunca avisan (admiten `*`) |
+| **Spotters del cluster de**, **Solo skimmers en** | `[cluster] spotter_continents`, `[rbn] spotter_continents` | La puerta del spotter, por separado para el cluster y la RBN |
+| **Alertas de la RBN: esperar a un 2.º skimmer** | `[alerts] rbn_confirm` | La puerta del 2.º skimmer |
+| **Avisar solo si se escucha cerca tuyo**, **«Cerca tuyo» significa a menos de** | `[alerts] near_only`, `near_km` | La puerta de cerca tuyo, y la distancia del filtro **Solo cerca tuyo** |
+| **No repetir durante** | `[alerts] cooldown_minutes` | La última puerta |
+| **Notificaciones de Windows** | `[alerts] desktop`, `notify_max_priority` | Si sale la notificación, y para qué alertas (también el aviso de arriba a la derecha) |
+| **Tu propio indicativo** | `[alerts] self_spots` | TE ESCUCHAN |
+| **Ventanas**, **CQ DX Marathon**, **Aperturas en VHF** | `[windows]`, `[marathon]`, `[vhf]` | Sus propias alertas: SU HORA, MARATHON, 50 MHz y 144 MHz |
+
 ### La predicción: VOACAP
 
 El camino dice lo medido; **VOACAP** dice qué esperar: la ionosfera mediana del mes a esa hora,
@@ -394,6 +485,12 @@ ruido donde estás (residencial, rural o silencioso).
   VOACAP llega hasta 30 MHz: nada en 6 m para arriba.
 - **Propagación (VOACAP)** en la pestaña Estación: las próximas 24 horas por banda, con la hora
   actual marcada, para CW, SSB, FT8, FT4 o RTTY.
+- **Paso corto o paso largo:** calcula los dos caminos, el directo y el que da la vuelta al mundo
+  por el otro lado, y muestra el más conveniente: al lado del porcentaje, la lista dice **SP** (paso
+  corto) o **LP** (paso largo, resaltado). Por paso largo, la pestaña Estación raya esa hora, y pasando el mouse ves la distancia y hacia dónde apuntar la
+  antena (desde Sudamérica, Japón en 15 m al atardecer, por ejemplo). En el **Rumbo** de la pestaña
+  Estación, el camino mejor ahora va resaltado y el otro más tenue. Por paso largo la predicción es
+  más aproximada.
 
 Es una predicción, la mediana del mes: un día dado la banda puede estar mejor o peor; el camino,
 cuando hay algo medido, dice lo que pasa ahora.
