@@ -42,7 +42,7 @@ What it does:
   the call filled in in Log4OM and WSJT-X; with a FlexRadio on AetherSDR (TCI, in testing) the alerts
   also show on its panadapter.
 - **POTA, SOTA, IOTA, WWFF** and more, with the summits and parks you haven't worked.
-- A **world map** with your DXCC and WAZ standing and your grid squares, as GridTracker shows them (VUCC, FFMA); click a country to see what you have of it.
+- A **world map** with your DXCC and WAZ standing and your Maidenhead grid squares (VUCC, FFMA); click a country to see what you have of it.
 - The **CQ DX Marathon**, the year or the Sprint: your countries and zones, and alerts for the
   ones you still need.
 - **Several callsigns** (a contest call, say), each with its own log, counted together.

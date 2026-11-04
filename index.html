@@ -57,7 +57,7 @@
       "acceptedAnswer": { "@type": "Answer", "text": "The DX cluster is where radio amateurs announce the stations they hear; the Reverse Beacon Network is a worldwide set of automatic receivers (skimmers) that decode CW and digital modes and report every station they hear. DX Agent listens to both and keeps the spots that matter to your log." } },
     { "@type": "Question", "name": "Does it run on Linux and macOS?",
       "acceptedAnswer": { "@type": "Answer", "text": "Yes. Windows, Linux (x86_64) and macOS each have their own package with Python inside. The Windows-only parts are Log4OM's live log and the Log4OM, N1MM, OmniRig and DXLab tuning targets; Hamlib, flrig and TCI work everywhere." } },
-    { "@type": "Question", "name": "Does it show grid squares like GridTracker?",
+    { "@type": "Question", "name": "Does it show Maidenhead grid squares?",
       "acceptedAnswer": { "@type": "Answer", "text": "Yes. The map's Grids view paints the Maidenhead squares you worked and confirmed (VUCC rules, one band for VUCC or 6 m for FFMA), puts the stations heard with a locator in their square, from your WSJT-X's decodes and the RBN's FT8/FT4 spots, and a NEW GRID alert tells you when a square you still need on that band is on the air." } },
     { "@type": "Question", "name": "Is it free?",
       "acceptedAnswer": { "@type": "Answer", "text": "Yes, it is free and open source under the MIT licence, with no account, no telemetry and no cloud service: it runs on your own computer." } }
@@ -109,7 +109,7 @@
     <li><b>ATNO, new band, new mode</b> An alert only when working that station would actually add
       something: the country never worked, the band or the mode you are missing, or a combination
       you do not have.</li>
-    <li><b>Grid squares, as GridTracker</b> The squares you worked and confirmed on the map (VUCC,
+    <li><b>Maidenhead grid squares</b> The squares you worked and confirmed on the map (VUCC,
       FFMA), the stations heard with a locator in their square, and a NEW GRID alert when a square
       you still need on that band is on the air.</li>
     <li><b>Your awards on the map</b> DXCC (Mixed, by mode or band, Satellite, Challenge) and WAZ
@@ -165,7 +165,7 @@
     </figure>
     <figure>
       <img src="images/grids.en.png" alt="DX Agent: the map's Grids view, with the grid squares worked and confirmed and the stations on the air in their square" loading="lazy">
-      <figcaption>Your grid squares, and who is on the air in each one, as GridTracker shows them.</figcaption>
+      <figcaption>Your grid squares, and who is on the air in each one.</figcaption>
     </figure>
     <figure>
       <img src="images/activity.en.png" alt="DX Agent: the alert list filtered to activations, with the parks and summits not worked marked new" loading="lazy">
@@ -222,7 +222,7 @@
       every station they hear. DX Agent listens to both and keeps what matters to your log.</p>
   </details>
   <details>
-    <summary>Does it show grid squares like GridTracker?</summary>
+    <summary>Does it show Maidenhead grid squares?</summary>
     <p>Yes. The map's <b>Grids</b> view paints the Maidenhead squares you worked and confirmed (VUCC
       rules: one band for VUCC, 6 m for FFMA) and puts the stations heard with a locator in their
       square, from your WSJT-X's decodes and the RBN's FT8/FT4 spots. A <b>NEW GRID</b> alert tells

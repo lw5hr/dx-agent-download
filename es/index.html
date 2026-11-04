@@ -58,7 +58,7 @@
       "acceptedAnswer": { "@type": "Answer", "text": "El DX cluster es donde los radioaficionados anuncian las estaciones que escuchan. El Reverse Beacon Network es una red mundial de receptores automaticos que decodifican CW y modos digitales y reportan cada estacion que oyen. DX Agent escucha a los dos y se queda con lo que importa para tu log." } },
     { "@type": "Question", "name": "¿Funciona en Linux y en Mac?",
       "acceptedAnswer": { "@type": "Answer", "text": "Si. Windows, Linux (x86_64) y macOS tienen su propio paquete con Python adentro. Lo unico que no esta fuera de Windows es el log en vivo de Log4OM y los destinos de sintonia Log4OM, N1MM, OmniRig y DXLab; Hamlib, flrig y TCI funcionan en todas las plataformas." } },
-    { "@type": "Question", "name": "¿Muestra los grids como GridTracker?",
+    { "@type": "Question", "name": "¿Muestra los grids Maidenhead?",
       "acceptedAnswer": { "@type": "Answer", "text": "Si. La vista Grillas del mapa pinta los grids Maidenhead que trabajaste y confirmaste (reglas del VUCC, una banda para el VUCC o 6 m para el FFMA), pone en su grid a las estaciones oidas con locator, de los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN, y una alerta GRID NUEVO te avisa cuando esta en el aire un grid que te falta en esa banda." } },
     { "@type": "Question", "name": "¿Es gratis?",
       "acceptedAnswer": { "@type": "Answer", "text": "Si: licencia MIT, sin cuenta, sin telemetria y sin servicio en la nube. Corre en tu computadora." } }
@@ -109,7 +109,7 @@
   <ul class="features">
     <li><b>ATNO, banda nueva, modo nuevo</b> Avisa solo cuando trabajar esa estación suma algo de
       verdad: el país nunca trabajado, la banda o el modo que te falta, o una combinación que no tenés.</li>
-    <li><b>Grids, como GridTracker</b> Los grids que trabajaste y confirmaste en el mapa (VUCC,
+    <li><b>Grids Maidenhead</b> Los grids que trabajaste y confirmaste en el mapa (VUCC,
       FFMA), las estaciones oídas con locator en su grid, y una alerta GRID NUEVO cuando está en el
       aire un grid que te falta en esa banda.</li>
     <li><b>Tus diplomas en el mapa</b> DXCC (Mixto, por modo o banda, Satélite, Challenge) y WAZ
@@ -165,7 +165,7 @@
     </figure>
     <figure>
       <img src="../images/grids.es.png" alt="DX Agent: la vista Grillas del mapa, con los grids trabajados y confirmados y las estaciones en el aire en su grid" loading="lazy">
-      <figcaption>Tus grids, y quién está en el aire en cada uno, como GridTracker.</figcaption>
+      <figcaption>Tus grids, y quién está en el aire en cada uno.</figcaption>
     </figure>
     <figure>
       <img src="../images/activity.es.png" alt="DX Agent: la lista de alertas filtrada a las activaciones, con los parques y cumbres no trabajados marcados como nuevos" loading="lazy">
@@ -223,7 +223,7 @@
       tu log.</p>
   </details>
   <details>
-    <summary>¿Muestra los grids como GridTracker?</summary>
+    <summary>¿Muestra los grids Maidenhead?</summary>
     <p>Sí. La vista <b>Grillas</b> del mapa pinta los grids Maidenhead que trabajaste y confirmaste
       (reglas del VUCC: una banda para el VUCC, 6 m para el FFMA) y pone en su grid a las estaciones
       oídas con locator, de los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN. Una alerta
