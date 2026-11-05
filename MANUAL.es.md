@@ -353,7 +353,8 @@ y, con el logbook de DX Agent, tu log (sección 13).
   aparece con el filtro **GRID NUEVO**, y con ese filtro elegido la fila dice GRID NUEVO.
 - En Configuración → Alertas también están **Dejar solo la última fila de cada estación** (mismo
   indicativo, banda y modo, a 3 kHz o menos) y **Quitar de la lista después de** N minutos sin spot (0 =
-  nunca): las dos apagadas de fábrica.
+  nunca): las dos apagadas de fábrica. Una estación que salió de la lista vuelve apenas la spotean de
+  nuevo, aunque todavía no vuelva a avisar.
 - La lista guarda las últimas 500 alertas. Cuando se llena, se van primero las de INDICATIVO
   NUEVO; las demás quedan al menos una hora.
 - Cuando trabajás la estación, sus alertas en la lista cambian solas: una BANDA+MODO que ya
@@ -869,10 +870,35 @@ borra, y con él lo que DX Agent había completado para esa estación. **Guardar
 pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se completa solo: 59 en
 fonía, 599 en CW. Si tenés más de un indicativo, **Tu indicativo** elige en qué logbook va. Además
 tiene **Nombre**, **QTH**, grid, **Referencias** (parque, cumbre, isla) y **Comentario**; **Ahora**
-pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Su estación aparece en la
+pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Al lado de **Indicativo** ves
+el país de la estación, en rojo si es un ATNO. Su estación aparece en la
 pestaña **Acciones** del panel lateral: el callbook, los **QSOs anteriores** con ella y **Este
 indicativo**, una tabla de las bandas y los modos en que la trabajaste (**✓** verde confirmado,
-ámbar trabajado, **NEW** una banda y un modo todavía nuevos para su país).
+ámbar trabajado, **NEW** una banda y un modo todavía nuevos para su país; en 30 m nunca en fonía,
+que ahí no se opera).
+
+**Super Check Partial.** Mientras escribís el indicativo, en este formulario y en el **Log rápido**,
+debajo aparecen los que coinciden:
+- **Primero los que están en el aire:** el spoteado en tu frecuencia (con un punto verde), después
+  los de esa banda y después los de otras. Siguen los de tu log, marcados **trabajado**, y al final
+  los del archivo de supercheckpartial.com, el que usan los programas de concurso, marcados **SCP**.
+  Los que están en los dos llevan las dos marcas.
+- **Cada uno con su color**, el de lo que te suma, como en la lista (ATNO en rojo).
+- **Con el indicativo vacío** te muestra quién está spoteado en tu frecuencia.
+- **Tab** completa la estación de tu frecuencia cuando es la única que empieza con lo que escribiste
+  (el resto aparece en gris en el campo). **Alt+1** a **Alt+9**, o un clic, eligen las otras. Un `?`
+  vale por cualquier letra.
+- **¿Quisiste decir?** aparece si alguien en la banda está a una letra de lo que escribiste, y
+  **no visto** si no está en ningún lado.
+- **En verde:** el indicativo completo, cuando existe (por ejemplo `K1TTT`, que está en Super Check
+  Partial).
+- **Configuración → Log → Super Check Partial** elige qué sugiere (spoteados, trabajados, Super
+  Check Partial, o solo uno), de qué modos cuentan los spots (sin digitales, FT8 y FT4 no llenan la
+  lista), los minutos y los kHz de «en el aire» y «en tu frecuencia», cuántos spoteados como máximo
+  (5, para que la lista no se haga larga), Tab y ¿Quisiste decir?.
+  **Actualizar ahora** baja el archivo en el momento.
+- **Esc** o **Alt+W** borran el indicativo. **Ctrl+W**, el de otros programas, en el navegador cierra
+  la pestaña: si tipeaste un indicativo sin guardar, antes te pregunta.
 
 **El cuadro de la radio**, a la derecha del formulario, muestra tu radio como AetherSDR muestra un
 slice.
@@ -890,6 +916,23 @@ slice.
   está. Un modo (CW, LSB, USB, DATA, RTTY) deja la frecuencia como está.
 - **Con dos radios** van una al lado de la otra, con el nombre de la activa en color; un clic en la
   otra la hace la activa.
+
+**CW con WinKey:** si tenés un WinKeyer de K1EL (WK2 o WK3), activalo en Configuración → Radio →
+**CW con WinKey**, con su puerto y su velocidad (**Probar** dice si lo encuentra). Aparece un cuadro
+al lado del de la radio, con un botón por mensaje, tres por fila:
+
+- **De fábrica:** **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** y **73**. `{MYCALL}` es
+  el indicativo con que trabajás y `{CALL}` la estación del formulario. Los editás en la misma
+  Configuración, hasta 8.
+- **Cada mensaje tiene su atajo**, de **F1** a **F6** o ninguno, y lo manda también mientras escribís
+  en el formulario. De fábrica, F1 a F4; uno nuevo toma el primero libre. **Esc** o **Parar** cortan
+  enseguida.
+- **Debajo de Parar** ves el mensaje que está saliendo, ya con el indicativo («9X5KM 5NN»), cada letra
+  pintada a medida que el WinKey la manda.
+- **La velocidad** se cambia ahí: **−** y **+** al lado de los WPM, de a 1, o **AvPág** y **RePág** en
+  el formulario, de a 2. Cambia en el acto, también en medio de un mensaje, y queda guardada.
+- Sin indicativo en el formulario, un mensaje con `{CALL}` no se manda.
+- Sin el WinKey activado en Configuración, el cuadro no aparece.
 
 **Callbooks:** nombre, QTH y grid desde **QRZ.com**, **HamQTH** o **QRZCQ**, con tu propia cuenta en
 cada uno (Configuración → Log). **Consultar primero** elige cuál se consulta primero: HamQTH, por

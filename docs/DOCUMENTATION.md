@@ -774,7 +774,7 @@ restart it. The settings are in tabs, one group at a time (the one open is remem
 | **LoTW** | Turn the confirmation download on or off; LoTW username (empty = your call); LoTW password; how often to download. **Test login** checks the username and password with LoTW |
 | **Alerts** | Which alert types you want (and **Your own call**: who hears you; a type turned off also leaves the list: an alert only for it goes, another one shows its next headline, NEW BAND rather than NEW CALL); bands; modes; when a DXpedition or watchlist call counts as worked; watchlist; ignore list; how long before the same alert repeats and **Keep only the latest row of each station** (same call, band and mode, within 3 kHz of its frequency: a spot a little off it, as happens on FT8, is the same station; when it shows up again, its older rows leave the list); **Take out of the list after** N minutes (stations not spotted on that band and mode for that long leave the list; 0 = never, the default); the "near you" radius and **Only alert when heard near you**; Windows pop-ups and for which alerts |
 | **Spot sources** | DX cluster on/off, its servers (`host:port`, tried in order) and login commands; **Recent spots on connecting** (minutes, 0 = off); which continents' cluster spotters to use; RBN on/off, CW/RTTY and FT8/FT4 feeds; which continents' skimmers count |
-| **Radio (Tune button)** | For **Radio 1** and, if you use two, **Radio 2** (see Two radios): which program tunes it (Off, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), its name, its address and port (0 = default), whether to set the mode too, which OmniRig radio, and with Hamlib whether DX Agent starts rigctld and with what arguments; for **Both radios**, WSJT-X, split, and — shown only with a radio on TCI — whether the alerts go on the panadapter and what a Tune does while the radio transmits |
+| **Radio (Tune button)** | For **Radio 1** and, if you use two, **Radio 2** (see Two radios): which program tunes it (Off, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), its name, its address and port (0 = default), whether to set the mode too, which OmniRig radio, and with Hamlib whether DX Agent starts rigctld and with what arguments; for **Both radios**, WSJT-X, split, and — shown only with a radio on TCI — whether the alerts go on the panadapter and what a Tune does while the radio transmits; and **CW with WinKey**: its port, speed and messages (see DX Agent's logbook) |
 | **CQ DX Marathon** | Follow it or not; the year or the Sprint, and the Sprint's dates; the modes that count (all, CW, phone, digital, or Classic: CW and phone); alerts for a new Marathon country and for a new zone |
 | **VHF openings** | Watch the stations near you hearing far ones, and the stations hearing you; the bands (6 m, 2 m); how far from you is near; how many stations must hear it, and how many there; what a place is (a country, a continent, a grid field); at least how far, and the time to live, for each band; the grace before closing; how far off north-south a TEP path may cross; meteor scatter; 10 m short skip; 2 m tropo from the weather forecast; leave out moonbounce; a Windows pop-up when the band opens (see VHF openings) |
 | **Ventanas** | Count the hours each country you miss is heard from near you, and show them in the Ventanas tab; how far from you counts as near; the months kept; how often the same spot counts; whether a spotter known only by its country counts, and whether your own country is left out; the hour's alert (on at least how many days, at most how many countries, heard within how many days) and its pop-up (see Ventanas) |
@@ -1461,6 +1461,12 @@ You can also edit it by hand; restart `run` afterwards.
 | windows     | `alert_min` / `alert_max`   | `2` / `1`                                         | Heard in the hour on at least this many days / at most this many countries in the row (the next few named) |
 | windows     | `fresh_days` / `notify`     | `45` / `true`                                     | Only if it was heard within these days / a Windows pop-up for it |
 | windows     | `voacap` / `voacap_pct`     | `false` / `70`                                    | Also those heard near you in the last 2 hours, when VOACAP gives the band open now / with at least this % |
+| scp         | `enabled`                   | `true`                                            | Super Check Partial: suggest calls in the QSO forms as you type |
+| scp         | `spotted` / `log` / `master` | `true` / `true` / `true`                         | Suggest the calls spotted lately / in your log / in MASTER.SCP (without it, not downloaded) |
+| scp         | `modes`                     | `CW, PHONE, DIGI`                                 | The mode groups whose spots count as on the air |
+| scp         | `minutes` / `freq_khz`      | `15` / `3`                                        | A spot this many minutes old or less: on the air / "on your frequency": within this many kHz |
+| scp         | `max_spotted`               | `5`                                               | At most this many spotted stations among the suggestions (1 to 12), the one on your frequency first |
+| scp         | `tab` / `near`              | `true` / `true`                                   | Tab completes the station on your frequency / show "Did you mean" |
 
 The LoTW password is never stored in this file (see below).
 
@@ -1529,7 +1535,8 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   callsign's logbook. A log of 50,000 QSOs takes 15 to 30 seconds.
 - **New QSOs** come in over UDP as before (WSJT-X, N1MM, Log4OM...), each into the logbook
   of the callsign it says, and from the form at the top of the **Log view**: it fills itself
-  when you pick a station in the list or on the map (the call, its grid square, the park or summit), with the
+  when you pick a station in the list or on the map (the call, its grid square, the park or summit), and
+  beside **Call** it says its country, in red for an ATNO (the **Quick log** too), with the
   frequency and mode the radio is on as it moves (read through OmniRig, Hamlib or TCI: `rig.target =
   "omnirig"`, `"hamlib"` or `"tci"`; on TCI the slice Tune moves, or the split one; without it, the
   spot's). A station picked away from where the radio is (more than 3 kHz: FT8's offset doesn't
@@ -1562,6 +1569,33 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   (back to the mode's, 599 or 59) and the time (on the clock again); the frequency and the mode
   stay. Every QSO gets what a logger adds: DXCC, country, CQ and ITU zones, continent
   (cty.csv), your grid square and callsign.
+- **Super Check Partial**, in the Log view's form and in the **Quick log**: as you type the call, the
+  calls that match show under it, with no window of their own. Those on the air come first: the one
+  spotted on the form's frequency (within 3 kHz, with a green dot), then those on that band, then those
+  on other bands, all spotted in the last 15 minutes (cluster, RBN or WSJT-X). Then those in your log,
+  marked **worked** (on the air too), and last MASTER.SCP's, marked **SCP** (on the air too); those in
+  both have both marks. Each has on its left the colour of what it adds on that band and mode, as in
+  the list (an ATNO in red). With the call empty it shows **On your frequency:** the station spotted
+  where the radio is. When only one there starts with what you typed, the rest of it shows faint in the
+  box and **Tab** completes it. **Alt+1** to **Alt+9** pick the others, and a click does too. A `?` stands
+  for any one character (`9X?KM`). When someone on that band is one character off what you typed
+  (`9X5KN` with `9X5KM` spotted), **Did you mean** shows. When what you typed is nowhere, it says so:
+  "not seen: not on the air, in your log or in Super Check Partial". A whole call that exists (in
+  MASTER.SCP, in your log or spotted, as `K1TTT`) turns green in the box. MASTER.SCP
+  (https://www.supercheckpartial.com/, the file contest loggers use) is downloaded to `data/MASTER.SCP`
+  and again once it is a month old, only with DX Agent's logbook (`log_source = "logbook"`). Without it
+  the suggestions from the air and your log go on. **Settings → Log → Super Check Partial** picks
+  what it suggests: **Spotted**, **Worked before** (your log) and **Super Check Partial** (only the SCP:
+  untick the other two), the modes whose spots count as on the air (without **Digital**, FT8 and FT4
+  don't fill the list), how many minutes a spot counts as on the air (15), how close is "on your
+  frequency" (± 3 kHz), how many spotted stations it shows at most (5, so the list doesn't get long:
+  the one on your frequency first), and whether **Tab** completes and **Did you mean** shows. It also says how
+  many calls the file has, its release and when it was downloaded, and **Update now** downloads it
+  again at once. Off, the forms suggest nothing and the file isn't downloaded. **Esc** in the call or
+  **Alt+W** in the form (N1MM's wipe) clear the call and what was filled for its station, in both
+  forms. **Ctrl+W** too, where the browser lets it through: Chrome and Edge keep it to close the tab
+  and don't let a page have it. So with a call typed by hand and not saved, the browser asks before
+  the page is closed or reloaded.
 - **The Log view**, next to List and Map: the form that logs a QSO at the top, the radio's
   frequency and mode beside it, then your log, newest first, 100 at a time, searched
   by call (with All, every callsign's); the alerts' filters aren't shown there: the log's are,
@@ -1660,8 +1694,25 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   program uploads what goes there (DX Agent connects to no service). A new folder gets a backup
   within minutes; if it can't be written (the drive isn't there), the backup goes to
   `data/backups`. **Back up now** makes one of each callsign in the folder saved.
-- **Not yet:** uploading to QRZ.com. While it is experimental,
-  keep a copy of your log elsewhere too.
+- **CW with WinKey** (Settings → Radio → **CW with WinKey**, off by default): a K1EL WinKeyer (WK2 or
+  WK3) on a serial port keys the radio in CW. In the Log view, beside the radio's box, a button per
+  message, three a row: out of the box **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and
+  **73**, on **F1** to **F4**.
+  `{MYCALL}` is the callsign you work as, the form's, and `{CALL}` the station in the form; a message
+  with `{CALL}` and no call in the form isn't sent. Each message's key sends it, also while typing in
+  the form, and **Esc** or **Stop** cut at once what it is sending and what waits. Under **Stop**, a
+  line shows the message going out, its call filled in ("9X5KM 5NN"): each character lights up as the
+  WinKey keys it (its echo on the serial port), and once it ends it stays a moment and goes. A WinKey
+  that doesn't echo shows the whole message, gone after the time it takes at its speed. **The speed**
+  changes right there: **−** and **+** beside the WPM take it down or up by 1, and **PgDn** and **PgUp**
+  with the cursor in the form by 2, as in N1MM. The WinKey takes it at once, also in the middle of a
+  message, and `config.toml` keeps it (`cw.wpm`) with nothing restarted. The messages are
+  edited there (up to 8, each a name, a text and a key: **F1** to **F6** or none, each key on one
+  message only; a new one takes the first free), with the port and the speed (5 to 60 WPM); **Test** opens the port and says the WinKey's firmware. Only what CW has is sent: letters,
+  figures and `/ ? . , = + -`. The port opens with the first message and stays open (opening it can
+  reset a WinKey) until Settings are saved or DX Agent closes, which give it back to its paddle. In
+  `config.toml`: `[cw]` (`enabled`, `port`, `wpm`, `messages`).
+- While the logbook is experimental, keep a copy of your log elsewhere too.
 
 ### Your QSOs as you log them
 
@@ -1869,6 +1920,7 @@ stay.
 | DX cluster (W3LPL, with DXSpider UK and K3LR as fallbacks) | Human spots | `w3lpl.net:7373`, `dxspider.co.uk:7300`, `dx.k3lr.com:23` |
 | Reverse Beacon Network | Skimmer spots, CW/RTTY and FT8/FT4 | `telnet.reversebeacon.net:7000` and `:7001` |
 | AD1C country files | Callsign → DXCC country | https://www.country-files.com/ |
+| Super Check Partial | Calls suggested in the QSO forms | https://www.supercheckpartial.com/ |
 | NG3K ADXO calendar | Announced DXpeditions | https://www.ng3k.com/Misc/adxo.html |
 | 425 DX News calendar | Announced DXpeditions | https://www.425dxn.org/index.php?op=wcal |
 | Club Log | DXpeditions uploading now, their logs and OQRS, DXCC Most Wanted | https://clublog.org/expeditions.php |
@@ -1950,6 +2002,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | Data file                                     | Source             | Refreshed      |
 |-----------------------------------------------|--------------------|----------------|
 | `data/cty.csv`                                | country-files.com  | daily (checked every 6 hours, also while DX Agent runs) |
+| `data/MASTER.SCP`                             | supercheckpartial.com | monthly, with DX Agent's logbook |
 | `data/dxped-ng3k.json`, `dxped-425dxn.json`, `dxped-clublog.json` | NG3K, 425 DX News, Club Log | every 6 hours |
 | `data/clublog-mostwanted.json`                | Club Log Most Wanted | daily        |
 | `data/lotw-user-activity.csv`                 | ARRL LoTW          | daily          |

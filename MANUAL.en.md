@@ -332,7 +332,8 @@ and, with DX Agent's logbook, your log (section 13).
   **NEW GRID** filter, and with that filter picked the row says NEW GRID.
 - Settings → Alerts also has **Keep only the latest row of each station** (same call,
   band and mode, within 3 kHz) and **Take out of the list after** N minutes without a spot (0 = never):
-  both off by default.
+  both off by default. A station that left the list comes back as soon as it is spotted again, even
+  before it alerts again.
 - The list keeps the last 500 alerts. When it's full, NEW CALL ones leave first; the others
   stay at least an hour.
 - When you work the station, its alerts in the list change by themselves: a NEW SLOT you worked
@@ -825,10 +826,33 @@ that station. **Log QSO** (there or in the Station tab) saves it and says what i
 ("new band"). The RST is filled for you: 59 on phone, 599 on CW. With more than one callsign,
 **Your call** picks which logbook it goes into. It also has **Name**, **QTH**, grid square,
 **References** (park, summit, island) and **Comment**; **Now** sets the date and time to this
-moment and **Clear** empties the form. Its station shows in the side panel's **Actions** tab:
+moment and **Clear** empties the form. Beside **Call** you see the station's country, in red for an
+ATNO. Its station shows in the side panel's **Actions** tab:
 callbook, the **earlier QSOs** with it, and **This call**, a table of the bands and modes you
 worked it on (**✓** green confirmed, amber worked, **NEW** a band and mode still new for its
-country).
+country; never phone on 30 m, which has none).
+
+**Super Check Partial.** As you type the call, in this form and in the **Quick log**, the calls that
+match show under it:
+- **Those on the air first:** the one spotted on your frequency (with a green dot), then those on
+  that band, then those on others. Then those in your log, marked **worked**, and last those in
+  supercheckpartial.com's file, the one contest loggers use, marked **SCP**. Those in both have both
+  marks.
+- **Each in its colour**, that of what it adds, as in the list (an ATNO in red).
+- **With the call empty** it shows who is spotted on your frequency.
+- **Tab** completes the station on your frequency when it is the only one starting with what you
+  typed (the rest of it shows faint in the box). **Alt+1** to **Alt+9**, or a click, pick the others.
+  A `?` stands for any one character.
+- **Did you mean** shows when someone on the band is one character off what you typed, and **not
+  seen** when it is nowhere.
+- **In green:** the whole call, when it exists (`K1TTT`, say, which is in Super Check Partial).
+- **Settings → Log → Super Check Partial** picks what it suggests (spotted, worked before, Super
+  Check Partial, or only one), which modes' spots count (without digital, FT8 and FT4 don't fill the
+  list), the minutes and kHz of "on the air" and "on your frequency", how many spotted at most (5,
+  so the list doesn't get long), Tab and Did you mean. **Update
+  now** downloads the file at once.
+- **Esc** or **Alt+W** clear the call. **Ctrl+W**, other loggers' key, closes the tab in a browser:
+  with a call typed and not saved, it asks first.
 
 **The radio's box**, to the right of the form, shows your radio the way AetherSDR shows a slice.
 - **The VFO the form follows** is large, with its letter in its colour (A cyan, B magenta, C green,
@@ -845,6 +869,22 @@ country).
   (CW, LSB, USB, DATA, RTTY) keeps the frequency.
 - **With two radios** they show side by side, with the active one's name in colour; a click on the
   other one makes it the active one.
+
+**CW with WinKey:** if you have a K1EL WinKeyer (WK2 or WK3), turn it on in Settings → Radio →
+**CW with WinKey**, with its port and speed (**Test** says whether it finds it). A box shows beside
+the radio's, with a button per message, three a row:
+
+- **Out of the box:** **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and **73**.
+  `{MYCALL}` is the callsign you work as and `{CALL}` the station in the form. You edit them in the
+  same Settings, up to 8.
+- **Each message has its key**, **F1** to **F6** or none, and it sends it also while typing in the
+  form. Out of the box, F1 to F4; a new one takes the first free. **Esc** or **Stop** cut at once.
+- **Under Stop** you see the message going out, its call filled in ("9X5KM 5NN"), each character
+  lighting up as the WinKey sends it.
+- **The speed** changes right there: **−** and **+** beside the WPM, by 1, or **PgDn** and **PgUp** in
+  the form, by 2. It changes at once, also in the middle of a message, and is kept.
+- With no call in the form, a message with `{CALL}` isn't sent.
+- Without the WinKey on in Settings, the box doesn't show.
 
 **Callbooks:** name, QTH and grid square from **QRZ.com**, **HamQTH** or **QRZCQ**, with your own
 account on each (Settings → Log). **Ask first** picks the one asked first: HamQTH, say, if you have

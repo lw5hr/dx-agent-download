@@ -817,7 +817,7 @@ logbook de DX Agent como tu log.
 | **LoTW** | Activar o desactivar la descarga de confirmaciones; usuario de LoTW (vacío = tu indicativo); contraseña de LoTW; cada cuánto descargar. **Probar ingreso** prueba el usuario y la contraseña con LoTW |
 | **Alertas** | Qué tipos de alerta querés (y **Tu propio indicativo**: quién te escucha; un tipo que apagás también sale de la lista: una alerta que era solo de ese tipo se va, y otra muestra su siguiente título, BANDA NUEVA en vez de INDICATIVO NUEVO); bandas; modos; cuándo una DXpedición o un indicativo de la lista de seguimiento cuenta como trabajado; **Lista de seguimiento**; **Ignorar**; cuánto esperar antes de repetir la misma alerta y **Dejar solo la última fila de cada estación** (mismo indicativo, banda y modo, a 3 kHz o menos de su frecuencia: un spot un poco corrido, como pasa en FT8, es la misma estación; cuando vuelve a aparecer, sus filas anteriores salen de la lista); **Quitar de la lista después de** N minutos (las estaciones que no se spotean en esa banda y modo durante ese tiempo salen de la lista; 0 = nunca, el valor por defecto); el radio de "cerca tuyo" y **Avisar solo si se escucha cerca tuyo**; notificaciones de Windows y para qué alertas |
 | **Fuentes de spots** | DX cluster activado o no, sus servidores (`servidor:puerto`, en orden) y comandos al conectar; **Spots recientes al conectar** (minutos, 0 = no); de qué continentes tomar los spotters del cluster; RBN activada o no, fuentes CW/RTTY y FT8/FT4; de qué continentes cuentan los skimmers |
-| **Radio (botón Sintonizar)** | Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios): qué programa la sintoniza (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su nombre, su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con Hamlib si DX Agent arranca el rigctld y con qué argumentos; para **Las dos radios**, WSJT-X, el split, y —solo visible con una radio por TCI— si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite |
+| **Radio (botón Sintonizar)** | Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios): qué programa la sintoniza (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su nombre, su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con Hamlib si DX Agent arranca el rigctld y con qué argumentos; para **Las dos radios**, WSJT-X, el split, y —solo visible con una radio por TCI— si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite; y **CW con WinKey**: su puerto, velocidad y mensajes (ver El logbook de DX Agent) |
 | **CQ DX Marathon** | Seguirlo o no; el anual o el Sprint, y las fechas del Sprint; los modos que cuentan (todos, CW, fonía, digital, o Classic: CW y fonía); alertas por país nuevo y por zona nueva del Marathon |
 | **Aperturas en VHF** | Vigilar las estaciones cerca tuyo que escuchan lejos, y las estaciones que te escuchan; las bandas (6 m, 2 m); a qué distancia es cerca; cuántas estaciones tienen que escucharla, y cuántas de ahí; qué es un lugar (un país, un continente, un campo de grilla); a qué distancia mínima, y el tiempo de vida, para cada banda; el margen antes de cerrar; cuánto puede desviarse del norte-sur un camino de TEP; meteor scatter; 10 m salta corto; tropo en 2 m por el pronóstico meteorológico; dejar afuera el rebote lunar; un aviso de Windows cuando abre la banda (ver Aperturas en VHF) |
 | **Ventanas** | Contar las horas en que cada país que te falta se escucha cerca tuyo, y mostrarlas en la pestaña Ventanas; a qué distancia cuenta como cerca; los meses que se guardan; cada cuánto cuenta el mismo spot; si cuenta un spotter conocido sólo por su país, y si se deja afuera tu propio país; el aviso de la hora (en cuántos días como mínimo, cuántos países como máximo, escuchado dentro de cuántos días) y su notificación (ver Ventanas) |
@@ -1528,6 +1528,12 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | windows     | `alert_min` / `alert_max`   | `2` / `1`                                         | Escuchado en la hora al menos en estos días / países como máximo en la fila (los siguientes se nombran) |
 | windows     | `fresh_days` / `notify`     | `45` / `true`                                     | Sólo si se escuchó dentro de estos días / un aviso de Windows |
 | windows     | `voacap` / `voacap_pct`     | `false` / `70`                                    | También los escuchados cerca tuyo en las últimas 2 horas, si VOACAP da la banda abierta ahora / con al menos este % |
+| scp         | `enabled`                   | `true`                                            | Super Check Partial: sugerir indicativos en los formularios de QSO mientras escribís |
+| scp         | `spotted` / `log` / `master` | `true` / `true` / `true`                         | Sugerir los spoteados hace poco / los de tu log / los del MASTER.SCP (sin este, no se baja) |
+| scp         | `modes`                     | `CW, PHONE, DIGI`                                 | Los grupos de modos cuyos spots cuentan como en el aire |
+| scp         | `minutes` / `freq_khz`      | `15` / `3`                                        | Un spot de hace estos minutos o menos: en el aire / «en tu frecuencia»: a estos kHz o menos |
+| scp         | `max_spotted`               | `5`                                               | Spoteados como máximo entre las sugerencias (1 a 12), primero el de tu frecuencia |
+| scp         | `tab` / `near`              | `true` / `true`                                   | Completar con Tab la estación de tu frecuencia / mostrar «¿Quisiste decir?» |
 
 La contraseña de LoTW nunca se guarda en este archivo (ver más abajo).
 
@@ -1600,7 +1606,8 @@ necesitan archivo: cada uno tiene su logbook.
   archivo en el logbook de ese indicativo. Un log de 50.000 QSOs tarda de 15 a 30 segundos.
 - **Los QSOs nuevos** llegan por UDP como antes (WSJT-X, N1MM, Log4OM...), cada uno al logbook
   del indicativo que dice, y desde el formulario arriba de la **vista Log**: se llena solo
-  cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), con la
+  cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), y
+  al lado de **Indicativo** dice su país, en rojo si es un ATNO (también en el **Log rápido**), con la
   frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib o TCI: `rig.target =
   "omnirig"`, `"hamlib"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
   del spot). Una estación elegida lejos de donde está la radio (a más de 3 kHz: el offset de FT8
@@ -1634,6 +1641,36 @@ necesitan archivo: cada uno tiene su logbook.
   indicativo, los reportes (vuelven a los del modo, 599 o 59) y la hora (otra vez al reloj); la
   frecuencia y el modo quedan. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
   (cty.csv), tu grid y tu indicativo.
+- **Super Check Partial**, en el formulario de la vista Log y en el **Log rápido**: mientras escribís
+  el indicativo, debajo aparecen los que coinciden, sin una ventana aparte. Van primero los que están
+  en el aire: el spoteado en la frecuencia del formulario (a 3 kHz o menos, con un punto verde), después
+  los de esa banda y después los de otras bandas, todos con un spot de los últimos 15 minutos (cluster,
+  RBN o WSJT-X). Siguen los de tu log, marcados **trabajado** (también si están en el aire), y al final
+  los del MASTER.SCP, marcados **SCP** (también si están en el aire); los que están en los dos llevan
+  las dos marcas. Cada uno lleva a la izquierda el
+  color de lo que te suma en esa banda y ese modo, como en la lista (ATNO en rojo). Con el indicativo
+  vacío muestra **En tu frecuencia:** la estación spoteada donde está la radio. Si en tu frecuencia hay
+  una sola que empieza con lo que escribiste, el resto aparece en gris dentro del campo y **Tab** lo
+  completa. **Alt+1** a **Alt+9** eligen las otras, y también se eligen con un clic. Un `?` vale por
+  cualquier letra (`9X?KM`). Si hay alguien en esa banda a una letra de lo que escribiste (`9X5KN` con
+  `9X5KM` spoteada), aparece **¿Quisiste decir?**. Si lo que escribiste no aparece en ningún lado, lo
+  dice: «no visto: ni en el aire, ni en tu log, ni en Super Check Partial». Un indicativo completo que
+  existe (en el MASTER.SCP, en tu log o spoteado, como `K1TTT`) se pone verde en el campo. El MASTER.SCP
+  (https://www.supercheckpartial.com/, el que usan los programas de concurso) se baja a
+  `data/MASTER.SCP` y se baja de nuevo cuando tiene un mes, solo con el logbook de DX Agent (`log_source
+  = "logbook"`). Sin él siguen las sugerencias del aire y de tu log. **Configuración → Log → Super
+  Check Partial** elige qué sugiere: **Spoteados**, **Trabajados** (tu log) y **Super Check Partial**
+  (solo el SCP: destildá los otros dos), los modos cuyos spots cuentan como en el aire (sin
+  **Digitales**, FT8 y FT4 no llenan la lista), cuántos minutos cuenta un spot como en el aire (15),
+  qué tan cerca es «en tu frecuencia» (± 3 kHz), cuántos spoteados muestra como máximo (5, para que
+  la lista no se haga larga: primero el de tu frecuencia), y si completa con **Tab** y muestra **¿Quisiste
+  decir?**. Ahí mismo dice cuántos indicativos tiene el archivo, su versión y cuándo se bajó, y
+  **Actualizar ahora** lo vuelve a bajar en el momento. Desactivado, los formularios no sugieren nada
+  y el archivo no se baja. **Esc** en el indicativo o **Alt+W** en el formulario (el de N1MM para
+  limpiar) borran el indicativo y lo que se completó para esa estación, en los dos formularios.
+  **Ctrl+W** también, donde el navegador lo deja: Chrome y Edge lo usan para cerrar la pestaña y no
+  dejan que una página lo tome. Por eso, con un indicativo tipeado a mano y sin guardar, el navegador
+  pregunta antes de cerrar o recargar la página.
 - **La vista Log**, al lado de Lista y Mapa: el formulario que carga un QSO arriba, con la
   frecuencia y el modo de la radio al lado, y después tu log, lo más nuevo primero, de a 100, con
   búsqueda por indicativo (con Todos, el de cada indicativo); ahí no aparecen los filtros de las
@@ -1733,8 +1770,27 @@ necesitan archivo: cada uno tiene su logbook.
   (DX Agent no se conecta a ningún servicio). Una carpeta nueva recibe un backup en pocos
   minutos; si no se puede escribir (la unidad no está), el backup va a `data/backups`. **Hacer
   backup ahora** hace uno de cada indicativo en la carpeta guardada.
-- **Todavía no:** subir a QRZ.com. Mientras sea experimental,
-  guardá también una copia de tu log en otro lado.
+- **CW con WinKey** (Configuración → Radio → **CW con WinKey**, apagado de fábrica): un WinKeyer de
+  K1EL (WK2 o WK3) en un puerto serie manipula la radio en CW. En la vista Log, al lado del cuadro de
+  la radio, un botón por mensaje, tres por fila: de fábrica **CQ** (`CQ DE {MYCALL} K`), **5NN**
+  (`{CALL} 5NN`), **TU** y **73**, en **F1** a **F4**. `{MYCALL}` es el indicativo con que trabajás, el del formulario, y `{CALL}` la
+  estación del formulario; un mensaje con `{CALL}` y el formulario sin indicativo no se manda.
+  El atajo de cada mensaje lo manda, también mientras escribís en el formulario, y **Esc** o **Parar**
+  cortan enseguida lo que está mandando y lo que espera. Debajo de **Parar**, un renglón muestra el
+  mensaje que está saliendo, ya con el indicativo puesto («9X5KM 5NN»): cada letra se pinta a medida
+  que el WinKey la manipula (su eco por el puerto serie), y al terminar queda un momento y se va. Un
+  WinKey que no devuelve el eco muestra el mensaje entero y se va al tiempo que tarda a su velocidad.
+  **La velocidad** se cambia ahí mismo: **−** y **+** al lado de los WPM la bajan o la suben de a 1, y
+  **AvPág** y **RePág** con el cursor en el formulario, de a 2, como en N1MM. El WinKey la toma en el
+  acto, también en medio de un mensaje, y queda guardada en `config.toml` (`cw.wpm`) sin reiniciar
+  nada. Los mensajes se editan ahí (hasta 8, con
+  nombre, texto y atajo: **F1** a **F6** o ninguno, cada atajo en un solo mensaje; uno nuevo toma el
+  primero libre), con el puerto y la velocidad (5 a 60 WPM); **Probar** abre el puerto y dice
+  el firmware del WinKey. Solo se manda lo que tiene el CW: letras, números y `/ ? . , = + -`. El
+  puerto se abre con el primer mensaje y queda abierto (abrirlo puede reiniciar un WinKey) hasta que
+  se guarda la Configuración o se cierra DX Agent, que lo devuelven a su paleta. En `config.toml`:
+  `[cw]` (`enabled`, `port`, `wpm`, `messages`).
+- Mientras el logbook sea experimental, guardá también una copia de tu log en otro lado.
 
 ### Tus QSOs a medida que los logueás
 
@@ -1951,6 +2007,7 @@ están en pantalla se mantienen.
 | DX cluster (W3LPL, con DXSpider UK y K3LR como alternativas) | Spots de operadores | `w3lpl.net:7373`, `dxspider.co.uk:7300`, `dx.k3lr.com:23` |
 | Reverse Beacon Network | Spots de skimmers, CW/RTTY y FT8/FT4 | `telnet.reversebeacon.net:7000` y `:7001` |
 | Archivos de países de AD1C | Indicativo → país DXCC | https://www.country-files.com/ |
+| Super Check Partial | Indicativos sugeridos en los formularios de QSO | https://www.supercheckpartial.com/ |
 | Calendario ADXO de NG3K | DXpediciones anunciadas | https://www.ng3k.com/Misc/adxo.html |
 | Calendario de 425 DX News | DXpediciones anunciadas | https://www.425dxn.org/index.php?op=wcal |
 | Club Log | DXpediciones subiendo su log ahora, sus logs y OQRS, Most Wanted de DXCC | https://clublog.org/expeditions.php |
@@ -2033,6 +2090,7 @@ hace falta.
 | Archivo de datos                              | Origen               | Se actualiza   |
 |-----------------------------------------------|----------------------|----------------|
 | `data/cty.csv`                                | country-files.com    | cada día (se revisa cada 6 horas, también con DX Agent abierto) |
+| `data/MASTER.SCP`                             | supercheckpartial.com | cada mes, con el logbook de DX Agent |
 | `data/dxped-ng3k.json`, `dxped-425dxn.json`, `dxped-clublog.json` | NG3K, 425 DX News, Club Log | cada 6 horas |
 | `data/clublog-mostwanted.json`                | Most Wanted de Club Log | cada día    |
 | `data/lotw-user-activity.csv`                 | ARRL LoTW            | cada día       |
