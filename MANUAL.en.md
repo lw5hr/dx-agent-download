@@ -277,7 +277,8 @@ icon opens it at that tab. While it is folded, hovering over a row of the list s
 station's card: its country, status and band × mode grid. Your browser remembers it.
 
 **List / Map / Log:** to the left of the filters, switches between the list, the map (section 10)
-and, with DX Agent's logbook, your log (section 13).
+and, with DX Agent's logbook, your log (section 13). With the logbook, the **console** to log QSOs,
+with your radio and the WinKey, sits under all three (section 13).
 
 ## 5. Alerts
 
@@ -537,7 +538,9 @@ has a **Tune** button. A message at the top right says whether it worked.
 | **TCI** (AetherSDR for FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (or **Enable** in its TCI applet, port 50001) | yes |
 
 - **Hamlib, the one to start with.** It tunes, sets the mode and the split, and reads the radio
-  back for the Log view: frequency, mode, TX, split and S-meter.
+  back for the console under the list: frequency, mode, TX, split and S-meter. If rigctld gets out
+  of step with the radio (an impossible frequency, every read), DX Agent keeps the last good reading
+  and starts rigctld again by itself.
   - **Its `rigctld` must be running.** Tick **Start rigctld with DX Agent** and type its arguments:
     your radio's model, its COM port and its speed, for example `-m 3068 -r COM7 -s 19200` for an
     IC-9100 (`rigctl -l` lists the models). DX Agent starts rigctld with itself and closes it when it
@@ -548,7 +551,7 @@ has a **Tune** button. A message at the top right says whether it worked.
   and name.
   - **Only one of the two can be on TCI.** Two on Hamlib need a rigctld each, on its own port.
   - **The active radio** is the one you last tuned or transmitted on, or the one you click in the
-    Log view (section 13). The alert list's frequencies tune it, and the Station tab has a Tune
+    console (section 13). The alert list's frequencies tune it, and the Station tab has a Tune
     button for each radio.
   - **Both on N1MM or DXLog.net (SO2R):** each radio gets its own radio number.
 
@@ -724,6 +727,9 @@ Click **Map** (next to **List**). The filters work the same as in the list.
 - **DXCC** (top left) paints each entity by your award standing: green = confirmed, amber =
   worked, red = missing. Pick Mixed, Phone, CW, Digital, one band, Satellite or the Challenge.
 - **WAZ** paints the 40 CQ zones the same way, with its variants (by mode, by band, 5BWAZ...).
+- **WAS** paints the 50 US states by your standing: green confirmed (LoTW or a paper QSL), amber
+  worked. Pick Mixed, Phone, CW or Digital, and a band. The state is the one your logger saved
+  with the QSO.
 - With one band (or mode) picked in the filters above, DXCC and WAZ paint that band ("12 m
   (filter)"), unless you picked one in their own menus.
 - **Grids** (in the same menu as DXCC and WAZ): the Maidenhead grid, as GridTracker shows it.
@@ -752,6 +758,8 @@ Click **Map** (next to **List**). The filters work the same as in the list.
 - **Fold:** the bar at the top (DXCC / WAZ / Grids and their menus) and the legend at the bottom
   each have a chevron that folds them to one line, to give the map more room. The browser
   remembers it.
+- **The heading box** (the station picked, its beam, the long path and the distance) sits at the
+  right of that bar, or under it when the map is too narrow.
 
 ![The Grids view: the squares you worked and confirmed, and the stations on the air in their square](images/grids.en.png)
 
@@ -811,15 +819,31 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
   the cloud. **Back up now** makes one at once. If the folder isn't there (the drive isn't
   connected), the backup goes to `data\backups`.
 - **New QSOs** come in over UDP from your programs, as before (WSJT-X, N1MM, Log4OM... section 7),
-  with DXCC, country, zones and continent added, or from the form at the top of the **Log view**.
-- **Quick log, in the List view:** under the filters, a folding form to log a QSO without going to
-  the Log view: call, date and time, kHz, mode and RST. It fills from the station you pick and the
-  radio, with 599 or 59 by mode. What it says when you log goes under it in a pill, green (red when
-  it wasn't logged), with its ✕; a green one goes by itself after 20 s.
+  with DXCC, country, zones and continent added, or from the **console** under the list. QSOs
+  imported without a name, QTH or grid square get them from your callbook.
 
-**The QSO form**, at the top of the Log view: it fills itself when you pick a station in the list or
+**The console**, docked at the bottom under the list, the map and the Log view, the same in all
+three, so the spots stay in sight while you log:
+- **On top, your radios** (more below).
+- **Under them, the form** on one line: call, kHz, band, mode, the reports and **Log QSO**.
+  **Show details** opens the rest: your call, date and time, name, QTH, grid square, references and
+  comment.
+- **At the right, the WinKey's messages**, when you have one (more below).
+- **Log a QSO**, at its top left, folds it to the radios alone, in any view, so the list gets the
+  room; a click opens it again. The browser remembers how you left the console and its details;
+  editing a QSO opens both.
+- **Last QSO**, at the end of the form's line, says the one you just logged; its **✎** opens it in
+  the form to correct it, wherever you are.
+- **The List button**, while you are in the Log view, counts the spots that came in, in the colour
+  of the most wanted, until you go back to the list.
+- On a narrower screen, the fields and the WinKey's column get narrower.
+
+**The QSO form** fills itself when you pick a station in the list or
 on the map (the call, its grid square, the park or summit), with the frequency and mode your radio
-is on (through OmniRig, Hamlib or TCI; in split, where you transmitted and where you received). The date and time follow
+is on (through OmniRig, Hamlib or TCI). **In split**, a **TX kHz (split)** box shows beside kHz with
+where you transmit; if the radio doesn't say it, it takes the kHz you listen on. You can type a
+frequency there, or how far up or down it is, as a pileup says it (`+1`, `up 1.5`, `dn 2`). The QSO
+is logged where you transmitted and where you received. The date and time follow
 the clock until you type them, so the QSO is logged at the time you save it. A call typed by hand
 shows its station once you stop typing. **Esc** in the call clears it, and what DX Agent filled for
 that station. **Log QSO** (there or in the Station tab) saves it and says what it adds to your log
@@ -832,8 +856,8 @@ callbook, the **earlier QSOs** with it, and **This call**, a table of the bands 
 worked it on (**✓** green confirmed, amber worked, **NEW** a band and mode still new for its
 country; never phone on 30 m, which has none).
 
-**Super Check Partial.** As you type the call, in this form and in the **Quick log**, the calls that
-match show under it:
+**Super Check Partial.** As you type the call in the console, the calls that match show above it,
+over the list's last rows:
 - **Those on the air first:** the one spotted on your frequency (with a green dot), then those on
   that band, then those on others. Then those in your log, marked **worked**, and last those in
   supercheckpartial.com's file, the one contest loggers use, marked **SCP**. Those in both have both
@@ -843,8 +867,10 @@ match show under it:
 - **Tab** completes the station on your frequency when it is the only one starting with what you
   typed (the rest of it shows faint in the box). **Alt+1** to **Alt+9**, or a click, pick the others.
   A `?` stands for any one character.
-- **Did you mean** shows when someone on the band is one character off what you typed, and **not
-  seen** when it is nowhere.
+- **Did you mean** shows when someone on the band is one character off a whole call you typed by
+  hand: not one picked from the list or the map, not while you're still typing it, and not when the
+  call you typed is spotted on that band itself. **Not seen** shows when it is nowhere, and **your
+  callsign** when it is one of yours.
 - **In green:** the whole call, when it exists (`K1TTT`, say, which is in Super Check Partial).
 - **Settings → Log → Super Check Partial** picks what it suggests (spotted, worked before, Super
   Check Partial, or only one), which modes' spots count (without digital, FT8 and FT4 don't fill the
@@ -854,15 +880,17 @@ match show under it:
 - **Esc** or **Alt+W** clear the call. **Ctrl+W**, other loggers' key, closes the tab in a browser:
   with a call typed and not saved, it asks first.
 
-**The radio's box**, to the right of the form, shows your radio the way AetherSDR shows a slice.
+**The radios**, on top of the console, show your radio the way AetherSDR shows a slice. In the list
+and the map, each VFO or slice is a tile, side by side (more than fit go to a line below). In the
+Log view, with room to spare, the radio keeps its whole window, in a column at the console's left.
 - **The VFO the form follows** is large, with its letter in its colour (A cyan, B magenta, C green,
   D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, and its band
   and mode.
-- **On TCI and Hamlib, an S-meter** shows under the frequency.
-- **The other VFO**, or AetherSDR's other slices, show under it, one line each.
-- **A click on the other VFO's line puts the radio on it**, through Hamlib, or OmniRig where the
+- **On TCI and Hamlib, an S-meter** shows beside the frequency.
+- **The other VFO**, or AetherSDR's other slices, show beside it (in the Log view, under it).
+- **A click on the other VFO puts the radio on it**, through Hamlib, or OmniRig where the
   radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, DX Agent reads both
-  VFOs once when it connects (a blink on the radio's display), and then that line shows where the
+  VFOs once when it connects (a blink on the radio's display), and then that VFO shows where the
   VFO was the last time the radio was on it.
 - **The band and the mode are lists that change them on the radio.** A band takes it back where it
   last was on it, in its mode then; the first time, to CW, SSB or FT8 by the mode it is in. A mode
@@ -871,26 +899,29 @@ match show under it:
   other one makes it the active one.
 
 **CW with WinKey:** if you have a K1EL WinKeyer (WK2 or WK3), turn it on in Settings → Radio →
-**CW with WinKey**, with its port and speed (**Test** says whether it finds it). A box shows beside
-the radio's, with a button per message, three a row:
+**CW with WinKey**, with its port and speed (**Test** says whether it finds it). A column shows at
+the console's right, with the speed and **Stop** on top and a button per message, three a row:
 
 - **Out of the box:** **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and **73**.
   `{MYCALL}` is the callsign you work as and `{CALL}` the station in the form. You edit them in the
   same Settings, up to 8.
-- **Each message has its key**, **F1** to **F6** or none, and it sends it also while typing in the
-  form. Out of the box, F1 to F4; a new one takes the first free. **Esc** or **Stop** cut at once.
-- **Under Stop** you see the message going out, its call filled in ("9X5KM 5NN"), each character
+- **Each message has its key**, **F1** to **F6** or none, and it sends it in the list, the map or
+  the Log view, also while typing in the form and with the console folded. Out of the box, F1 to
+  F4; a new one takes the first free. **Stop**, or **Esc** in the console or while something goes
+  out, cuts at once.
+- **Under the buttons** you see the message going out, its call filled in ("9X5KM 5NN"), each character
   lighting up as the WinKey sends it.
 - **The speed** changes right there: **−** and **+** beside the WPM, by 1, or **PgDn** and **PgUp** in
   the form, by 2. It changes at once, also in the middle of a message, and is kept.
 - With no call in the form, a message with `{CALL}` isn't sent.
-- Without the WinKey on in Settings, the box doesn't show.
+- Without the WinKey on in Settings, the column doesn't show.
 
 **Callbooks:** name, QTH and grid square from **QRZ.com**, **HamQTH** or **QRZCQ**, with your own
 account on each (Settings → Log). **Ask first** picks the one asked first: HamQTH, say, if you have
 no QRZ.com subscription.
 
-**The Log view** (next to List and Map): your log, newest first, with a search by call, a sort by
+**The Log view** (next to List and Map): your log at full height, the console under it, newest
+first, 25 QSOs a page (or more), with a search by call, a sort by
 any column (click its header), and filters in the side panel's **Actions** tab (shown only in the
 Log view), one under another: **Band**, **Mode** (CW, phone,
 digital, FT8, FT4, RTTY), **Country**, **Date** (from and to), **LoTW** (confirmed, the last
@@ -903,7 +934,23 @@ A strip of icons at the tab's right goes to each part, with a dot on those that 
 
 The **LoTW** and **CL** columns say where each QSO stands: in LoTW, **✓** confirmed and **↑**
 uploaded; in Club Log, **↑** uploaded, **↻** to upload again (you edited it) and **✗** rejected (the
-reason, with the mouse on it).
+reason, with the mouse on it). The **QSL** column says your paper cards: **✓B** received by the
+bureau, **✓D** direct, **↑** sent; a click on it opens that QSO's card.
+
+**Paper QSL cards**, in the **QSL cards** part of the Actions tab:
+- Pick **Received** or **Sent**, type the call on the card: your QSOs with it show (any band, mode
+  and logbook; `JE3CYH` also finds `BW/JE3CYH`).
+- Tick the ones the card confirms, pick **Bureau** or **Direct** and the day, and press **Enter** or
+  **Mark received** (or sent). The call empties for the next card.
+- **Take back** unmarks them. A QSO picked or edited in the list brings the section to it, with
+  its card as it is, to correct it.
+- The awards count a card at once (DXCC, WAZ, WAS, grids). A card received on a QSO already
+  uploaded to Club Log is sent again with it (Club Log counts paper QSLs).
+
+**Export ADIF**, beside **Import QSOs…** in the Actions tab, saves the QSOs the log shows, with its
+search and filters as they are (none: the whole log; **All**: every callsign's logbook together),
+oldest first, with every field each QSO has, as `DXAgent-<CALL>-<date>-<time>.adi` in your browser's
+downloads.
 
 A click on a QSO shows its station in the Actions tab; **✎**, a double click or **Edit this QSO** edits
 it (**Save changes**), **✕** deletes it once you confirm. A deleted QSO is kept aside in the

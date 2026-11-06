@@ -410,7 +410,7 @@ con el modelo de tu radio, su puerto COM y su velocidad, por ejemplo para un IC-
 (eso es PowerShell: `&` antes de la ruta entre comillas; en `cmd`, sin él). `rigctl -l` lista
 los modelos. Una segunda radio: su propio `rigctld`, con `-t 4533`, y ese puerto en DX Agent.
 Un puerto COM lo abre un programa por vez, así que esa radio no puede estar también en
-OmniRig. DX Agent la sintoniza por ahí y la lee para la vista Log, con su S-meter.
+OmniRig. DX Agent la sintoniza por ahí y la lee para la consola de abajo de la lista, con su S-meter.
 
 La radio y su backend deben informar realmente el PTT físico y `dump_caps` debe indicar
 `Can get PTT: Y`. Antes de cada cambio DX Agent comprueba que `\get_cache` sea cero; bloquea
@@ -455,13 +455,13 @@ la Radio 2 de OmniRig. Solo una de las dos puede ir por TCI, y dos por OmniRig t
 ser su Radio 1 y su Radio 2.
 
 - **La radio activa** es la última que sintonizaste o con la que transmitiste; un clic en la
-  otra, en el cuadro de la vista Log, la hace la activa. El formulario del QSO la sigue, y
+  otra, en las radios de la consola, la hace la activa. El formulario del QSO la sigue, y
   las frecuencias de la lista de alertas la sintonizan.
 - **La pestaña Estación** tiene un botón Sintonizar para cada radio (para cada slice de la
   que va por AetherSDR), con dónde está ahora; la activa se destaca.
-- **El cuadro de la vista Log** muestra las dos una al lado de la otra, cada una completa con
-  su nombre arriba y una línea entre ellas; el nombre de la activa en el color de acento. En
-  una pantalla de menos de 1600 píxeles de ancho van debajo del formulario, así conserva su ancho.
+- **La franja de radios de la consola**, arriba de ella, muestra las dos una al lado de la otra,
+  cada una con su nombre antes de sus VFOs o slices y una línea entre ellas; el nombre de la activa
+  en el color de acento.
 - **N1MM o DXLog.net (SO2R):** Sintonizar queda bloqueado porque no se puede verificar el PTT.
 
 ### Seguir una estación
@@ -1605,24 +1605,36 @@ necesitan archivo: cada uno tiene su logbook.
   indicativo (`STATION_CALLSIGN`) queda afuera y se cuenta, con un aviso para importar el
   archivo en el logbook de ese indicativo. Un log de 50.000 QSOs tarda de 15 a 30 segundos.
 - **Los QSOs nuevos** llegan por UDP como antes (WSJT-X, N1MM, Log4OM...), cada uno al logbook
-  del indicativo que dice, y desde el formulario arriba de la **vista Log**: se llena solo
+  del indicativo que dice, y desde la **consola** debajo de la lista, el mapa y la vista Log, así
+  los spots quedan a la vista mientras cargás: arriba las radios, debajo una línea con el
+  indicativo, kHz, banda, modo, los reportes y **Guardar QSO**, y los mensajes del WinKey en una
+  columna a la derecha. En la vista Log, que tiene lugar de sobra, la radio conserva su ventana
+  completa en vez de la franja: una columna a la izquierda de la consola, la frecuencia en grande,
+  cada VFO o slice una línea debajo, dos radios una al lado de la otra; el formulario al lado (en
+  una pantalla más angosta, debajo de ella y del WinKey). **Cargar un QSO**, arriba a la
+  izquierda, la pliega y deja solo las radios, en cualquier vista, para que la lista gane el
+  espacio (los atajos del WinKey siguen mandando); un clic la vuelve a abrir. **Mostrar detalles**
+  abre tu indicativo, la fecha y la hora, nombre, QTH, grid, referencias y comentario (el navegador
+  recuerda si dejaste abiertos la consola y los detalles; editar un QSO abre los dos). En una
+  pantalla más angosta los campos y la columna del WinKey se achican y **Mostrar detalles** queda
+  solo como su flecha. Se llena solo
   cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), y
-  al lado de **Indicativo** dice su país, en rojo si es un ATNO (también en el **Log rápido**), con la
+  al lado de **Indicativo** dice su país, en rojo si es un ATNO, con la
   frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib o TCI: `rig.target =
   "omnirig"`, `"hamlib"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
   del spot). Una estación elegida lejos de donde está la radio (a más de 3 kHz: el offset de FT8
-  no cuenta) pone la frecuencia y el modo del spot, en este formulario y en el **Log rápido**,
-  hasta que la radio se mueve (Sintonizar, un clic en la frecuencia de la lista, el dial): desde
+  no cuenta) pone la frecuencia y el modo del spot en el formulario hasta que la radio se mueve (Sintonizar, un clic en la frecuencia de la lista, el dial): desde
   ahí siguen los de la radio. En split, cuando se conoce la frecuencia de TX, el QSO se guarda con la frecuencia
   en que transmitiste (`FREQ`) y la que recibiste (`FREQ_RX`). Si se desconoce la frecuencia de TX,
-  el formulario pide que la escribas antes de guardar. Al lado del formulario, la radio como AetherSDR muestra un slice:
-  el VFO que sigue en grande, con su letra en su color (A cian, B magenta, C verde, D amarillo),
-  **TX** en el que transmite (en rojo lleno mientras transmite), **SPLIT**, su banda y su modo;
-  debajo, el otro VFO de la radio, o los otros slices de AetherSDR, uno por línea (el VFO B de
+  el formulario pide que la escribas antes de guardar. Arriba de la consola, la radio como AetherSDR muestra un slice:
+  el VFO que sigue en un recuadro propio, su frecuencia en grande, con su letra en su color (A cian,
+  B magenta, C verde, D amarillo), **TX** en el que transmite (en rojo lleno mientras transmite),
+  **SPLIT**, su banda y su modo; al lado, el otro VFO de la radio, o los otros slices de AetherSDR,
+  un recuadro cada uno (los que no entran pasan a una línea más abajo) (el VFO B de
   OmniRig cuando el archivo de la radio lo lee; en Thetis o ExpertSDR, el A y el B de cada
-  receptor). Por TCI y Hamlib, también el S-meter como lo informa el programa: una barra debajo de la
-  frecuencia con su lectura (S7, S9+20), verde hasta S9 y roja arriba, y una chica en cada una
-  de las otras líneas (OmniRig no lo lee). Por Hamlib se lee solo el VFO actual y nunca se
+  receptor). Por TCI y Hamlib, también el S-meter como lo informa el programa: una barra al lado de la
+  frecuencia con su lectura (S7, S9+20), verde hasta S9 y roja arriba, y una chica en cada uno
+  de los otros recuadros (OmniRig no lo lee). Por Hamlib se lee solo el VFO actual y nunca se
   cambia de VFO para consultarlo; el otro muestra la última frecuencia observada, que puede
   estar desactualizada. Se avisa si se desconoce la frecuencia de TX en split y se muestra
   **PTT?** si se desconoce el estado de transmisión. **Un clic en el otro VFO pasa la radio a
@@ -1637,12 +1649,13 @@ necesitan archivo: cada uno tiene su logbook.
   referencias); lo que escribiste vos queda. **Esc** en el indicativo lo borra, y con él lo que
   DX Agent había llenado para esa estación. **Guardar QSO**, ahí o en el tab Estación,
   lo guarda, y dice qué te suma ("te suma: banda nueva"), según tu log antes de ese QSO. Guardado,
-  el formulario queda vacío para el próximo, también el **Log rápido** debajo de los filtros: el
+  el formulario queda vacío para el próximo, con el cursor otra vez en el indicativo: el
   indicativo, los reportes (vuelven a los del modo, 599 o 59) y la hora (otra vez al reloj); la
-  frecuencia y el modo quedan. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
+  frecuencia y el modo quedan. **Último QSO:**, al final de la línea del formulario, dice el que
+  acabás de guardar; su **✎** lo abre en el formulario para corregirlo, estés donde estés. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
   (cty.csv), tu grid y tu indicativo.
-- **Super Check Partial**, en el formulario de la vista Log y en el **Log rápido**: mientras escribís
-  el indicativo, debajo aparecen los que coinciden, sin una ventana aparte. Van primero los que están
+- **Super Check Partial**, en el formulario de la consola: mientras escribís el indicativo, arriba
+  de ella aparecen los que coinciden, sobre las últimas filas de la lista, sin una ventana aparte. Van primero los que están
   en el aire: el spoteado en la frecuencia del formulario (a 3 kHz o menos, con un punto verde), después
   los de esa banda y después los de otras bandas, todos con un spot de los últimos 15 minutos (cluster,
   RBN o WSJT-X). Siguen los de tu log, marcados **trabajado** (también si están en el aire), y al final
@@ -1653,7 +1666,10 @@ necesitan archivo: cada uno tiene su logbook.
   una sola que empieza con lo que escribiste, el resto aparece en gris dentro del campo y **Tab** lo
   completa. **Alt+1** a **Alt+9** eligen las otras, y también se eligen con un clic. Un `?` vale por
   cualquier letra (`9X?KM`). Si hay alguien en esa banda a una letra de lo que escribiste (`9X5KN` con
-  `9X5KM` spoteada), aparece **¿Quisiste decir?**. Si lo que escribiste no aparece en ningún lado, lo
+  `9X5KM` spoteada), aparece **¿Quisiste decir?**. Pregunta solo por un indicativo completo
+  escrito a mano: no por uno elegido de la lista o del mapa, no mientras lo que escribís sigue en
+  otros indicativos, no si lo que escribiste está spoteado en esa banda; un indicativo que existe
+  (en el MASTER.SCP o en tu log) solo lo muestra para una estación a una letra en tu frecuencia. Si lo que escribiste no aparece en ningún lado, lo
   dice: «no visto: ni en el aire, ni en tu log, ni en Super Check Partial». Un indicativo completo que
   existe (en el MASTER.SCP, en tu log o spoteado, como `K1TTT`) se pone verde en el campo. El MASTER.SCP
   (https://www.supercheckpartial.com/, el que usan los programas de concurso) se baja a
@@ -1667,12 +1683,13 @@ necesitan archivo: cada uno tiene su logbook.
   decir?**. Ahí mismo dice cuántos indicativos tiene el archivo, su versión y cuándo se bajó, y
   **Actualizar ahora** lo vuelve a bajar en el momento. Desactivado, los formularios no sugieren nada
   y el archivo no se baja. **Esc** en el indicativo o **Alt+W** en el formulario (el de N1MM para
-  limpiar) borran el indicativo y lo que se completó para esa estación, en los dos formularios.
+  limpiar) borran el indicativo y lo que se completó para esa estación.
   **Ctrl+W** también, donde el navegador lo deja: Chrome y Edge lo usan para cerrar la pestaña y no
   dejan que una página lo tome. Por eso, con un indicativo tipeado a mano y sin guardar, el navegador
   pregunta antes de cerrar o recargar la página.
-- **La vista Log**, al lado de Lista y Mapa: el formulario que carga un QSO arriba, con la
-  frecuencia y el modo de la radio al lado, y después tu log, lo más nuevo primero, de a 100, con
+- **La vista Log**, al lado de Lista y Mapa: tu log, con la consola debajo como debajo de la lista
+  (mientras se ve, el botón **Lista** cuenta los spots que toma la lista, en el color del más
+  buscado, hasta que volvés), lo más nuevo primero, de a 100, con
   búsqueda por indicativo (con Todos, el de cada indicativo); ahí no aparecen los filtros de las
   alertas: los del log están en el tab **Acciones** del costado, uno debajo del otro bajo FILTROS —
   **Banda** (las que hay en tu log), **Modo** (CW, Fonía, Digitales, FT8, FT4, RTTY), **País y
@@ -1684,7 +1701,7 @@ necesitan archivo: cada uno tiene su logbook.
   revés; una tercera: lo más nuevo primero); los QSOs sin valor ahí van al final, y el orden se
   recuerda. Cada subida o bajada se ve en un recuadro arriba del log mientras corre (en qué paso
   está, una barra que se mueve, cuánto lleva), después en verde o rojo con cómo terminó hasta que
-  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **✎** edita un QSO en el formulario arriba de la lista (**Guardar cambios**; **Cancelar** lo
+  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **✎** edita un QSO en el formulario de la consola, con sus detalles abiertos (**Guardar cambios**; **Cancelar** lo
   deja como estaba): solo cambia lo que muestra el formulario, todos los demás campos quedan, y
   lo que era queda guardado en el logbook (tabla `edited`). Cambiar el indicativo, la hora, la
   banda o el modo de un QSO ya subido lo marca para subirlo otra vez (Club Log y QRZ.com: `M`;
@@ -1771,13 +1788,14 @@ necesitan archivo: cada uno tiene su logbook.
   minutos; si no se puede escribir (la unidad no está), el backup va a `data/backups`. **Hacer
   backup ahora** hace uno de cada indicativo en la carpeta guardada.
 - **CW con WinKey** (Configuración → Radio → **CW con WinKey**, apagado de fábrica): un WinKeyer de
-  K1EL (WK2 o WK3) en un puerto serie manipula la radio en CW. En la vista Log, al lado del cuadro de
-  la radio, un botón por mensaje, tres por fila: de fábrica **CQ** (`CQ DE {MYCALL} K`), **5NN**
+  K1EL (WK2 o WK3) en un puerto serie manipula la radio en CW. En la consola, en una columna a su
+  derecha, un botón por mensaje: de fábrica **CQ** (`CQ DE {MYCALL} K`), **5NN**
   (`{CALL} 5NN`), **TU** y **73**, en **F1** a **F4**. `{MYCALL}` es el indicativo con que trabajás, el del formulario, y `{CALL}` la
   estación del formulario; un mensaje con `{CALL}` y el formulario sin indicativo no se manda.
-  El atajo de cada mensaje lo manda, también mientras escribís en el formulario, y **Esc** o **Parar**
-  cortan enseguida lo que está mandando y lo que espera. Debajo de **Parar**, un renglón muestra el
-  mensaje que está saliendo, ya con el indicativo puesto («9X5KM 5NN»): cada letra se pinta a medida
+  El atajo de cada mensaje lo manda, en la lista, el mapa o la vista Log, también mientras escribís
+  en el formulario, y **Parar**, o **Esc** en la consola o mientras algo está saliendo, corta
+  enseguida lo que está mandando y lo que espera. Debajo de los botones se ve el mensaje que está
+  saliendo, ya con el indicativo puesto («9X5KM 5NN»): cada letra se pinta a medida
   que el WinKey la manipula (su eco por el puerto serie), y al terminar queda un momento y se va. Un
   WinKey que no devuelve el eco muestra el mensaje entero y se va al tiempo que tarda a su velocidad.
   **La velocidad** se cambia ahí mismo: **−** y **+** al lado de los WPM la bajan o la suben de a 1, y
@@ -2072,7 +2090,7 @@ hace falta.
 | `dxagent/livelog.py`       | Los QSOs que Log4OM guardó desde su último backup, de su base |
 | `dxagent/udplog.py`        | QSOs que otros programas mandan por UDP al loguearlos (XML de N1MM / DXLog.net, ADIF, WSJT-X), y lo que decodifica WSJT-X |
 | `dxagent/qsolog.py`        | El logbook de DX Agent (experimental): un archivo SQLite por indicativo, importar, backups |
-| `dxagent/qsoentry.py`      | Un QSO cargado en el formulario de la vista Log como ADIF, la edición de uno, y lo que un logger agrega a un QSO (DXCC, zonas...) |
+| `dxagent/qsoentry.py`      | Un QSO cargado en el formulario de la consola como ADIF, la edición de uno, y lo que un logger agrega a un QSO (DXCC, zonas...) |
 | `dxagent/tqsl.py`          | Subida a LoTW con TQSL: lo encuentra, sus ubicaciones de estación, firma y sube |
 | `dxagent/clublog.py`       | Subida a Club Log (realtime.php, putlogs.php), como mucho un pedido por minuto |
 | `dxagent/callbook.py`      | El nombre, QTH y grid de una estación desde QRZ.com, HamQTH o QRZCQ (tus cuentas) |

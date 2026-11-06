@@ -388,7 +388,7 @@ radio's model, its COM port and speed, for example for an IC-9100 on COM7
 (that is PowerShell: `&` before the path in quotes; in `cmd`, without it). `rigctl -l` lists
 the models. A second radio: its own `rigctld`, with `-t 4533`, and that port in DX Agent. A COM
 port takes one program at a time, so that radio can't be on OmniRig as well. DX Agent tunes
-through it and reads it back for the Log view, with its S-meter.
+through it and reads it back for the console under the list, with its S-meter.
 
 The radio/backend must actually report the physical PTT, and `dump_caps` must report `Can get
 PTT: Y`. DX Agent checks `\get_cache` is zero before each change; old rigctld versions that do
@@ -429,13 +429,12 @@ example a Flex on AetherSDR (TCI) and an IC-7300 on OmniRig, or OmniRig's Rig 1 
 Only one of the two can be on TCI, and two on OmniRig must be its Rig 1 and Rig 2.
 
 - **The active radio** is the one you last tuned or transmitted on; a click on the other one
-  in the Log view's box makes it the active one. The QSO form follows it, and the alert
+  in the console's radio box makes it the active one. The QSO form follows it, and the alert
   list's frequencies tune it.
 - **The Station tab** has a Tune button for each radio (each slice of the one on AetherSDR),
   with where it is now; the active one stands out.
-- **The Log view's box** shows both side by side, each in full with its name over it, a line
-  between them; the active one's name in the accent colour. On a screen under 1600 pixels
-  wide they go under the form, so it keeps its width.
+- **The console's radio strip**, along its top, shows both side by side, each with its name before
+  its VFOs or slices, a line between them; the active one's name in the accent colour.
 - **N1MM or DXLog.net (SO2R):** Tune is blocked because PTT cannot be verified.
 
 ### Follow one station
@@ -1534,26 +1533,36 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   (`STATION_CALLSIGN`) stays out and is counted, with a note to import the file into that
   callsign's logbook. A log of 50,000 QSOs takes 15 to 30 seconds.
 - **New QSOs** come in over UDP as before (WSJT-X, N1MM, Log4OM...), each into the logbook
-  of the callsign it says, and from the form at the top of the **Log view**: it fills itself
+  of the callsign it says, and from the **console** under the list, the map and the Log view, so the
+  spots stay in sight as you log: the radios along its top, under them one line with the call, kHz,
+  band, mode, the reports and **Log QSO**, and the WinKey's messages in a column at its right. In
+  the Log view, where there is room to spare, the radio keeps its whole window instead of the strip:
+  a column at the console's left, the frequency large, each VFO or slice a line under it, two radios
+  side by side; the form beside it (on a narrower screen, under it and the WinKey).
+  **Log a QSO**, at its top left, folds it to the radios alone, in any view, so the list gets the
+  room (the WinKey's keys still send); a click opens it again. **Show details** opens your
+  callsign, the date and time, name, QTH, grid square, references and comment (the browser remembers
+  whether you left the console and the details open; editing a QSO opens both). On a narrower
+  screen the fields and the WinKey's column get narrower and **Show details** is its arrow alone. It fills itself
   when you pick a station in the list or on the map (the call, its grid square, the park or summit), and
-  beside **Call** it says its country, in red for an ATNO (the **Quick log** too), with the
+  beside **Call** it says its country, in red for an ATNO, with the
   frequency and mode the radio is on as it moves (read through OmniRig, Hamlib or TCI: `rig.target =
   "omnirig"`, `"hamlib"` or `"tci"`; on TCI the slice Tune moves, or the split one; without it, the
   spot's). A station picked away from where the radio is (more than 3 kHz: FT8's offset doesn't
-  count) puts the spot's frequency and mode in, in this form and in the **Quick log**, until the
+  count) puts the spot's frequency and mode in the form until the
   radio moves (Tune, a click on the list's frequency, the dial): from then on they are the
   radio's. In split, when TX frequency is known, the QSO is logged where you transmitted (`FREQ`)
   and where you received (`FREQ_RX`). If the TX frequency is unknown, the form asks you to enter
-  it before saving. Beside the form, the radio as AetherSDR shows a slice: the VFO it follows large,
-  with its letter in its colour (A cyan, B magenta, C green, D yellow), **TX** on the one it
-  transmits on (filled red while it does), **SPLIT**, its band and mode; under it the radio's
-  other VFO, or AetherSDR's other slices, a line each (OmniRig's VFO B when the radio's file
+  it before saving. Along the console's top, the radio as AetherSDR shows a slice: the VFO it follows
+  in a tile of its own, its frequency large, with its letter in its colour (A cyan, B magenta, C green,
+  D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, its band and mode;
+  beside it the radio's other VFO, or AetherSDR's other slices, a tile each (more than fit wrap to a line below) (OmniRig's VFO B when the radio's file
   reads it; on Thetis or ExpertSDR each receiver's A and B). On TCI and Hamlib, the S-meter too, as the
-  program says it: a bar under the frequency with its reading (S7, S9+20), green up to S9 and
-  red over it, and a small one on each of the other lines (OmniRig doesn't read it). Hamlib
+  program says it: a bar beside the frequency with its reading (S7, S9+20), green up to S9 and
+  red over it, and a small one on each of the other tiles (OmniRig doesn't read it). Hamlib
   reads only the current VFO and never switches VFOs just to poll; the other line shows its
   last observed frequency, which may be stale. The display says when split TX is unknown and
-  shows **PTT?** when the transmit state is unknown. **A click on the other VFO's line puts the
+  shows **PTT?** when the transmit state is unknown. **A click on the other VFO's tile puts the
   radio on it** through Hamlib or OmniRig where supported, after checking PTT. **The band and
   mode lists** also check PTT: a band returns to its last frequency and mode
   (`data/radio-bands.json`), or an appropriate default; a mode keeps the frequency. Typing in the frequency or the mode stops following the
@@ -1565,12 +1574,13 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   stays. **Esc** in the call takes it out, and what DX Agent filled for that station with it.
   **Log QSO**, there or in the Station tab, saves
   it, and says what it adds to your log ("new for you: new band"), as your log was before it. Logged,
-  the form is empty for the next one, the **Quick log** under the filters too: the call, the reports
+  the form is empty for the next one, the cursor back in the call: the call, the reports
   (back to the mode's, 599 or 59) and the time (on the clock again); the frequency and the mode
-  stay. Every QSO gets what a logger adds: DXCC, country, CQ and ITU zones, continent
+  stay. **Last QSO:**, at the end of the form's line, says the one you just logged; its **✎** opens it in
+  the form to correct it, wherever you are. Every QSO gets what a logger adds: DXCC, country, CQ and ITU zones, continent
   (cty.csv), your grid square and callsign.
-- **Super Check Partial**, in the Log view's form and in the **Quick log**: as you type the call, the
-  calls that match show under it, with no window of their own. Those on the air come first: the one
+- **Super Check Partial**, in the console's form: as you type the call, the calls that match show
+  above it, over the list's last rows, with no window of their own. Those on the air come first: the one
   spotted on the form's frequency (within 3 kHz, with a green dot), then those on that band, then those
   on other bands, all spotted in the last 15 minutes (cluster, RBN or WSJT-X). Then those in your log,
   marked **worked** (on the air too), and last MASTER.SCP's, marked **SCP** (on the air too); those in
@@ -1579,7 +1589,10 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   where the radio is. When only one there starts with what you typed, the rest of it shows faint in the
   box and **Tab** completes it. **Alt+1** to **Alt+9** pick the others, and a click does too. A `?` stands
   for any one character (`9X?KM`). When someone on that band is one character off what you typed
-  (`9X5KN` with `9X5KM` spotted), **Did you mean** shows. When what you typed is nowhere, it says so:
+  (`9X5KN` with `9X5KM` spotted), **Did you mean** shows. It asks only about a whole call you typed:
+  not one picked from the list or the map, not while what you type still goes on into other calls, not
+  when what you typed is itself spotted on that band; a call that exists (in MASTER.SCP or your log) only
+  gets it for a station one character off on your frequency. When what you typed is nowhere, it says so:
   "not seen: not on the air, in your log or in Super Check Partial". A whole call that exists (in
   MASTER.SCP, in your log or spotted, as `K1TTT`) turns green in the box. MASTER.SCP
   (https://www.supercheckpartial.com/, the file contest loggers use) is downloaded to `data/MASTER.SCP`
@@ -1592,12 +1605,12 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   the one on your frequency first), and whether **Tab** completes and **Did you mean** shows. It also says how
   many calls the file has, its release and when it was downloaded, and **Update now** downloads it
   again at once. Off, the forms suggest nothing and the file isn't downloaded. **Esc** in the call or
-  **Alt+W** in the form (N1MM's wipe) clear the call and what was filled for its station, in both
-  forms. **Ctrl+W** too, where the browser lets it through: Chrome and Edge keep it to close the tab
+  **Alt+W** in the form (N1MM's wipe) clear the call and what was filled for its station. **Ctrl+W** too, where the browser lets it through: Chrome and Edge keep it to close the tab
   and don't let a page have it. So with a call typed by hand and not saved, the browser asks before
   the page is closed or reloaded.
-- **The Log view**, next to List and Map: the form that logs a QSO at the top, the radio's
-  frequency and mode beside it, then your log, newest first, 100 at a time, searched
+- **The Log view**, next to List and Map: your log, with the console under it as under the list
+  (while it shows, the **List** button counts the spots the list takes, in the colour of the most
+  wanted, until you're back), newest first, 100 at a time, searched
   by call (with All, every callsign's); the alerts' filters aren't shown there: the log's are,
   in the side panel's **Actions** tab, one under another under FILTERS — **Band** (those in your log),
   **Mode** (CW, Phone, Digital, FT8, FT4, RTTY), **Country & date** (a part of its name as the log writes it, or a prefix: `LU`, `VP8`, `3Y`, `LU5`, by the QSO's DXCC as cty.csv has it; and from and to dates), and
@@ -1611,7 +1624,7 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   download shows in a box above the log while it runs (its step, a moving bar, how long so
   far), then green or red with how it went until you close it, and the log's LoTW and CL
   columns show what it marked. **✎** edits a
-  QSO in the form above the list (**Save changes**; **Cancel** leaves it as it was): only what the
+  QSO in the console's form, its details open (**Save changes**; **Cancel** leaves it as it was): only what the
   form shows changes, every other field stays, and what it was is kept in the logbook (table
   `edited`). Changing the call, time, band or mode of a QSO already uploaded marks it to
   upload again (Club Log and QRZ.com: `M`; LoTW: `N`, LoTW takes it as a new QSO and the old
@@ -1664,8 +1677,8 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   whether the key works.
 - Uploads and downloads run in the background, each in its box under the buttons. Before an
   upload DX Agent says how many QSOs of each callsign will go.
-- **A station clicked in the Log view** opens in the Actions tab, not the Station tab (the form
-  stays as it is, above the list): under the filters, the QSO you clicked with an **Edit this QSO** button, what
+- **A station clicked in the Log view** opens in the Actions tab, not the Station tab (the
+  console's form stays as it is): under the filters, the QSO you clicked with an **Edit this QSO** button, what
   your callbooks say about the station, the bands and modes you worked and confirmed it on (the
   Station tab's grid, with its card on each cell) and your QSOs with it. The station in the form
   shows there the same way, without the name, QTH and grid square already in the form: only the
@@ -1695,13 +1708,14 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   within minutes; if it can't be written (the drive isn't there), the backup goes to
   `data/backups`. **Back up now** makes one of each callsign in the folder saved.
 - **CW with WinKey** (Settings → Radio → **CW with WinKey**, off by default): a K1EL WinKeyer (WK2 or
-  WK3) on a serial port keys the radio in CW. In the Log view, beside the radio's box, a button per
-  message, three a row: out of the box **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and
+  WK3) on a serial port keys the radio in CW. In the console, in a column at its right, a button per
+  message: out of the box **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and
   **73**, on **F1** to **F4**.
   `{MYCALL}` is the callsign you work as, the form's, and `{CALL}` the station in the form; a message
-  with `{CALL}` and no call in the form isn't sent. Each message's key sends it, also while typing in
-  the form, and **Esc** or **Stop** cut at once what it is sending and what waits. Under **Stop**, a
-  line shows the message going out, its call filled in ("9X5KM 5NN"): each character lights up as the
+  with `{CALL}` and no call in the form isn't sent. Each message's key sends it, in the list, the map
+  or the Log view, also while typing in the form, and **Stop**, or **Esc** in the console or while
+  something goes out, cuts at once what it is sending and what waits. Under the buttons, the message
+  going out shows, its call filled in ("9X5KM 5NN"): each character lights up as the
   WinKey keys it (its echo on the serial port), and once it ends it stays a moment and goes. A WinKey
   that doesn't echo shows the whole message, gone after the time it takes at its speed. **The speed**
   changes right there: **−** and **+** beside the WPM take it down or up by 1, and **PgDn** and **PgUp**
@@ -1984,7 +1998,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `dxagent/livelog.py`       | The QSOs Log4OM saved since its last backup, from its database |
 | `dxagent/udplog.py`        | QSOs other programs send over UDP as they log them (N1MM / DXLog.net XML, ADIF, WSJT-X), and what WSJT-X decodes |
 | `dxagent/qsolog.py`        | DX Agent's logbook (experimental): one SQLite file per callsign, import, backups |
-| `dxagent/qsoentry.py`      | A QSO typed in on the Log view's form as ADIF, an edit of one, and what a logger adds to a QSO (DXCC, zones...) |
+| `dxagent/qsoentry.py`      | A QSO typed in on the console's form as ADIF, an edit of one, and what a logger adds to a QSO (DXCC, zones...) |
 | `dxagent/tqsl.py`          | Uploads to LoTW through TQSL: finds it, its Station Locations, signs and uploads |
 | `dxagent/clublog.py`       | Uploads to Club Log (realtime.php, putlogs.php), one request a minute at most |
 | `dxagent/callbook.py`      | A station's name, QTH and grid square from QRZ.com, HamQTH or QRZCQ (your accounts) |
