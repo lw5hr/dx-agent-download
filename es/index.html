@@ -100,7 +100,7 @@
   </section>
 
   <figure>
-    <img src="../images/station.es.png" alt="Panel de DX Agent: la lista de alertas, con una DXpedición que hacía falta en 20 m y la grilla de bandas y modos de esa estación" width="1000" loading="eager">
+    <img src="../images/station.es.png" alt="DX Agent: la lista de alertas con una estación elegida, y la pestaña Estación con lo que tenés de ese país por banda y modo, su estado en LoTW, los rumbos de antena y el botón para cargar el QSO" width="1000" loading="eager">
     <figcaption>La lista de alertas y lo que cada estación suma a tu log: qué te falta, el estado en
       LoTW y las bandas y modos que ya tenés.</figcaption>
   </figure>
@@ -112,9 +112,9 @@
     <li><b>Grids Maidenhead</b> Los grids que trabajaste y confirmaste en el mapa (VUCC,
       FFMA), las estaciones oídas con locator en su grid, y una alerta GRID NUEVO cuando está en el
       aire un grid que te falta en esa banda.</li>
-    <li><b>Tus diplomas en el mapa</b> DXCC (Mixto, por modo o banda, Satélite, Challenge) y WAZ
-      (también 5BWAZ), cada país o zona pintado confirmado, trabajado o faltante; un clic en un país
-      muestra lo que tenés de él.</li>
+    <li><b>Tus diplomas en el mapa</b> DXCC (Mixto, por modo o banda, Satélite, Challenge), WAZ
+      (también 5BWAZ) y WAS (los 50 estados de EE. UU.), cada país, zona o estado pintado confirmado,
+      trabajado o faltante; un clic en un país muestra lo que tenés de él.</li>
     <li><b>DXpediciones que valen la pena</b> Las DXpediciones anunciadas en NG3K, 425 DX News y Club
       Log, cada una diciendo si te suma una entidad, una banda o un modo, y si ya estás en su log
       online.</li>
@@ -125,6 +125,10 @@
     <li><b>Cerca tuyo</b> Si la estación está siendo escuchada por receptores cerca de tu estación
       (RBN, cluster, PSKReporter en vivo y los decodes de tu propio WSJT-X), para saber si el camino
       está abierto para vos.</li>
+    <li><b>Ventanas: a qué hora estar</b> Para cada país que te falta, las horas y las bandas en que se
+      escuchó desde estaciones cerca de la tuya, armado con los spots que DX Agent ya lee y guardado mes
+      a mes. Al empezar cada hora UTC una alerta <b>SU HORA</b> te nombra uno que suele escucharse cerca
+      tuyo a esa hora, para saber cuándo sentarte en la silla.</li>
     <li><b>Propagación: VOACAP y el camino</b> La chance de un QSO con cada estación a esta hora, en
       los dos sentidos, con VOACAP incluido (no hay nada que instalar), las próximas 24 horas por
       banda, y si tu propia señal se reportó cerca de la estación.</li>
@@ -140,6 +144,12 @@
       Hamlib, flrig, DXLab, WSJT-X o TCI (una FlexRadio con AetherSDR, con las alertas en su
       panadaptador; en prueba). Su frecuencia, sus VFO y su S-meter al lado del formulario del QSO,
       una radio o dos, y Hamlib la lee. Y Spotear publica un spot en el DX cluster.</li>
+    <li><b>Loguear sin salir de la lista</b> Una consola debajo de la lista, el mapa y la vista Log
+      mantiene los spots a la vista mientras trabajás: las radios en su franja de arriba, una línea con
+      el indicativo, los kHz, la banda, el modo, los reportes y <b>Guardar QSO</b>, los mensajes del WinKey
+      en una columna a la derecha, y <b>Último QSO</b> al final de la línea. En la vista Log la radio
+      conserva su ventana entera en vez de la franja. Plegala a las radios solas, en cualquier vista,
+      cuando querés recuperar el espacio.</li>
     <li><b>Su propio logbook (experimental)</b> DX Agent puede llevar tu log él mismo: guardá un QSO con
       el formulario completado desde el spot y la radio, editalo, filtralo, subilo a LoTW, Club Log y QRZ.com,
       y mirá quién te confirmó en LoTW.</li>
@@ -160,7 +170,7 @@
       <figcaption>DXpediciones en el aire ahora, y qué suma cada una a tu log.</figcaption>
     </figure>
     <figure>
-      <img src="../images/map.es.png" alt="DX Agent: el mapa mundial con los países trabajados y confirmados y la posición de la estación" loading="lazy">
+      <img src="../images/map.es.png" alt="DX Agent: el mapa mundial con las alertas, las DXpediciones en el aire, tu propia estación y la zona de noche" loading="lazy">
       <figcaption>Tu DXCC y tu WAZ en un mapa mundial.</figcaption>
     </figure>
     <figure>
