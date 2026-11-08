@@ -263,7 +263,10 @@ frecuencia) se abre la estación:
   activaciones, si **vos** la trabajaste y en qué bandas (o "Nueva para vos"), y enlaces;
 - **Quién lo escucha**, los receptores más cercanos a vos primero, y el botón **Consultar
   PSKReporter** para FT8/FT4 (o, con PSKReporter en vivo, los receptores a medida que la
-  reportan: sección 5);
+  reportan: sección 5). Su resumen es de la banda del camino de la estación: escucharla en 20 m
+  (también con tu propio WSJT-X) no dice nada de 17 m, así que dice «En 17m nadie la reportó en
+  los últimos 15 minutos. Sí se escucha cerca tuyo en 20m.». La lista de abajo sigue con los
+  reportes de todas las bandas, cada uno con la suya;
 - **Ver solo** este indicativo, **☆ seguimiento** para sumarlo a tu lista de seguimiento,
   **Spotear** (ver abajo), sus **Últimos spots** y enlaces a QRZ.com, HamQTH y DXWatch.
   **Últimos spots** y **Quién lo escucha** son pastillas: al pasar el mouse dicen qué lista cada
@@ -476,8 +479,7 @@ después de** (Configuración → Alertas) cambian solo la lista.
 
 El camino dice lo medido; **VOACAP** dice qué esperar: la ionosfera mediana del mes a esa hora,
 entre vos y la estación, en los dos sentidos (tu señal allá y la de ellos acá). Viene incluido
-(DVOACAP de VE3NEA, en Python: no hay nada que instalar), y el número de manchas solares es el de
-NOAA, bajado cada día. Necesita tu grid locator. En **Configuración → Propagación** poné tu
+(DVOACAP de VE3NEA, en Python: no hay nada que instalar). Necesita tu grid locator. En **Configuración → Propagación** poné tu
 potencia, la ganancia de tu antena (unos 3 dBi un dipolo o una vertical, 8 a 10 una Yagi) y el
 ruido donde estás (residencial, rural o silencioso).
 
@@ -494,8 +496,33 @@ ruido donde estás (residencial, rural o silencioso).
   Estación, el camino mejor ahora va resaltado y el otro más tenue. Por paso largo la predicción es
   más aproximada.
 
-Es una predicción, la mediana del mes: un día dado la banda puede estar mejor o peor; el camino,
-cuando hay algo medido, dice lo que pasa ahora.
+**La ionósfera de hoy, no la del mes.** Dos cosas acercan la predicción al día:
+
+- **El número de manchas solares es el efectivo de KC2G** ([prop.kc2g.com](https://prop.kc2g.com/),
+  de Andrew Rodland, KC2G, con las ionosondas de GIRO): el que mejor se ajusta a lo que miden hoy
+  las ionosondas del mundo, pedido una vez por hora. Después de una tormenta la predicción baja con
+  las bandas. Si KC2G lleva 6 horas sin dar un valor, o con **Configuración → Propagación → Número
+  de manchas solares** desmarcado, es el de NOAA del mes.
+- **Las ionosondas cercanas a cada camino** (Configuración → Propagación → **Ionosondas**, prendido
+  de entrada): cerca tuyo para el primer salto, cerca de la estación para el último. Cada 15
+  minutos, de las estaciones que publica KC2G (GIRO, INGV, el BoM de Australia y otras), un número
+  de manchas solares por zona y una corrección del foF2 en cada punto de control, que se va
+  apagando en las horas siguientes. Sin ionosondas cerca de un camino, la predicción es la de
+  antes. En 6 m, una ionosonda a menos de 500 km tuyo que mide un foEs alto avisa que 6 m puede
+  abrir por Es.
+- **Cada predicción dice de dónde sale**, en el tooltip de la lista y en la pestaña Estación:
+  «VOACAP + Tucumán, hace 12 min» o «manchas solares 92 (KC2G eSSN)», con el crédito de cada
+  estación; también una corrección grande («foF2 un 30 % bajo la mediana cerca de Tucumán»).
+
+**VOACAP contra el aire** dice cuánto acierta. En la pestaña Estación, al lado de la predicción, lo
+que pasó en la última hora («VOACAP decía 20 m al 15 % hacia JA; la escucharon 6 receptores cerca
+tuyo»); debajo del cuadro de 24 horas, los últimos 30 días por banda y hora UTC: acertó, se quedó
+corto (cerrada, y se escuchó) o fue optimista (abierta, y no se escuchó). Solo cuenta el camino
+entre vos y la estación, y una banda se da por cerrada solo con suficientes receptores cerca tuyo
+reportando en esa banda: con pocos, no se concluye nada.
+
+Sigue siendo una predicción: un día dado la banda puede estar mejor o peor; el camino, cuando hay
+algo medido, dice lo que pasa ahora.
 
 ### Aperturas en VHF: 6 m y 2 m
 
@@ -554,7 +581,10 @@ dentro de tu distancia "cerca tuyo".
 
 Con una radio configurada (Configuración → **Radio (botón Sintonizar)**), al hacer clic en
 la **frecuencia** de una alerta tu programa mueve la radio ahí y la estación se abre a la
-derecha. La pestaña Estación también tiene un botón **Sintonizar**. Un mensaje arriba a la
+derecha. En la consola, después de las radios (sección 13), aparece también un botón
+**Sintonizar**: al lado de ellas si entra, y un botón por slice o por radio en una línea propia
+debajo (la consola crece en alto, nunca a lo ancho). Con el logbook de DX Agent apagado no hay
+consola, y el botón está en la pestaña Estación. Un mensaje arriba a la
 derecha dice si funcionó.
 
 | Programa | Qué hay que hacer en el programa | ¿Cambia el modo? |
@@ -583,8 +613,8 @@ derecha dice si funcionó.
   - **Solo una de las dos puede ir por TCI.** Dos por Hamlib necesitan un rigctld cada una, en su
     propio puerto.
   - **La radio activa** es la última que sintonizaste o con la que transmitiste, o la que elegís con
-    un clic en la consola (sección 13). Las frecuencias de la lista de alertas la sintonizan, y la
-    pestaña Estación tiene un botón Sintonizar para cada radio.
+    un clic en la consola (sección 13). Las frecuencias de la lista de alertas la sintonizan, y
+    Sintonizar, en la consola, tiene un botón para cada radio.
   - **Las dos en N1MM o DXLog.net (SO2R):** cada radio recibe su propio número de radio.
 
 - **Nunca mientras transmitís.** Antes de cada cambio de frecuencia, banda, modo o VFO, DX Agent
@@ -604,7 +634,7 @@ derecha dice si funcionó.
   USB: volvé a poner USB-D a mano. Con CW pasa lo mismo: una radio en CW o CW-R lo conserva.
 - **FlexRadio con AetherSDR (TCI), en prueba:** Sintonizar mueve el slice que transmite (el de
   TX; hasta que DX Agent sabe cuál es, el que tiene el foco) y pone el modo (CW, USB/LSB, RTTY,
-  DIGU para FT8). Con dos o más slices abiertos, la pestaña Estación tiene un botón Sintonizar por
+  DIGU para FT8). Con dos o más slices abiertos, Sintonizar tiene un botón por
   slice: su letra (o su número de RX, hasta que tuvo el foco) y dónde está ahora; el de TX está
   marcado **TX**, y se destaca el que sintonizan las frecuencias de la lista. Elegir un slice ahí
   lo sintoniza pero no le da el foco en AetherSDR: AetherSDR no deja que otro programa lo cambie.
@@ -685,7 +715,10 @@ Server), así que si ya lo usa otro programa (Log4OM, JTAlert, GridTracker):
   pueden reenviar los mensajes de WSJT-X).
 
 La estación que llamás en WSJT-X (un doble clic en su decode) se abre en la pestaña Estación de DX
-Agent: qué tenés de su país, el camino, VOACAP... Los decodes del período en que cambiás de banda
+Agent: qué tenés de su país, el camino, VOACAP... Su fila en la lista de alertas se trae a la
+vista y parpadea, y el mapa se va a ella (si estaba fuera de la vista) y la marca con un halo,
+aunque no haya dado ninguna alerta propia. Lo mismo al elegir una estación en el mapa, en el
+panadaptador o en el cuadro de búsqueda. Los decodes del período en que cambiás de banda
 no cuentan en la banda nueva.
 
 ## 8. DXpediciones
@@ -867,7 +900,7 @@ en Configuración → **Log**.
 
 **La consola**, fija abajo, debajo de la lista, el mapa y la vista Log, la misma en las tres, para
 que los spots queden a la vista mientras cargás:
-- **Arriba, tus radios** (más abajo).
+- **Arriba, tus radios** (más abajo), y después de ellas **Sintonizar**, para la estación que elegiste.
 - **Debajo, el formulario** en una línea: indicativo, kHz, banda, modo, los reportes y **Guardar
   QSO**. **Mostrar detalles** abre el resto: tu indicativo, fecha y hora, nombre, QTH, grid,
   referencias y comentario.
@@ -946,13 +979,13 @@ una columna a la izquierda de la consola.
 
 **CW con WinKey:** si tenés un WinKeyer de K1EL (WK2 o WK3), activalo en Configuración → Radio →
 **CW con WinKey**, con su puerto y su velocidad (**Probar** dice si lo encuentra). Aparece una
-columna a la derecha de la consola, con la velocidad y **Parar** arriba y un botón por mensaje, tres
-por fila:
+columna a la derecha de la consola, con la velocidad arriba, un botón por cada mensaje que
+configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo:
 
 - **De fábrica:** **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** y **73**. `{MYCALL}` es
   el indicativo con que trabajás y `{CALL}` la estación del formulario. Los editás en la misma
-  Configuración, hasta 8.
-- **Cada mensaje tiene su atajo**, de **F1** a **F6** o ninguno, y lo manda en la lista, el mapa o la
+  Configuración, hasta 12.
+- **Cada mensaje tiene su atajo**, de **F1** a **F10** o ninguno (F11 y F12 quedan para el navegador), y lo manda en la lista, el mapa o la
   vista Log, también mientras escribís en el formulario y con la consola plegada. De fábrica, F1 a
   F4; uno nuevo toma el primero libre. **Parar**, o **Esc** en la consola o mientras algo está
   saliendo, corta enseguida.

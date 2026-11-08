@@ -248,7 +248,10 @@ station:
   it: name, type and place, how many activations and QSOs, who activated it first, its latest
   activations, whether **you** worked it and on which bands (or "New for you"), and links;
 - **Who hears it**, the receivers nearest to you first, and **Check PSKReporter (FT8/FT4)** (or,
-  with PSKReporter live, the receivers as they report it: section 5);
+  with PSKReporter live, the receivers as they report it: section 5). Its summary is for the band
+  of the station's path: heard on 20 m (your own WSJT-X too) says nothing about 17 m, so it says
+  "On 17m, no reports in the last 15 minutes. Heard near you on 20m." The list below keeps every
+  band's reports, each with its band;
 - **Show only** this call, **☆ Add to watchlist**, **Spot it** (below), its **Latest spots**, and
   links to QRZ.com, HamQTH and DXWatch. **Latest spots** and **Who hears it** are pills: hover one
   to see what it lists;
@@ -452,8 +455,7 @@ Alerts) only change the list.
 
 The path says what is measured; **VOACAP** says what to expect: the month's median ionosphere at
 that hour, between you and the station, both ways (your signal there and theirs here). It is
-built in (VE3NEA's DVOACAP, in Python: nothing to install), and the sunspot number is NOAA's,
-downloaded daily. It needs your grid square. In **Settings → Propagation** set your power, your
+built in (VE3NEA's DVOACAP, in Python: nothing to install). It needs your grid square. In **Settings → Propagation** set your power, your
 antenna's gain (about 3 dBi for a dipole or a vertical, 8 to 10 for a Yagi) and the noise where
 you are (residential, rural or quiet).
 
@@ -469,8 +471,32 @@ you are (residential, rural or quiet).
   South America, Japan on 15 m at dusk, say). In the Station tab's **Beam**, the path that is better
   now is highlighted and the other one faint. The long path's prediction is rougher.
 
-It is a prediction, the month's median: on a given day the band can be better or worse; the path,
-when something was measured, says what is happening now.
+**Today's ionosphere, not the month's.** Two things bring the prediction closer to the day:
+
+- **The sunspot number is KC2G's effective one** ([prop.kc2g.com](https://prop.kc2g.com/), by
+  Andrew Rodland, KC2G, from GIRO's ionosondes): the one that best fits what the world's ionosondes
+  measure today, asked once an hour. After a storm the prediction drops with the bands. If KC2G has
+  had none for 6 hours, or with **Settings → Propagation → Sunspot number** off, it is NOAA's for
+  the month.
+- **The ionosondes near each path** (Settings → Propagation → **Ionosondes**, on by default): near
+  you for the first hop, near the station for the last. Every 15 minutes, from the stations KC2G
+  publishes (GIRO, INGV, Australia's BoM and others), a sunspot number per zone and a correction of
+  the foF2 at each control point, fading over the following hours. With no ionosonde near a path,
+  the prediction is as before. On 6 m, an ionosonde within 500 km of you measuring a high foEs
+  warns that 6 m may open by Es.
+- **Each prediction says where it comes from**, in the list's tooltip and the Station tab:
+  "VOACAP + Tucumán, 12 min ago" or "sunspot number 92 (KC2G eSSN)", with each station's credit; a
+  large correction too ("foF2 30% below the median near Tucumán").
+
+**VOACAP against the air** says how often it is right. In the Station tab, beside the prediction,
+what happened in the last hour ("VOACAP said 20 m at 15% toward JA; 6 receivers near you heard it");
+under the 24-hour grid, the last 30 days by band and UTC hour: right, short (closed, yet heard) or
+optimistic (open, yet not heard). Only the path between you and the station counts, and a band is
+called closed only with enough receivers near you reporting on that band: with few, nothing is
+concluded.
+
+It is still a prediction: on a given day the band can be better or worse; the path, when something
+was measured, says what is happening now.
 
 ### VHF openings: 6 m and 2 m
 
@@ -524,8 +550,11 @@ your "near you" distance.
 ## 6. Tune the radio and pass the call to your logger
 
 With a radio set up (Settings → **Radio (Tune button)**), clicking an alert's **frequency** has
-your program move the radio there, and the station opens on the right. The Station tab also
-has a **Tune** button. A message at the top right says whether it worked.
+your program move the radio there, and the station opens on the right. A **Tune** button also
+shows in the console, after the radios (section 13): beside them when it fits, and a button per
+slice or radio on a line of its own under them (the console grows taller, never wider). With DX
+Agent's logbook off there is no console, and the button is in the Station tab. A message at the
+top right says whether it worked.
 
 | Program | What to do in the program | Mode too? |
 |---------|---------------------------|-----------|
@@ -551,7 +580,7 @@ has a **Tune** button. A message at the top right says whether it worked.
   and name.
   - **Only one of the two can be on TCI.** Two on Hamlib need a rigctld each, on its own port.
   - **The active radio** is the one you last tuned or transmitted on, or the one you click in the
-    console (section 13). The alert list's frequencies tune it, and the Station tab has a Tune
+    console (section 13). The alert list's frequencies tune it, and Tune, in the console, has a
     button for each radio.
   - **Both on N1MM or DXLog.net (SO2R):** each radio gets its own radio number.
 
@@ -566,7 +595,7 @@ has a **Tune** button. A message at the top right says whether it worked.
   back by hand. The same goes for CW: a radio in CW or CW-R keeps it.
 - **FlexRadio with AetherSDR (TCI), in testing:** Tune moves the slice that transmits (the TX
   slice; until DX Agent knows which one, the one with the focus) and sets the mode (CW, USB/LSB,
-  RTTY, DIGU for FT8). With two or more slices open, the Station tab has a Tune button per slice:
+  RTTY, DIGU for FT8). With two or more slices open, Tune has a button per slice:
   its letter (or its RX number, until it has had the focus) and where it is now; the TX slice is
   marked **TX**, and the one the list's frequencies tune stands out. Choosing a slice there tunes
   it but doesn't give it the focus in AetherSDR: AetherSDR doesn't let another program change
@@ -649,7 +678,10 @@ Server), so if another program already uses it (Log4OM, JTAlert, GridTracker):
   GridTracker can resend WSJT-X's messages).
 
 The station you call in WSJT-X (a double click on its decode) opens in DX Agent's Station tab:
-what you have of its country, the path, VOACAP... Decodes of the period in which you change band
+what you have of its country, the path, VOACAP... Its row in the alert list comes into sight and
+flashes, and the map goes to it (if it was out of view) and marks it with a halo, even when it gave
+no alert of its own. The same when you pick a station on the map, on the panadapter or in the
+lookup box. Decodes of the period in which you change band
 don't count on the new band.
 
 ## 8. DXpeditions
@@ -824,7 +856,7 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
 
 **The console**, docked at the bottom under the list, the map and the Log view, the same in all
 three, so the spots stay in sight while you log:
-- **On top, your radios** (more below).
+- **On top, your radios** (more below), and after them **Tune**, for the station you picked.
 - **Under them, the form** on one line: call, kHz, band, mode, the reports and **Log QSO**.
   **Show details** opens the rest: your call, date and time, name, QTH, grid square, references and
   comment.
@@ -900,12 +932,13 @@ Log view, with room to spare, the radio keeps its whole window, in a column at t
 
 **CW with WinKey:** if you have a K1EL WinKeyer (WK2 or WK3), turn it on in Settings → Radio →
 **CW with WinKey**, with its port and speed (**Test** says whether it finds it). A column shows at
-the console's right, with the speed and **Stop** on top and a button per message, three a row:
+the console's right, with the speed on top, a button per message you set, three a row, and
+**Stop** at the bottom, beside what is going out:
 
 - **Out of the box:** **CQ** (`CQ DE {MYCALL} K`), **5NN** (`{CALL} 5NN`), **TU** and **73**.
   `{MYCALL}` is the callsign you work as and `{CALL}` the station in the form. You edit them in the
-  same Settings, up to 8.
-- **Each message has its key**, **F1** to **F6** or none, and it sends it in the list, the map or
+  same Settings, up to 12.
+- **Each message has its key**, **F1** to **F10** or none (F11 and F12 stay with the browser), and it sends it in the list, the map or
   the Log view, also while typing in the form and with the console folded. Out of the box, F1 to
   F4; a new one takes the first free. **Stop**, or **Esc** in the console or while something goes
   out, cuts at once.

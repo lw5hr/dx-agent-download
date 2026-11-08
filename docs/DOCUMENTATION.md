@@ -197,7 +197,7 @@ is transmitting now:
   spotted in the last 15 minutes has its ring, and the latest one blinks.
 - **Hover** a ringed cell: when it was spotted, on what frequency and mode, and by whom.
 - **Click** a ringed cell (with a radio set up, see Tune the radio): Tune goes to that band
-  and mode's latest spot, and the Station tab's Tune button keeps it.
+  and mode's latest spot, and the Tune button keeps it.
 - A spot that doesn't say its mode marks the whole band. With no spot for 15 minutes, the
   ring and the dot go. With Windows' animations off, the latest one has a thicker ring
   instead of blinking.
@@ -249,10 +249,13 @@ Settings, so you can fix it without the terminal.
 
 With a radio target set (Settings → **Radio (Tune button)**), clicking an alert's
 frequency asks your logger or rig-control program to move the radio there, and opens the
-station on the right, as clicking the row does. The
-Station tab also gets a **Tune** button: for the row you clicked in the list (highlighted
-more strongly than the call's other rows), or else the station's latest spot. A message in
-the top-right corner says whether it worked.
+station on the right, as clicking the row does. A **Tune** button also appears in the
+console, after the radios: for the row you clicked in the list (highlighted more strongly
+than the call's other rows), or else the station's latest spot. One button sits beside the
+radios when it fits; a button per slice or radio goes on a line of its own under them (the
+console grows taller, the list or the map gives it the room). With DX Agent's logbook off
+there is no console, and the button is in the Station tab. A message in the top-right corner
+says whether it worked.
 
 **Transmit protection:** DX Agent checks for receive (PTT off) before its own Tune, band and VFO
 changes. It refuses to move the radio while TX is reported or when the state cannot be verified.
@@ -342,7 +345,7 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   dial WSJT-X's Status says), not the TX or focused one, so WSJT-X changes band with it: AetherSDR
   tells every program each slice's frequency, but WSJT-X only reads its own slice's. Needs
   WSJT-X's UDP messages reaching DX Agent; without them (or with WSJT-X on the TX slice), as above.
-- **With two or more slices open**, the Station tab's Tune button becomes a button per slice:
+- **With two or more slices open**, the Tune button becomes a button per slice:
   under "Tune 14025.0 kHz CW on slice", its letter and where it is now (**A** 7074.0 DIGU ·
   **B** 14010.0 CW). The TX slice is marked **TX**, and the one the list's and the grid's
   frequencies tune stands out: the TX slice, else the one with the focus (once the focused slice
@@ -431,8 +434,8 @@ Only one of the two can be on TCI, and two on OmniRig must be its Rig 1 and Rig 
 - **The active radio** is the one you last tuned or transmitted on; a click on the other one
   in the console's radio box makes it the active one. The QSO form follows it, and the alert
   list's frequencies tune it.
-- **The Station tab** has a Tune button for each radio (each slice of the one on AetherSDR),
-  with where it is now; the active one stands out.
+- **Tune**, after the radios in the console, has a button for each radio (each slice of the one
+  on AetherSDR), with where it is now; the active one stands out.
 - **The console's radio strip**, along its top, shows both side by side, each with its name before
   its VFOs or slices, a line between them; the active one's name in the accent colour.
 - **N1MM or DXLog.net (SO2R):** Tune is blocked because PTT cannot be verified.
@@ -611,7 +614,10 @@ world map. The filters apply to both views.
 - **Shaded area:** where it is night right now (the greyline is its edge), updated every minute.
 - **Selected station:** a dashed great-circle path from your QTH, the **beam heading**
   (and long path) and distance, and small dots for every receiver that heard it in the
-  last 15 minutes (green = near you).
+  last 15 minutes (green = near you). Its place gets a **halo** with a dot in the middle, so
+  it is found among hundreds of dots, also when it made no alert at all (picked in WSJT-X,
+  on the panadapter, in the lookup or in the DXpeditions tab). Picked while out of sight, the
+  map centres on it; already in sight, the map stays as it is.
 - **Zoom** with the mouse wheel or the **+ / −** buttons, **drag** to move,
   **⟲** to see the whole world again. Call signs of all stations appear once you zoom in;
   where they would overlap, the most important ones are shown (hover a dot for its call).
@@ -1011,7 +1017,10 @@ it in the last 15 minutes on that band:
   stations it kept from alerting in the last hour ("1,240 didn't alert: heard only far
   away", a click opens Settings). Usually the filter is what you want.
 - **Station tab:** **Who hears it** lists the receivers nearest you first, with band,
-  SNR and age. **Check PSKReporter (FT8/FT4)** asks PSKReporter, which has many more
+  SNR and age. Its summary is for the band of the station's path (the row you clicked, else
+  the band it was spotted on last): heard on 20 m, your own WSJT-X included, says nothing
+  about 17 m. "On 17m, no reports in the last 15 minutes. Heard near you on 20m." The table
+  keeps every band's reports, each with its band. **Check PSKReporter (FT8/FT4)** asks PSKReporter, which has many more
   FT8 receivers in South America than RBN has skimmers. Its receptions are added to
   "near you", so the summary and the table's column update too. The answer is cached
   for 5 minutes per call. PSKReporter asks for **at most one query every 5 minutes**
@@ -1069,8 +1078,15 @@ nothing, which doesn't mean the band is closed.
 The path says what is measured; **VOACAP** says what to expect: the month's median ionosphere for
 the sunspot number, at that hour, between you and the station. DX Agent has VOACAP built in (a
 Python port of VE3NEA's DVOACAP, MIT license, which gives VOACAP's own results; nothing to
-install), and the sunspot number is NOAA SWPC's predicted one for the month, downloaded once a
-day. It needs your grid square.
+install). It needs your grid square.
+
+The sunspot number is **KC2G's effective one** ([prop.kc2g.com](https://prop.kc2g.com/), by Andrew
+Rodland, KC2G, with the ionosonde data of GIRO): the number that best fits what the ionosondes
+around the world measure, worked out every 15 minutes. With it the prediction follows today's
+ionosphere, not only the month's: after a geomagnetic storm, when the bands drop, it drops too.
+DX Agent asks for it once an hour, and its name is next to every prediction. Turned off
+(**Settings → Propagation → Sunspot number**), or when KC2G has had none for 6 hours, it is NOAA
+SWPC's predicted one for the month, downloaded once a day.
 
 It works it out both ways, your signal there and theirs here, each station taken to be like yours
 (**Settings → Propagation**: your power, your antenna's gain over isotropic, about 3 dBi for a
@@ -1103,6 +1119,65 @@ measured (the path) can't tell the two apart: a report doesn't say which way the
   each square greener the better the chance, for CW, SSB, FT8, FT4 or RTTY (the row's mode at
   first); hover a square for its figures. Above it, the row's band now. Striped, the hours better
   by the long path; under it, each path's distance and bearing.
+- **VOACAP against the air** in the Station tab: what it predicted for the path on that band and hour,
+  next to what actually happened on it. Under the path it says, for instance, "VOACAP said 20 m at 15%
+  towards JA; 3 receivers near you heard it in the last hour": the distinct receivers **within your
+  "near you" distance** that reported a station in that zone (RBN, cluster and PSKReporter) during the
+  hour. A report from a receiver far away — a Japanese skimmer hearing a Japanese station — only says
+  the band is in use there, not that it reaches you, so it doesn't count as heard on your path.
+  Heard near you, the path was open: a hit when VOACAP said open, and it fell short when it said
+  closed. Heard only further away, and with 3 or more receivers near you reporting **on that same
+  band** that hour, the band was closed from here: a hit when VOACAP said closed, and too optimistic
+  when it said open. Receivers near you that are all on 40 m say nothing about 15 m, so they don't
+  make it closed.
+  If nobody heard it on that band in the hour, nothing is compared: either VOACAP was right or the
+  station wasn't on the air, and the air alone can't say which.
+  Under the 24-hour grid, **VOACAP against the air** sums up the last 30 days: by band and by UTC
+  hour, how often it was right, how often it fell short and how often it was optimistic — and by the
+  sunspot number it predicted with (KC2G's effective one or NOAA's), which is how the accuracy before
+  and after the ionosondes can be compared. It is all in the data folder (`propcheck.db`, 30 days
+  kept), beside `dxagent.db`.
+- **The ionosphere of today** (Settings → Propagation → Ionosondes, on by default): once every 15
+  minutes DX Agent reads KC2G's `stations.json` — where each ionosonde is, when it measured and its
+  foF2, MUF(D) and hmF2 — and uses it inside the prediction, for **every** place a prediction is
+  made: the list's VOACAP column, the Station tab's 24 hours, the Ventanas tab (the country's hours
+  and the hour's alert) and the 6 m F2. Two things come out of it: the sunspot number that best fits
+  what the stations measure around each path (the maps' own foF2 and MUF(D), not an outside model),
+  and a correction of each control point's foF2 and M(3000) from the stations near it — more
+  east to west than north to south, never across the equatorial anomaly, weighted by how old the
+  measurement is and how sure the autoscaler was, and fading to nothing as the hours predicted get
+  further away (an hour a quarter ahead already carries less of it).
+  Each measurement is compared with the maps of **the hour it was taken**, and only where they can
+  tell: at night the foF2 wanders with spread F far more than it follows the sunspot number, so a
+  night measurement doesn't vote, and the sunspot number stays at KC2G's effective one. Nor does a
+  fit that ends against its bounds (−20 or 200) or more than 50 away from it, which is what a bad
+  autoscale or a storm the maps don't know about looks like. A zone with no ionosonde of its own
+  takes KC2G's effective number, which is already a fit of many more stations than one installation
+  sees. The fit holds for the moment measured and eases back to that number over the next hours.
+  Where a prediction comes from is said next to it: *VOACAP with Tucumán (KC2G, INGV/eSWua), 12 min*
+  or *VOACAP, sunspot number 92 (KC2G eSSN, prop.kc2g.com)* — in the list's tooltip, in the Station
+  tab and in the Ventanas tab. When the stations see the ionosphere far from the month's median,
+  the Station tab says it too: *foF2 30% below the month's median near Tucumán*.
+  On 6 m there is a second proof of Es: an ionosonde within 500 km of you that measures an foEs of
+  8 MHz or more means the cloud that opens 6 m is overhead, and it is said next to the 10 m short
+  skip's warning — the same phenomenon, measured two ways.
+  A station can also be asked for by name in `config.toml` (`[propagation] stations = ["TUJ2O"]`)
+  and a different radius set (`iono_radius_km`). Off, or with nothing measured in the last six
+  hours, the prediction is what it was: the month's maps with the sunspot number. Nothing of this is
+  shown as a table of raw foF2/MUF: it is used to calculate, and credited (KC2G, GIRO, INGV/eSWua,
+  BoM SWS and each station).
+  Every measurement is also written down, as it arrives, in the data folder (`ionohistory.db`: the
+  station, the time, the foF2, the MUF(D), the confidence and the sunspot number the prediction was
+  made with; 30 days kept), so that how much the ionosondes are worth can be said with numbers and
+  not with a hunch. From the folder DX Agent is installed in:
+  `python -m dxagent.calibrate` — it reads that history and `propcheck.db`, and prints what each
+  set of constants would get wrong (leaving one station out at a time, with the sky rebuilt
+  measurement by measurement), how long a correction lasts, whether the equatorial anomaly rule
+  earns its keep, how often VOACAP calls a band open when it wasn't at each threshold, how much of
+  that depends on how many receivers it takes to call a band closed, and the accuracy with against
+  without the ionosondes on the very same rows (every prediction that took them is also worked out
+  without them, and both are held against the same air). It changes nothing: the constants are yours to set. Nothing of the
+  history is shown or exported either — the measurements are GIRO's, NOAA's, INGV's and BoM's.
 
 Where the station is: the locator it said last, else its country's centre (said in the
 tooltip). It is a prediction, the month's median: on a given day the band may be better or worse,
@@ -1171,7 +1246,7 @@ the band is still the stations hearing it:
 | Afternoon TEP | A TEP path between 14:00 and 19:00 local solar time over its midpoint (6 m only: it doesn't reach 144 MHz) |
 | Es | 6 m, 700 to 2,300 km (one hop) |
 | Multi-hop Es | 6 m, beyond 2,300 km |
-| F2 | 6 m beyond 2,300 km, with the month's SSN at 100 or more (VOACAP's, from NOAA) and the Sun up over the path's midpoint |
+| F2 | 6 m beyond 2,300 km, with the SSN at 100 or more (VOACAP's: KC2G's or NOAA's) and the Sun up over the path's midpoint |
 | Tropo | 6 m under 700 km; 2 m under 1,300 km or beyond 2,400 |
 | Es or tropo | 2 m, 1,300 to 2,400 km: either |
 | Meteor scatter | MSK144 or FSK441 (with Meteor scatter on) |
@@ -1209,7 +1284,10 @@ Three more, under **Also**, each turned on by itself:
   about 5.4 times foEs), so from 8 MHz it is close. The alert is a **50 MHz** one, its row the 10 m
   station heard: "10 m short skip at 470 km: foEs 12.2 MHz, Es MUF 66 MHz, 6 m may open". Under
   250 km 10 m is ground wave and tropo between neighbours; F2 backscatter at those distances is
-  weak, and the −10 dB leaves it out.
+  weak, and the −10 dB leaves it out. When an ionosonde within 500 km of you measures an foEs of
+  8 MHz or more, the same row says it too — the cloud measured by the ionosonde, not only by the
+  stations — and the VHF pill's tooltip says it even with no opening yet: "6 m by Es: foEs 9.1 MHz
+  at La Plata, 57 km away, 5 min ago (La Plata (KC2G, GIRO))".
 - **2 m tropo from the weather forecast**: a duct before the band is heard. Once an hour,
   Open-Meteo's forecast for your QTH and 24 points around it (8 bearings at 200, 400 and 600 km),
   at the ground and at each pressure level from 1000 to 800 hPa (temperature, humidity, height).
@@ -1721,7 +1799,7 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   changes right there: **−** and **+** beside the WPM take it down or up by 1, and **PgDn** and **PgUp**
   with the cursor in the form by 2, as in N1MM. The WinKey takes it at once, also in the middle of a
   message, and `config.toml` keeps it (`cw.wpm`) with nothing restarted. The messages are
-  edited there (up to 8, each a name, a text and a key: **F1** to **F6** or none, each key on one
+  edited there (up to 12, each a name, a text and a key: **F1** to **F10** or none, each key on one
   message only; a new one takes the first free), with the port and the speed (5 to 60 WPM); **Test** opens the port and says the WinKey's firmware. Only what CW has is sent: letters,
   figures and `/ ? . , = + -`. The port opens with the first message and stays open (opening it can
   reset a WinKey) until Settings are saved or DX Agent closes, which give it back to its paddle. In
@@ -1784,7 +1862,9 @@ who heard it: your call, the SNR and the message (WSJT-X).
 
 The station you call in WSJT-X (a double click on its decode, or typed in DX Call) opens in the
 Station tab, as a click on it in the list: what you have of its country, the path, VOACAP...
-Once each time DX Call changes, so you can look at another station meanwhile.
+Its row comes into sight in the list (flashing), and the map goes to it when it was out of sight,
+around a halo (see World map). Once each time DX Call changes, so you can look at another
+station meanwhile.
 
 ---
 
