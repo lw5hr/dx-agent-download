@@ -496,30 +496,51 @@ ruido donde estás (residencial, rural o silencioso).
   Estación, el camino mejor ahora va resaltado y el otro más tenue. Por paso largo la predicción es
   más aproximada.
 
-**La ionósfera de hoy, no la del mes.** Dos cosas acercan la predicción al día:
+**De dónde sale: el número de manchas solares.** VOACAP no inventa la ionósfera: la toma de unos
+mapas del mes hechos para un número de manchas solares, y ese número es lo que la mueve. Con más
+manchas el foF2 y la MUF suben y las bandas altas dan mejor chance; con menos, al revés, y las bajas
+aguantan mejor. Por eso DX Agent usa el de hoy y no el del mes:
 
-- **El número de manchas solares es el efectivo de KC2G** ([prop.kc2g.com](https://prop.kc2g.com/),
-  de Andrew Rodland, KC2G, con las ionosondas de GIRO): el que mejor se ajusta a lo que miden hoy
-  las ionosondas del mundo, pedido una vez por hora. Después de una tormenta la predicción baja con
-  las bandas. Si KC2G lleva 6 horas sin dar un valor, o con **Configuración → Propagación → Número
-  de manchas solares** desmarcado, es el de NOAA del mes.
-- **Las ionosondas cercanas a cada camino** (Configuración → Propagación → **Ionosondas**, prendido
-  de entrada): cerca tuyo para el primer salto, cerca de la estación para el último. Cada 15
-  minutos, de las estaciones que publica KC2G (GIRO, INGV, el BoM de Australia y otras), un número
-  de manchas solares por zona y una corrección del foF2 en cada punto de control, que se va
-  apagando en las horas siguientes. Sin ionosondas cerca de un camino, la predicción es la de
-  antes. En 6 m, una ionosonda a menos de 500 km tuyo que mide un foEs alto avisa que 6 m puede
-  abrir por Es.
+- **El efectivo de KC2G** ([prop.kc2g.com](https://prop.kc2g.com/), de Andrew Rodland, KC2G, con las
+  ionosondas de GIRO): el que mejor se ajusta a lo que miden hoy las ionosondas del mundo, pedido una
+  vez por hora. Después de una tormenta la predicción baja con las bandas.
+- **El de NOAA, de respaldo:** si KC2G lleva 6 horas sin dar un valor, o con **Configuración →
+  Propagación → Número de manchas solares** desmarcado, es el que NOAA predice para el mes.
+
+**Las ionosondas: la ionósfera de hoy.** Con **Configuración → Propagación → Ionosondas** prendido
+(es lo de fábrica), cada 15 minutos DX Agent lee las ionosondas que publica KC2G (GIRO, INGV, el BoM
+de Australia y otras) y las usa adentro de la predicción, para todas las que hace: la columna VOACAP
+de la lista, las 24 horas de la pestaña Estación, la pestaña Ventanas y el F2 de 6 m.
+
+- **Un número de manchas solares por zona**, el que hace que los mapas den el foF2 y la MUF que
+  miden las estaciones alrededor de ese camino.
+- **Una corrección del foF2** en el primer salto (cerca tuyo) y en el último (cerca de la estación).
+  Cuenta más de este a oeste que de norte a sur y nunca cruza la anomalía ecuatorial.
+- Una medición pesa menos con el tiempo: a la hora y media vale la mitad, y pasadas seis horas no se
+  usa. La corrección **se apaga hacia adelante**: a las tres horas queda la mitad.
+- **Sin ionosondas cerca de un camino**, la predicción es la de antes: los mapas con el número
+  efectivo de KC2G, o el de NOAA si tampoco hay.
 - **Cada predicción dice de dónde sale**, en el tooltip de la lista y en la pestaña Estación:
   «VOACAP + Tucumán, hace 12 min» o «manchas solares 92 (KC2G eSSN)», con el crédito de cada
   estación; también una corrección grande («foF2 un 30 % bajo la mediana cerca de Tucumán»).
+- En 6 m, una ionosonda a menos de 500 km tuyo que mide un foEs alto avisa que 6 m puede abrir por
+  Es.
+- Se apaga en **Configuración → Propagación → Ionosondas**.
 
-**VOACAP contra el aire** dice cuánto acierta. En la pestaña Estación, al lado de la predicción, lo
+**VOACAP contra el aire dice cuánto acierta.** En la pestaña Estación, al lado de la predicción, lo
 que pasó en la última hora («VOACAP decía 20 m al 15 % hacia JA; la escucharon 6 receptores cerca
-tuyo»); debajo del cuadro de 24 horas, los últimos 30 días por banda y hora UTC: acertó, se quedó
-corto (cerrada, y se escuchó) o fue optimista (abierta, y no se escuchó). Solo cuenta el camino
-entre vos y la estación, y una banda se da por cerrada solo con suficientes receptores cerca tuyo
-reportando en esa banda: con pocos, no se concluye nada.
+tuyo»). Cuenta sólo el camino entre vos y la estación: los receptores cerca tuyo que la
+escucharon, o —si sólo se escuchó lejos— los que estaban reportando en esa misma banda. Con pocos,
+no se concluye nada: una banda callada no es una banda cerrada.
+
+Debajo del cuadro de 24 horas, la tabla de los últimos 30 días, por banda: **acierta** (la daba
+abierta y se escuchó cerca tuyo, o cerrada y no llegó), **corto** (la daba cerrada y se escuchó
+cerca tuyo: conviene probar aunque la dé cerrada), **optimista** (la daba abierta y sólo se escuchó
+lejos, con suficientes receptores tuyos en ella: no te fíes cuando la da abierta) y **horas** (los
+casos que hay detrás: con pocos, el porcentaje vale poco). Debajo, **Por hora UTC**, más verde
+cuanto más acertó a esa hora. Al pasar el mouse por una columna, por la tira o por el «?» del
+título, está todo esto explicado. La tabla es la suma de todas las zonas de la lista, no de la
+estación elegida, y compara la predicción que muestra la app, con las ionosondas adentro.
 
 Sigue siendo una predicción: un día dado la banda puede estar mejor o peor; el camino, cuando hay
 algo medido, dice lo que pasa ahora.

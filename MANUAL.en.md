@@ -471,29 +471,50 @@ you are (residential, rural or quiet).
   South America, Japan on 15 m at dusk, say). In the Station tab's **Beam**, the path that is better
   now is highlighted and the other one faint. The long path's prediction is rougher.
 
-**Today's ionosphere, not the month's.** Two things bring the prediction closer to the day:
+**Where it comes from: the sunspot number.** VOACAP doesn't invent the ionosphere: it takes it from
+a month's maps made for a sunspot number, and that number is what moves it. More sunspots, and the
+foF2 and the MUF go up and the high bands give a better chance; fewer, the other way round, and the
+low bands hold better. That is why DX Agent uses today's and not the month's:
 
-- **The sunspot number is KC2G's effective one** ([prop.kc2g.com](https://prop.kc2g.com/), by
-  Andrew Rodland, KC2G, from GIRO's ionosondes): the one that best fits what the world's ionosondes
-  measure today, asked once an hour. After a storm the prediction drops with the bands. If KC2G has
-  had none for 6 hours, or with **Settings → Propagation → Sunspot number** off, it is NOAA's for
-  the month.
-- **The ionosondes near each path** (Settings → Propagation → **Ionosondes**, on by default): near
-  you for the first hop, near the station for the last. Every 15 minutes, from the stations KC2G
-  publishes (GIRO, INGV, Australia's BoM and others), a sunspot number per zone and a correction of
-  the foF2 at each control point, fading over the following hours. With no ionosonde near a path,
-  the prediction is as before. On 6 m, an ionosonde within 500 km of you measuring a high foEs
-  warns that 6 m may open by Es.
+- **KC2G's effective one** ([prop.kc2g.com](https://prop.kc2g.com/), by Andrew Rodland, KC2G, from
+  GIRO's ionosondes): the one that best fits what the world's ionosondes measure today, asked once
+  an hour. After a storm the prediction drops with the bands.
+- **NOAA's, as a fallback:** if KC2G has had none for 6 hours, or with **Settings → Propagation →
+  Sunspot number** off, it is the one NOAA predicts for the month.
+
+**The ionosondes: today's ionosphere.** With **Settings → Propagation → Ionosondes** on (it is, out
+of the box), DX Agent reads the ionosondes KC2G publishes (GIRO, INGV, Australia's BoM and others)
+every 15 minutes and uses them inside the prediction, for every one it makes: the list's VOACAP
+column, the Station tab's 24 hours, the Ventanas tab and the 6 m F2.
+
+- **A sunspot number per zone**, the one that makes the maps give the foF2 and the MUF the stations
+  around that path measure.
+- **A correction of the foF2** at the first hop (near you) and at the last one (near the station).
+  It counts more east to west than north to south and never crosses the equatorial anomaly.
+- A measurement weighs less with age: an hour and a half old it is worth half, and past six hours it
+  isn't used. The correction **fades forwards**: three hours ahead half of it is left.
+- **With no ionosonde near a path**, the prediction is as before: the maps with KC2G's effective
+  number, or NOAA's when there is none either.
 - **Each prediction says where it comes from**, in the list's tooltip and the Station tab:
   "VOACAP + Tucumán, 12 min ago" or "sunspot number 92 (KC2G eSSN)", with each station's credit; a
   large correction too ("foF2 30% below the median near Tucumán").
+- On 6 m, an ionosonde within 500 km of you measuring a high foEs warns that 6 m may open by Es.
+- It is turned off in **Settings → Propagation → Ionosondes**.
 
-**VOACAP against the air** says how often it is right. In the Station tab, beside the prediction,
-what happened in the last hour ("VOACAP said 20 m at 15% toward JA; 6 receivers near you heard it");
-under the 24-hour grid, the last 30 days by band and UTC hour: right, short (closed, yet heard) or
-optimistic (open, yet not heard). Only the path between you and the station counts, and a band is
-called closed only with enough receivers near you reporting on that band: with few, nothing is
-concluded.
+**VOACAP against the air says how often it is right.** In the Station tab, beside the prediction,
+what happened in the last hour ("VOACAP said 20 m at 15% toward JA; 6 receivers near you heard
+it"). Only the path between you and the station counts: the receivers near you that heard it, or —
+when it was only heard far away — the ones reporting on that same band. With few, nothing is
+concluded: a quiet band is not a closed one.
+
+Under the 24-hour grid, the last 30 days, band by band: **right** (it called it open and it was
+heard near you, or closed and nothing came through), **short** (it called it closed and it was heard
+near you: try the band even when it says closed), **optimistic** (it called it open and it was only
+heard far away, with enough of your receivers on it: don't trust it when it calls it open) and
+**hours** (the cases behind the row: with a few, the percentage means little). Under it, **By UTC
+hour**, the greener the more often it was right at that hour. Hovering a column, the strip or the
+"?" beside the title explains all of it. The table is every zone of the list added up, not the
+chosen station, and it compares the prediction the app shows, ionosondes included.
 
 It is still a prediction: on a given day the band can be better or worse; the path, when something
 was measured, says what is happening now.
