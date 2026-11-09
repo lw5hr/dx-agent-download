@@ -178,7 +178,7 @@ python -m dxagent run --no-ui       # solo terminal
 
 | Zona | Qué muestra |
 |------|-------------|
-| **Encabezado** | Tu indicativo; una pastilla por fuente de spots (verde = conectada, ámbar = conectando, rojo = caída) con la cantidad de spots (al pasar el mouse muestra el servidor y la hora del último spot; un clic deja en la lista y el mapa solo las estaciones que escuchó, ver Filtros); una pastilla **DXpediciones** al lado: cuántas están dentro de sus fechas y cuántas de ellas se spotearon en los últimos 15 minutos ("48 · 6 en el aire", con el punto verde mientras alguna lo está; al hacer clic abre la pestaña DXpediciones); los totales de tu log; botones con íconos (al pasar el mouse dicen qué hace cada uno): **Acerca de** ⓘ (qué es DX Agent, quién lo hizo, los colaboradores, cómo apoyarlo, y ayuda: el sitio web, el manual de usuario y la página de issues), **Configuración** ⚙ (en la página de Configuración, un ícono de lista vuelve a las alertas), **EN/ES/PT** (idioma), **Tema** (medio círculo = Auto, sol = Claro, luna = Oscuro, una paleta = otro tema; un clic abre el menú de temas), **Sonido** (parlante, tachado si está apagado), **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y **Detener** (rojo); reloj UTC. `#about` abre la ventana Acerca de. En una ventana más angosta (hasta 1800 px) las pastillas van debajo de tu indicativo y los botones, a todo el ancho; el chevron después de ellas las pliega a sus puntos de estado, en una sola pastilla resaltada al lado de tu indicativo (un clic la vuelve a abrir; se recuerda en el navegador) |
+| **Encabezado** | Tu indicativo; una pastilla por fuente de spots (verde = conectada, ámbar = conectando, rojo = caída) con la cantidad de spots (al pasar el mouse muestra el servidor y la hora del último spot; un clic deja en la lista y el mapa solo las estaciones que escuchó, ver Filtros); una pastilla **DXpediciones** al lado: cuántas están dentro de sus fechas y cuántas de ellas se spotearon en los últimos 15 minutos ("48 · 6 en el aire", con el punto verde mientras alguna lo está; al hacer clic abre la pestaña DXpediciones); una pastilla de **propagación** al lado: SFI, SN, A y K, el estado del campo en su punto, y el nivel de la tormenta cuando la hay (**G2** en rojo mientras dura, más suave cuando es solo el pronóstico de hoy; **R1** por un apagón de radio; guiones grises cuando NOAA SWPC no tiene nada fresco), y su ayuda dice la antigüedad de cada valor, qué significan el A y el K y las escalas G/R/S; los totales de tu log; botones con íconos (al pasar el mouse dicen qué hace cada uno): **Acerca de** ⓘ (qué es DX Agent, quién lo hizo, los colaboradores, cómo apoyarlo, y ayuda: el sitio web, el manual de usuario y la página de issues), **Configuración** ⚙ (en la página de Configuración, un ícono de lista vuelve a las alertas), **EN/ES/PT** (idioma), **Tema** (medio círculo = Auto, sol = Claro, luna = Oscuro, una paleta = otro tema; un clic abre el menú de temas), **Sonido** (parlante, tachado si está apagado), **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y **Detener** (rojo); reloj UTC. `#about` abre la ventana Acerca de. En una ventana más angosta (hasta 1800 px) las pastillas van debajo de tu indicativo y los botones, a todo el ancho; el chevron después de ellas las pliega a sus puntos de estado, en una sola pastilla resaltada al lado de tu indicativo (un clic la vuelve a abrir; se recuerda en el navegador) |
 | **Filtros** | Tres filas separadas por una línea: tipo de alerta (con **Lista** / **Mapa** y **Limpiar lista**); banda, modo y los demás; continente y un cuadro de búsqueda por indicativo o país (el país en castellano o en inglés, con tildes o sin ellas: **Estados Unidos**, **Japon** o **United States**). **Continente** (AF, AN, AS, EU, NA, OC, SA) deja las estaciones de los continentes elegidos, para quedarte con hacia donde apunta tu antena; tu propio indicativo spoteado se ve siempre. Solo aparecen los tipos de alerta, las bandas y los modos de tus alertas en Configuración; el ⚙ junto a Limpiar filtros (o Configuración → Filtros sobre la lista) elige cuáles de Continente, Solo cerca tuyo, Ocultar confirmados, Solo LoTW y Actividad se ven, y uno oculto queda apagado. El ⚙ al final de los tipos de alerta (o Configuración → Tipos de alerta sobre la lista) hace lo mismo con ellos: un tipo oculto ahí sigue alertando, solo se va su filtro. Cada opción dice cuántas estaciones mostraría, con los demás filtros como están (con 20 m elegido, los modos dicen cuántas hay en 20 m; una estación en varias bandas es una). Sin ningún botón seleccionado se muestra todo. Una alerta cuenta para cada uno de sus motivos, así que una DXpedición en tu lista de seguimiento aparece tanto en **DXPED FALTA** como en **SIGUIENDO**; **SIGUIENDO** además muestra los spots de tus indicativos en seguimiento que no dieron alerta (filas grises **SPOT**), para que veas cuándo están en el aire. Con varios tipos elegidos se ve cualquiera de ellos, salvo **SIGUIENDO**: junto con otro tipo, solo tus indicativos en seguimiento que además son de ese tipo (**SIGUIENDO** + **BANDA+MODO**: los que seguís en una banda y modo que te faltan; sus filas SPOT según lo que suman). Las filas SPOT son una por estación, banda y modo: el spot más reciente, con **×N** la cantidad (un CQ lo escuchan varios skimmers de la RBN a la vez; pasando el mouse se ve quién la escuchó); los anteriores a una alerta de esa estación, banda y modo quedan representados por la alerta. Una fila SPOT que todavía te suma algo (no dio alerta propia porque la misma alerta no se repite durante el tiempo de espera) va con el color de lo que suma, no en gris. **Ocultar confirmados** saca las estaciones cuya entidad ya tenés confirmada en esa banda y modo (una alerta de indicativo nuevo, una fila SPOT): quedan solo las que suman a tu log. **Solo LoTW** deja las estaciones que subieron a LoTW en los últimos 12 meses y las DXpediciones que anunciaron LoTW: las que probablemente confirmen ahí. Un clic en la pastilla de una fuente en el encabezado (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) deja las filas que spoteó esa fuente (las de la lista son alertas, lo que te suma al log: muchas menos que los spots que cuenta la pastilla) y las estaciones que escuchó en esa banda en los últimos 15 minutos, la haya spoteado quien sea primero (WSJT-X: las que decodificó tu propio WSJT-X o JTDX, las que se escuchan donde estás); la pastilla queda resaltada y los filtros plegados lo dicen, y otro clic o **Limpiar filtros** vuelve a mostrar todas las fuentes. El navegador recuerda los filtros. **Limpiar lista** (después de confirmar) vacía la lista de alertas, en todos los paneles abiertos y también al recargar, y reinicia el tiempo sin repetir: lo que siga en el aire vuelve a avisar en su próximo spot. El historial de alertas (`data/dxagent.db`) y los últimos spots de la pestaña Estación se conservan. Una sola estación: la **✕** al lado de su indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la lista**, saca esa estación en esa banda de la lista (y del panadaptador de la radio) en todos los paneles abiertos; su tiempo sin repetir sigue, así que vuelve a avisar cuando termine. El **ancla** al lado de la ✕ (**Fijar en la lista**) deja esa estación en esa banda en la lista aunque haga mucho que no se spotea (no la saca **Quitar de la lista después de**, ni que la lista esté llena, ni **Limpiar lista**, ni reiniciar DX Agent), arriba de todo con cualquier orden, resaltada y con su ancla siempre a la vista, y en el panadaptador de la radio; queda fijada hasta que la saques con su ✕, la trabajes en esa banda (tu log lo dice) o hagas clic otra vez en su ancla. En todos los paneles abiertos. La flecha al lado de **Lista** / **Mapa** pliega los filtros en una línea que dice lo elegido ("FILTROS 20m · CW", resaltada mientras haya un filtro puesto); la búsqueda, Limpiar filtros, el contador y Limpiar lista quedan. Plegado o no, el navegador lo recuerda |
 | **Tabla de alertas** | Una fila por alerta, la más nueva arriba, coloreada según el tipo: UTC, alerta, indicativo, kHz, banda, modo, país, qué te falta, LoTW, **VOACAP** (la chance de un QSO a esta hora, ver La predicción: VOACAP), **cerca tuyo** (ver más abajo), quién la escuchó. Al hacer clic en el encabezado de una columna se ordena por ella (kHz, banda, modo agrupado CW / fonía / digital, país...; **Alerta** y **Qué te falta** ponen primero lo más buscado, **LoTW** las subidas más recientes); otro clic, al revés; un tercero vuelve a lo más nuevo arriba. La flecha muestra el orden; las filas sin dato en esa columna van al final, los empates quedan con la más nueva primero, las alertas nuevas entran en su lugar y el orden se recuerda en el navegador. Las filas nuevas destellan. Un spot más nuevo de la estación en la misma banda y modo (uno que no avisó porque no se repite) actualiza su fila: hora, frecuencia, modo, quién la escuchó (×N); así la fila muestra dónde está la estación ahora, y el botón Sintonizar va ahí. Las filas se atenúan a los 10 minutos del último spot de la estación y más a los 30 (al pasar el mouse se ve la antigüedad y la hora de la alerta); con **Quitar de la lista después de** en Configuración, salen de la lista pasados esos minutos |
 | **Pestaña Estación** | Al hacer clic en una alerta, o escribir un indicativo en el cuadro, muestra la grilla banda × modo de ese país (C verde = confirmado, W ámbar = trabajado, gris = no trabajado; un anillo verde marca las bandas y modos donde la spotearon en los últimos 15 minutos, el más reciente parpadeando, con un punto sobre la banda), debajo, dónde trabajaste ese indicativo exacto (una fila por modo como lo registraste, FT8, FT4, SSB..., en las mismas columnas: ✓ verde confirmado, ✓ ámbar trabajado, NEW una banda y modo todavía nuevos para el país), el estado de LoTW, los datos de la DXpedición, quién lo escucha más cerca tuyo, un botón **Consultar PSKReporter** (o, en vivo, los receptores que la reportan a medida que llegan), los botones **Ver solo** este indicativo, **☆ seguimiento** y **Spotear**, sus últimos spots y enlaces a QRZ.com, HamQTH y DXWatch. La flecha a la derecha de las pestañas pliega el panel a una columna con sus íconos (una radio, el globo, una montaña, un trofeo), donde se siguen viendo las DXpediciones en el aire y el puntaje del Marathon; al hacer clic en un ícono se abre en esa pestaña (abajo de la lista en una pantalla angosta: solo la fila de pestañas). Mientras está plegado, al pasar el mouse por una fila de la lista aparece la tarjeta de esa estación: su país, el estado y la grilla banda × modo. Plegado o no, el navegador lo recuerda |
@@ -273,7 +273,8 @@ la derecha indica si funcionó.
 (PTT desactivado) antes de sus cambios de frecuencia, banda o VFO. Si informa TX o no puede
 verificarse el estado, bloquea el cambio. En TCI también puede guardar el último pedido hasta
 confirmar RX. Una configuración vieja `tci_tx_guard = "off"` se trata como `block`; ya no
-desactiva la protección.
+desactiva la protección. Por flrig, sintonizar está apagado salvo con
+`rig.flrig_tx_guard = "ptt"` (ver abajo): leer la radio funciona igual.
 
 **Esto no es un enclavamiento absoluto.** Leer el PTT y ejecutar el comando son operaciones
 separadas: la transmisión puede empezar entre ambas y el estado informado puede llegar tarde o
@@ -285,17 +286,39 @@ hace falta un enclavamiento físico o un bloqueo atómico implementado por el eq
 | Destino | Cómo se comunica DX Agent | Puerto por defecto | ¿También el modo? |
 |---------|---------------------------|--------------------|-------------------|
 | Log4OM 2 | Frecuencia y modo por OmniRig; UDP `SetCallsign` para Log4OM | 2241 | sí, por OmniRig |
-| N1MM Logger+ | Sintonización bloqueada: no se puede verificar el PTT por esta conexión | 13064 | — |
-| DXLog.net | Sintonización bloqueada: no se puede verificar el PTT por esta conexión | 13064 | — |
+| N1MM Logger+ | UDP `radio_setfrequency` (kHz); sintoniza solo mientras el `RadioInfo` que emite (cada 10 s) diga que el programa recibe | 13064 | no |
+| DXLog.net | El mismo mensaje y `RadioInfo` de N1MM (Options → Broadcast, formato N1MM) | 13064 | no |
 | OmniRig | COM de Windows, mediante PowerShell; radio 1 o 2 | — | sí |
 | Hamlib rigctld | TCP `F <Hz>` / `M <modo> -1` (split: `S 1 VFOB`, `I <Hz>` y `V VFOA`; al terminarlo: `S 0 VFOA`); lee el VFO actual, PTT y S-meter; requiere PTT sin caché | 4532 | sí |
-| flrig | Sintonización bloqueada: por XML-RPC no se puede verificar cómo está configurada la entrada PTT | 12345 | — |
+| flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_vfoA`, `set_vfoB`, `set_split`), y `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` para leerla; sintoniza y cambia de VFO solo con `rig.flrig_tx_guard = "ptt"`, cada comando después de preguntarle a flrig el PTT de la radio (no puede decir si tiene configurada su entrada de PTT) | 12345 | sí |
 | DXLab Commander | Sintonización bloqueada: no se puede verificar el PTT por esta conexión | 52002 | — |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, por una conexión que DX Agent mantiene abierta; también pone las alertas en el panadaptador | 50001 | sí |
 
 Hamlib puede leer frecuencia, modo, PTT, split y S-meter, y DX Agent puede arrancar `rigctld`.
-OmniRig necesita Windows y el archivo de la radio; TCI, un servidor compatible. Bloquear la
-sintonización por N1MM, DXLog, flrig o DXLab no desactiva la recepción de QSOs de esos loggers.
+OmniRig necesita Windows y el archivo de la radio; flrig, su servidor XML-RPC en su puerto de
+control (sin `rigctld`); TCI, un servidor compatible. Bloquear la
+sintonización por DXLab Commander no desactiva la recepción de sus QSOs.
+
+- **N1MM Logger+ y DXLog.net (`RadioInfo`):** los dos emiten un mensaje `RadioInfo` con la radio que
+  tienen, su frecuencia, su modo e `IsTransmitting`. DX Agent los sintoniza por UDP y no manda nada
+  si un `RadioInfo` fresco (30 s) no dice que el programa está en recepción; sin nada fresco —el
+  programa cerrado, o sin emitir al puerto de DX Agent— es desconocido y la sintonización se
+  rechaza. Apuntá su broadcast al puerto UDP de DX Agent (Configuración → Logbook → puerto UDP,
+  12065 por defecto; en N1MM: Config → Broadcast Data). **Aviso de ellos mismos:**
+  `IsTransmitting` es True solo cuando la transmisión la inició el programa; si la llave la apretás
+  afuera (foot switch, paddle), sigue diciendo False. Va la frecuencia; el modo es el de la radio,
+  se pone en el programa.
+
+- **flrig (`rig.flrig_tx_guard`):** flrig lee la frecuencia, el modo, el split y los dos VFO desde
+  el principio. Sintonizar por flrig viene apagado (`"block"`): flrig no puede decir si está
+  configurado para leer el PTT de la radio, y sin entrada de PTT puede informar RX mientras la
+  radio transmite. Ponelo en `"ptt"` (Configuración → Radio, aparece cuando una radio usa flrig) si
+  flrig tiene puesta su entrada de PTT —PTT por CAT o por el puerto serie, lo mismo que necesita
+  WSJT-X—: entonces cada comando sale solo después de que flrig diga que la radio recibe, una
+  sintonización en TX se rechaza, el VFO A/B del panel se puede cambiar cuando flrig lo hace (se
+  comprueba con `rig.get_AB`: un Icom acepta `set_AB` y se queda donde está, y DX Agent lo dice), y el
+  PTT que muestra el panel es el de flrig (con `"block"` dice **PTT?**: desconocido). Sin eso, Sintonizar por Hamlib u OmniRig y dejá que flrig lea la
+  radio; los dos no pueden tener el puerto serie a la vez.
 
 - **Modo elegido:** CW para spots de CW; USB o LSB para fonía (LSB por debajo de
   10 MHz, salvo 60 m); RTTY para RTTY; para FT8/FT4, USB con OmniRig (como WSJT-X usa
@@ -612,6 +635,17 @@ Qué cuenta, según las reglas:
   (que sabe que W0 es zona 4 y VE7 zona 3). Una estación de EE. UU., Canadá o Rusia puede
   estar en otra zona que la de su indicativo: para un spot, la zona que se muestra es la del
   indicativo.
+- **Las listas del DX Marathon:** DX Agent baja una vez por día las listas que publica el
+  Marathon (dxmarathon.com/resources/data-formats): indicativos válidos con sus notas, Zona 2,
+  Antártida, Shetland, spots erróneos y operaciones inválidas. Para los spots y la pestaña
+  Estación, la lista manda sobre el archivo de AD1C en las fechas que indica (VY0ZOO en zona
+  2, un KC4 en la Antártida). Para un QSO del log, el `CQZ` y el `DXCC` que guardó tu programa
+  van primero, como en la herramienta de envío del Marathon, y la lista completa lo que falta.
+  Un QSO con una operación inválida en esa fecha no cuenta. En la lista de alertas, un spot
+  que la lista da por erróneo ese día lleva una ✗ roja; si la lista dice cuál era el indicativo
+  correcto, el tooltip lo muestra. La pestaña Estación muestra las notas del indicativo, con
+  las vigentes primero. Las notas por prefijo (`GB*`, `TC1*`...) se muestran, pero no cambian
+  la ubicación de la estación.
 - **Indicativos:** el principal, o los que marques en la tarjeta (hasta 2, ver Varios
   indicativos).
 - **Bandas y modos:** de 160 a 6 m; sin satélites, repetidoras ni enlaces por internet; sin
@@ -649,7 +683,9 @@ mismas alertas en un mapa del mundo. Los filtros valen para las dos vistas.
 - **Zona sombreada:** donde es de noche ahora (su borde es la línea gris); se actualiza cada minuto.
 - **Estación seleccionada:** la ruta de círculo máximo punteada desde tu QTH, el **rumbo
   de antena** (y el paso largo) y la distancia, y puntitos para cada receptor que la
-  escuchó en los últimos 15 minutos (verde = cerca tuyo). Su lugar va con un **halo** y un
+  escuchó en los últimos 15 minutos (verde = cerca tuyo). Los puntitos siguen los filtros de
+  **banda** y **modo**: con uno elegido se ven sólo los receptores que la escucharon en esa
+  banda o ese modo, y si no la escuchó ahí no queda ninguno. Su lugar va con un **halo** y un
   punto en el centro, así se la encuentra entre cientos de puntos: también cuando no dio
   ninguna alerta (la elegiste en WSJT-X, en el panadaptador, en la búsqueda o en la pestaña
   DXpediciones). Si al elegirla estaba fuera de la vista, el mapa se centra en ella; si ya
@@ -823,7 +859,7 @@ logbook de DX Agent como tu log.
 | **LoTW** | Activar o desactivar la descarga de confirmaciones; usuario de LoTW (vacío = tu indicativo); contraseña de LoTW; cada cuánto descargar. **Probar ingreso** prueba el usuario y la contraseña con LoTW |
 | **Alertas** | Qué tipos de alerta querés (y **Tu propio indicativo**: quién te escucha; un tipo que apagás también sale de la lista: una alerta que era solo de ese tipo se va, y otra muestra su siguiente título, BANDA NUEVA en vez de INDICATIVO NUEVO); bandas; modos; cuándo una DXpedición o un indicativo de la lista de seguimiento cuenta como trabajado; **Lista de seguimiento**; **Ignorar**; cuánto esperar antes de repetir la misma alerta y **Dejar solo la última fila de cada estación** (mismo indicativo, banda y modo, a 3 kHz o menos de su frecuencia: un spot un poco corrido, como pasa en FT8, es la misma estación; cuando vuelve a aparecer, sus filas anteriores salen de la lista); **Quitar de la lista después de** N minutos (las estaciones que no se spotean en esa banda y modo durante ese tiempo salen de la lista; 0 = nunca, el valor por defecto); el radio de "cerca tuyo" y **Avisar solo si se escucha cerca tuyo**; notificaciones de Windows y para qué alertas |
 | **Fuentes de spots** | DX cluster activado o no, sus servidores (`servidor:puerto`, en orden) y comandos al conectar; **Spots recientes al conectar** (minutos, 0 = no); de qué continentes tomar los spotters del cluster; RBN activada o no, fuentes CW/RTTY y FT8/FT4; de qué continentes cuentan los skimmers |
-| **Radio (botón Sintonizar)** | Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios): qué programa la sintoniza (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su nombre, su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con Hamlib si DX Agent arranca el rigctld y con qué argumentos; para **Las dos radios**, WSJT-X, el split, y —solo visible con una radio por TCI— si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite; y **CW con WinKey**: su puerto, velocidad y mensajes (ver El logbook de DX Agent) |
+| **Radio (botón Sintonizar)** | Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios): qué programa la sintoniza (Desactivado, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), su nombre, su dirección y puerto (0 = por defecto), si también cambia el modo, qué radio de OmniRig, y con Hamlib si DX Agent arranca el rigctld y con qué argumentos; para **Las dos radios**, WSJT-X, el split, y —solo visible con una radio por TCI— si las alertas van al panadaptador y qué hace Sintonizar mientras la radio transmite, y —solo visible con una radio por flrig— si sintoniza por flrig; y **CW con WinKey**: su puerto, velocidad y mensajes (ver El logbook de DX Agent) |
 | **CQ DX Marathon** | Seguirlo o no; el anual o el Sprint, y las fechas del Sprint; los modos que cuentan (todos, CW, fonía, digital, o Classic: CW y fonía); alertas por país nuevo y por zona nueva del Marathon |
 | **Aperturas en VHF** | Vigilar las estaciones cerca tuyo que escuchan lejos, y las estaciones que te escuchan; las bandas (6 m, 2 m); a qué distancia es cerca; cuántas estaciones tienen que escucharla, y cuántas de ahí; qué es un lugar (un país, un continente, un campo de grilla); a qué distancia mínima, y el tiempo de vida, para cada banda; el margen antes de cerrar; cuánto puede desviarse del norte-sur un camino de TEP; meteor scatter; 10 m salta corto; tropo en 2 m por el pronóstico meteorológico; dejar afuera el rebote lunar; un aviso de Windows cuando abre la banda (ver Aperturas en VHF) |
 | **Ventanas** | Contar las horas en que cada país que te falta se escucha cerca tuyo, y mostrarlas en la pestaña Ventanas; a qué distancia cuenta como cerca; los meses que se guardan; cada cuánto cuenta el mismo spot; si cuenta un spotter conocido sólo por su país, y si se deja afuera tu propio país; el aviso de la hora (en cuántos días como mínimo, cuántos países como máximo, escuchado dentro de cuántos días) y su notificación (ver Ventanas) |
@@ -994,6 +1030,12 @@ sus rombos, y aparece un aviso en el panel apenas una sale al aire. Pasa con tod
 DXpediciones activas, las necesites o no y estén o no en tu lista de seguimiento;
 **solo las que faltan** nunca oculta una que está en el aire.
 
+**En la pestaña Estación.** Al abrir el indicativo de una DXpedición, el recuadro
+**DXpedición** muestra sus fechas, la QSL, las fuentes y lo que dice el anuncio. También
+antes de que empiece: si ese indicativo tiene una anunciada más adelante, se ve la próxima,
+con **empieza en 17 días** (o **empieza mañana**) al lado de las fechas. Hasta su inicio no
+da alertas.
+
 ### ¿Estás en su log?
 
 Cuando abrís una DXpedición activa en la pestaña Estación y su log está en Club Log, el
@@ -1113,12 +1155,13 @@ PSKReporter suele tener muchos más receptores de FT8.
 "Cerca tuyo" dice si la estación se escucha en tu zona; el **camino** dice si tu propia señal llega
 a la zona de ella, con lo medido en los últimos 15 minutos en esa banda:
 
-- **ida, tu señal llega:** un receptor a menos de tu distancia de "cerca tuyo" de la estación (su
-  locator, si no el centro de su país) reportó alguno de tus indicativos: un skimmer de la RBN, un
-  spotter del cluster o un receptor de PSKReporter (con PSKReporter en vivo, tus indicativos se
-  siguen);
+- **ida, tu señal llega:** un receptor a menos de 500 km de la estación (su locator, si no el
+  centro de su país) reportó alguno de tus indicativos: un skimmer de la RBN, un spotter del cluster
+  o un receptor de PSKReporter (con PSKReporter en vivo, tus indicativos se siguen). Son 500 km
+  fijos, o tu distancia de "cerca tuyo" si es menor: esa distancia es un radio alrededor tuyo, y
+  1.800 km alrededor de Islandia ya son Inglaterra y Dinamarca, otro camino;
 - **vuelta, llega hasta acá:** tu WSJT-X decodificó a la estación, o a una estación con locator a
-  menos de esa distancia de ella; si no, un receptor cerca tuyo la escuchó ("cerca tuyo"). Un
+  menos de esos 500 km de ella; si no, un receptor cerca tuyo la escuchó ("cerca tuyo"). Un
   decode del período en que el dial de WSJT-X cambió de banda no se toma: ese audio es de la banda
   anterior.
 
@@ -1137,14 +1180,6 @@ de manchas solares, a esa hora, entre vos y la estación. DX Agent trae VOACAP a
 en Python de DVOACAP de VE3NEA, licencia MIT, que da los mismos resultados que VOACAP; no hay nada
 que instalar). Necesita tu grid square.
 
-El número de manchas solares es **el efectivo de KC2G** ([prop.kc2g.com](https://prop.kc2g.com/),
-de Andrew Rodland, KC2G, con los datos de ionosondas de GIRO): el número que mejor se ajusta a lo
-que miden las ionosondas de todo el mundo, calculado cada 15 minutos. Con él, la predicción sigue
-a la ionosfera de hoy y no solo a la del mes: después de una tormenta geomagnética, cuando las
-bandas caen, cae también. DX Agent lo pide una vez por hora, y su nombre aparece al lado de cada
-predicción. Apagado (**Configuración → Propagación → Número de manchas solares**), o si KC2G lleva
-6 horas sin dar uno, es el que predice NOAA SWPC para el mes, bajado una vez por día.
-
 Lo calcula en los dos sentidos, tu señal allá y la de ellos acá, con cada estación como la tuya
 (**Configuración → Propagación**: tu potencia, la ganancia de tu antena sobre la isotrópica, unos
 3 dBi un dipolo o una vertical y 8 a 10 una Yagi, y el ruido artificial donde estás: residencial,
@@ -1157,91 +1192,147 @@ de VOACAP: cuántas veces en el mes la SNR llega a lo que el modo necesita, en 1
 dando la vuelta al mundo por el otro lado (los 40.000 km menos el corto, con la antena girada
 180°). En cada banda y hora queda el que tiene mejor SNR en su peor sentido; si empatan, el corto.
 Al lado del porcentaje, la lista dice **SP** (paso corto) o **LP** (paso largo, resaltado).
-Cuando conviene el largo, con una chance de 10% o más, la pestaña Estación raya esa hora, y el tooltip dice la distancia y el rumbo para apuntar la antena (desde
-Sudamérica, Japón en 15 m al atardecer, por ejemplo). En el **Rumbo** de la pestaña Estación, el
-camino mejor ahora en la banda y el modo de la fila va resaltado, con su chance, y el otro más
-tenue. Por paso largo los caminos pasan casi siempre
-de 10.000 km, donde VOACAP usa un modelo simplificado: esa predicción es más aproximada que la del
-corto. Lo medido (el camino) no distingue los dos: un reporte no dice por dónde llegó la señal.
+Cuando conviene el largo, con una chance de 10% o más, la pestaña Estación raya esa hora, y el
+tooltip dice la distancia y el rumbo para apuntar la antena (desde Sudamérica, Japón en 15 m al
+atardecer, por ejemplo). En el **Rumbo** de la pestaña Estación, el camino mejor ahora en la banda y
+el modo de la fila va resaltado, con su chance, y el otro más tenue. Por paso largo los caminos
+pasan casi siempre de 10.000 km, donde VOACAP usa un modelo simplificado: esa predicción es más
+aproximada que la del corto. Lo medido (el camino) no distingue los dos: un reporte no dice por
+dónde llegó la señal.
+
+Dónde se ve:
 
 - La columna **VOACAP** de la lista: la chance en la banda y el modo de la fila a esta hora, verde
   desde 50%, ámbar desde 10%, gris por debajo; al pasar el mouse, la SNR en cada sentido, la MUF y
-  la configuración, y el rumbo del camino (**SP** o **LP**, al lado del porcentaje). Un clic en el encabezado
-  pone primero las mejores chances. Las estaciones de la
-  lista se calculan en segundo plano una vez por hora (cada lugar redondeado a medio grado), así que
-  una nueva muestra su cifra a los pocos segundos. VOACAP llega hasta 30 MHz: nada en 6 m y arriba.
-  La SNR de VOACAP es en 1 Hz; en FT8 y FT4 el tooltip también la da como la reporta WSJT-X, en
-  2.500 Hz, 34 dB menos (27 dB en 1 Hz son unos -7 dB en WSJT-X).
+  la configuración, y el rumbo del camino (**SP** o **LP**, al lado del porcentaje). Un clic en el
+  encabezado pone primero las mejores chances. Las estaciones de la lista se calculan en segundo
+  plano una vez por hora (cada lugar redondeado a medio grado), así que una nueva muestra su cifra a
+  los pocos segundos. VOACAP llega hasta 30 MHz: nada en 6 m y arriba. La SNR de VOACAP es en 1 Hz;
+  en FT8 y FT4 el tooltip también la da como la reporta WSJT-X, en 2.500 Hz, 34 dB menos (27 dB en
+  1 Hz son unos -7 dB en WSJT-X).
 - **Propagación (VOACAP)** en la pestaña Estación: las próximas 24 horas por banda (tus bandas de
   alerta), cada cuadrado más verde cuanto mejor la chance, para CW, SSB, FT8, FT4 o RTTY (al
   principio el modo de la fila); al pasar el mouse por un cuadrado, sus cifras. Arriba, la banda de
   la fila ahora. Rayadas, las horas mejores por paso largo; abajo, la distancia y el rumbo de cada
   camino.
-- **VOACAP contra el aire** en la pestaña Estación: lo que predijo para el camino en esa banda y esa
-  hora, al lado de lo que de verdad pasó en él. Debajo del camino dice, por ejemplo, «VOACAP decía
-  20 m al 15 % hacia JA; la escucharon 3 receptores cerca tuyo en la última hora»: los receptores
-  distintos **dentro de tu distancia de «cerca tuyo»** que reportaron una estación en esa zona (RBN,
-  cluster y PSKReporter) en la hora. Un reporte de un receptor lejano —un skimmer japonés que escucha
-  una estación japonesa— sólo dice que la banda se usa allá, no que llegue hasta acá: no cuenta como
-  escuchado en tu camino.
-  Escuchado cerca tuyo, el camino estaba abierto: acierto si VOACAP decía abierta, y se quedó corto si
-  decía cerrada. Escuchado sólo más lejos, y con 3 o más receptores cerca tuyo reportando **en esa
-  misma banda** en la hora, la banda estaba cerrada desde acá: acierto si VOACAP decía cerrada, y
-  optimista si decía abierta. Receptores cerca tuyo que están todos en 40 m no dicen nada de 15 m: no
-  la dan por cerrada.
-  Si nadie la escuchó en esa banda en la hora, no se compara nada: o VOACAP acertó o la estación no
-  estaba en el aire, y el aire solo no lo puede decir.
-  Abajo del cuadro de 24 horas, **VOACAP contra el aire** resume los últimos 30 días: por banda y
-  por hora UTC, cuántas veces acertó, cuántas se quedó corto y cuántas fue optimista — y con qué
-  número de manchas solares predijo (el efectivo de KC2G o el de NOAA), que es como se compara el
-  acierto antes y después de las ionosondas. Todo queda en la carpeta de datos (`propcheck.db`, se
-  guardan 30 días), al lado de `dxagent.db`.
-- **La ionósfera de hoy** (Configuración → Propagación → Ionosondas, encendida por defecto): cada 15
-  minutos DX Agent lee el `stations.json` de KC2G — dónde está cada ionosonda, cuándo midió y su
-  foF2, MUF(D) y hmF2 — y lo usa **adentro** de la predicción, para **todas** las que hace: la
-  columna VOACAP de la lista, las 24 horas de la pestaña Estación, la pestaña Ventanas (las horas del
-  país y la alerta de la hora) y el F2 de 6 m. Salen dos cosas: el número de manchas solares que
-  mejor se ajusta a lo que miden las estaciones alrededor de cada camino (con los propios mapas de
-  VOACAP, no un modelo de afuera) y una corrección del foF2 y del M(3000) de cada punto de control
-  con las estaciones cercanas — más de este a oeste que de norte a sur, nunca cruzando la anomalía
-  ecuatorial, pesando por la edad de la medición y por la confianza del autoescalado, y apagándose a
-  medida que las horas que se predicen quedan más lejos (la hora siguiente ya lleva menos).
-  Cada medición se compara con los mapas de **la hora en que se tomó**, y sólo donde pueden decir
-  algo: de noche el foF2 vaga con spread F mucho más de lo que sigue al número de manchas, así que
-  una medición nocturna no vota y el número queda en el efectivo de KC2G. Tampoco se usa un ajuste
-  que termina contra sus límites (−20 o 200) o a más de 50 del efectivo, que es lo que parecen un
-  autoescalado malo o una tormenta que los mapas no conocen. Una zona sin ionosonda propia toma el
-  número efectivo de KC2G, que ya es un ajuste de muchas más estaciones de las que ve una
-  instalación. El ajuste vale para el momento medido y vuelve al número efectivo en las horas
-  siguientes.
-  De dónde sale cada predicción se dice al lado: *VOACAP con Tucumán (KC2G, INGV/eSWua), hace 12
-  min* o *VOACAP, número de manchas 92 (KC2G eSSN, prop.kc2g.com)* — en el tooltip de la lista, en
-  la pestaña Estación y en Ventanas. Cuando las estaciones ven la ionósfera lejos de la mediana del
-  mes, la pestaña Estación también lo dice: *foF2 un 30 % bajo la mediana del mes cerca de Tucumán*.
-  En 6 m hay una segunda prueba del Es: una ionosonda a menos de 500 km tuyo que mide un foEs de 8
-  MHz o más quiere decir que la nube que abre 6 m está encima, y se dice junto al aviso del short
-  skip de 10 m: el mismo fenómeno, medido de dos maneras.
-  Una estación se puede pedir por nombre en `config.toml` (`[propagation] stations = ["TUJ2O"]`) y
-  se puede cambiar el radio (`iono_radius_km`). Apagado, o si no hay nada medido en las últimas seis
-  horas, la predicción es la de antes: los mapas del mes con el número de manchas. Nada de esto se
-  muestra como una tabla de foF2/MUF crudos: se usa para calcular y se da el crédito (KC2G, GIRO,
-  INGV/eSWua, BoM SWS y cada estación).
-  Cada medición se guarda además, a medida que llega, en la carpeta de datos (`ionohistory.db`: la
-  estación, la hora, el foF2, la MUF(D), la confianza y el número de manchas con que se predecía; se
-  guardan 30 días), para que cuánto valen las ionosondas se pueda decir con números y no a ojo. Desde
-  la carpeta donde está instalado DX Agent:
-  `python -m dxagent.calibrate` — lee ese historial y `propcheck.db`, y muestra qué se equivocaría
-  cada juego de constantes (dejando una estación afuera por vez, con el cielo rearmado medición por
-  medición), cuánto dura una corrección, si la regla de la anomalía ecuatorial se gana su lugar,
-  cuántas veces VOACAP da una banda por abierta sin serlo en cada umbral, cuánto de eso depende de
-  cuántos receptores se le piden para dar una banda por cerrada, y el acierto con contra sin
-  ionosondas en las mismas filas (cada predicción que las usó se calcula también sin ellas, y las dos
-  se comparan contra el mismo aire). No cambia nada: las constantes las decidís vos. Nada del historial se muestra ni se
-  exporta tampoco —las mediciones son de GIRO, de NOAA, de INGV y de BoM.
 
-Dónde está la estación: el locator que dijo último, si no el centro de su país (lo dice el
-tooltip). Es una predicción, la mediana del mes: un día dado la banda puede estar mejor o peor, y
-el camino de arriba, cuando hay algo medido, dice lo que pasa ahora.
+#### De dónde sale el número de manchas solares
+
+VOACAP no inventa la ionósfera: la toma de unos mapas del mes hechos para un número de manchas
+solares, y ese número es lo que la mueve. Con más manchas el foF2 y la MUF suben y las bandas altas
+dan mejor chance; con menos, al revés, y las bajas aguantan mejor. Por eso DX Agent no usa el del
+mes sino el de hoy:
+
+- **El efectivo de KC2G** ([prop.kc2g.com](https://prop.kc2g.com/), de Andrew Rodland, KC2G, con los
+  datos de ionosondas de GIRO): el número que mejor se ajusta a lo que miden las ionosondas de todo
+  el mundo, calculado cada 15 minutos y pedido una vez por hora. Con él, la predicción sigue a la
+  ionósfera de hoy y no sólo a la del mes: después de una tormenta geomagnética, cuando las bandas
+  caen, cae también. Su nombre aparece al lado de cada predicción.
+- **El de NOAA SWPC, como respaldo**: si KC2G lleva 6 horas sin dar uno, o si
+  **Configuración → Propagación → Número de manchas solares** está desmarcado, se usa el que NOAA
+  predice para el mes (se baja una vez por día).
+
+#### Las ionosondas: la ionósfera de hoy
+
+Con **Configuración → Propagación → Ionosondas** prendido (es lo de fábrica), cada 15 minutos DX
+Agent lee el `stations.json` de KC2G —dónde está cada ionosonda, cuándo midió y su foF2, MUF(D) y
+hmF2— y lo usa **adentro** de la predicción, para **todas** las que hace: la columna VOACAP de la
+lista, las 24 horas de la pestaña Estación, la pestaña Ventanas (las horas del país y la alerta de
+la hora) y el F2 de 6 m. Dos cosas salen de ahí:
+
+- **Un número de manchas solares por zona**: el que hace que los mapas de VOACAP den el foF2 y la
+  MUF(D) que miden las estaciones alrededor de ese camino.
+- **Una corrección del foF2** en los puntos por donde pasa el camino: el primero, cerca tuyo (el
+  primer salto), y el último, cerca del DX. Cuenta más de este a oeste que de norte a sur, nunca
+  cruza la anomalía ecuatorial (una estación de un lado no corrige el otro) y pesa menos la medición
+  más vieja y la que el autocalibrador de la estación da por dudosa.
+
+Una medición pesa por su hora: a la hora y media ya vale la mitad, y pasadas seis horas no se usa.
+La corrección, además, **se apaga hacia adelante**: vale para el momento medido y va volviendo al
+número efectivo en las horas que se predicen (a las tres horas queda la mitad). De noche las
+mediciones no mueven el número —el foF2 nocturno vaga por spread F mucho más de lo que sigue al
+número de manchas—, y tampoco un ajuste que termina contra sus límites o muy lejos del efectivo, que
+es lo que parecen un autocalibrador loco o una tormenta que los mapas no conocen.
+
+**Sin ionosondas cerca de un camino** la predicción es la de siempre: los mapas con el número
+efectivo de KC2G y, si tampoco hay, el de NOAA. Una zona sin ionosonda propia toma ese número.
+Apagadas del todo (**Configuración → Propagación → Ionosondas**, o `iono_source = "off"`), nada de
+esto se usa. Una estación se puede pedir por nombre (`[propagation] stations = ["TUJ2O"]`) y el
+radio se puede cambiar (`iono_radius_km`, 2.000 km de fábrica).
+
+**De dónde sale cada predicción** se dice al lado, con el crédito de cada estación y de cada
+proveedor:
+
+- *VOACAP + Tucumán (KC2G, INGV/eSWua), hace 12 min*: el número y la corrección salieron de lo que
+  midió Tucumán hace 12 minutos —si hay más de una estación, las dos más cercanas—.
+- *VOACAP, manchas solares 92 (KC2G eSSN, prop.kc2g.com)*: no hubo estación que dijera algo mejor;
+  son los mapas con ese número.
+- *foF2 un 30 % bajo la mediana del mes cerca de Tucumán*: las estaciones ven la ionósfera lejos de
+  lo que dicen los mapas; sirve para saber por qué se movió la predicción.
+- *Sin ionosondas*: no hay nada medido en las últimas seis horas.
+
+En 6 m hay una segunda prueba del Es: una ionosonda a menos de 500 km tuyo que mide un foEs de 8
+MHz o más quiere decir que la nube que abre 6 m está encima, y se dice junto al aviso del short
+skip de 10 m: el mismo fenómeno, medido de dos maneras.
+
+#### VOACAP contra el aire: cuánto acierta
+
+Al lado de la predicción de la estación elegida, la pestaña Estación dice lo que pasó en la última
+hora: «VOACAP decía 20 m al 15 % hacia JA; la escucharon 6 receptores cerca tuyo». Cuenta los
+receptores distintos **dentro de tu distancia de «cerca tuyo»** que reportaron una estación en esa
+zona (RBN, cluster y PSKReporter) en la hora. Un reporte de un receptor lejano —un skimmer japonés
+que escucha una estación japonesa— sólo dice que la banda se usa allá, no que llegue hasta acá: no
+cuenta como escuchado en tu camino.
+
+Escuchado cerca tuyo, el camino estaba abierto: acierto si VOACAP decía abierta, y se quedó corto si
+decía cerrada. Escuchado sólo más lejos, y con 3 o más receptores cerca tuyo reportando **en esa
+misma banda** en la hora, la banda estaba cerrada desde acá: acierto si VOACAP decía cerrada, y
+optimista si decía abierta. Receptores cerca tuyo que están todos en 40 m no dicen nada de 15 m: no
+la dan por cerrada. Si nadie la escuchó en esa banda en la hora, no se compara nada: o VOACAP acertó
+o la estación no estaba en el aire, y el aire solo no lo puede decir.
+
+Debajo del cuadro de 24 horas, **VOACAP contra el aire** resume los últimos 30 días, por banda:
+
+- **acierta**: la daba abierta y se escuchó cerca tuyo, o la daba cerrada y no llegó.
+- **corto**: la daba cerrada y se escuchó cerca tuyo. Con esta columna alta conviene probar la banda
+  aunque VOACAP la dé cerrada.
+- **optimista**: la daba abierta y sólo se escuchó lejos, con al menos esos 3 receptores tuyos
+  reportando en ella. Con esta columna alta, no te fíes cuando la da abierta.
+- **horas**: los casos que hay detrás. Con pocos, el porcentaje vale poco.
+
+Debajo, **Por hora UTC**: las 24 horas del día UTC, más verde cuanto más acertó a esa hora (al pasar
+el mouse por un cuadrado, sus cifras). Es la suma de **todas las zonas** de la lista, no la de la
+estación elegida: lo de esa estación en la última hora es la frase de al lado de la predicción. Se
+compara la predicción que muestra la app, con las ionosondas adentro. Lo mismo, con más detalle,
+está en el tooltip de cada columna y en el «?» del título.
+
+Sigue siendo una predicción: un día dado la banda puede estar mejor o peor, y el camino, cuando hay
+algo medido, dice lo que pasa ahora. Dónde está la estación: el locator que dijo último, si no el
+centro de su país (lo dice el tooltip).
+
+#### Para quien quiera saber más
+
+Nada de esto hace falta para usar la aplicación; es para quien quiera mirar debajo del capó.
+
+- Las comparaciones se guardan en `data/propcheck.db` (una fila por hora, zona del DX y banda, 30
+  días), con el número de manchas con que se predijo y su origen, si esa zona usó las ionosondas, y
+  cuántos receptores cerca tuyo reportaban en esa banda y en total. Las filas sin veredicto (nadie
+  la escuchó en esa banda, o menos de 3 receptores tuyos en ella) quedan guardadas pero no cuentan.
+- Cada predicción se calcula también **sin** las ionosondas y se guarda al lado (`rel_base`), así
+  las dos se comparan contra el mismo aire y se puede decir si las ionosondas mejoran algo.
+- Las mediciones, tal como llegan, quedan en `data/ionohistory.db` (30 días) para la calibración:
+  `python -m dxagent.calibrate`, desde la carpeta donde está instalado DX Agent, lee ese historial y
+  `propcheck.db` y dice qué se equivocaría cada juego de constantes (dejando una estación afuera por
+  vez), cuánto dura una corrección, si la regla de la anomalía se gana su lugar y cuántas veces
+  VOACAP da una banda por abierta sin serlo en cada umbral. No cambia nada: las constantes las
+  decidís vos. Ni el historial ni las mediciones se muestran o se exportan: son de GIRO, de NOAA, de
+  INGV y de BoM.
+- Las constantes de todo esto, las que usa el código: cerca tuyo 1.500 km, 3 receptores para dar una
+  banda por cerrada, 10 % de chance para darla por abierta, una hora de ventana; ionosondas a menos
+  de 2.000 km del punto de control, media vida de 1,5 h, nada de más de 6 h, confianza mínima 25,
+  anomalía en 25° de dip; el ajuste del número entre −20 y 200 y a no más de 50 del efectivo; la
+  corrección se apaga con vida de 3 h; el aviso de foF2 a partir del 20 %; y en 6 m, una ionosonda a
+  menos de 500 km con foEs de 8 MHz.
 
 ### Aperturas en VHF: 6 m y 2 m
 
@@ -1318,10 +1409,14 @@ planetario; lo que abre la banda siguen siendo las estaciones que la escuchan:
 El ecuador geomagnético es el de un dipolo centrado: sobre Sudamérica el ecuador de inclinación
 está hasta unos 5° corrido, menos que el ancho del propio TEP.
 
-El Kp es el de NOAA SWPC, el planetario estimado minuto a minuto, que se baja cada 15 minutos con
-las aperturas en VHF activadas, junto con el índice A (de las últimas 24 horas) y el flujo solar
-(SFI). La ayuda de la píldora **VHF** muestra los tres, y con Kp 5 o más la píldora lo muestra en
-rojo. Sin ellos (todavía no se bajaron) ningún camino es aurora y el TEP no mira el Kp.
+El Kp es el de NOAA SWPC, el planetario estimado minuto a minuto, que se baja cada 15 minutos
+junto con el índice A (de las últimas 24 horas), el flujo solar (SFI), el número de manchas
+solares (SN) y las escalas de tormenta de NOAA (G geomagnética, R apagón de radio, S radiación
+solar). La **pastilla de propagación** del encabezado muestra SFI, SN, A y K; una tormenta
+geomagnética la pone en rojo con el nivel (G2), y un apagón de radio también (R1). Su ayuda dice
+la antigüedad de cada valor, qué significan el A y el K en palabras, las escalas G/R/S observadas
+ahora y el pronóstico de hoy, y la fuente (NOAA SWPC). La ayuda de la pastilla **VHF** también los
+muestra. Sin ellos (todavía no se bajaron) ningún camino es aurora y el TEP no mira el Kp.
 
 **En el mapa** (en las dos proyecciones), con el filtro **50-144 MHz** o la pastilla **VHF** de arriba activados
 (solo VHF, como el pronóstico de tropo en 2 m; sin ninguno taparían el mapa del DX), cada apertura de la lista dibuja sus caminos (los
@@ -1656,6 +1751,11 @@ directamente la base de datos de Log4OM (`.SQLite`, por ejemplo
 - Tus propios spots, de cualquiera de tus indicativos, nunca avisan. El cluster y la RBN se
   conectan con tu indicativo principal; **¿Estás en su log?** le pregunta a Club Log por
   todos tus indicativos (con Todos) o por el elegido.
+- **Qué log ves:** la vista Log muestra el del indicativo de la cabecera (con **Todos**, todos
+  juntos, del más nuevo al más viejo). Su filtro **Log**, en el panel del costado, tiene un chip por
+  indicativo para ver uno solo sin tocar la cabecera (ni las alertas, el DXCC o el WAZ); sin chip
+  elegido, sigue a la cabecera. **Exportar ADIF** exporta lo que ves. La solapa **Últimos QSOs** de la
+  consola muestra el log de la **Estación** del formulario, el que estás cargando.
 
 ### Un log nuevo (para empezar de cero)
 
@@ -1699,10 +1799,12 @@ necesitan archivo: cada uno tiene su logbook.
   recuerda si dejaste abiertos la consola y los detalles; editar un QSO abre los dos). En una
   pantalla más angosta los campos y la columna del WinKey se achican y **Mostrar detalles** queda
   solo como su flecha. Se llena solo
-  cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre), y
+  cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre);
+  al revés, un indicativo escrito a mano llena la pestaña **Estación** del panel lateral como si lo
+  hubieras elegido en la lista (sin cambiar la pestaña que tengas abierta ni lo que escribiste), y
   al lado de **Indicativo** dice su país, en rojo si es un ATNO, con la
-  frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib o TCI: `rig.target =
-  "omnirig"`, `"hamlib"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
+  frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib, flrig o TCI: `rig.target =
+  "omnirig"`, `"hamlib"`, `"flrig"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
   del spot). Una estación elegida lejos de donde está la radio (a más de 3 kHz: el offset de FT8
   no cuenta) pone la frecuencia y el modo del spot en el formulario hasta que la radio se mueve (Sintonizar, un clic en la frecuencia de la lista, el dial): desde
   ahí siguen los de la radio. En split, cuando se conoce la frecuencia de TX, el QSO se guarda con la frecuencia
@@ -1719,7 +1821,7 @@ necesitan archivo: cada uno tiene su logbook.
   cambia de VFO para consultarlo; el otro muestra la última frecuencia observada, que puede
   estar desactualizada. Se avisa si se desconoce la frecuencia de TX en split y se muestra
   **PTT?** si se desconoce el estado de transmisión. **Un clic en el otro VFO pasa la radio a
-  ese VFO** por Hamlib u OmniRig cuando lo admiten, previa comprobación del PTT. **Las listas
+  ese VFO** por Hamlib, OmniRig o flrig (con su guard prendido) cuando lo admiten, previa comprobación del PTT. **Las listas
   de banda y modo** también comprueban el PTT: una banda vuelve a su última frecuencia y modo
   (`data/radio-bands.json`), o a un valor apropiado por defecto; un modo conserva la frecuencia.
   Escribir la frecuencia o el modo deja de seguir la radio
@@ -1733,7 +1835,12 @@ necesitan archivo: cada uno tiene su logbook.
   el formulario queda vacío para el próximo, con el cursor otra vez en el indicativo: el
   indicativo, los reportes (vuelven a los del modo, 599 o 59) y la hora (otra vez al reloj); la
   frecuencia y el modo quedan. **Último QSO:**, al final de la línea del formulario, dice el que
-  acabás de guardar; su **✎** lo abre en el formulario para corregirlo, estés donde estés. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
+  acabás de guardar; su **✎** lo abre en el formulario para corregirlo, estés donde estés. En la lista
+  y en el mapa, arriba de **Cargar un QSO**, la solapa **Últimos QSOs** despliega los últimos QSOs del
+  log en el que estás cargando (con varios indicativos, el de **Estación** en el formulario: elegir otro
+  muestra los de ese) (cinco por defecto; el selector de al lado elige cuántos, hasta ocho), cada uno con su **✎**
+  (abrirlo en el formulario) y su **✕** (borrarlo, con la misma confirmación que en la vista Log); el
+  navegador recuerda si la dejaste abierta y cuántos elegiste. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
   (cty.csv), tu grid y tu indicativo.
 - **Super Check Partial**, en el formulario de la consola: mientras escribís el indicativo, arriba
   de ella aparecen los que coinciden, sobre las últimas filas de la lista, sin una ventana aparte. Van primero los que están
@@ -1782,7 +1889,12 @@ necesitan archivo: cada uno tiene su logbook.
   revés; una tercera: lo más nuevo primero); los QSOs sin valor ahí van al final, y el orden se
   recuerda. Cada subida o bajada se ve en un recuadro arriba del log mientras corre (en qué paso
   está, una barra que se mueve, cuánto lleva), después en verde o rojo con cómo terminó hasta que
-  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **✎** edita un QSO en el formulario de la consola, con sus detalles abiertos (**Guardar cambios**; **Cancelar** lo
+  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **Un clic en la fila** la abre en
+  el lugar, sobre la fila, con los campos del formulario para corregirlo ahí mismo y **Borrar**, sin
+  pasar por la consola ni cambiar de pestaña (Enter guarda; Escape o un clic afuera lo deja como
+  estaba). Lo que el log no tiene del nombre, QTH o grid se completa desde el callbook del indicativo
+  (QRZ.com, HamQTH…), marcado, y se guarda recién con **Guardar cambios**; si cambiás el indicativo, lo
+  que completó para el anterior se va y se le pide al nuevo. **✎** edita un QSO en el formulario de la consola, con sus detalles abiertos (**Guardar cambios**; **Cancelar** lo
   deja como estaba): solo cambia lo que muestra el formulario, todos los demás campos quedan, y
   lo que era queda guardado en el logbook (tabla `edited`). Cambiar el indicativo, la hora, la
   banda o el modo de un QSO ya subido lo marca para subirlo otra vez (Club Log y QRZ.com: `M`;
@@ -1888,7 +2000,26 @@ necesitan archivo: cada uno tiene su logbook.
   el firmware del WinKey. Solo se manda lo que tiene el CW: letras, números y `/ ? . , = + -`. El
   puerto se abre con el primer mensaje y queda abierto (abrirlo puede reiniciar un WinKey) hasta que
   se guarda la Configuración o se cierra DX Agent, que lo devuelven a su paleta. En `config.toml`:
-  `[cw]` (`enabled`, `port`, `wpm`, `messages`).
+  `[cw]` (`enabled`, `port`, `wpm`, `messages`, `esm`).
+- **ESM** (*Enter Sends Message*, como en N1MM; apagado de fábrica): se activa y se desactiva con el
+  botón **ESM** de la columna del WinKey, al lado de los WPM (queda guardado en `config.toml`,
+  `cw.esm`, sin reiniciar nada, y lo siguen todos los dashboards abiertos), o en Configuración →
+  Radio → **CW con WinKey**, o escribiendo **ESMON** o **ESMOF** en el indicativo y **Enter** (el campo
+  queda vacío). Prendido, **Enter** en el formulario hace lo que toca según dónde está el cursor:
+  sin indicativo manda **CQ** (el mensaje de **F1**); con un indicativo manda el reporte (el de **F2**,
+  de fábrica `{CALL} 5NN`) y el cursor pasa a **RST recibido**, que con ESM queda vacío (sin el 599 de
+  siempre) para el reporte que te dan: ahí, **Enter** con el campo vacío manda **?** para que lo repitan
+  y el cursor se queda; con el reporte escrito, **Enter** (o **F3** desde cualquier lado, con un indicativo cargado) guarda
+  el QSO igual que **Guardar QSO** (mismos campos y controles) y recién entonces manda TU (el de **F3**):
+  el formulario queda limpio y el cursor en el indicativo para el próximo, sin esperar a que termine el
+  CW. Si el QSO no se puede guardar, no sale TU y el error es el de siempre; si el reporte no salió
+  (sin WinKey), el cursor no se mueve. Al apagar ESM vuelve el 599 donde RST recibido quedó vacío. Al lado
+  del botón dice qué va a hacer Enter en el campo donde estás («↵ CQ», «↵ 5NN», «↵ ?», «↵ TU + log»). Editando
+  un QSO del log, Enter guarda como siempre, y con ESM apagado nada cambia. Los textos son los de los
+  mensajes en **F1**, **F2** y **F3**: para prenderlo tiene que haber un mensaje en cada uno.
+- **QSY desde el indicativo**, como en N1MM: una frecuencia en kHz escrita en el indicativo y **Enter**
+  (`14025`, `7012.5`, `3525,2`) sintoniza ahí la radio activa, con el modo que ya tiene, y el campo
+  queda vacío; no se guarda ni se manda nada, con ESM o sin él.
 - Mientras el logbook sea experimental, guardá también una copia de tu log en otro lado.
 
 ### Tus QSOs a medida que los logueás
@@ -2119,7 +2250,7 @@ están en pantalla se mantienen.
 | PSKReporter en vivo (MQTT) | Los mismos reportes en el momento, para las estaciones seguidas (PSKReporter → En vivo); y para las aperturas en VHF, los receptores a tu alrededor y tus propios indicativos en 6 m y 2 m | https://mqtt.pskreporter.info/ |
 | Spots de POTA y WWFF | Quién está activando un parque ahora (cada 2 minutos) | https://api.pota.app/spot/activator, https://spots.wwff.co/static/spots.json |
 | Natural Earth (world-atlas) | Costas y fronteras de los países para el mapa | https://www.naturalearthdata.com/ |
-| NOAA SWPC | El número de manchas solares que predice (VOACAP), y el Kp planetario, el A y el flujo solar (aperturas en VHF) | https://services.swpc.noaa.gov/ |
+| NOAA SWPC | El número de manchas solares que predice (VOACAP); el Kp planetario, el A, el flujo solar, el número de manchas y las escalas de tormenta G/R/S (la pastilla de propagación y las aperturas en VHF) | https://services.swpc.noaa.gov/ |
 | Open-Meteo | El pronóstico meteorológico para los ductos de tropo en 2 m (gratis para uso no comercial, CC BY 4.0) | https://open-meteo.com/ |
 | Mapas DXCC de GridTracker | Entidades DXCC, fronteras solo DXCC y zonas CQ para el mapa | https://gitlab.com/gridtracker.org/gridtracker2 |
 
@@ -2180,7 +2311,7 @@ hace falta.
 | `dxagent/store.py`         | `data/dxagent.db` (SQLite): los registros propios de DX Agent |
 | `dxagent/worldmap.py`       | Tierra, fronteras DXCC y entidades DXCC para el mapa |
 | `dxagent/marathon.py`       | CQ DX Marathon: qué QSOs cuentan, los países y zonas trabajados en el período, qué te sumaría un spot |
-| `dxagent/rig.py`            | Sintonizar: se comunica con Log4OM, N1MM, DXLog.net, OmniRig, Hamlib, flrig o DXLab; lee la frecuencia y el modo de la radio por OmniRig |
+| `dxagent/rig.py`            | Sintonizar: se comunica con Log4OM, N1MM, DXLog.net, OmniRig, Hamlib, flrig o DXLab; lee la frecuencia y el modo de la radio por OmniRig, Hamlib o flrig |
 | `dxagent/tci.py`            | TCI (AetherSDR, ExpertSDR, Thetis): sintoniza la radio y mantiene las alertas en su panadaptador |
 | `dxagent/web.py`            | Servidor del panel: página, API JSON, eventos en vivo, configuración |
 | `dxagent/static/index.html` | El panel y la página de configuración (HTML, CSS y JavaScript en un solo archivo) |

@@ -166,7 +166,10 @@ falta a ese); una pastilla por cada fuente de spots (verde = conectada,
 cuando los usás. **Un clic en la pastilla de una fuente** deja solo las estaciones que escuchó esa
 fuente (otro clic, o **Limpiar filtros**, vuelve a mostrar todas). La pastilla **DXpediciones**
 ("48 · 6 en el aire": cuántas están dentro de sus fechas y cuántas se spotearon en los últimos 15
-minutos; un clic abre su pestaña); los totales de tu log: los QSOs en azul, los países trabajados
+minutos; un clic abre su pestaña); la pastilla de **propagación** (**SFI · SN · A · K** de NOAA, con el
+A y el K en el color de su estado; roja con el nivel, **G2**, durante una tormenta geomagnética, y
+con **R1** si hay apagón de radio; al pasar el mouse, la antigüedad de cada valor y el pronóstico de
+hoy); los totales de tu log: los QSOs en azul, los países trabajados
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
 uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (un menú con una vista previa de
 cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
@@ -611,11 +614,12 @@ derecha dice si funcionó.
 | Programa | Qué hay que hacer en el programa | ¿Cambia el modo? |
 |----------|----------------------------------|------------------|
 | **Log4OM 2** | Settings → Software integration → Connections → activar **Remote control** (puerto 2241) | sí, si Log4OM usa OmniRig |
-| **N1MM Logger+** | no sintoniza (ver abajo) | — |
-| **DXLog.net** | no sintoniza (ver abajo) | — |
+| **N1MM Logger+** | Config → Configure Ports… → **Broadcast Data**: marcar **Radio** y agregar `127.0.0.1:12065` (el puerto UDP de DX Agent) | no |
+| **DXLog.net** | Options → Broadcast: **Radio** al puerto UDP de DX Agent, con **Use N1MM QSO format** | no |
 | **OmniRig** | elegir en DX Agent la radio 1 o 2 de OmniRig | sí |
 | **Hamlib (rigctld)**, la opción para empezar | que rigctld esté corriendo, o que lo arranque DX Agent (abajo) | sí |
-| **flrig**, **DXLab Commander** | no sintonizan (ver abajo) | — |
+| **flrig** | su servidor XML-RPC (puerto 12345); para sintonizar, **Sintonizar por flrig** en DX Agent (ver abajo) | sí |
+| **DXLab Commander** | no sintoniza (ver abajo) | — |
 | **TCI** (AetherSDR para FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (o **Enable** en su applet TCI, puerto 50001) | sí |
 
 - **Hamlib, la opción para empezar.** Sintoniza, cambia el modo y el split, y lee la radio para la
@@ -640,10 +644,20 @@ derecha dice si funcionó.
 
 - **Nunca mientras transmitís.** Antes de cada cambio de frecuencia, banda, modo o VFO, DX Agent
   comprueba que la radio esté en recepción; si está transmitiendo, o el programa no puede decirlo,
-  no la mueve. Por eso **N1MM, DXLog.net, flrig y DXLab Commander ya no sintonizan**: su conexión
-  no dice si la radio transmite (los QSOs de esos loggers siguen llegando). Con Log4OM, la
-  frecuencia y el modo van por OmniRig; sin OmniRig no sintoniza. No es un enclavamiento absoluto:
-  la transmisión puede empezar entre la comprobación y el comando.
+  no la mueve. Por eso **DXLab Commander no sintoniza**: su conexión no dice si la radio transmite.
+  Con Log4OM, la frecuencia y el modo van por OmniRig; sin OmniRig no sintoniza. No es un
+  enclavamiento absoluto: la transmisión puede empezar entre la comprobación y el comando.
+  - **N1MM y DXLog.net** dicen cada 10 segundos si la radio transmite, por el mismo puerto UDP por
+    donde mandan los QSOs (hay que marcar **Radio** en su broadcast, arriba). Sin ese aviso en los
+    últimos 30 segundos, o con el programa cerrado, no sintoniza. Cambia solo la frecuencia: el
+    modo se pone en el programa. Ojo: si la transmisión la empezás fuera del programa (pedal,
+    paleta), ellos siguen diciendo que la radio recibe.
+  - **flrig** lee la radio (banda, modo, los dos VFO y el split) para la consola. Para sintonizar y
+    cambiar de VFO, poné **Sintonizar por flrig** en **Sí, consultando el PTT de flrig antes de
+    cada comando** (Configuración → Radio; aparece con una radio en flrig). Hacelo solo si flrig
+    tiene configurada su entrada de PTT (por CAT o por el puerto serie, lo mismo que necesita
+    WSJT-X): cada comando sale después de que flrig dice que la radio recibe. De fábrica, flrig es
+    solo lectura.
 - **Con Log4OM, además de la frecuencia se completa el indicativo** en su ventana de QSO,
   listo para loguear. Si ya escribiste un indicativo a mano ahí, Log4OM no lo reemplaza.
 - **Con Log4OM, el modo** cambia por OmniRig, el programa con el que Log4OM maneja la radio:
@@ -761,6 +775,8 @@ reunidas de NG3K, 425 DX News y Club Log.
   antes de sacarla de la lista. Si alguna la extendió, sigue con la fecha nueva.
 - Al abrir una DXpedición que sube su log a Club Log, DX Agent busca tu indicativo en su log:
   te dice en qué bandas y modos estás, y te avisa si un QSO tuyo no figura en el de ellos.
+- **Una que todavía no empezó** también muestra su recuadro en la pestaña Estación, con sus fechas y
+  **empieza en 17 días** (o **empieza mañana**). No avisa hasta que empieza.
 
 ## 9. Activaciones: POTA, SOTA, IOTA...
 
@@ -878,6 +894,17 @@ como permiten las reglas).
   (IG9/IH9), Shetland (GM/s), Turquía europea (TA1), Isla del Oso (JW/b) y 4U1VIC.
 - **Zonas:** la del QSO en tu log y, si no la tiene, la del indicativo. Una estación de EE. UU.,
   Canadá o Rusia puede estar en otra zona que la que indica su indicativo.
+- **Las listas del Marathon:** DX Agent baja una vez por día las listas que publica el Marathon
+  ([dxmarathon.com](https://dxmarathon.com/resources/data-formats/)): indicativos válidos con sus
+  notas, Zona 2, Antártida, Shetland, spots erróneos y operaciones inválidas.
+  - **Dónde está la estación:** en los spots y la pestaña Estación manda la lista, en las fechas
+    que indica (VY0ZOO en zona 2, un KC4 en la Antártida). En un QSO de tu log van primero la zona
+    y el país que guardó tu programa; la lista completa lo que falta.
+  - **Un spot erróneo** ese día lleva una **✗** roja en la lista de alertas; al pasar el mouse,
+    el indicativo correcto si la lista lo da. Una operación inválida se marca igual, y no cuenta
+    para el Marathon.
+  - **La pestaña Estación** muestra las **Notas del DX Marathon** del indicativo, las vigentes
+    primero. Las notas de un prefijo entero (`GB*`, `TC1*`) solo se muestran.
 - DX Agent no envía tu participación: al final subí tu ADIF en
   [entry.dxmarathon.com](https://entry.dxmarathon.com).
 
@@ -931,6 +958,9 @@ que los spots queden a la vista mientras cargás:
   la consola y los detalles; editar un QSO abre las dos cosas.
 - **Último QSO**, al final de la línea del formulario, dice el que acabás de guardar; su **✎** lo
   abre en el formulario para corregirlo, estés donde estés.
+- **Últimos QSOs**, una solapa arriba del formulario en Lista y Mapa: los últimos QSOs que
+  cargaste (5, o de 1 a 8 con el selector), cada uno con su **✎** para corregirlo y su **✕** para
+  borrarlo, sin ir a la vista Log. Muestra el log de la **Estación** del formulario.
 - **El botón Lista**, mientras estás en la vista Log, cuenta los spots que van llegando, en el color
   del más buscado, hasta que volvés a la lista.
 - En una pantalla más angosta, los campos y la columna del WinKey se achican.
@@ -942,7 +972,9 @@ al lado de kHz con donde transmitís; si la radio no lo dice, toma los kHz donde
 escribir una frecuencia, o cuánto más arriba o abajo, como se dice en un pileup (`+1`, `up 1.5`,
 `dn 2`). El QSO queda con donde transmitiste y donde recibiste. La fecha y la hora
 siguen al reloj hasta que las escribís, así el QSO queda con la hora en que lo guardás. Un
-indicativo escrito a mano muestra su estación cuando dejás de escribir. **Esc** en el indicativo lo
+indicativo escrito a mano muestra su estación cuando dejás de escribir, también en la pestaña
+Estación (sin cambiar de pestaña). **QSY:** una frecuencia en kHz en el indicativo (`14025`,
+`7012.5`) y Enter sintoniza ahí la radio activa, sin guardar nada. **Esc** en el indicativo lo
 borra, y con él lo que DX Agent había completado para esa estación. **Guardar QSO** (ahí o en la
 pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se completa solo: 59 en
 fonía, 599 en CW. Si tenés más de un indicativo, **Tu indicativo** elige en qué logbook va. Además
@@ -1017,6 +1049,16 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
 - Sin indicativo en el formulario, un mensaje con `{CALL}` no se manda.
 - Sin el WinKey activado en Configuración, la columna no aparece.
 
+**ESM (Enter Sends Message)**, como en N1MM, apagado de fábrica: se prende con el botón **ESM** de
+la columna del WinKey, en Configuración o escribiendo `ESMON` (`ESMOF` lo apaga) en el indicativo y
+Enter. Necesita mensajes en F1, F2 y F3. Prendido, Enter va llevando el QSO:
+- **Sin indicativo**, manda el CQ (F1).
+- **Con el indicativo**, manda el reporte (F2) y el cursor pasa al RST recibido.
+- **En el RST recibido**, vacío manda **?** para que lo repitan; con el reporte escrito (o **F3**
+  desde cualquier campo), guarda el QSO y recién ahí manda el TU (F3). Si no se guarda, no sale TU.
+- Al lado del botón dice qué va a hacer Enter (CQ, 5NN, ?, TU + log). Editando un QSO, Enter
+  guarda como siempre.
+
 **Callbooks:** nombre, QTH y grid desde **QRZ.com**, **HamQTH** o **QRZCQ**, con tu propia cuenta en
 cada uno (Configuración → Log). **Consultar primero** elige cuál se consulta primero: HamQTH, por
 ejemplo, si no tenés suscripción a QRZ.com.
@@ -1053,8 +1095,13 @@ el log, con su búsqueda y sus filtros como están (sin filtros: el log entero; 
 de todos tus indicativos juntos), del más viejo al más nuevo, con todos los campos de cada QSO, como
 `DXAgent-<INDICATIVO>-<fecha>-<hora>.adi` en las descargas del navegador.
 
-Un clic en un QSO muestra su estación en la pestaña Acciones; **✎**, un doble clic o **Editar este
-QSO** lo edita (**Guardar cambios**), **✕** lo borra después de confirmar. Un QSO borrado queda
+**Un clic en un QSO lo abre ahí mismo**, sobre su fila, con todos sus campos: **Guardar cambios** (o Enter)
+lo cambia sin salir de la vista, **Borrar** lo borra después de confirmar, y Esc o un clic afuera lo
+deja como estaba. El nombre, el QTH y la grilla que le falten se completan desde tu callbook,
+marcados, y se guardan recién con Guardar cambios. **✎**, un doble clic o **Editar este QSO** lo editan en
+la consola (**Guardar cambios**), y **✕** lo borra después de confirmar. **Con varios indicativos**,
+el filtro **Log** de la pestaña Acciones elige cuál ver con un chip por indicativo, sin cambiar la
+cabecera (que también cambia las alertas, el DXCC y el WAZ). Un QSO borrado queda
 guardado aparte en el logbook, por si fue un error, y no se borra de LoTW, QRZ.com ni Club Log.
 
 **Subidas y bajadas**, en la pestaña Acciones, cada una con cuántos QSOs van y un cuadro con su

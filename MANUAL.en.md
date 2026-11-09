@@ -161,7 +161,9 @@ red = down): Cluster, RBN CW, RBN FT8, and PSKReporter, WSJT-X, TCI and VHF when
 click on a source's pill** leaves only the stations that source heard (another click, or **Clear
 filters**, shows them all again). The **DXpeditions** pill ("48 · 6 on the air": how many are
 within their dates and how many were spotted in the last 15 minutes; a click opens their tab);
-your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
+the **propagation** pill (NOAA's **SFI · SN · A · K**, with A and K coloured by their state; red with
+the level, **G2**, during a geomagnetic storm, plus **R1** during a radio blackout; hover it for each
+value's age and today's forecast); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
 (hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT**, **Theme** (a menu with
 a preview of each: Auto, Light, Dark, High contrast dark and light, Solarized dark and light,
 Nord, Dracula, Dracula orange, Alucard, Alucard black and Sepia), **Sound** (a beep for the important alerts, off by default), **Full
@@ -580,11 +582,12 @@ top right says whether it worked.
 | Program | What to do in the program | Mode too? |
 |---------|---------------------------|-----------|
 | **Log4OM 2** | Settings → Software integration → Connections → turn on **Remote control** (port 2241) | yes, when Log4OM uses OmniRig |
-| **N1MM Logger+** | doesn't tune (see below) | — |
-| **DXLog.net** | doesn't tune (see below) | — |
+| **N1MM Logger+** | Config → Configure Ports… → **Broadcast Data**: tick **Radio** and add `127.0.0.1:12065` (DX Agent's UDP port) | no |
+| **DXLog.net** | Options → Broadcast: **Radio** to DX Agent's UDP port, with **Use N1MM QSO format** | no |
 | **OmniRig** | pick OmniRig's rig 1 or 2 in DX Agent | yes |
 | **Hamlib (rigctld)**, the one to start with | have rigctld running, or let DX Agent start it (below) | yes |
-| **flrig**, **DXLab Commander** | don't tune (see below) | — |
+| **flrig** | its XML-RPC server (port 12345); to tune, **Tune through flrig** in DX Agent (see below) | yes |
+| **DXLab Commander** | doesn't tune (see below) | — |
 | **TCI** (AetherSDR for FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (or **Enable** in its TCI applet, port 50001) | yes |
 
 - **Hamlib, the one to start with.** It tunes, sets the mode and the split, and reads the radio
@@ -633,10 +636,19 @@ top right says whether it worked.
   [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
 - **Never while you transmit.** Before each change of frequency, band, mode or VFO, DX Agent checks
   that the radio is receiving; if it transmits, or the program can't say, it doesn't move it. So
-  **N1MM, DXLog.net, flrig and DXLab Commander no longer tune**: their connection doesn't say
-  whether the radio transmits (QSOs from those loggers still come in). With Log4OM, frequency and
-  mode go through OmniRig; without OmniRig it doesn't tune. It isn't an absolute interlock:
-  transmission can start between the check and the command.
+  **DXLab Commander doesn't tune**: its connection doesn't say whether the radio transmits. With
+  Log4OM, frequency and mode go through OmniRig; without OmniRig it doesn't tune. It isn't an
+  absolute interlock: transmission can start between the check and the command.
+  - **N1MM and DXLog.net** say every 10 seconds whether the radio transmits, through the same UDP
+    port they send QSOs to (tick **Radio** in their broadcast, above). With no word in the last 30
+    seconds, or the program closed, it doesn't tune. Only the frequency changes: set the mode in the
+    program. Mind: if you start transmitting outside the program (foot switch, paddle), they still
+    say the radio receives.
+  - **flrig** reads the radio (band, mode, both VFOs and split) for the console. To tune and switch
+    VFOs, set **Tune through flrig** to **Yes, with flrig's PTT checked before each command**
+    (Settings → Radio; it shows with a radio on flrig). Do it only if flrig has its PTT input set up
+    (by CAT or the serial port, as WSJT-X needs): each command goes after flrig says the radio
+    receives. By default flrig only reads.
 - **Split:** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
   14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
   AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, where the
@@ -724,6 +736,8 @@ gathered from NG3K, 425 DX News and Club Log.
 - When you open a DXpedition that uploads its log to Club Log, DX Agent looks for your call in
   their log: it shows the bands and modes you're in, and warns you if a QSO of yours isn't in
   theirs.
+- **One that hasn't started yet** also shows its box in the Station tab, with its dates and
+  **starts in 17 days** (or **starts tomorrow**). It doesn't alert until it starts.
 
 ## 9. Activations: POTA, SOTA, IOTA...
 
@@ -835,6 +849,16 @@ rules allow).
   (IG9/IH9), Shetland (GM/s), European Turkey (TA1), Bear Island (JW/b) and 4U1VIC.
 - **Zones:** the QSO's zone in your log, else the call's. A US, Canadian or Russian station can
   be in another zone than its call says.
+- **The Marathon's lists:** DX Agent downloads the lists the Marathon publishes once a day
+  ([dxmarathon.com](https://dxmarathon.com/resources/data-formats/)): valid calls and their notes,
+  Zone 2, Antarctica, Shetland, bad spots and invalid operations.
+  - **Where the station is:** in spots and the Station tab the list wins, on the dates it gives
+    (VY0ZOO in zone 2, a KC4 in Antarctica). For a QSO in your log, the zone and country your logger
+    saved come first; the list fills in what's missing.
+  - **A bad spot** that day gets a red **✗** in the alert list; hover it for the right call when the
+    list gives it. An invalid operation is marked the same way, and doesn't count for the Marathon.
+  - **The Station tab** shows the call's **DX Marathon notes**, current ones first. Notes on a whole
+    prefix (`GB*`, `TC1*`) are only shown.
 - DX Agent doesn't submit your entry: at the end, upload your ADIF at
   [entry.dxmarathon.com](https://entry.dxmarathon.com).
 
@@ -887,6 +911,9 @@ three, so the spots stay in sight while you log:
   editing a QSO opens both.
 - **Last QSO**, at the end of the form's line, says the one you just logged; its **✎** opens it in
   the form to correct it, wherever you are.
+- **Recent QSOs**, a tab above the form in List and Map: the last QSOs you logged (5, or 1 to 8 with
+  its picker), each with its **✎** to correct it and its **✕** to delete it, without going to the
+  Log view. It shows the log of the form's **Station**.
 - **The List button**, while you are in the Log view, counts the spots that came in, in the colour
   of the most wanted, until you go back to the list.
 - On a narrower screen, the fields and the WinKey's column get narrower.
@@ -898,7 +925,9 @@ where you transmit; if the radio doesn't say it, it takes the kHz you listen on.
 frequency there, or how far up or down it is, as a pileup says it (`+1`, `up 1.5`, `dn 2`). The QSO
 is logged where you transmitted and where you received. The date and time follow
 the clock until you type them, so the QSO is logged at the time you save it. A call typed by hand
-shows its station once you stop typing. **Esc** in the call clears it, and what DX Agent filled for
+shows its station once you stop typing, in the Station tab too (without changing tabs). **QSY:** a
+frequency in kHz in the call field (`14025`, `7012.5`) and Enter tunes the active radio there,
+logging nothing. **Esc** in the call clears it, and what DX Agent filled for
 that station. **Log QSO** (there or in the Station tab) saves it and says what it adds to your log
 ("new band"). The RST is filled for you: 59 on phone, 599 on CW. With more than one callsign,
 **Your call** picks which logbook it goes into. It also has **Name**, **QTH**, grid square,
@@ -970,6 +999,16 @@ the console's right, with the speed on top, a button per message you set, three 
 - With no call in the form, a message with `{CALL}` isn't sent.
 - Without the WinKey on in Settings, the column doesn't show.
 
+**ESM (Enter Sends Message)**, as in N1MM, off by default: turn it on with the **ESM** button in the
+WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.
+It needs messages on F1, F2 and F3. On, Enter steps through the QSO:
+- **With no call**, it sends the CQ (F1).
+- **With the call**, it sends the report (F2) and the cursor goes to the received RST.
+- **In the received RST**, empty sends **?** for a repeat; with the report typed (or **F3** from any
+  field), it logs the QSO and only then sends the TU (F3). If it isn't logged, no TU goes out.
+- Beside the button it says what Enter will do (CQ, 5NN, ?, TU + log). Editing a QSO, Enter saves as
+  always.
+
 **Callbooks:** name, QTH and grid square from **QRZ.com**, **HamQTH** or **QRZCQ**, with your own
 account on each (Settings → Log). **Ask first** picks the one asked first: HamQTH, say, if you have
 no QRZ.com subscription.
@@ -1006,8 +1045,13 @@ search and filters as they are (none: the whole log; **All**: every callsign's l
 oldest first, with every field each QSO has, as `DXAgent-<CALL>-<date>-<time>.adi` in your browser's
 downloads.
 
-A click on a QSO shows its station in the Actions tab; **✎**, a double click or **Edit this QSO** edits
-it (**Save changes**), **✕** deletes it once you confirm. A deleted QSO is kept aside in the
+**A click on a QSO opens it right there**, over its row, with all its fields: **Save changes** (or Enter)
+changes it without leaving the view, **Delete** deletes it once you confirm, and Esc or a click
+outside leaves it as it was. Name, QTH and grid it lacks are filled from your callbook, marked, and
+saved only with Save changes. **✎**, a double click or **Edit this QSO** edit it in the console (**Save
+changes**), and **✕** deletes it once you confirm. **With several callsigns**, the **Log** filter in
+the Actions tab picks which to see with a chip per callsign, without changing the header (which also
+changes alerts, DXCC and WAZ). A deleted QSO is kept aside in the
 logbook, in case it was a mistake, and it isn't deleted from LoTW, QRZ.com or Club Log.
 
 **Uploads and downloads**, in the Actions tab, each with how many QSOs will go and a progress box
