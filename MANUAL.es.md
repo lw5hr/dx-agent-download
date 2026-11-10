@@ -166,14 +166,17 @@ falta a ese); una pastilla por cada fuente de spots (verde = conectada,
 cuando los usás. **Un clic en la pastilla de una fuente** deja solo las estaciones que escuchó esa
 fuente (otro clic, o **Limpiar filtros**, vuelve a mostrar todas). La pastilla **DXpediciones**
 ("48 · 6 en el aire": cuántas están dentro de sus fechas y cuántas se spotearon en los últimos 15
-minutos; un clic abre su pestaña); la pastilla de **propagación** (**SFI · SN · A · K** de NOAA, con el
-A y el K en el color de su estado; roja con el nivel, **G2**, durante una tormenta geomagnética, y
-con **R1** si hay apagón de radio; al pasar el mouse, una tarjeta con los gráficos de los últimos
-días —el SFI de cuatro, el SN de diez, el A y el Kp de las últimas 24 horas, en ámbar cuando hubo
-tormenta— y debajo la antigüedad de cada valor, el pronóstico de hoy, cómo vienen en números y qué
-quieren decir: SFI de 100 para arriba buena ionización y abajo de 70 pobres en las bandas altas, Kp
-hasta 2 tranquilo y 5 o más tormenta, A abajo de 10 estable y arriba de 20
-inestable); los totales de tu log: los QSOs en azul, los países trabajados
+minutos; un clic abre su pestaña); la pastilla de **propagación** (**SFI · SN · A · K** de NOAA y las
+tres escalas **G · R · S**, que se encienden cuando hay tormenta: en gris en 0, ámbar con 1 o 2 y roja
+de 3 para arriba, y la pastilla entera se pone roja cuando la G está en 1 o más (un R o un S quedan en
+su número); al pasar el
+mouse, una tarjeta con los gráficos de los últimos días —el SFI de cuatro, el SN de diez, el A y el Kp
+de las últimas 24 horas, cada uno en su color—, debajo el pronóstico de hoy con la chance de apagón de
+radio, una tabla que dice qué es cada escala —geomagnética, apagón de radio, radiación— y cuánto marca
+ahora, y otra con los umbrales ideales y críticos de SFI, K y A; la línea de arriba, con la antigüedad
+de cada valor, se pone verde cuando todos los índices están en el rango bueno; un clic en la pastilla
+deja la tarjeta clavada —con el borde en azul— para leerla o copiar los números, y se cierra con otro
+clic, un clic afuera o Escape); los totales de tu log: los QSOs en azul, los países trabajados
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
 uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (un menú con una vista previa de
 cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
