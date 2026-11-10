@@ -162,8 +162,12 @@ click on a source's pill** leaves only the stations that source heard (another c
 filters**, shows them all again). The **DXpeditions** pill ("48 · 6 on the air": how many are
 within their dates and how many were spotted in the last 15 minutes; a click opens their tab);
 the **propagation** pill (NOAA's **SFI · SN · A · K**, with A and K coloured by their state; red with
-the level, **G2**, during a geomagnetic storm, plus **R1** during a radio blackout; hover it for each
-value's age and today's forecast); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
+the level, **G2**, during a geomagnetic storm, plus **R1** during a radio blackout; hover it for a card
+with the last days as charts —the SFI of four, the SN of ten, the A and the Kp of the last 24 hours,
+in amber when there was a storm— and, below them, each value's age, today's forecast, how they have
+been in numbers and what they mean: SFI 100 or more well ionised and
+under 70 poor on the high bands, Kp up to 2 quiet and 5 or more a storm, A under 10 steady and over
+20 unsettled); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
 (hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT**, **Theme** (a menu with
 a preview of each: Auto, Light, Dark, High contrast dark and light, Solarized dark and light,
 Nord, Dracula, Dracula orange, Alucard, Alucard black and Sepia), **Sound** (a beep for the important alerts, off by default), **Full
