@@ -47,7 +47,7 @@ Contenido:
 
 ## 2. Instalarlo y abrirlo
 
-1. Bajá el último `dx-agent-<versión>-windows.zip` de la página
+1. Bajá el último `dx-agent-<versión>-win64.zip` de la página
    [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest).
 2. Descomprimilo donde quieras, por ejemplo en `Documentos`. Tu configuración y tus datos no
    quedan ahí, sino en una carpeta tuya que usan todas las versiones (sección 14): la carpeta
@@ -1175,9 +1175,13 @@ reinicia con la versión nueva. Tus ajustes y tus datos no se tocan, y si algo s
 sigue andando con la versión anterior. La pastilla junto al número de versión te sigue avisando
 cuando hay una nueva.
 
-Bajarlo a mano hace falta en tres casos: si apagaste esa opción, si DX Agent corre desde un clon de
-git o con tu propio Python (ahí sólo se avisa), o si tu copia es anterior a la 0.4.29, que es la
-primera que sabe instalarse sola. En esos casos:
+Bajarlo a mano hace falta en estos casos: si apagaste esa opción, si DX Agent corre desde un clon de
+git o con tu propio Python (ahí sólo se avisa), si tu copia es anterior a la 0.4.29, que es la
+primera que sabe instalarse sola, o, **en Windows, si es anterior a la 0.4.32**: la actualización
+automática de la 0.4.30 y la 0.4.31 se trababa ahí, con una ventana «find» que volvía a abrirse cada
+vez que la cerrabas, así que esas solo avisan de las versiones nuevas. Si te pasó, terminá `cmd.exe`
+en el Administrador de tareas (tu versión anterior queda intacta) e instalá la nueva a mano. En esos
+casos:
 
 1. Bajá el paquete nuevo y descomprimilo donde quieras: en otra carpeta o encima de la anterior.
 2. Abrilo como siempre con **start-dx-agent.bat** (Linux: `./start-dx-agent.sh`; Mac:

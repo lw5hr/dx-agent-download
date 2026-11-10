@@ -15,7 +15,7 @@ your PC (Windows, Linux or Mac) and you use it from your browser.
 ## Download
 
 **[Download the latest version](https://github.com/lw5hr/dx-agent-download/releases/latest)**
-— Windows: `dx-agent-<version>-windows.zip`, unzip it and double-click `start-dx-agent.bat`.
+— Windows: `dx-agent-<version>-win64.zip`, unzip it and double-click `start-dx-agent.bat`.
 Linux (x86_64): `dx-agent-<version>-linux-x86_64.tar.gz`, unpack it and run `./start-dx-agent.sh`.
 Mac: `dx-agent-<version>-macos.tar.gz`, unpack it and double-click `start-dx-agent.command`.
 Nothing to install: Python comes inside.
@@ -65,7 +65,7 @@ PC y se usa desde el navegador.
 ## Descarga
 
 **[Bajar la última versión](https://github.com/lw5hr/dx-agent-download/releases/latest)**
-— Windows: `dx-agent-<versión>-windows.zip`, descomprimilo y hacé doble clic en
+— Windows: `dx-agent-<versión>-win64.zip`, descomprimilo y hacé doble clic en
 `start-dx-agent.bat`. Linux (x86_64): `dx-agent-<versión>-linux-x86_64.tar.gz`, descomprimilo y
 corré `./start-dx-agent.sh`. Mac: `dx-agent-<versión>-macos.tar.gz`, descomprimilo y hacé doble
 clic en `start-dx-agent.command`. No hay nada que instalar: trae Python adentro.

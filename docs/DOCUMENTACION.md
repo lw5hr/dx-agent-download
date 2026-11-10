@@ -35,7 +35,7 @@ Contenido:
 
 ## 1. Inicio rápido
 
-**Lo más fácil:** descomprimir `dx-agent-<versión>-windows.zip` en cualquier carpeta y
+**Lo más fácil:** descomprimir `dx-agent-<versión>-win64.zip` en cualquier carpeta y
 hacer doble clic en **start-dx-agent.bat**. Ese zip ya trae Python, así que no hay que
 instalar nada. DX Agent corre sin ventana (y le pide a Windows que no lo pase a "modo de eficiencia", que con DX Agent esperando spots en segundo plano lo hacía 3 a 4 veces más lento: la vista Log con un log grande, ordenar o borrar un QSO tardaban segundos): el panel se abre en el navegador,
 **Detener** (arriba a la derecha del panel) lo cierra, y si se hace doble clic de nuevo
@@ -49,7 +49,7 @@ PATH"; si no está, start-dx-agent.bat lo avisa y ofrece instalarlo con winget.)
 
 Windows marca lo que baja de internet y avisa la primera vez que se ejecuta un programa así. **Antes
 de descomprimir**, clic derecho en el `.zip` > **Propiedades** > tildar **Desbloquear** (o
-`Unblock-File .\dx-agent-<versión>-windows.zip` en PowerShell): descomprimido de un zip
+`Unblock-File .\dx-agent-<versión>-win64.zip` en PowerShell): descomprimido de un zip
 desbloqueado, no avisa nunca, ni ahora ni en los arranques siguientes. Una vez instalado, DX Agent
 se actualiza solo — esas descargas no pasan por el navegador, así que no hay nada que desbloquear.
 
@@ -2348,7 +2348,7 @@ están en pantalla se mantienen.
 Una vez por hora (`ui.check_updates`, encendido por defecto) DX Agent le pregunta al repositorio
 público de descargas en GitHub cuál es la última versión, y guarda la respuesta en
 `data/update.json`. Cuando hay una más nueva y el release trae el paquete para este sistema
-(`dx-agent-<versión>-windows.zip`, `-linux-x86_64.tar.gz` o `-macos.tar.gz`) junto a su
+(`dx-agent-<versión>-win64.zip`, `-linux-x86_64.tar.gz` o `-macos.tar.gz`) junto a su
 `SHA256SUMS` y la firma de ese archivo (`SHA256SUMS.sig`), DX Agent la instala solo:
 
 1. Baja el paquete a tu carpeta de DX Agent (`data/update/`) y verifica que `SHA256SUMS` esté

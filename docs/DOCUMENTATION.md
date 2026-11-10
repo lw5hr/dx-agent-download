@@ -35,7 +35,7 @@ Contents:
 
 ## 1. Quick start
 
-**Easiest:** unzip `dx-agent-<version>-windows.zip` anywhere and double-click
+**Easiest:** unzip `dx-agent-<version>-win64.zip` anywhere and double-click
 **start-dx-agent.bat**. That zip already includes Python, so there is nothing to
 install. DX Agent runs without a window (and asks Windows not to put it in "efficiency mode", which with DX Agent waiting for spots in the background made it 3 to 4 times slower: the Log view with a big log, a sort or deleting a QSO took seconds): the dashboard opens in your browser,
 **Stop** (top right of the dashboard) closes it, and double-clicking again while it
@@ -48,7 +48,7 @@ PATH"; without it, start-dx-agent.bat says so and offers to install it with wing
 
 Windows marks what comes from the internet and then warns the first time such a program runs.
 **Before unzipping**, right-click the `.zip` > **Properties** > tick **Unblock** (or
-`Unblock-File .\dx-agent-<version>-windows.zip` in PowerShell): unzipped from an unblocked zip,
+`Unblock-File .\dx-agent-<version>-win64.zip` in PowerShell): unzipped from an unblocked zip,
 nothing warns, now or on later starts. Once installed, DX Agent updates itself — those downloads
 never come from a browser, so there is nothing to unblock again.
 
@@ -2245,7 +2245,7 @@ stay.
 
 Once an hour (`ui.check_updates`, on by default) DX Agent asks the public download repository on
 GitHub which release is the latest, and keeps the answer in `data/update.json`. When there is a
-newer one and the release brings this system's package (`dx-agent-<version>-windows.zip`,
+newer one and the release brings this system's package (`dx-agent-<version>-win64.zip`,
 `-linux-x86_64.tar.gz` or `-macos.tar.gz`) beside its `SHA256SUMS` and the signature on it
 (`SHA256SUMS.sig`), DX Agent installs it by itself:
 

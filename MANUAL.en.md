@@ -47,7 +47,7 @@ Contents:
 
 ## 2. Install and open it
 
-1. Download the latest `dx-agent-<version>-windows.zip` from the
+1. Download the latest `dx-agent-<version>-win64.zip` from the
    [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest) page.
 2. Unzip it wherever you like, for example in `Documents`. Your settings and data aren't kept
    there but in a folder of your own that every version uses (section 14): the program's folder
@@ -1120,9 +1120,13 @@ the new version. Your settings and your data are never touched, and if something
 back and keeps running the old one. The pill next to the version number still tells you when a new
 one is out.
 
-Downloading it by hand is needed in three cases: if you turned that option off, if DX Agent runs from
-a git clone or with your own Python (there it only announces), or if your copy is older than 0.4.29,
-which is the first one that knows how to install itself. In those cases:
+Downloading it by hand is needed in these cases: if you turned that option off, if DX Agent runs from
+a git clone or with your own Python (there it only announces), if your copy is older than 0.4.29,
+which is the first one that knows how to install itself, or, **on Windows, if it is older than
+0.4.32**: the self-update of 0.4.30 and 0.4.31 got stuck there, with a "find" window that opened again
+each time you closed it, so they only announce the new versions. If that happened to you, end
+`cmd.exe` in Task Manager (your old version is untouched) and install the new one by hand. In those
+cases:
 
 1. Download the new package and unpack it wherever you like: in another folder or over the old
    one.
