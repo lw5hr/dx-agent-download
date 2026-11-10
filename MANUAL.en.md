@@ -1121,7 +1121,8 @@ new versions ready**, on out of the box. Every hour it asks GitHub for the lates
 release brings the package for your system and it is signed with DX Agent's key, it downloads it,
 checks the signature and tries it. Then the pill next to the version number says **"0.4.34 ready"**
 with an **Install** button: only that click (and a confirmation) restarts DX Agent with the new
-version, so an update never cuts a QSO or a contest. The ✕ hides the pill until you reload the page.
+version, so an update never cuts a QSO or a contest; the tab you have reloads itself on it (no
+other one opens, from 0.4.34 on). The ✕ hides the pill until you reload the page.
 With **Install without asking** on (off out of the box), it installs as soon as it is ready. Your
 settings and your data are never touched, and if something goes wrong it goes back and keeps
 running the old one. (0.4.30 to 0.4.32 installed without asking.)

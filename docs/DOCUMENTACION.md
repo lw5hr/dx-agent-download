@@ -2364,7 +2364,8 @@ fábrica: enseguida):
 3. Al hacer clic en **Instalar** (te pide confirmación), escribe un script chico y se cierra. El script espera a que el proceso termine, copia los
    archivos nuevos sobre la carpeta del programa (nunca toca `data/`, `config.toml` ni tu
    `DX Agent.lnk`), deja un respaldo en `data/update/before-<versión>/` y arranca DX Agent de
-   nuevo.
+   nuevo. Con un panel abierto (siempre, si hiciste clic en Instalar) no abre otra pestaña del
+   navegador: la que tenés se recarga sola con la versión nueva.
 
 Tu configuración y tus datos viven en una carpeta aparte (ver arriba), así que sólo se reemplaza el
 programa. No se instala nada donde no sea seguro: un clon de git o una copia arrancada con tu propio

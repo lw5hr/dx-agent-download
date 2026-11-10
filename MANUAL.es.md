@@ -1177,7 +1177,8 @@ pregunta a GitHub cuál es la última versión y, si el release trae el paquete 
 firmado con la clave de DX Agent, lo baja, controla la firma y lo prueba. Después la pastilla junto
 al número de versión dice **«0.4.34 lista»** con un botón **Instalar**: recién ese clic (y una
 confirmación) reinicia DX Agent con la versión nueva, así una actualización nunca te corta un QSO ni
-un concurso. La ✕ oculta la pastilla hasta que recargás la página. Con **Instalar sin preguntar**
+un concurso; la pestaña que tenés se recarga sola con ella (desde la 0.4.34 no se abre otra). La ✕
+oculta la pastilla hasta que recargás la página. Con **Instalar sin preguntar**
 encendido (apagado de fábrica), la instala apenas está lista. Tus ajustes y tus datos no se tocan, y
 si algo sale mal vuelve atrás y sigue andando con la versión anterior. (De la 0.4.30 a la 0.4.32 se
 instalaba sin preguntar.)

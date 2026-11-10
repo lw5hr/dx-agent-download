@@ -2261,7 +2261,9 @@ installs it (Settings → **Install without asking**, `ui.install_updates`, off 
    restarted until then: a QSO or a contest isn't cut.
 3. On **Install** (a confirmation first), writes a small script and stops. The script waits for the process to end, copies the new files
    over the program's folder (never `data/`, `config.toml` or your `DX Agent.lnk`), keeps a backup
-   in `data/update/before-<version>/`, and starts DX Agent again.
+   in `data/update/before-<version>/`, and starts DX Agent again. With a dashboard open (always,
+   when you clicked Install) it opens no other browser tab: the one you have reloads itself on the
+   new version.
 
 Your settings and data live in a folder of their own (see above), so only the program is replaced.
 Nothing is installed where that isn't safe: a git checkout or a copy started with your own Python
