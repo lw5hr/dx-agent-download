@@ -54,6 +54,9 @@ Contenido:
    del programa se puede reemplazar o borrar.
 3. Hacé doble clic en **start-dx-agent.bat**. El panel se abre en el navegador, en
    **http://localhost:8073**.
+4. Opcional: hacé doble clic una vez en **create-shortcut.bat**. Crea **DX Agent.lnk** en la
+   misma carpeta, el mismo lanzador con el ícono de DX Agent, para anclarlo a la barra de tareas
+   o copiarlo al escritorio. Volvé a correrlo si movés la carpeta.
 
 Si Windows muestra un aviso de seguridad la primera vez (el archivo viene de internet),
 elegí la opción para ejecutarlo (**Ejecutar**, o **Más información → Ejecutar de todas
@@ -1168,12 +1171,16 @@ buena forma.
 
 ## 14. Actualizar a una versión nueva
 
-**DX Agent se actualiza solo**: en Configuración está **Actualizar DX Agent solo**, encendido de
-fábrica. Cada hora le pregunta a GitHub cuál es la última versión y, si el release trae el paquete de
-tu sistema y viene firmado con la clave de DX Agent, lo baja, controla la firma, lo prueba y se
-reinicia con la versión nueva. Tus ajustes y tus datos no se tocan, y si algo sale mal vuelve atrás y
-sigue andando con la versión anterior. La pastilla junto al número de versión te sigue avisando
-cuando hay una nueva.
+**DX Agent deja listas las versiones nuevas solo, y pregunta antes de instalarlas**: en
+Configuración está **Dejar listas las versiones nuevas**, encendido de fábrica. Cada hora le
+pregunta a GitHub cuál es la última versión y, si el release trae el paquete de tu sistema y viene
+firmado con la clave de DX Agent, lo baja, controla la firma y lo prueba. Después la pastilla junto
+al número de versión dice **«0.4.34 lista»** con un botón **Instalar**: recién ese clic (y una
+confirmación) reinicia DX Agent con la versión nueva, así una actualización nunca te corta un QSO ni
+un concurso. La ✕ oculta la pastilla hasta que recargás la página. Con **Instalar sin preguntar**
+encendido (apagado de fábrica), la instala apenas está lista. Tus ajustes y tus datos no se tocan, y
+si algo sale mal vuelve atrás y sigue andando con la versión anterior. (De la 0.4.30 a la 0.4.32 se
+instalaba sin preguntar.)
 
 Bajarlo a mano hace falta en estos casos: si apagaste esa opción, si DX Agent corre desde un clon de
 git o con tu propio Python (ahí sólo se avisa), si tu copia es anterior a la 0.4.29, que es la

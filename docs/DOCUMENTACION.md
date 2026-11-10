@@ -101,9 +101,9 @@ historial de alertas, la contraseña de LoTW guardada y el log si empezaste de c
 
 Para actualizar se puede descomprimir la versión nueva donde quieras y abrirla; la carpeta
 vieja se puede borrar. Además, un paquete instalado se actualiza solo: cuando el release trae el
-paquete para este sistema y su `SHA256SUMS`, DX Agent lo baja en cada chequeo horario, lo
-verifica, reemplaza sus propios archivos (nunca `data/` ni `config.toml`) y arranca de nuevo (ver
-**Actualizaciones**, más abajo).
+paquete para este sistema y su `SHA256SUMS`, DX Agent lo baja y lo verifica, y la pastilla del
+encabezado ofrece **Instalar**, que reemplaza sus propios archivos (nunca `data/` ni `config.toml`)
+y lo arranca de nuevo (ver **Actualizaciones**, más abajo).
 **Configuración** muestra la ruta exacta de `config.toml`. Hasta la
 0.4.x se guardaban en la carpeta del programa: la primera vez que se abre una versión más
 nueva, copia la configuración y los datos desde ahí o desde la versión anterior que esté al
@@ -1705,7 +1705,8 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | ui          | `enabled`                   | `true`                                            | Iniciar el panel web con `run` |
 | ui          | `port`                      | `8073`                                            | Dirección del panel: `http://localhost:8073` |
 | ui          | `open_browser`              | `true`                                            | Abrir el panel automáticamente al iniciar `run` |
-| ui          | `check_updates`             | `true`                                            | Avisar en el panel (una pastilla junto a la versión) cuando sale un DX Agent más nuevo: le pregunta a GitHub cada hora cuál es la última versión del repositorio de descargas. No se manda nada tuyo ni se instala nada |
+| ui          | `check_updates`             | `true`                                            | Avisar en el panel (una pastilla junto a la versión) cuando sale un DX Agent más nuevo, y dejarlo listo: le pregunta a GitHub cada hora cuál es la última versión del repositorio de descargas, y baja y verifica su paquete. No se manda nada tuyo; se instala cuando hacés clic en **Instalar** |
+| ui          | `install_updates`           | `false`                                           | Instalar una versión nueva sin preguntar, apenas está lista: DX Agent se reinicia solo, aunque estés en medio de un QSO |
 | ui          | `filters`                   | `["continent", "near", "hide_confirmed", "lotw", "activity"]` | Los filtros que se ven sobre la lista de alertas (uno oculto queda apagado); también lo guarda el ⚙ del panel, junto a Limpiar filtros |
 | ui          | `hidden_types`              | `[]`                                              | Tipos de alerta cuyo filtro no se ve (siguen alertando), por su nombre en inglés: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); también lo guarda el ⚙ del panel, al final de los tipos de alerta |
 | logbook     | `reload_seconds`            | `60`                                              | Cada cuánto revisar si cambió el archivo ADIF |
@@ -2349,15 +2350,18 @@ Una vez por hora (`ui.check_updates`, encendido por defecto) DX Agent le pregunt
 público de descargas en GitHub cuál es la última versión, y guarda la respuesta en
 `data/update.json`. Cuando hay una más nueva y el release trae el paquete para este sistema
 (`dx-agent-<versión>-win64.zip`, `-linux-x86_64.tar.gz` o `-macos.tar.gz`) junto a su
-`SHA256SUMS` y la firma de ese archivo (`SHA256SUMS.sig`), DX Agent la instala solo:
+`SHA256SUMS` y la firma de ese archivo (`SHA256SUMS.sig`), DX Agent la deja lista y, **cuando hacés clic en Instalar** en la pastilla del
+encabezado, la instala (Configuración → **Instalar sin preguntar**, `ui.install_updates`, apagado de
+fábrica: enseguida):
 
 1. Baja el paquete a tu carpeta de DX Agent (`data/update/`) y verifica que `SHA256SUMS` esté
    firmado con la **clave de release de DX Agent** (Ed25519, su mitad pública está fija en
    `dxagent/selfupdate.py`), y después que el SHA-256 del paquete coincida con ese archivo. Un
    paquete que no coincide, o un release firmado con otra clave, se borra: nunca se usa.
 2. Lo descomprime y lo prueba: el Python que trae el paquete tiene que poder importar el programa
-   nuevo.
-3. Escribe un script chico y se cierra. El script espera a que el proceso termine, copia los
+   nuevo. La pastilla pasa a decir **0.4.33 lista** con **Instalar**; la ✕ la oculta hasta que
+   recargás la página. Hasta entonces no se reinicia nada: no te corta un QSO ni un concurso.
+3. Al hacer clic en **Instalar** (te pide confirmación), escribe un script chico y se cierra. El script espera a que el proceso termine, copia los
    archivos nuevos sobre la carpeta del programa (nunca toca `data/`, `config.toml` ni tu
    `DX Agent.lnk`), deja un respaldo en `data/update/before-<versión>/` y arranca DX Agent de
    nuevo.

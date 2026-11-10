@@ -54,6 +54,9 @@ Contents:
    can be replaced or deleted.
 3. Double-click **start-dx-agent.bat**. The dashboard opens in your browser at
    **http://localhost:8073**.
+4. Optional: double-click **create-shortcut.bat** once. It makes **DX Agent.lnk** in the same
+   folder, the same launcher with DX Agent's icon, to pin to the taskbar or copy to the desktop.
+   Run it again if you move the folder.
 
 If Windows shows a security warning the first time (the file came from the internet), choose
 the option to run it (**Run**, or **More info → Run anyway**). To avoid it: before unzipping,
@@ -1113,12 +1116,15 @@ experimental, keep a copy of your log elsewhere too: the cloud backups are a goo
 
 ## 14. Updating to a new version
 
-**DX Agent updates itself**: Settings has **Update DX Agent by itself**, on out of the box. Every
-hour it asks GitHub for the latest version and, if the release brings the package for your system and
-it is signed with DX Agent's key, it downloads it, checks the signature, tries it and restarts with
-the new version. Your settings and your data are never touched, and if something goes wrong it goes
-back and keeps running the old one. The pill next to the version number still tells you when a new
-one is out.
+**DX Agent gets new versions ready by itself, and asks before installing them**: Settings has **Get
+new versions ready**, on out of the box. Every hour it asks GitHub for the latest version and, if the
+release brings the package for your system and it is signed with DX Agent's key, it downloads it,
+checks the signature and tries it. Then the pill next to the version number says **"0.4.34 ready"**
+with an **Install** button: only that click (and a confirmation) restarts DX Agent with the new
+version, so an update never cuts a QSO or a contest. The ✕ hides the pill until you reload the page.
+With **Install without asking** on (off out of the box), it installs as soon as it is ready. Your
+settings and your data are never touched, and if something goes wrong it goes back and keeps
+running the old one. (0.4.30 to 0.4.32 installed without asking.)
 
 Downloading it by hand is needed in these cases: if you turned that option off, if DX Agent runs from
 a git clone or with your own Python (there it only announces), if your copy is older than 0.4.29,

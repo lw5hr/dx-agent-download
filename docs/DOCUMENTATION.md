@@ -98,8 +98,9 @@ history, the saved LoTW password, and the log if you started from scratch:
 
 To update, unzip the new version anywhere and start it; the old folder can be deleted. An
 installed package mostly updates itself: when the release brings the package for this system and
-its `SHA256SUMS`, DX Agent downloads it every hour it checks, verifies it, and replaces its own
-files (never `data/` or `config.toml`), then starts again (see **Updates**, below).
+its `SHA256SUMS`, DX Agent downloads and verifies it, and the pill in the header offers **Install**,
+which replaces its own files (never `data/` or `config.toml`) and starts it again (see **Updates**,
+below).
 **Settings** shows the exact path of `config.toml`. Up to 0.4.x they were kept in the
 program's folder: the first time a newer version starts, it copies the settings and data from
 there, or from the older version next to it (for example `dx-agent-0.4.3-windows\dx-agent`), and
@@ -1630,7 +1631,8 @@ You can also edit it by hand; restart `run` afterwards.
 | ui          | `enabled`                   | `true`                                            | Start the web dashboard with `run` |
 | ui          | `port`                      | `8073`                                            | Dashboard address: `http://localhost:8073` |
 | ui          | `open_browser`              | `true`                                            | Open the dashboard automatically when `run` starts |
-| ui          | `check_updates`             | `true`                                            | Say on the dashboard (a pill next to the version) when a newer DX Agent is out: asks GitHub every hour for the latest release of the download repository. Nothing of yours is sent, nothing is installed |
+| ui          | `check_updates`             | `true`                                            | Say on the dashboard (a pill next to the version) when a newer DX Agent is out, and get it ready: asks GitHub every hour for the latest release of the download repository, and downloads and checks its package. Nothing of yours is sent; it is installed when you click **Install** |
+| ui          | `install_updates`           | `false`                                           | Install a new version without asking, as soon as it is ready: DX Agent restarts by itself, also in the middle of a QSO |
 | ui          | `filters`                   | `["continent", "near", "hide_confirmed", "lotw", "activity"]` | The filters shown above the alert list (a hidden one is off); the dashboard's ⚙ next to Clear filters saves it too |
 | ui          | `hidden_types`              | `[]`                                              | Alert types whose filter doesn't show (they still alert), by their name in English: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); the dashboard's ⚙ at the end of the alert types saves it too |
 | logbook     | `reload_seconds`            | `60`                                              | How often to check the ADIF file for changes |
@@ -2247,14 +2249,17 @@ Once an hour (`ui.check_updates`, on by default) DX Agent asks the public downlo
 GitHub which release is the latest, and keeps the answer in `data/update.json`. When there is a
 newer one and the release brings this system's package (`dx-agent-<version>-win64.zip`,
 `-linux-x86_64.tar.gz` or `-macos.tar.gz`) beside its `SHA256SUMS` and the signature on it
-(`SHA256SUMS.sig`), DX Agent installs it by itself:
+(`SHA256SUMS.sig`), DX Agent gets it ready and, **when you click Install** on the pill in the header,
+installs it (Settings → **Install without asking**, `ui.install_updates`, off out of the box: at once):
 
 1. Downloads the package into your DX Agent folder (`data/update/`) and checks that `SHA256SUMS` is
    signed with **DX Agent's release key** (Ed25519, its public half pinned in
    `dxagent/selfupdate.py`), then checks the package's SHA-256 against that file. A package that
    doesn't match, or a release signed with any other key, is deleted — never used.
-2. Unpacks it and tries it: the Python the package brings has to import the new program.
-3. Writes a small script and stops. The script waits for the process to end, copies the new files
+2. Unpacks it and tries it: the Python the package brings has to import the new program. The pill
+   then says **0.4.33 ready** with **Install**; ✕ hides it until the page is reloaded. Nothing is
+   restarted until then: a QSO or a contest isn't cut.
+3. On **Install** (a confirmation first), writes a small script and stops. The script waits for the process to end, copies the new files
    over the program's folder (never `data/`, `config.toml` or your `DX Agent.lnk`), keeps a backup
    in `data/update/before-<version>/`, and starts DX Agent again.
 
