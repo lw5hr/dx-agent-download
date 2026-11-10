@@ -1086,8 +1086,16 @@ experimental, keep a copy of your log elsewhere too: the cloud backups are a goo
 
 ## 14. Updating to a new version
 
-A pill next to the version number tells you when a new one is out, with a link to its page (DX
-Agent asks GitHub every hour; nothing of yours is sent, nothing is installed). To update:
+**DX Agent updates itself**: Settings has **Update DX Agent by itself**, on out of the box. Every
+hour it asks GitHub for the latest version and, if the release brings the package for your system and
+it is signed with DX Agent's key, it downloads it, checks the signature, tries it and restarts with
+the new version. Your settings and your data are never touched, and if something goes wrong it goes
+back and keeps running the old one. The pill next to the version number still tells you when a new
+one is out.
+
+Downloading it by hand is needed in three cases: if you turned that option off, if DX Agent runs from
+a git clone or with your own Python (there it only announces), or if your copy is older than 0.4.29,
+which is the first one that knows how to install itself. In those cases:
 
 1. Download the new package and unpack it wherever you like: in another folder or over the old
    one.
@@ -1095,6 +1103,8 @@ Agent asks GitHub every hour; nothing of yours is sent, nothing is installed). T
    **start-dx-agent.command**). If the old version is running, it stops by itself and the new one
    takes its place.
 3. The old version's folder can be deleted.
+
+After that first time, with the option on, updates are by themselves again.
 
 **Your settings and data** (`config.toml` and the `data` folder: the alert history, the saved
 LoTW password, the log if you started from scratch, DX Agent's logbooks) aren't in the program's folder but in a

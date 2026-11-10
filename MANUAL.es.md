@@ -1139,15 +1139,24 @@ buena forma.
 
 ## 14. Actualizar a una versión nueva
 
-Una pastilla junto al número de versión te avisa cuando sale una nueva, con un link a su página
-(DX Agent le pregunta a GitHub cada hora; no se manda nada tuyo ni se instala nada). Para
-actualizar:
+**DX Agent se actualiza solo**: en Configuración está **Actualizar DX Agent solo**, encendido de
+fábrica. Cada hora le pregunta a GitHub cuál es la última versión y, si el release trae el paquete de
+tu sistema y viene firmado con la clave de DX Agent, lo baja, controla la firma, lo prueba y se
+reinicia con la versión nueva. Tus ajustes y tus datos no se tocan, y si algo sale mal vuelve atrás y
+sigue andando con la versión anterior. La pastilla junto al número de versión te sigue avisando
+cuando hay una nueva.
+
+Bajarlo a mano hace falta en tres casos: si apagaste esa opción, si DX Agent corre desde un clon de
+git o con tu propio Python (ahí sólo se avisa), o si tu copia es anterior a la 0.4.29, que es la
+primera que sabe instalarse sola. En esos casos:
 
 1. Bajá el paquete nuevo y descomprimilo donde quieras: en otra carpeta o encima de la anterior.
 2. Abrilo como siempre con **start-dx-agent.bat** (Linux: `./start-dx-agent.sh`; Mac:
    **start-dx-agent.command**). Si la versión anterior está corriendo, se detiene sola y queda la
    nueva.
 3. La carpeta de la versión vieja se puede borrar.
+
+Después de esa primera vez, si dejás la opción encendida, las actualizaciones vuelven a ser solas.
 
 **Tu configuración y tus datos** (`config.toml` y la carpeta `data`: el historial de alertas, la
 contraseña de LoTW guardada, el log si empezaste de cero, los logbooks de DX Agent) no están en la carpeta del programa,
