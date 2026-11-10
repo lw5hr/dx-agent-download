@@ -304,8 +304,8 @@ hace falta un enclavamiento físico o un bloqueo atómico implementado por el eq
 | N1MM Logger+ | UDP `radio_setfrequency` (kHz); sintoniza solo mientras el `RadioInfo` que emite (cada 10 s) diga que el programa recibe | 13064 | no |
 | DXLog.net | El mismo mensaje y `RadioInfo` de N1MM (Options → Broadcast, formato N1MM) | 13064 | no |
 | OmniRig | COM de Windows, mediante PowerShell; radio 1 o 2 | — | sí |
-| Hamlib rigctld | TCP `F <Hz>` / `M <modo> -1` (split: `S 1 VFOB`, `I <Hz>` y `V VFOA`; al terminarlo: `S 0 VFOA`); lee el VFO actual, PTT y S-meter; requiere PTT sin caché | 4532 | sí |
-| flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_vfoA`, `set_vfoB`, `set_split`), y `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` para leerla; sintoniza y cambia de VFO solo con `rig.flrig_tx_guard = "ptt"`, cada comando después de preguntarle a flrig el PTT de la radio (no puede decir si tiene configurada su entrada de PTT) | 12345 | sí |
+| Hamlib rigctld | TCP `V VFOA` + `F <Hz>` / `M <modo> -1` (split: `S 1 VFOB`, `I <Hz>` y `V VFOA`; al terminarlo: `S 0 VFOA`); lee el VFO actual, PTT y S-meter; requiere PTT sin caché | 4532 | sí |
+| flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_frequency` en el VFO A; el B pasando la radio a él con `set_AB`, `set_frequency` y `set_mode`, y de vuelta al A, porque en una radio que no direcciona VFOs, como la IC-9100, `set_vfoB` escribe el VFO en el que está; y `set_split`), y `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` para leerla; sintoniza y cambia de VFO solo con `rig.flrig_tx_guard = "ptt"`, cada comando después de preguntarle a flrig el PTT de la radio (no puede decir si tiene configurada su entrada de PTT) | 12345 | sí |
 | DXLab Commander | Sintonización bloqueada: no se puede verificar el PTT por esta conexión | 52002 | — |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, por una conexión que DX Agent mantiene abierta; también pone las alertas en el panadaptador | 50001 | sí |
 
@@ -334,6 +334,33 @@ sintonización por DXLab Commander no desactiva la recepción de sus QSOs.
   comprueba con `rig.get_AB`: un Icom acepta `set_AB` y se queda donde está, y DX Agent lo dice), y el
   PTT que muestra el panel es el de flrig (con `"block"` dice **PTT?**: desconocido). Sin eso, Sintonizar por Hamlib u OmniRig y dejá que flrig lea la
   radio; los dos no pueden tener el puerto serie a la vez.
+
+- **Split según la radio (Hamlib y flrig):** el botón SPLIT, la rueda sobre las cifras y el split
+  de un spot andan con cualquier radio que el programa ponga en split, pero lo que DX Agent puede
+  leer de la frecuencia de TX depende de la radio. Fijate cuál es la tuya con
+  `rigctl -m <modelo> --dump-caps` (las líneas `Has targetable VFO` y `Can get Split Freq`).
+  - **Con VFOs direccionables** (`Has targetable VFO: Y`, por ejemplo una TS-590): Hamlib lee la
+    frecuencia del VFO de TX sin cambiar de VFO, así que el desplazamiento que dice el botón SPLIT
+    sigue a la perilla de la radio, y escribir el B no la mueve del A.
+  - **Sin VFOs direccionables** (`Has targetable VFO: N`, como la IC-9100 y otros Icom que no
+    tienen el comando CI-V para el VFO no seleccionado): ningún programa puede leer o escribir el B
+    sin pasar la radio al B. Por eso:
+    - la frecuencia de TX es la que puso DX Agent (el botón SPLIT, la rueda o el split de un spot).
+      Si movés el B con la perilla de la radio, DX Agent no se entera y el desplazamiento no cambia:
+      movelo desde DX Agent;
+    - escribir el B (la rueda sobre sus cifras, o un spot con split) pasa la radio un instante al B
+      y la vuelve al A: por Hamlib lo hace el propio `I`, por flrig DX Agent con `set_AB`. Se ve un
+      salto corto en el display cada vez que soltás la rueda;
+    - por Hamlib, DX Agent nunca le pide la frecuencia de split (`get_split_freq`) a una radio así:
+      leída a cada rato, la radio saltaba de A a B todo el tiempo;
+    - por flrig, `set_vfoB` escribe el VFO en el que está la radio (el A), así que DX Agent no lo
+      usa. Si la radio no acepta `set_AB` (no pasa al B), el B no se escribe y DX Agent lo avisa,
+      en vez de pisar la frecuencia de escucha;
+    - por Hamlib, después de transmitir una radio así puede contestar con la frecuencia de TX: si
+      la lectura es igual a la de transmisión, DX Agent conserva la última de escucha.
+  - **Por TCI** (una Flex por AetherSDR, SunSDR, Thetis) no hay estas limitaciones: el programa
+    dice las dos frecuencias y la rueda mueve cada una sin pasar por la otra. Eso vale para el
+    split que pone DX Agent; uno que armes vos en el programa se muestra pero no se mueve con la rueda.
 
 - **Modo elegido:** CW para spots de CW; USB o LSB para fonía (LSB por debajo de
   10 MHz, salvo 60 m); RTTY para RTTY; para FT8/FT4, USB con OmniRig (como WSJT-X usa
@@ -389,8 +416,13 @@ panadaptador), y:
   de los MHz), Sintonizar pone la radio en split: escucha en la frecuencia del spot y transmite
   donde la estación, y DX Agent dice "split: transmitís en 14026.0 kHz". Con AetherSDR abre un
   segundo slice que transmite ahí (split por TCI); por OmniRig y Hamlib rigctld pone el
-  split propio de la radio (la frecuencia de la estación en el VFO B, escuchando en el VFO A:
-  Hamlib puede dejar una radio como la IC-9100 en el B, el que transmite). **UP** o **SPLIT** solos
+  split propio de la radio (la frecuencia de la estación en el VFO B, escuchando en el VFO A);
+  por rigctld la deja en el VFO A antes de escribir la frecuencia, porque una radio como la IC-9100 no
+  tiene VFOs direccionables (`Has targetable VFO: N`) y escribiría en el B la del DX en vez de la de
+  escucha. En split, la frecuencia que se muestra y con la que trabaja el botón SPLIT sigue siendo
+  siempre la de escucha, también después de transmitir (esa radio se queda en el VFO de TX y contesta
+  con esa frecuencia: si la lectura es igual a la de transmisión, se conserva la última de escucha).
+  **UP** o **SPLIT** solos
   suben lo que diga la opción para el modo (1 kHz en CW y RTTY, 5 en fonía, al lado de la opción).
   El próximo Sintonizar a una estación sin split lo termina: por TCI mueve el slice que recibe y
   AetherSDR cierra el que había abierto; por OmniRig y Hamlib apaga el split de la radio, lo haya
@@ -1851,11 +1883,24 @@ necesitan archivo: cada uno tiene su logbook.
   **SPLIT**, su banda y su modo; al lado, el otro VFO de la radio, o los otros slices de AetherSDR,
   un recuadro cada uno (los que no entran pasan a una línea más abajo) (el VFO B de
   OmniRig cuando el archivo de la radio lo lee; en Thetis o ExpertSDR, el A y el B de cada
-  receptor). Por TCI y Hamlib, también el S-meter como lo informa el programa: una barra al lado de la
+  receptor). **El SPLIT es un botón**: un clic pone la radio en split (transmitiendo en el otro
+  VFO, en la misma frecuencia al principio) y otro clic lo termina y vuelve al VFO A; al lado dice
+  cuánto transmite respecto de donde escucha, **▲2.5** arriba, **▼3.0** abajo, **±0.0** igual. **La
+  rueda del mouse sobre una cifra de la frecuencia de TX** la mueve en esa cifra (arriba suma: sobre
+  la de los kHz, de a 1 kHz; sobre la de los cientos de Hz, de a 100 Hz), dentro de la banda: DX
+  Agent la escribe en la radio y así sabe siempre dónde transmitís. Por flrig, para escribir el B la
+  radio pasa un instante al B y vuelve al A; por TCI (una Flex por AetherSDR) va solo `vfo:N,1` y
+  AetherSDR mueve el slice que abrió para transmitir. **La rueda sobre una cifra de la frecuencia grande**
+  (donde escuchás) la mueve igual, sin tocar el split; en split, dentro de la banda. Por TCI y Hamlib, también el S-meter como lo informa el programa: una barra al lado de la
   frecuencia con su lectura (S7, S9+20), verde hasta S9 y roja arriba, y una chica en cada uno
   de los otros recuadros (OmniRig no lo lee). Por Hamlib se lee solo el VFO actual y nunca se
-  cambia de VFO para consultarlo; el otro muestra la última frecuencia observada, que puede
-  estar desactualizada. Se avisa si se desconoce la frecuencia de TX en split y se muestra
+  cambia de VFO para consultarlo; en split se lee además la frecuencia del otro VFO (la de
+  transmisión) solo en una radio que la informa sin cambiar de VFO (una TS-590), y así sigue a la
+  perilla. Una IC-9100 no tiene cómo decirla sin pasarse al VFO B (Hamlib la cambia de VFO y la
+  vuelve, y leída a cada rato la radio saltaba de A a B todo el tiempo), y flrig tampoco la lee:
+  ahí la frecuencia de TX es la que puso DX Agent (el botón SPLIT, la rueda, el split de un spot),
+  y moverla con la perilla de la radio no se ve. Fuera de split el otro muestra la última
+  frecuencia observada, que puede estar desactualizada. Se avisa si se desconoce la frecuencia de TX en split y se muestra
   **PTT?** si se desconoce el estado de transmisión. **Un clic en el otro VFO pasa la radio a
   ese VFO** por Hamlib, OmniRig o flrig (con su guard prendido) cuando lo admiten, previa comprobación del PTT. **Las listas
   de banda y modo** también comprueban el PTT: una banda vuelve a su última frecuencia y modo
@@ -2029,7 +2074,9 @@ necesitan archivo: cada uno tiene su logbook.
   estación del formulario; un mensaje con `{CALL}` y el formulario sin indicativo no se manda.
   El atajo de cada mensaje lo manda, en la lista, el mapa o la vista Log, también mientras escribís
   en el formulario, y **Parar**, o **Esc** en la consola o mientras algo está saliendo, corta
-  enseguida lo que está mandando y lo que espera. Debajo de los botones se ve el mensaje que está
+  enseguida lo que está mandando y lo que espera. **El botón del mensaje que está saliendo queda
+  encendido** (en el color de acento) hasta que el WinKey avisa que terminó: el que apretaste, y el
+  que se encoló detrás si apretaste otro, en esta pantalla o en otra. Debajo de los botones se ve el mensaje que está
   saliendo, ya con el indicativo puesto («9X5KM 5NN»): cada letra se pinta a medida
   que el WinKey la manipula (su eco por el puerto serie), y al terminar queda un momento y se va. Un
   WinKey que no devuelve el eco muestra el mensaje entero y se va al tiempo que tarda a su velocidad.

@@ -659,7 +659,8 @@ top right says whether it worked.
   14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
   AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, where the
   station listens goes to VFO B, and the radio keeps listening on VFO A. **UP** alone goes up 1 kHz on CW and RTTY, 5 on phone (you can
-  change it). The next Tune to a station without split ends it, whoever set it (WSJT-X or you too).
+  change it). While you transmit, the frequency DX Agent shows is still the receiving one.
+  The next Tune to a station without split ends it, whoever set it (WSJT-X or you too).
   Not on FT8 and FT4. Settings → Radio → **Split when the spot says so**, on by default.
 - **Not while transmitting (TCI):** a Tune while the radio is on the air doesn't move it, nor
   give WSJT-X a new call. Settings → Radio → **While transmitting**: don't tune (the default), tune
@@ -985,12 +986,21 @@ Log view, with room to spare, the radio keeps its whole window, in a column at t
 - **The VFO the form follows** is large, with its letter in its colour (A cyan, B magenta, C green,
   D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, and its band
   and mode.
+- **SPLIT is a button:** a click puts the radio in split (transmitting on its other VFO, the same
+  frequency at first: the knob moves it after) and another click ends it, back on VFO A. Beside it,
+  how far you transmit from where you listen: **▲2.5** up, **▼3.0** down, **±0.0** the same,
+  following the knob. On a radio without targetable VFOs (an IC-9100 and other Icoms) DX Agent
+  can't read VFO B: the offset is the one DX Agent set, so move it from DX Agent.
+- **The mouse wheel over a digit** moves that frequency by the digit's value: the TX one in split
+  (within the band), and the big one where you listen, without touching the split. The number
+  changes at once and the radio follows when the wheel stops.
 - **On TCI and Hamlib, an S-meter** shows beside the frequency.
 - **The other VFO**, or AetherSDR's other slices, show beside it (in the Log view, under it).
 - **A click on the other VFO puts the radio on it**, through Hamlib, or OmniRig where the
   radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, DX Agent reads both
   VFOs once when it connects (a blink on the radio's display), and then that VFO shows where the
-  VFO was the last time the radio was on it.
+  VFO was the last time the radio was on it; **in split** it reads it from the radio as you work,
+  so it follows the knob.
 - **The band and the mode are lists that change them on the radio.** A band takes it back where it
   last was on it, in its mode then; the first time, to CW, SSB or FT8 by the mode it is in. A mode
   (CW, LSB, USB, DATA, RTTY) keeps the frequency.
@@ -1009,6 +1019,8 @@ the console's right, with the speed on top, a button per message you set, three 
   the Log view, also while typing in the form and with the console folded. Out of the box, F1 to
   F4; a new one takes the first free. **Stop**, or **Esc** in the console or while something goes
   out, cuts at once.
+- **The button of the message going out stays lit** until the WinKey says it ended (the one you
+  pressed, or the one queued behind it if you pressed another).
 - **Under the buttons** you see the message going out, its call filled in ("9X5KM 5NN"), each character
   lighting up as the WinKey sends it.
 - **The speed** changes right there: **−** and **+** beside the WPM, by 1, or **PgDn** and **PgUp** in

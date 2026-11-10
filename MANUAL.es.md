@@ -696,7 +696,8 @@ derecha dice si funcionó.
   **QSX 14.205**...), Sintonizar pone la radio en split, y el mensaje lo dice ("split: TX 14026.0
   kHz"): AetherSDR abre un segundo slice que transmite ahí (TCI); por OmniRig y Hamlib, la
   frecuencia donde escucha la estación va al VFO B, y la radio queda escuchando en el VFO A. **UP** solo sube 1 kHz en CW y RTTY, 5 en fonía (se puede
-  cambiar). Sintonizar una estación sin split lo termina, lo haya puesto quien sea (también WSJT-X
+  cambiar). Mientras transmitís, la frecuencia que muestra DX Agent sigue siendo la de escucha.
+  Sintonizar una estación sin split lo termina, lo haya puesto quien sea (también WSJT-X
   o vos). No en FT8 ni FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de
   fábrica.
 - **No mientras transmitís (TCI):** un Sintonizar con la radio en el aire no la mueve, ni le da
@@ -1036,12 +1037,22 @@ una columna a la izquierda de la consola.
 - **El VFO que sigue el formulario** va en grande, con su letra en su color (A cian, B magenta,
   C verde, D amarillo), **TX** en el que transmite (en rojo lleno mientras transmite), **SPLIT**, y
   su banda y su modo.
+- **SPLIT es un botón:** un clic pone la radio en split (transmitiendo en el otro VFO, en la misma
+  frecuencia al principio: después la movés con la perilla) y otro clic lo termina y vuelve al VFO A.
+  Al lado dice cuánto transmitís respecto de donde escuchás: **▲2.5** arriba, **▼3.0** abajo,
+  **±0.0** igual, y sigue a la perilla. En una radio sin VFOs direccionables (una IC-9100 y otros
+  Icom) DX Agent no puede leer el VFO B: el desplazamiento es el que puso DX Agent, así que movelo
+  desde DX Agent.
+- **La rueda del mouse sobre una cifra** mueve esa frecuencia en el valor de la cifra: la de TX en
+  split (dentro de la banda), y la grande donde escuchás, sin tocar el split. El número cambia en
+  el acto y la radio lo sigue cuando la rueda se queda quieta.
 - **Por TCI y Hamlib, un S-meter** va al lado de la frecuencia.
 - **El otro VFO**, o los otros slices de AetherSDR, van al lado (en la vista Log, debajo).
 - **Un clic en el otro VFO pasa la radio a ese VFO**, por Hamlib, o por OmniRig si el
   archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, DX Agent lee los dos
   VFOs una vez al conectarse (un parpadeo en la pantalla de la radio), y después ese VFO
-  muestra dónde quedó el VFO la última vez que la radio estuvo en él.
+  muestra dónde quedó el VFO la última vez que la radio estuvo en él; **en split** lo lee de la
+  radio mientras trabajás, así sigue a la perilla.
 - **La banda y el modo son listas que los cambian en la radio.** Una banda la lleva a donde estuvo
   la última vez en ella, en el modo que tenía; la primera vez, a CW, SSB o FT8 según el modo en que
   está. Un modo (CW, LSB, USB, DATA, RTTY) deja la frecuencia como está.
@@ -1060,6 +1071,8 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
   vista Log, también mientras escribís en el formulario y con la consola plegada. De fábrica, F1 a
   F4; uno nuevo toma el primero libre. **Parar**, o **Esc** en la consola o mientras algo está
   saliendo, corta enseguida.
+- **El botón del mensaje que está saliendo queda encendido** hasta que el WinKey avisa que terminó
+  (el que apretaste, o el que quedó en cola si apretaste otro).
 - **Debajo de los botones** ves el mensaje que está saliendo, ya con el indicativo («9X5KM 5NN»), cada letra
   pintada a medida que el WinKey la manda.
 - **La velocidad** se cambia ahí: **−** y **+** al lado de los WPM, de a 1, o **AvPág** y **RePág** en

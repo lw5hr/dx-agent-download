@@ -290,8 +290,8 @@ hardware-enforced TX lock.
 | N1MM Logger+ | UDP `radio_setfrequency` (kHz); Tune only while the `RadioInfo` it broadcasts (every 10 s) says the program receives | 13064 | no |
 | DXLog.net | The same N1MM message and `RadioInfo` (Options → Broadcast, N1MM format) | 13064 | no |
 | OmniRig | Windows COM, through PowerShell; Rig 1 or Rig 2 | — | yes |
-| Hamlib rigctld | TCP `F <Hz>` / `M <mode> -1` (split: `S 1 VFOB`, `I <Hz>` and `V VFOA`; ended: `S 0 VFOA`); reads the current VFO, PTT and S-meter; requires uncached PTT | 4532 | yes |
-| flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_vfoA`, `set_vfoB`, `set_split`), and `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` to read it; Tuning and VFO switches only with `rig.flrig_tx_guard = "ptt"`, each command after asking flrig for the radio's PTT (it cannot say whether its PTT input is configured) | 12345 | yes |
+| Hamlib rigctld | TCP `V VFOA` + `F <Hz>` / `M <mode> -1` (split: `S 1 VFOB`, `I <Hz>` and `V VFOA`; ended: `S 0 VFOA`); reads the current VFO, PTT and S-meter; requires uncached PTT | 4532 | yes |
+| flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_frequency` on VFO A; B by switching the radio to it with `set_AB`, `set_frequency` and `set_mode`, and back to A, since on a radio that can't target VFOs, like the IC-9100, `set_vfoB` writes the VFO it is on; and `set_split`), and `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` to read it; Tuning and VFO switches only with `rig.flrig_tx_guard = "ptt"`, each command after asking flrig for the radio's PTT (it cannot say whether its PTT input is configured) | 12345 | yes |
 | DXLab Commander | Tuning blocked: no verifiable PTT on this connection | 52002 | — |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, on a connection DX Agent keeps open; it also puts the alerts on the panadapter | 50001 | yes |
 
@@ -320,6 +320,33 @@ disable receiving QSOs from it.
   **PTT?**: unknown). Without it, use
   Hamlib or OmniRig for Tune and leave flrig to read the radio; both cannot own the serial port at
   the same time.
+
+- **Split by radio (Hamlib and flrig):** the SPLIT button, the wheel on the digits and a spot's
+  split work with any radio the program can put in split, but what DX Agent can read of the TX
+  frequency depends on the radio. Check yours with `rigctl -m <model> --dump-caps` (the
+  `Has targetable VFO` and `Can get Split Freq` lines).
+  - **With targetable VFOs** (`Has targetable VFO: Y`, a TS-590 for example): Hamlib reads the TX
+    VFO's frequency without switching VFOs, so the offset the SPLIT button shows follows the
+    radio's knob, and writing B doesn't move the radio off A.
+  - **Without targetable VFOs** (`Has targetable VFO: N`, like the IC-9100 and other Icoms without
+    the CI-V command for the unselected VFO): no program can read or write B without switching the
+    radio to B. So:
+    - the TX frequency is the one DX Agent set (the SPLIT button, the wheel or a spot's split). If
+      you move B with the radio's knob, DX Agent doesn't see it and the offset doesn't change: move
+      it from DX Agent;
+    - writing B (the wheel on its digits, or a spot with split) switches the radio to B for a moment
+      and back to A: through Hamlib its own `I` does it, through flrig DX Agent with `set_AB`. The
+      display jumps briefly each time you let go of the wheel;
+    - through Hamlib, DX Agent never asks such a radio for its split frequency (`get_split_freq`):
+      polled, the radio flipped between A and B all the time;
+    - through flrig, `set_vfoB` writes the VFO the radio is on (A), so DX Agent doesn't use it. If
+      the radio ignores `set_AB` (it doesn't go to B), B isn't written and DX Agent says so, rather
+      than overwriting where you listen;
+    - through Hamlib, after transmitting such a radio may answer with the TX frequency: when the
+      reading equals the transmitting one, DX Agent keeps the last receiving one.
+  - **Through TCI** (a Flex on AetherSDR, SunSDR, Thetis) none of this applies: the program says
+    both frequencies and the wheel moves each one without touching the other. That holds for the
+    split DX Agent puts the radio in; one you set up in the program is shown but not moved by the wheel.
 
 - **Mode chosen:** CW for CW spots; USB or LSB for phone (LSB below 10 MHz, except
   60 m); RTTY for RTTY; for FT8/FT4, USB through OmniRig (how WSJT-X runs the radio)
@@ -369,8 +396,12 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   the radio in split: it listens on the spot's frequency and transmits where the station does,
   and DX Agent says "split: TX 14026.0 kHz". With AetherSDR it opens a second slice that
   transmits there (TCI split); through OmniRig and Hamlib rigctld it sets the radio's own
-  split (the station's frequency on VFO B, listening on VFO A: Hamlib can leave a radio
-  such as the IC-9100 on B, the one it transmits on). **UP** or **SPLIT** alone goes up by the default for
+  split (the station's frequency on VFO B, listening on VFO A); through rigctld it puts the radio
+  on VFO A before writing the frequency, because one such as the IC-9100 has no targetable VFOs
+  (`Has targetable VFO: N`) and would take the DX's frequency on B instead of the listening one.
+  While you transmit in split the frequency shown, and the one the SPLIT button works with, is always
+  the receiving one, after transmitting too (that radio stays on the TX VFO and answers with that
+  frequency: when the reading equals the transmitting one, the last receiving one is kept). **UP** or **SPLIT** alone goes up by the default for
   the mode (1 kHz on CW and RTTY, 5 on phone, set beside the option). The next Tune to a station
   without split ends it: on TCI it moves the receiving slice and AetherSDR closes the slice it
   opened; on OmniRig and Hamlib the radio's split is turned off, whoever turned it on (DX Agent before
@@ -1770,11 +1801,24 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   in a tile of its own, its frequency large, with its letter in its colour (A cyan, B magenta, C green,
   D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, its band and mode;
   beside it the radio's other VFO, or AetherSDR's other slices, a tile each (more than fit wrap to a line below) (OmniRig's VFO B when the radio's file
-  reads it; on Thetis or ExpertSDR each receiver's A and B). On TCI and Hamlib, the S-meter too, as the
+  reads it; on Thetis or ExpertSDR each receiver's A and B). **SPLIT is a button**: a click puts the radio
+  in split (transmitting on its other VFO, the same frequency at first) and another click ends it,
+  back on VFO A; beside it, how far it transmits from where you listen, **▲2.5** up, **▼3.0** down,
+  **±0.0** the same. **The mouse wheel on a digit of the TX frequency** moves it by that digit (up
+  adds: on the kHz digit 1 kHz at a time, on the hundreds of Hz 100 Hz), within the band: DX Agent
+  writes it to the radio, so it always knows where you transmit. Through flrig, writing B switches the
+  radio to B for a moment and back to A; through TCI (a Flex on AetherSDR) only `vfo:N,1` goes, and
+  AetherSDR moves the slice it opened to transmit. **The wheel on a digit of the large frequency** (where you
+  listen) moves it the same way, leaving the split as it is; in split, within the band. On TCI and Hamlib, the S-meter too, as the
   program says it: a bar beside the frequency with its reading (S7, S9+20), green up to S9 and
   red over it, and a small one on each of the other tiles (OmniRig doesn't read it). Hamlib
-  reads only the current VFO and never switches VFOs just to poll; the other line shows its
-  last observed frequency, which may be stale. The display says when split TX is unknown and
+  reads only the current VFO and never switches VFOs just to poll; in split it also reads the other
+  VFO's frequency (the transmitting one) only from a radio that says it without switching VFOs (a
+  TS-590), so it follows the knob. An IC-9100 can't say it without going to VFO B (Hamlib switches
+  it there and back, and polled that made the radio flip A/B all the time), and flrig doesn't read
+  it either: there the TX frequency is the one DX Agent set (the SPLIT button, the wheel, a spot's
+  split), and moving it with the radio's knob isn't seen. Out of split the other line shows its last
+  observed frequency, which may be stale. The display says when split TX is unknown and
   shows **PTT?** when the transmit state is unknown. **A click on the other VFO's tile puts the
   radio on it** through Hamlib, OmniRig, or flrig (with its guard on) where supported, after checking PTT. **The band and
   mode lists** also check PTT: a band returns to its last frequency and mode
@@ -1941,7 +1985,9 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   `{MYCALL}` is the callsign you work as, the form's, and `{CALL}` the station in the form; a message
   with `{CALL}` and no call in the form isn't sent. Each message's key sends it, in the list, the map
   or the Log view, also while typing in the form, and **Stop**, or **Esc** in the console or while
-  something goes out, cuts at once what it is sending and what waits. Under the buttons, the message
+  something goes out, cuts at once what it is sending and what waits. **The button of the message going
+  out stays lit** (in the accent colour) until the WinKey says it ended: the one you pressed, and the
+  one queued behind it if you pressed another, on this dashboard or on another. Under the buttons, the message
   going out shows, its call filled in ("9X5KM 5NN"): each character lights up as the
   WinKey keys it (its echo on the serial port), and once it ends it stays a moment and goes. A WinKey
   that doesn't echo shows the whole message, gone after the time it takes at its speed. **The speed**
