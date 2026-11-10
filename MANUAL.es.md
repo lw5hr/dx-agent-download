@@ -910,6 +910,11 @@ como permiten las reglas).
   - **Un spot erróneo** ese día lleva una **✗** roja en la lista de alertas; al pasar el mouse,
     el indicativo correcto si la lista lo da. Una operación inválida se marca igual, y no cuenta
     para el Marathon.
+  - **Un indicativo verificado** lleva una **✓** verde: el indicativo exacto (no un prefijo) que
+    la lista de válidos da por bueno ese día, como un residente, una DXpedición dentro de sus
+    fechas o una estación en la Antártida, Zona 2 o Shetland. Aparece en la lista de alertas, en el
+    formulario junto al país (con la nota en el tooltip) y en la pestaña Estación, cuyo recuadro
+    dice **Verificado por el DX Marathon**. Si la lista también lo da por erróneo, gana la ✗.
   - **La pestaña Estación** muestra las **Notas del DX Marathon** del indicativo, las vigentes
     primero. Las notas de un prefijo entero (`GB*`, `TC1*`) solo se muestran.
 - DX Agent no envía tu participación: al final subí tu ADIF en
@@ -967,7 +972,11 @@ que los spots queden a la vista mientras cargás:
   abre en el formulario para corregirlo, estés donde estés.
 - **Últimos QSOs**, una solapa arriba del formulario en Lista y Mapa: los últimos QSOs que
   cargaste (5, o de 1 a 8 con el selector), cada uno con su **✎** para corregirlo y su **✕** para
-  borrarlo, sin ir a la vista Log. Muestra el log de la **Estación** del formulario.
+  borrarlo, sin ir a la vista Log. Muestra el log de la **Estación** del formulario. Su mitad
+  derecha, **Con**, muestra tus QSOs con la estación del formulario: cuántos y cuántos confirmados,
+  las bandas en que la trabajaste (llenas las confirmadas) y cada QSO con sus reportes, LoTW / QSL /
+  eQSL y su **✎**. Una estación que nunca trabajaste dice **Nuevo**; **y N más** abre la vista Log
+  con todos los QSOs de ese indicativo. Con la consola angosta las dos mitades se apilan.
 - **El botón Lista**, mientras estás en la vista Log, cuenta los spots que van llegando, en el color
   del más buscado, hasta que volvés a la lista.
 - En una pantalla más angosta, los campos y la columna del WinKey se achican.
@@ -987,7 +996,9 @@ pestaña Estación) lo guarda y dice qué te suma ("banda nueva"). El RST se com
 fonía, 599 en CW. Si tenés más de un indicativo, **Tu indicativo** elige en qué logbook va. Además
 tiene **Nombre**, **QTH**, grid, **Referencias** (parque, cumbre, isla) y **Comentario**; **Ahora**
 pone la fecha y la hora del momento y **Limpiar** vacía el formulario. Al lado de **Indicativo** ves
-el país de la estación, en rojo si es un ATNO. Su estación aparece en la
+el país de la estación, en rojo si es un ATNO, con la ✓ o la ✗ del DX Marathon cuando su lista lo
+dice. **Tab** va Indicativo → RST enviado → RST recibido → **Guardar QSO** (Shift+Tab al revés); en
+el indicativo, la sugerencia de Super Check Partial toma el Tab primero. Su estación aparece en la
 pestaña **Acciones** del panel lateral: el callbook, los **QSOs anteriores** con ella y **Este
 indicativo**, una tabla de las bandas y los modos en que la trabajaste (**✓** verde confirmado,
 ámbar trabajado, **NEW** una banda y un modo todavía nuevos para su país; en 30 m nunca en fonía,
@@ -1060,7 +1071,9 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
 la columna del WinKey, en Configuración o escribiendo `ESMON` (`ESMOF` lo apaga) en el indicativo y
 Enter. Necesita mensajes en F1, F2 y F3. Prendido, Enter va llevando el QSO:
 - **Sin indicativo**, manda el CQ (F1).
-- **Con el indicativo**, manda el reporte (F2) y el cursor pasa al RST recibido.
+- **Con el indicativo**, manda el reporte (F2) y el cursor pasa al RST recibido, con el 599 del
+  modo seleccionado: en un concurso el reporte es siempre ese, así que indicativo → Enter → Enter
+  guarda el QSO. Otro reporte se escribe encima.
 - **En el RST recibido**, vacío manda **?** para que lo repitan; con el reporte escrito (o **F3**
   desde cualquier campo), guarda el QSO y recién ahí manda el TU (F3). Si no se guarda, no sale TU.
 - Al lado del botón dice qué va a hacer Enter (CQ, 5NN, ?, TU + log). Editando un QSO, Enter
@@ -1112,14 +1125,17 @@ cabecera (que también cambia las alertas, el DXCC y el WAZ). Un QSO borrado que
 guardado aparte en el logbook, por si fue un error, y no se borra de LoTW, QRZ.com ni Club Log.
 
 **Subidas y bajadas**, en la pestaña Acciones, cada una con cuántos QSOs van y un cuadro con su
-progreso debajo de los botones. Cada botón aparece solo cuando su servicio está configurado:
+progreso debajo de los botones. Un cuadro que salió bien se cierra solo al minuto (no con el mouse
+encima); uno rojo queda hasta que lo cerrás. Cada botón aparece solo cuando su servicio está
+configurado:
 
 - **Subir a LoTW:** DX Agent corre **TQSL**, que firma los QSOs con tu certificado y los sube.
   TQSL tiene que estar instalado, con tu certificado y una ubicación de estación (Station
   Location) para cada indicativo (Configuración → Log → **Ubicación de estación**). TQSL guarda tu
   frase de acceso; DX Agent nunca la ve.
 - **Bajar de LoTW:** tus confirmaciones nuevas, cada una marcada en su QSO. Debajo del mensaje,
-  **quién confirmó** (indicativo, banda y modo), y **Verlos en el log**, que deja en la vista Log
+  **quién confirmó** (indicativo, banda y modo, ordenados por indicativo y después por banda), y
+  **Verlos en el log**, que deja en la vista Log
   los QSOs que confirmó esa bajada. Necesita tu contraseña de LoTW (Configuración → LoTW).
 - **Subir a Club Log:** con tu email de Club Log y una **contraseña de aplicación** (Club Log →
   Settings → App Passwords; no tu contraseña de Club Log), en Configuración → Log. Un QSO que Club

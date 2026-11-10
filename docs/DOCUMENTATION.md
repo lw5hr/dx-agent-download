@@ -46,6 +46,17 @@ window to watch it. (The source zip, `dx-agent-<version>-source.zip`, needs
 [Python 3.11+](https://www.python.org/downloads/) installed with "Add python.exe to
 PATH"; without it, start-dx-agent.bat says so and offers to install it with winget.)
 
+Windows marks what comes from the internet and then warns the first time such a program runs.
+**Before unzipping**, right-click the `.zip` > **Properties** > tick **Unblock** (or
+`Unblock-File .\dx-agent-<version>-windows.zip` in PowerShell): unzipped from an unblocked zip,
+nothing warns, now or on later starts. Once installed, DX Agent updates itself — those downloads
+never come from a browser, so there is nothing to unblock again.
+
+Windows draws every `.bat` with cmd's own icon. **create-shortcut.bat** (double-click it once)
+makes `DX Agent.lnk` beside it: the same launcher, with DX Agent's logo
+(`dxagent/static/logo.ico`). Double-click the `.lnk` from then on; run it again after moving
+the folder (the shortcut holds absolute paths).
+
 **On Linux:** unzip `dx-agent-<version>-linux-x86_64.tar.gz` (it includes Python too) and run
 its own launcher. It needs glibc 2.17 or newer, that is, any ordinary 64-bit distribution:
 
@@ -85,7 +96,10 @@ history, the saved LoTW password, and the log if you started from scratch:
 | Mac | `~/Library/Application Support/DX Agent` |
 | Linux | `~/.config/dx-agent` (or `$XDG_CONFIG_HOME/dx-agent`) |
 
-To update, unzip the new version anywhere and start it; the old folder can be deleted.
+To update, unzip the new version anywhere and start it; the old folder can be deleted. An
+installed package mostly updates itself: when the release brings the package for this system and
+its `SHA256SUMS`, DX Agent downloads it every hour it checks, verifies it, and replaces its own
+files (never `data/` or `config.toml`), then starts again (see **Updates**, below).
 **Settings** shows the exact path of `config.toml`. Up to 0.4.x they were kept in the
 program's folder: the first time a newer version starts, it copies the settings and data from
 there, or from the older version next to it (for example `dx-agent-0.4.3-windows\dx-agent`), and
@@ -361,7 +375,8 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   without split ends it: on TCI it moves the receiving slice and AetherSDR closes the slice it
   opened; on OmniRig and Hamlib the radio's split is turned off, whoever turned it on (DX Agent before
   a restart, WSJT-X, you): the last station's split is no use for the next one.
-  Log4OM is not asked to split. N1MM, DXLog, flrig and DXLab cannot tune. Not on FT8 and
+  Log4OM is not asked to split. To N1MM and DXLog only the frequency goes, DXLab Commander cannot
+  tune, and flrig sets it with `rig.flrig_tx_guard = "ptt"`. Not on FT8 and
   FT4 (a DXpedition's Fox/Hound isn't a radio split), nor a split off the band or more than
   50 kHz away.
 - **WSJT-X on TCI too:** an FT8 or FT4 spot sent to WSJT-X moves WSJT-X's slice (the one on the
@@ -608,7 +623,10 @@ What counts, as in the rules:
   the `CQZ` and `DXCC` your logger saved come first, as in the Marathon's submission tool, and
   the list fills in what's missing. A QSO with an invalid operation on its date doesn't count.
   In the alert list, a spot the list calls bad that day gets a red ✗; when the list gives the
-  right call, the tooltip shows it. The Station tab shows the call's notes, current ones
+  right call, the tooltip shows it. A call the list vouches for that day (the call itself, not
+  a prefix: a resident, a DXpedition within its dates, a station in Antarctica, Zone 2 or
+  Shetland) gets a green ✓, and in the Station tab its box is titled "Verified by the DX
+  Marathon"; when the list also calls it bad, the ✗ wins. The Station tab shows the call's notes, current ones
   first. Prefix notes (`GB*`, `TC1*`...) are shown but never change where the station is.
 - **Callsigns:** your main one, or the ones you tick in the card (at most 2, see Several
   callsigns).
@@ -1348,10 +1366,22 @@ The geomagnetic equator is a centred dipole's: over South America the dip equato
 The Kp is NOAA SWPC's, the estimated planetary one minute by minute, downloaded every 15 minutes
 with the A index (the last 24 hours), the solar flux (SFI), the sunspot number (SN) and NOAA's
 storm scales (G geomagnetic, R radio blackout, S solar radiation). The header's **propagation pill**
-shows SFI, SN, A and K; a geomagnetic storm turns it red with the level (G2), and so does a radio
-blackout (R1). Its tip says how old each value is, what the A and K mean in words, the G/R/S scales
-observed now and today's forecast, and the source (NOAA SWPC). The **VHF** pill's tip shows them
-too. Without them (no download yet) no path is aurora and TEP doesn't look at Kp.
+shows SFI, SN, A and K and then NOAA's three storm scales —**G**, **R** and **S**—, which are the ones
+that light up when something happens: at 0 they stay grey, at 1 or 2 they turn amber and from 3 up red,
+and the pill goes red (the dot too) when G is 1 or more; an R or an S shows in its number alone. Hovering it opens a
+**card** with the last days as charts —the SFI of four days, the SN of ten, the A and the Kp of the
+last 24 hours, each in its own colour, its name written in it— and, under the charts, today's forecast with the chance of a
+radio blackout, plus two tables: the **scales**, with what each one is —G, geomagnetic storms, which
+light up the auroras; R, radio blackouts caused by an X-ray solar flare; S, radiation storms, with
+today's chance of reaching S1 or more— and each one's level now; and the **thresholds**, with the
+ideal and the critical value of SFI, K and A (SFI 100 or more, well ionised, under 70 poor on the high
+bands; K up to 2, quiet, 5 or more a storm; A under 10, steady, over 20 unsettled). The line on top,
+with how old each value is and what the A and K mean in words, turns **green** when every index is
+inside the good range and no scale is on. The Kp line is drawn in red when those 24 hours had a storm.
+A **click** on the pill pins the card, with a blue border, to read it or copy the numbers without
+losing it to the mouse; another click on the pill, a click elsewhere or Escape closes it. The **VHF**
+pill's tip shows them too. Without them (no download yet) no path is aurora and TEP doesn't look at
+Kp.
 
 **On the map** (both projections), with the **50-144 MHz** filter picked or the **VHF** pill on at the top
 (only VHF shown, as the 2 m tropo forecast; without either they would cover the DX map), each opening in the list draws its paths (the latest 20) in the colour of what it probably is, and where they bounce: by Es, a circle at each hop's middle (a
@@ -1724,7 +1754,11 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   when you pick a station in the list or on the map (the call, its grid square, the park or summit);
   the other way round, a call typed in by hand fills the side panel's **Station** tab as if you had
   picked it in the list (the tab you have open stays open, and what you typed stays), and
-  beside **Call** it says its country, in red for an ATNO, with the
+  beside **Call** it says its country, in red for an ATNO, after a green ✓ when the DX Marathon's
+  list vouches for the call that day or a red ✗ when it calls it a bad spot or an invalid operation
+  (the note in the tooltip). Tab goes Call → RST sent → RST received → **Log QSO** (Shift+Tab back;
+  the other boxes keep the page's order, and in the call box Super Check Partial's ghost takes Tab
+  first). The form comes with the
   frequency and mode the radio is on as it moves (read through OmniRig, Hamlib, flrig or TCI: `rig.target =
   "omnirig"`, `"hamlib"`, `"flrig"` or `"tci"`; on TCI the slice Tune moves, or the split one; without it, the
   spot's). A station picked away from where the radio is (more than 3 kHz: FT8's offset doesn't
@@ -1760,7 +1794,12 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   **Latest QSOs** flap unfolds the latest QSOs of the log you are logging into (with several callsigns,
   the form's **Station**: pick another and it shows that one's) (five by default; the selector beside it picks how
   many, up to eight), each with its **✎** (open it in the form) and its **✕** (delete it, with the same
-  question the Log view asks); the browser remembers whether you left it open, and how many you picked. Every QSO gets what a logger adds: DXCC, country, CQ and ITU zones, continent
+  question the Log view asks); the browser remembers whether you left it open, and how many you picked. Its right half, **With**, shows your
+  QSOs with the form's station, newest first (as many as the selector says; **and N more** opens the Log view
+  with all that callsign's QSOs, no filters): on top how
+  many QSOs and how many confirmed, and the bands you worked it on (solid the confirmed ones); each QSO with its
+  reports, where it's confirmed (**LoTW**, paper **QSL**, **eQSL**: green confirmed, dashed sent) and its **✎**. A
+  station you never worked says **New**. With a narrow console the two halves stack. Every QSO gets what a logger adds: DXCC, country, CQ and ITU zones, continent
   (cty.csv), your grid square and callsign.
 - **Super Check Partial**, in the console's form: as you type the call, the calls that match show
   above it, over the list's last rows, with no window of their own. Those on the air come first: the one
@@ -1805,7 +1844,8 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   column's header sorts the whole log by it (again: the other way; a third time: newest first
   again); QSOs without a value there go last, and the order is remembered. Each upload or
   download shows in a box above the log while it runs (its step, a moving bar, how long so
-  far), then green or red with how it went until you close it, and the log's LoTW and CL
+  far), then green or red with how it went: green goes by itself after a minute (not while the
+  pointer is on it: some seconds after it leaves), red stays until you close it; and the log's LoTW and CL
   columns show what it marked. **A click on the row** opens it where it is, over the row, with the
   form's fields to correct it right there and **Delete**, with no trip to the console and no tab
   change (Enter saves; Escape or a click outside leaves it as it was). What the log lacks of the name,
@@ -1829,7 +1869,7 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
 - **Download from LoTW:** your new LoTW confirmations now (what LoTW received since the last
   download), each marked on its QSO (`LOTW_QSL_RCVD = Y`, `LOTW_QSLRDATE`): the QSO with the
   same call, minute and band in the logbook of the callsign it was made as. Under how it went,
-  **Confirmed:** the stations (call, band and mode; the first 40, and how many more), and **Show
+  **Confirmed:** the stations (call, band and mode, by call and then band; the first 40, and how many more), and **Show
   them in the log** leaves in the Log view every QSO it confirmed (the LoTW → last download
   filter; each logbook remembers them, so it holds after a restart, and a download with nothing
   new doesn't change it). Needs LoTW on, with its password (Settings → LoTW).
@@ -1919,13 +1959,12 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   **ESMON** or **ESMOF** in the call box and **Enter** (the box is emptied). On, **Enter** in the form
   does what comes next for the box the cursor is in: with no call it sends **CQ** (the message on
   **F1**); with a call, the report (the one on **F2**, out of the box `{CALL} 5NN`), and the cursor goes
-  to **RST received**, which ESM leaves empty (no 599 of its own) for the report you get: there,
-  **Enter** with it empty sends **?** so they say it again, the cursor staying; with the report typed,
-  **Enter** (or **F3** from anywhere, with a call in) saves the QSO as **Log QSO** does (the same fields and checks) and only
+  to **RST received**, with the mode's 599 selected (in a contest the report is always that one;
+  another is typed over it): there, with it emptied, **Enter** sends **?** so they say it again, the
+  cursor staying; with a report in it, **Enter** (or **F3** from anywhere, with a call in) saves the QSO as **Log QSO** does (the same fields and checks) and only
   then sends TU (the one on **F3**): the form is empty and the cursor on the call for the next one, not
   waiting for the CW to end. If the QSO can't be saved, no TU goes out and the error is the usual one;
-  if the report didn't go out (no WinKey), the cursor stays. Turning ESM off puts the 599 back where RST
-  received was left empty. Beside the button it says what Enter will do in the box you're in ("↵ CQ",
+  if the report didn't go out (no WinKey), the cursor stays. Beside the button it says what Enter will do in the box you're in ("↵ CQ",
   "↵ 5NN", "↵ ?", "↵ TU + log"). Editing a QSO of the log, Enter saves as always, and with ESM off nothing changes. The
   texts are the messages on **F1**, **F2** and **F3**: to turn it on there must be a message on each.
 - **QSY from the call box**, as in N1MM: a frequency in kHz typed in the call box and **Enter**
@@ -2156,6 +2195,41 @@ stay.
 | NOAA SWPC | The predicted sunspot number (VOACAP); the planetary Kp, A, solar flux, sunspot number and the G/R/S storm scales (the propagation pill and the VHF openings) | https://services.swpc.noaa.gov/ |
 | Open-Meteo | The weather forecast for 2 m tropo ducts (free for non-commercial use, CC BY 4.0) | https://open-meteo.com/ |
 
+### Updates
+
+Once an hour (`ui.check_updates`, on by default) DX Agent asks the public download repository on
+GitHub which release is the latest, and keeps the answer in `data/update.json`. When there is a
+newer one and the release brings this system's package (`dx-agent-<version>-windows.zip`,
+`-linux-x86_64.tar.gz` or `-macos.tar.gz`) beside its `SHA256SUMS` and the signature on it
+(`SHA256SUMS.sig`), DX Agent installs it by itself:
+
+1. Downloads the package into your DX Agent folder (`data/update/`) and checks that `SHA256SUMS` is
+   signed with **DX Agent's release key** (Ed25519, its public half pinned in
+   `dxagent/selfupdate.py`), then checks the package's SHA-256 against that file. A package that
+   doesn't match, or a release signed with any other key, is deleted — never used.
+2. Unpacks it and tries it: the Python the package brings has to import the new program.
+3. Writes a small script and stops. The script waits for the process to end, copies the new files
+   over the program's folder (never `data/`, `config.toml` or your `DX Agent.lnk`), keeps a backup
+   in `data/update/before-<version>/`, and starts DX Agent again.
+
+Your settings and data live in a folder of their own (see above), so only the program is replaced.
+Nothing is installed where that isn't safe: a git checkout or a copy started with your own Python
+(nothing of its own to replace) only gets the notice on the dashboard, and so does a release
+without `SHA256SUMS` and its signature. A version that failed here is not tried again for six
+hours, and `DXAGENT_NO_AUTO_UPDATE=1` in the environment turns the installation off (the notice
+stays). What the script does goes to `data/update/update.log`; if it ever leaves a program that
+won't start, the backup it made is one folder away.
+
+**Releasing** (the maintainer's side): `tools/make_package.py` writes `dist/SHA256SUMS`, and signs
+it when the private half of the key is in `data/release-key.txt` (made once with
+`python tools/sign_release.py keygen`, which prints the public half to paste in
+`dxagent/selfupdate.py`; `$DXAGENT_RELEASE_KEY` with the seed in hex works instead, for a machine
+that only signs). Attach `SHA256SUMS` and `SHA256SUMS.sig` to the release beside the packages, and
+run `python tools/sign_release.py verify` first: it checks them exactly as an installed DX Agent
+will. That private half is the whole trust in the automatic updates — back it up, and keep it out
+of git and out of the packages. Losing it means publishing a new key in a new release and having
+users install that one by hand (the copies they have only trust the old key).
+
 ---
 
 ## 9. Project files and data cache
@@ -2170,9 +2244,13 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `config.example.toml`       | The starting settings for a new installation |
 | `start-dx-agent.bat`        | Double-click to start DX Agent on Windows, without a window |
 | `start-dx-agent-console.bat` | The same, in a console window that shows everything it prints |
+| `create-shortcut.bat`       | Windows draws a `.bat` with cmd's icon: this makes `DX Agent.lnk`, the same launcher with DX Agent's logo (`dxagent/static/logo.ico`) |
 | `start-dx-agent.sh`         | The same two launchers for Linux and macOS (`-console.sh` shows what it prints); they use the package's Python if it brings one (`python/`, or on a Mac `python-arm64/` / `python-x86_64/`) |
 | `start-dx-agent.command`    | macOS: double-click in Finder to start it; takes the folder out of quarantine so the bundled Python can run |
-| `tools/make_package.py`     | Builds the packages to share: the Windows zip and the Linux and macOS tarballs (Python included, program compiled), plus the source zip with `--source`; never your personal data |
+| `tools/make_package.py`     | Builds the packages to share: the Windows zip and the Linux and macOS tarballs (Python included, program compiled), plus the source zip with `--source`, and `SHA256SUMS` with its signature (`SHA256SUMS.sig`) — what DX Agent checks its own updates against; never your personal data |
+| `tools/make_icon.py`        | Draws `dxagent/static/logo.ico` at each size from the SVG logos (Edge or Chrome does the drawing); only when the logo changes |
+| `tools/sign_release.py`     | The release key: `keygen` makes it once (`data/release-key.txt`, never in git), `sign` writes `dist/SHA256SUMS.sig`, `verify` checks it as an installed DX Agent will |
+| `tools/make-shortcut.ps1`   | What `create-shortcut.bat` runs: the `DX Agent.lnk` pointing at the launcher, with the icon |
 | `config.toml.bak`           | The previous settings, kept on every save |
 | `README.md`                 | Short overview |
 | `DOCUMENTATION.md`          | This guide |
@@ -2216,7 +2294,9 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `dxagent/tci.py`            | TCI (AetherSDR, ExpertSDR, Thetis): tunes the radio and keeps the alerts on its panadapter |
 | `dxagent/web.py`            | Dashboard web server: page, JSON API, live event stream, settings |
 | `dxagent/static/index.html` | The dashboard and Settings page (HTML, CSS and JavaScript in one file) |
-| `dxagent/static/logo.svg`  | The DX Agent logo (dashboard header and browser tab icon) |
+| `dxagent/static/logo.svg`  | The DX Agent logo (dashboard header) |
+| `dxagent/static/logo-small.svg` | The same logo cut down to what reads at 16 px: the browser tab icon |
+| `dxagent/static/logo.ico`  | The same logo as a Windows icon (16 to 256 px): what the launcher's shortcut shows |
 | `tests/test_dxagent.py`     | 361 unit tests (`python -m unittest tests.test_dxagent`) |
 | `tests/test_filters.js`     | The alert list's filters, every combination (run by the tests above when Node.js is installed) |
 
@@ -2239,7 +2319,8 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/world-map.json`                         | made from the two above (the finished map) | when they change |
 | `data/dxagent.db`                             | DX Agent: alerts (last `keep_days` days), where activators were (last 32 days), your QSOs with them, QSOs over UDP not in your log yet, and the hours each country you miss is heard at (Ventanas, `windows.keep_months`) | while it runs |
 | `data/cache/log-<CALL>.pickle`                | DX Agent: each callsign's log indexes as last read, so a big log isn't read again at each start. Used only when the log files, the country file, your callsigns, the year and DX Agent's version are all the same; the QSOs since (your logger's database, UDP) are added on top as before. Safe to delete | when the log changes |
-| `data/update.json`                            | DX Agent: the latest version on GitHub, asked every hour (`ui.check_updates`) | every hour |
+| `data/update.json`                            | DX Agent: the latest version on GitHub, asked every hour (`ui.check_updates`), with the packages the release brings | every hour |
+| `data/update/`                                | DX Agent's own update: the package downloaded and unpacked (`new/`), the backup the script left (`before-<version>/`) and what it did (`update.log`) | on an update |
 | `data/dx-agent.log`                           | DX Agent (without a window) | while it runs; kept under 5 MB |
 
 ### data/dxagent.db
@@ -2342,6 +2423,7 @@ example (shortened):
 | `Permission denied` running `./start-dx-agent.sh` | `chmod +x start-dx-agent.sh start-dx-agent-console.sh` (not needed with the `-linux` package) |
 | No pop-ups on Linux | `pip install plyer`; the alerts still appear in the dashboard without it |
 | Mac: "start-dx-agent.command cannot be opened" / "Apple could not verify…" | It isn't signed by Apple: System Settings > Privacy & Security > **Open Anyway**, or `xattr -dr com.apple.quarantine .` in the dx-agent folder (see Quick start) |
+| Windows: "Windows protected your PC" / "This file came from another computer…" | It isn't a signature problem: Windows marks the downloaded `.zip` and passes the mark on to what is extracted. Delete the folder, unblock the `.zip` (**Properties** > **Unblock**), unzip it again (nothing to do after that: updates don't come from a browser) |
 | Wrong or old country data | Delete `data/cty.csv`; it downloads again on the next start |
 | `[ui] could not start on port 8073` | Another program (or a second copy of DX Agent) uses that port; stop it or change the dashboard port |
 | Dashboard shows "Lost connection to the agent" | `run` stopped or crashed; start it again and the page reconnects by itself |

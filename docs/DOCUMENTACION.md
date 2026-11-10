@@ -47,6 +47,17 @@ requiere
 [Python 3.11+](https://www.python.org/downloads/) instalado con "Add python.exe to
 PATH"; si no está, start-dx-agent.bat lo avisa y ofrece instalarlo con winget.)
 
+Windows marca lo que baja de internet y avisa la primera vez que se ejecuta un programa así. **Antes
+de descomprimir**, clic derecho en el `.zip` > **Propiedades** > tildar **Desbloquear** (o
+`Unblock-File .\dx-agent-<versión>-windows.zip` en PowerShell): descomprimido de un zip
+desbloqueado, no avisa nunca, ni ahora ni en los arranques siguientes. Una vez instalado, DX Agent
+se actualiza solo — esas descargas no pasan por el navegador, así que no hay nada que desbloquear.
+
+Windows dibuja todos los `.bat` con el icono de cmd. **create-shortcut.bat** (un doble clic una
+vez) crea `DX Agent.lnk` al lado: el mismo lanzador, con el logo de DX Agent
+(`dxagent/static/logo.ico`). De ahí en más se usa el `.lnk`; si se mueve la carpeta hay que
+volver a correrlo (el acceso directo guarda rutas absolutas).
+
 **En Linux:** descomprimir `dx-agent-<versión>-linux-x86_64.tar.gz` (también trae Python) y
 usar su propio lanzador. Necesita glibc 2.17 o superior, o sea cualquier distribución de 64
 bits normal:
@@ -88,8 +99,12 @@ historial de alertas, la contraseña de LoTW guardada y el log si empezaste de c
 | Mac | `~/Library/Application Support/DX Agent` |
 | Linux | `~/.config/dx-agent` (o `$XDG_CONFIG_HOME/dx-agent`) |
 
-Para actualizar alcanza con descomprimir la versión nueva donde quieras y abrirla; la carpeta
-vieja se puede borrar. **Configuración** muestra la ruta exacta de `config.toml`. Hasta la
+Para actualizar se puede descomprimir la versión nueva donde quieras y abrirla; la carpeta
+vieja se puede borrar. Además, un paquete instalado se actualiza solo: cuando el release trae el
+paquete para este sistema y su `SHA256SUMS`, DX Agent lo baja en cada chequeo horario, lo
+verifica, reemplaza sus propios archivos (nunca `data/` ni `config.toml`) y arranca de nuevo (ver
+**Actualizaciones**, más abajo).
+**Configuración** muestra la ruta exacta de `config.toml`. Hasta la
 0.4.x se guardaban en la carpeta del programa: la primera vez que se abre una versión más
 nueva, copia la configuración y los datos desde ahí o desde la versión anterior que esté al
 lado (por ejemplo `dx-agent-0.4.3-windows\dx-agent`), y lo avisa en el panel. La versión vieja
@@ -380,8 +395,8 @@ panadaptador), y:
   El próximo Sintonizar a una estación sin split lo termina: por TCI mueve el slice que recibe y
   AetherSDR cierra el que había abierto; por OmniRig y Hamlib apaga el split de la radio, lo haya
   puesto quien sea (DX Agent antes de reiniciarse, WSJT-X, vos): el split de la estación anterior no
-  le sirve a la nueva. A Log4OM no se le pide split; N1MM, DXLog, flrig y DXLab no
-  pueden sintonizar. No en FT8 ni FT4 (el Fox/Hound de una DXpedición no es un split de la
+  le sirve a la nueva. A Log4OM no se le pide split; por N1MM y DXLog va solo la frecuencia, DXLab
+  Commander no sintoniza, y flrig lo pone con `rig.flrig_tx_guard = "ptt"`. No en FT8 ni FT4 (el Fox/Hound de una DXpedición no es un split de la
   radio), ni un split fuera de la banda o a más de 50 kHz.
 - **WSJT-X también por TCI:** un spot de FT8 o FT4 que se manda a WSJT-X mueve el slice de WSJT-X
   (el que está en el dial que dice el Status de WSJT-X), no el de TX ni el que tiene el foco, así
@@ -643,7 +658,10 @@ Qué cuenta, según las reglas:
   van primero, como en la herramienta de envío del Marathon, y la lista completa lo que falta.
   Un QSO con una operación inválida en esa fecha no cuenta. En la lista de alertas, un spot
   que la lista da por erróneo ese día lleva una ✗ roja; si la lista dice cuál era el indicativo
-  correcto, el tooltip lo muestra. La pestaña Estación muestra las notas del indicativo, con
+  correcto, el tooltip lo muestra. Un indicativo que la lista da por válido ese día (él mismo,
+  no un prefijo: un residente, una DXpedición en sus fechas, una estación en la Antártida, la
+  Zona 2 o Shetland) lleva una ✓ verde, y en la pestaña Estación el recuadro se titula
+  «Verificado por el DX Marathon»; si la lista también lo da por erróneo, gana la ✗. La pestaña Estación muestra las notas del indicativo, con
   las vigentes primero. Las notas por prefijo (`GB*`, `TC1*`...) se muestran, pero no cambian
   la ubicación de la estación.
 - **Indicativos:** el principal, o los que marques en la tarjeta (hasta 2, ver Varios
@@ -1412,11 +1430,25 @@ está hasta unos 5° corrido, menos que el ancho del propio TEP.
 El Kp es el de NOAA SWPC, el planetario estimado minuto a minuto, que se baja cada 15 minutos
 junto con el índice A (de las últimas 24 horas), el flujo solar (SFI), el número de manchas
 solares (SN) y las escalas de tormenta de NOAA (G geomagnética, R apagón de radio, S radiación
-solar). La **pastilla de propagación** del encabezado muestra SFI, SN, A y K; una tormenta
-geomagnética la pone en rojo con el nivel (G2), y un apagón de radio también (R1). Su ayuda dice
-la antigüedad de cada valor, qué significan el A y el K en palabras, las escalas G/R/S observadas
-ahora y el pronóstico de hoy, y la fuente (NOAA SWPC). La ayuda de la pastilla **VHF** también los
-muestra. Sin ellos (todavía no se bajaron) ningún camino es aurora y el TEP no mira el Kp.
+solar). La **pastilla de propagación** del encabezado muestra SFI, SN, A y K, y después las tres
+escalas de tormenta de NOAA —**G**, **R** y **S**—, que son las que se encienden cuando pasa algo: en
+0 quedan en gris, con 1 o 2 pasan a ámbar y de 3 para arriba a rojo, y la pastilla se pone en rojo
+(con el punto) cuando la G está en 1 o más; un R o un S se conforman con su número. Al pasar el mouse por encima abre una
+**tarjeta** con los gráficos de los últimos días —el SFI de cuatro días, el SN de diez, el A y el Kp de
+las últimas 24 horas, cada uno en su color, con el nombre del mismo color— y, debajo del gráfico, el pronóstico de hoy con la chance
+de apagón de radio, y dos tablas: la de las **escalas**, con qué es cada una —G, las tormentas
+geomagnéticas, que encienden las auroras; R, los apagones de radio que provoca una fulguración solar
+de rayos X; S, las tormentas de radiación, con el porcentaje de hoy de que llegue a S1 o más— y el
+nivel de cada una ahora; y la de los **umbrales**, con el valor ideal y el crítico de SFI, K y A (SFI
+de 100 o más, ionización buena, y abajo de 70, bandas altas pobres; K hasta 2, tranquilo, y 5 o más,
+tormenta; A abajo de 10, estable, y arriba de 20, inestable). Arriba de todo, la línea con la
+antigüedad de cada valor y qué significan el A y el K en palabras se pone **verde** cuando todos los
+índices están en el rango bueno y ninguna escala está encendida. La línea del Kp se dibuja en rojo
+cuando en esas 24 horas hubo tormenta. Un **clic** en
+la pastilla deja la tarjeta clavada, con el borde en azul, para leerla o copiar los números sin que se
+vaya con el mouse; se cierra con otro clic en la pastilla, un clic afuera o Escape. La ayuda de la
+pastilla **VHF** también los muestra. Sin ellos (todavía no se bajaron) ningún camino es aurora y el
+TEP no mira el Kp.
 
 **En el mapa** (en las dos proyecciones), con el filtro **50-144 MHz** o la pastilla **VHF** de arriba activados
 (solo VHF, como el pronóstico de tropo en 2 m; sin ninguno taparían el mapa del DX), cada apertura de la lista dibuja sus caminos (los
@@ -1802,7 +1834,11 @@ necesitan archivo: cada uno tiene su logbook.
   cuando elegís una estación en la lista o en el mapa (el indicativo, su grid, el parque o la cumbre);
   al revés, un indicativo escrito a mano llena la pestaña **Estación** del panel lateral como si lo
   hubieras elegido en la lista (sin cambiar la pestaña que tengas abierta ni lo que escribiste), y
-  al lado de **Indicativo** dice su país, en rojo si es un ATNO, con la
+  al lado de **Indicativo** dice su país, en rojo si es un ATNO, después de una ✓ verde si la lista
+  del DX Marathon da el indicativo por válido ese día o de una ✗ roja si lo da por spot erróneo u
+  operación inválida (la nota, en el tooltip). Tab va de Indicativo → RST enviado → RST recibido →
+  **Guardar QSO** (Shift+Tab vuelve; los demás campos siguen el orden de la página, y en el
+  indicativo la sugerencia de Super Check Partial toma el Tab primero). El formulario viene con la
   frecuencia y el modo de la radio a medida que se mueve (leídos por OmniRig, Hamlib, flrig o TCI: `rig.target =
   "omnirig"`, `"hamlib"`, `"flrig"` o `"tci"`; por TCI, el slice que mueve Sintonizar, o el del split; sin eso, los
   del spot). Una estación elegida lejos de donde está la radio (a más de 3 kHz: el offset de FT8
@@ -1840,7 +1876,12 @@ necesitan archivo: cada uno tiene su logbook.
   log en el que estás cargando (con varios indicativos, el de **Estación** en el formulario: elegir otro
   muestra los de ese) (cinco por defecto; el selector de al lado elige cuántos, hasta ocho), cada uno con su **✎**
   (abrirlo en el formulario) y su **✕** (borrarlo, con la misma confirmación que en la vista Log); el
-  navegador recuerda si la dejaste abierta y cuántos elegiste. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
+  navegador recuerda si la dejaste abierta y cuántos elegiste. Su mitad derecha, **Con**, muestra tus QSOs con la
+  estación del formulario, los más nuevos primero (tantos como diga el selector; **y N más** abre la vista Log con
+  todos los QSOs de ese indicativo, sin filtros): arriba cuántos
+  QSOs y cuántos confirmados, y las bandas en que la trabajaste (llenas las confirmadas); cada QSO con sus reportes,
+  dónde está confirmado (**LoTW**, **QSL** en papel, **eQSL**: verde confirmado, punteado enviado) y su **✎**. Una
+  estación que nunca trabajaste dice **Nuevo**. Con la consola angosta las dos mitades van una debajo de la otra. Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente
   (cty.csv), tu grid y tu indicativo.
 - **Super Check Partial**, en el formulario de la consola: mientras escribís el indicativo, arriba
   de ella aparecen los que coinciden, sobre las últimas filas de la lista, sin una ventana aparte. Van primero los que están
@@ -1888,8 +1929,9 @@ necesitan archivo: cada uno tiene su logbook.
   **Limpiar filtros** los saca, y no se guardan al recargar. Un clic en el encabezado de una columna ordena todo el log por ella (otra vez: al
   revés; una tercera: lo más nuevo primero); los QSOs sin valor ahí van al final, y el orden se
   recuerda. Cada subida o bajada se ve en un recuadro arriba del log mientras corre (en qué paso
-  está, una barra que se mueve, cuánto lleva), después en verde o rojo con cómo terminó hasta que
-  lo cerrás, y las columnas LoTW y CL del log muestran lo que marcó. **Un clic en la fila** la abre en
+  está, una barra que se mueve, cuánto lleva), después en verde o rojo con cómo terminó: el verde se
+  va solo al minuto (no mientras tenés el mouse encima: unos segundos después de sacarlo), el rojo
+  queda hasta que lo cerrás; y las columnas LoTW y CL del log muestran lo que marcó. **Un clic en la fila** la abre en
   el lugar, sobre la fila, con los campos del formulario para corregirlo ahí mismo y **Borrar**, sin
   pasar por la consola ni cambiar de pestaña (Enter guarda; Escape o un clic afuera lo deja como
   estaba). Lo que el log no tiene del nombre, QTH o grid se completa desde el callbook del indicativo
@@ -1913,8 +1955,8 @@ necesitan archivo: cada uno tiene su logbook.
 - **Bajar de LoTW:** tus confirmaciones nuevas de LoTW en ese momento (lo que LoTW recibió desde
   la última descarga), cada una marcada en su QSO (`LOTW_QSL_RCVD = Y`, `LOTW_QSLRDATE`): el QSO
   con el mismo indicativo, minuto y banda en el logbook del indicativo con que se hizo. Debajo
-  de cómo terminó, **Confirmaron:** las estaciones (indicativo, banda y modo; las primeras 40, y
-  cuántas más), y **Verlos en el log** deja en la vista Log todos los QSOs que confirmó (el
+  de cómo terminó, **Confirmaron:** las estaciones (indicativo, banda y modo, por indicativo y
+  después por banda; las primeras 40, y cuántas más), y **Verlos en el log** deja en la vista Log todos los QSOs que confirmó (el
   filtro LoTW → última bajada; cada logbook los recuerda, así que sigue después de reiniciar, y
   una bajada sin nada nuevo no lo cambia). Necesita LoTW activado, con su contraseña
   (Configuración → LoTW).
@@ -2007,13 +2049,13 @@ necesitan archivo: cada uno tiene su logbook.
   Radio → **CW con WinKey**, o escribiendo **ESMON** o **ESMOF** en el indicativo y **Enter** (el campo
   queda vacío). Prendido, **Enter** en el formulario hace lo que toca según dónde está el cursor:
   sin indicativo manda **CQ** (el mensaje de **F1**); con un indicativo manda el reporte (el de **F2**,
-  de fábrica `{CALL} 5NN`) y el cursor pasa a **RST recibido**, que con ESM queda vacío (sin el 599 de
-  siempre) para el reporte que te dan: ahí, **Enter** con el campo vacío manda **?** para que lo repitan
-  y el cursor se queda; con el reporte escrito, **Enter** (o **F3** desde cualquier lado, con un indicativo cargado) guarda
+  de fábrica `{CALL} 5NN`) y el cursor pasa a **RST recibido**, con el 599 del modo seleccionado (en
+  un contest el reporte es siempre ese; si te dan otro, se escribe encima): ahí, si lo borrás, **Enter**
+  manda **?** para que lo repitan y el cursor se queda; con el reporte puesto, **Enter** (o **F3** desde cualquier lado, con un indicativo cargado) guarda
   el QSO igual que **Guardar QSO** (mismos campos y controles) y recién entonces manda TU (el de **F3**):
   el formulario queda limpio y el cursor en el indicativo para el próximo, sin esperar a que termine el
   CW. Si el QSO no se puede guardar, no sale TU y el error es el de siempre; si el reporte no salió
-  (sin WinKey), el cursor no se mueve. Al apagar ESM vuelve el 599 donde RST recibido quedó vacío. Al lado
+  (sin WinKey), el cursor no se mueve. Al lado
   del botón dice qué va a hacer Enter en el campo donde estás («↵ CQ», «↵ 5NN», «↵ ?», «↵ TU + log»). Editando
   un QSO del log, Enter guarda como siempre, y con ESM apagado nada cambia. Los textos son los de los
   mensajes en **F1**, **F2** y **F3**: para prenderlo tiene que haber un mensaje en cada uno.
@@ -2254,6 +2296,44 @@ están en pantalla se mantienen.
 | Open-Meteo | El pronóstico meteorológico para los ductos de tropo en 2 m (gratis para uso no comercial, CC BY 4.0) | https://open-meteo.com/ |
 | Mapas DXCC de GridTracker | Entidades DXCC, fronteras solo DXCC y zonas CQ para el mapa | https://gitlab.com/gridtracker.org/gridtracker2 |
 
+### Actualizaciones
+
+Una vez por hora (`ui.check_updates`, encendido por defecto) DX Agent le pregunta al repositorio
+público de descargas en GitHub cuál es la última versión, y guarda la respuesta en
+`data/update.json`. Cuando hay una más nueva y el release trae el paquete para este sistema
+(`dx-agent-<versión>-windows.zip`, `-linux-x86_64.tar.gz` o `-macos.tar.gz`) junto a su
+`SHA256SUMS` y la firma de ese archivo (`SHA256SUMS.sig`), DX Agent la instala solo:
+
+1. Baja el paquete a tu carpeta de DX Agent (`data/update/`) y verifica que `SHA256SUMS` esté
+   firmado con la **clave de release de DX Agent** (Ed25519, su mitad pública está fija en
+   `dxagent/selfupdate.py`), y después que el SHA-256 del paquete coincida con ese archivo. Un
+   paquete que no coincide, o un release firmado con otra clave, se borra: nunca se usa.
+2. Lo descomprime y lo prueba: el Python que trae el paquete tiene que poder importar el programa
+   nuevo.
+3. Escribe un script chico y se cierra. El script espera a que el proceso termine, copia los
+   archivos nuevos sobre la carpeta del programa (nunca toca `data/`, `config.toml` ni tu
+   `DX Agent.lnk`), deja un respaldo en `data/update/before-<versión>/` y arranca DX Agent de
+   nuevo.
+
+Tu configuración y tus datos viven en una carpeta aparte (ver arriba), así que sólo se reemplaza el
+programa. No se instala nada donde no sea seguro: un clon de git o una copia arrancada con tu propio
+Python (no tiene archivos propios que reemplazar) sólo recibe el aviso en el panel, y lo mismo un
+release sin `SHA256SUMS` y su firma. Una versión que falló acá no se reintenta por seis horas, y
+`DXAGENT_NO_AUTO_UPDATE=1` en el entorno apaga la instalación (el aviso queda). Lo que hace el
+script queda en `data/update/update.log`; si alguna vez deja un programa que no arranca, el respaldo
+que hizo está a una carpeta de distancia.
+
+**Publicar** (el lado del que mantiene el proyecto): `tools/make_package.py` escribe
+`dist/SHA256SUMS` y lo firma cuando la mitad privada de la clave está en `data/release-key.txt`
+(se hace una vez con `python tools/sign_release.py keygen`, que imprime la mitad pública para
+pegar en `dxagent/selfupdate.py`; en una máquina que sólo firma sirve
+`$DXAGENT_RELEASE_KEY` con la semilla en hex). Subí `SHA256SUMS` y `SHA256SUMS.sig` al release
+junto a los paquetes, y antes corré `python tools/sign_release.py verify`: verifica exactamente
+como lo hará un DX Agent instalado. Esa mitad privada es toda la confianza de las actualizaciones
+automáticas: guardala, y que no entre ni al repo ni a los paquetes. Si se pierde, hay que publicar
+una clave nueva en un release nuevo y que los usuarios instalen ese a mano (las copias que tienen
+sólo confían en la vieja).
+
 ---
 
 ## 9. Archivos del proyecto y datos descargados
@@ -2269,9 +2349,13 @@ hace falta.
 | `config.example.toml`       | La configuración inicial para una instalación nueva |
 | `start-dx-agent.bat`        | Doble clic para iniciar DX Agent en Windows, sin ventana |
 | `start-dx-agent-console.bat` | Lo mismo, en una ventana que muestra todo lo que va informando |
+| `create-shortcut.bat`       | Windows dibuja los `.bat` con el icono de cmd: esto crea `DX Agent.lnk`, el mismo lanzador con el logo de DX Agent (`dxagent/static/logo.ico`) |
 | `start-dx-agent.sh`         | Los mismos dos lanzadores para Linux y macOS (`-console.sh` muestra lo que va informando); usan el Python del paquete si lo trae (`python/`, o en la Mac `python-arm64/` / `python-x86_64/`) |
 | `start-dx-agent.command`    | macOS: doble clic en Finder para arrancarlo; saca la carpeta de cuarentena para que el Python que trae pueda correr |
-| `tools/make_package.py`     | Arma los paquetes para compartir: el zip de Windows y los tar.gz de Linux y macOS (con Python, programa compilado), y con `--source` el zip con el código; nunca tus datos personales |
+| `tools/make_package.py`     | Arma los paquetes para compartir: el zip de Windows y los tar.gz de Linux y macOS (con Python, programa compilado), y con `--source` el zip con el código, más `SHA256SUMS` con su firma (`SHA256SUMS.sig`) — contra eso DX Agent verifica sus propias actualizaciones; nunca tus datos personales |
+| `tools/make_icon.py`        | Dibuja `dxagent/static/logo.ico` en cada tamaño a partir de los logos SVG (lo dibuja Edge o Chrome); sólo cuando cambia el logo |
+| `tools/sign_release.py`     | La clave de release: `keygen` la crea una vez (`data/release-key.txt`, nunca en git), `sign` escribe `dist/SHA256SUMS.sig` y `verify` lo controla como lo hará un DX Agent instalado |
+| `tools/make-shortcut.ps1`   | Lo que corre `create-shortcut.bat`: el `DX Agent.lnk` que apunta al lanzador, con su icono |
 | `config.toml.bak`           | La configuración anterior, que se guarda en cada cambio |
 | `README.md`                 | Resumen breve (en inglés) |
 | `DOCUMENTATION.md`          | Esta guía en inglés |
@@ -2315,7 +2399,9 @@ hace falta.
 | `dxagent/tci.py`            | TCI (AetherSDR, ExpertSDR, Thetis): sintoniza la radio y mantiene las alertas en su panadaptador |
 | `dxagent/web.py`            | Servidor del panel: página, API JSON, eventos en vivo, configuración |
 | `dxagent/static/index.html` | El panel y la página de configuración (HTML, CSS y JavaScript en un solo archivo) |
-| `dxagent/static/logo.svg`  | El logo de DX Agent (encabezado del panel e ícono de la pestaña) |
+| `dxagent/static/logo.svg`  | El logo de DX Agent (encabezado del panel) |
+| `dxagent/static/logo-small.svg` | El mismo logo recortado, con lo que se lee a 16 px: ícono de la pestaña |
+| `dxagent/static/logo.ico`  | El mismo logo como ícono de Windows (16 a 256 px): el que muestra el acceso directo del lanzador |
 | `tests/test_dxagent.py`     | 117 pruebas automáticas (`python -m unittest tests.test_dxagent`) |
 | `tests/test_filters.js`     | Los filtros de la lista de alertas, en todas sus combinaciones (los corren las pruebas de arriba si Node.js está instalado) |
 
@@ -2338,7 +2424,8 @@ hace falta.
 | `data/world-map.json`                         | armado con los dos de arriba (el mapa terminado) | cuando cambian |
 | `data/dxagent.db`                             | DX Agent: alertas (últimos `keep_days` días), dónde estuvo cada activador (últimos 32 días), tus QSOs con ellos, QSOs por UDP que todavía no están en tu log, y las horas en que se escucha cada país que te falta (Ventanas, `windows.keep_months`) | mientras corre |
 | `data/cache/log-<INDICATIVO>.pickle`          | DX Agent: los índices del log de cada indicativo tal como se leyó, para no volver a leer un log grande en cada arranque. Se usa solo si son iguales los archivos del log, el archivo de países, tus indicativos, el año y la versión de DX Agent; los QSOs posteriores (la base de tu logger, UDP) se suman encima como siempre. Se puede borrar sin problema | cuando cambia el log |
-| `data/update.json`                            | DX Agent: la última versión en GitHub, consultada cada hora (`ui.check_updates`) | cada hora |
+| `data/update.json`                            | DX Agent: la última versión en GitHub, consultada cada hora (`ui.check_updates`), con los paquetes que trae el release | cada hora |
+| `data/update/`                                | La actualización de DX Agent: el paquete bajado y descomprimido (`new/`), el respaldo que dejó el script (`before-<versión>/`) y lo que hizo (`update.log`) | en una actualización |
 | `data/dx-agent.log`                           | DX Agent (sin ventana) | mientras corre; menos de 5 MB |
 
 ### data/dxagent.db
@@ -2446,6 +2533,7 @@ el primer arranque los lee y los renombra `*.migrated`; se pueden borrar cuando 
 | `Permission denied` al correr `./start-dx-agent.sh` | `chmod +x start-dx-agent.sh start-dx-agent-console.sh` (con el paquete `-linux` no hace falta) |
 | No aparecen notificaciones en Linux | `pip install plyer`; sin él las alertas igual se ven en el panel |
 | Mac: "No se puede abrir start-dx-agent.command" / "Apple no pudo verificar…" | No está firmado por Apple: Configuración del Sistema > Privacidad y seguridad > **Abrir igualmente**, o `xattr -dr com.apple.quarantine .` en la carpeta dx-agent (ver Inicio rápido) |
+| Windows: "Windows protegió tu PC" / "Este archivo vino de otro equipo…" | No es un problema de firma: Windows marca el `.zip` bajado y le pasa la marca a lo que se descomprime. Borrar la carpeta, desbloquear el `.zip` (**Propiedades** > **Desbloquear**), descomprimirlo de nuevo (después no hay nada más que hacer: las actualizaciones no pasan por el navegador) |
 | Datos de países incorrectos o viejos | Borrar `data/cty.csv`; se descarga de nuevo en el próximo inicio |
 | `[ui] could not start on port 8073` | Otro programa (u otra copia de DX Agent) usa ese puerto; cerrarlo o cambiar el puerto del panel |
 | El panel muestra "Se perdió la conexión con el agente" | `run` se detuvo o falló; iniciarlo de nuevo y la página se reconecta sola |

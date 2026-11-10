@@ -863,6 +863,11 @@ rules allow).
     saved come first; the list fills in what's missing.
   - **A bad spot** that day gets a red **✗** in the alert list; hover it for the right call when the
     list gives it. An invalid operation is marked the same way, and doesn't count for the Marathon.
+  - **A verified call** gets a green **✓**: the call itself (not a prefix) that the list of good
+    calls vouches for that day, such as a resident, a DXpedition within its dates, or a station in
+    Antarctica, Zone 2 or Shetland. It shows in the alert list, in the QSO form beside the country
+    (the note in the tooltip) and in the Station tab, whose box says **Verified by the DX
+    Marathon**. When the list also calls it bad, the ✗ wins.
   - **The Station tab** shows the call's **DX Marathon notes**, current ones first. Notes on a whole
     prefix (`GB*`, `TC1*`) are only shown.
 - DX Agent doesn't submit your entry: at the end, upload your ADIF at
@@ -919,7 +924,11 @@ three, so the spots stay in sight while you log:
   the form to correct it, wherever you are.
 - **Recent QSOs**, a tab above the form in List and Map: the last QSOs you logged (5, or 1 to 8 with
   its picker), each with its **✎** to correct it and its **✕** to delete it, without going to the
-  Log view. It shows the log of the form's **Station**.
+  Log view. It shows the log of the form's **Station**. Its right half, **With**, shows your QSOs
+  with the station in the form: how many and how many confirmed, the bands you worked it on (solid
+  the confirmed ones), and each QSO with its reports, LoTW / QSL / eQSL and its **✎**. A station you
+  never worked says **New**; **and N more** opens the Log view with all of that call's QSOs. With
+  a narrow console the two halves stack.
 - **The List button**, while you are in the Log view, counts the spots that came in, in the colour
   of the most wanted, until you go back to the list.
 - On a narrower screen, the fields and the WinKey's column get narrower.
@@ -939,7 +948,9 @@ that station. **Log QSO** (there or in the Station tab) saves it and says what i
 **Your call** picks which logbook it goes into. It also has **Name**, **QTH**, grid square,
 **References** (park, summit, island) and **Comment**; **Now** sets the date and time to this
 moment and **Clear** empties the form. Beside **Call** you see the station's country, in red for an
-ATNO. Its station shows in the side panel's **Actions** tab:
+ATNO, with the DX Marathon's ✓ or ✗ when its list says so. **Tab** goes Call → RST sent → RST
+received → **Log QSO** (Shift+Tab back); in the call box, Super Check Partial's suggestion takes
+Tab first. Its station shows in the side panel's **Actions** tab:
 callbook, the **earlier QSOs** with it, and **This call**, a table of the bands and modes you
 worked it on (**✓** green confirmed, amber worked, **NEW** a band and mode still new for its
 country; never phone on 30 m, which has none).
@@ -1009,7 +1020,9 @@ the console's right, with the speed on top, a button per message you set, three 
 WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.
 It needs messages on F1, F2 and F3. On, Enter steps through the QSO:
 - **With no call**, it sends the CQ (F1).
-- **With the call**, it sends the report (F2) and the cursor goes to the received RST.
+- **With the call**, it sends the report (F2) and the cursor goes to the received RST, with the
+  mode's 599 selected: in a contest the report is always that one, so call → Enter → Enter logs
+  the QSO. Another report is typed over it.
 - **In the received RST**, empty sends **?** for a repeat; with the report typed (or **F3** from any
   field), it logs the QSO and only then sends the TU (F3). If it isn't logged, no TU goes out.
 - Beside the button it says what Enter will do (CQ, 5NN, ?, TU + log). Editing a QSO, Enter saves as
@@ -1061,14 +1074,16 @@ changes alerts, DXCC and WAZ). A deleted QSO is kept aside in the
 logbook, in case it was a mistake, and it isn't deleted from LoTW, QRZ.com or Club Log.
 
 **Uploads and downloads**, in the Actions tab, each with how many QSOs will go and a progress box
-under the buttons. Each button shows only once its service is set up:
+under the buttons. A box that went well closes by itself after a minute (not while the pointer is
+on it); a red one stays until you close it. Each button shows only once its service is set up:
 
 - **Upload to LoTW:** DX Agent runs **TQSL**, which signs the QSOs with your certificate and uploads
   them. TQSL must be installed, with your certificate and a Station Location for each callsign
   (Settings → Log → **Station Location**). TQSL keeps your passphrase; DX Agent never sees it.
 - **Download from LoTW:** your new confirmations, each marked on its QSO. Under its message, **who
-  confirmed** (call, band and mode), and **Show them in the log**, which leaves in the Log view
-  the QSOs that download confirmed. Needs your LoTW password (Settings → LoTW).
+  confirmed** (call, band and mode, sorted by call and then band), and **Show them in the log**,
+  which leaves in the Log view the QSOs that download confirmed. Needs your LoTW password
+  (Settings → LoTW).
 - **Upload to Club Log:** with your Club Log email and an **application password** (Club Log →
   Settings → App Passwords; not your Club Log password), in Settings → Log. A QSO Club Log rejects
   is marked **✗** with its reason.
