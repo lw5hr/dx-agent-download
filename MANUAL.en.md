@@ -1119,7 +1119,7 @@ experimental, keep a copy of your log elsewhere too: the cloud backups are a goo
 **DX Agent gets new versions ready by itself, and asks before installing them**: Settings has **Get
 new versions ready**, on out of the box. Every hour it asks GitHub for the latest version and, if the
 release brings the package for your system and it is signed with DX Agent's key, it downloads it,
-checks the signature and tries it. Then the pill next to the version number says **"0.4.34 ready"**
+checks the signature and tries it (about a minute: the pill says **"Downloading 0.4.36…"**). Then the pill next to the version number says **"0.4.34 ready"**
 with an **Install** button: only that click (and a confirmation) restarts DX Agent with the new
 version, so an update never cuts a QSO or a contest; the tab you have reloads itself on it (no
 other one opens, from 0.4.34 on). The ✕ hides the pill until you reload the page.

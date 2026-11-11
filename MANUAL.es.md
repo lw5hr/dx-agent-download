@@ -1174,7 +1174,8 @@ buena forma.
 **DX Agent deja listas las versiones nuevas solo, y pregunta antes de instalarlas**: en
 Configuración está **Dejar listas las versiones nuevas**, encendido de fábrica. Cada hora le
 pregunta a GitHub cuál es la última versión y, si el release trae el paquete de tu sistema y viene
-firmado con la clave de DX Agent, lo baja, controla la firma y lo prueba. Después la pastilla junto
+firmado con la clave de DX Agent, lo baja, controla la firma y lo prueba (más o menos un minuto: la pastilla dice **«Bajando la
+0.4.36…»**). Después la pastilla junto
 al número de versión dice **«0.4.34 lista»** con un botón **Instalar**: recién ese clic (y una
 confirmación) reinicia DX Agent con la versión nueva, así una actualización nunca te corta un QSO ni
 un concurso; la pestaña que tenés se recarga sola con ella (desde la 0.4.34 no se abre otra). La ✕
