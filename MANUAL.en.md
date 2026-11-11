@@ -185,7 +185,9 @@ pills go on a second line, and the chevron after them folds them to their status
 
 - buttons for **alert type** (only the types turned on in Settings), **band** and **mode** (none
   ticked = everything shows). Each option says how many stations it would show, with the other
-  filters as they are: with 20 m picked, the modes say how many on 20 m;
+  filters as they are: with 20 m picked, the modes say how many on 20 m. Besides **CW**, **PHONE**
+  and **DIGI**, the modes have **FT8**, **FT4** and **RTTY**, each one on its own (Settings →
+  **Digital modes in the filters**, on by default); the group is still what alerts;
 - **Continent** (AF, AN, AS, EU, NA, OC, SA): keeps the stations
   from the continents picked, to stay with where your antenna points. Your own call spotted
   always shows;
@@ -200,9 +202,9 @@ pills go on a second line, and the chevron after them folds them to their status
   announced LoTW;
 - a **search** box for a callsign or country;
 - **Clear filters** shows everything again. Your browser remembers the filters.
-- **⚙** (next to Clear filters, or Settings → **Filters above the list**): which of Continent, Near you only, Hide
-  confirmed, Only LoTW and Activity show. A hidden one is turned off. The alert types, bands and modes are the ones you
-  alert on (Settings → Alerts).
+- **⚙** (next to Clear filters, or Settings → **Filters above the list**): which of Band, Mode, the search box,
+  Continent, Near you only, Hide confirmed, Only LoTW and Activity show. A hidden one is turned off. The alert types,
+  bands and modes are the ones you alert on (Settings → Alerts). After **Save** the page updates in place, no reload.
 - **Fold the filters:** the chevron next to **List** / **Map** folds them to one line that says what
   is picked ("FILTERS 20m · CW", highlighted while a filter is on), for more room for the list;
   the search, Clear filters, the count and Clear list stay. Your browser remembers it.
@@ -629,10 +631,12 @@ top right says whether it worked.
 - **FlexRadio with AetherSDR (TCI), in testing:** Tune moves the slice that transmits (the TX
   slice; until DX Agent knows which one, the one with the focus) and sets the mode (CW, USB/LSB,
   RTTY, DIGU for FT8). With two or more slices open, Tune has a button per slice:
-  its letter (or its RX number, until it has had the focus) and where it is now; the TX slice is
-  marked **TX**, and the one the list's frequencies tune stands out. Choosing a slice there tunes
-  it but doesn't give it the focus in AetherSDR: AetherSDR doesn't let another program change
-  it. With **Show the alerts on the radio's panadapter (TCI)** (on
+  its letter and where it is now (the console's buttons say what they tune in their tooltip); the
+  TX slice is marked **TX**, and the one the list's frequencies tune stands out (in split, the one
+  that listens; the TX slice's button is greyed out). Choosing a slice there tunes it but doesn't
+  give it the focus or TX in AetherSDR: AetherSDR doesn't let another program change them. To
+  work on another slice, give it TX in AetherSDR and DX Agent follows. With the logbook on, the
+  buttons are for the station in the form: clear the form and they go. With **Show the alerts on the radio's panadapter (TCI)** (on
   by default), each station of the list shows on AetherSDR's panadapter in its colour, with its
   headline and country; it moves when the station changes frequency and leaves when it's no
   longer spotted. Every alert goes, those of the band the radio is on first; when you change band
@@ -665,6 +669,9 @@ top right says whether it worked.
   change it). While you transmit, the frequency DX Agent shows is still the receiving one.
   The next Tune to a station without split ends it, whoever set it (WSJT-X or you too).
   Not on FT8 and FT4. Settings → Radio → **Split when the spot says so**, on by default.
+  With AetherSDR, the slice that transmits takes the mode of the one that listens, and there is
+  one split at a time: a split on another slice ends the first. Each split needs a free slice (a
+  FLEX-6400 has 2, a 6600 4); with all of them open, AetherSDR can't open it and the split stays off.
 - **Not while transmitting (TCI):** a Tune while the radio is on the air doesn't move it, nor
   give WSJT-X a new call. Settings → Radio → **While transmitting**: don't tune (the default), tune
   when the transmission ends, or tune anyway. DX Agent never keys the radio.
@@ -999,6 +1006,11 @@ Log view, with room to spare, the radio keeps its whole window, in a column at t
   changes at once and the radio follows when the wheel stops.
 - **On TCI and Hamlib, an S-meter** shows beside the frequency.
 - **The other VFO**, or AetherSDR's other slices, show beside it (in the Log view, under it).
+  Tiles one over the other line up in columns: letter, frequency, band, mode, S-meter, then TX
+  and SPLIT.
+- **On AetherSDR each other slice has its own controls:** the wheel on its digits and its band and
+  mode lists change that slice alone, without touching the split or the form. The split's TX slice
+  has the wheel (within the band) and the mode, not the band.
 - **A click on the other VFO puts the radio on it**, through Hamlib, or OmniRig where the
   radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, DX Agent reads both
   VFOs once when it connects (a blink on the radio's display), and then that VFO shows where the

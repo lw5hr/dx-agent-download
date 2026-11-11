@@ -194,7 +194,10 @@ tienen después las pliega a sus puntos de estado.
 
 - botones por **tipo de alerta** (solo los tipos activados en Configuración), **banda** y **modo**
   (sin ninguno marcado se ve todo). Cada opción dice cuántas estaciones mostraría, con los demás
-  filtros como están: con 20 m elegido, los modos dicen cuántas hay en 20 m;
+  filtros como están: con 20 m elegido, los modos dicen cuántas hay en 20 m. Además de **CW**,
+  **FONÍA** y **DIGI**, los modos tienen **FT8**, **FT4** y **RTTY**, cada uno por separado
+  (Configuración → **Modos digitales en los filtros**, activado de fábrica); lo que avisa sigue
+  siendo el grupo;
 - **Continente** (AF, AN, AS, EU, NA, OC, SA): deja las
   estaciones de los continentes elegidos, para quedarte con hacia donde apunta tu antena. Tu propio
   indicativo spoteado se ve siempre;
@@ -209,9 +212,10 @@ tienen después las pliega a sus puntos de estado.
   DXpediciones que anunciaron LoTW;
 - un cuadro de **búsqueda** por indicativo o país;
 - **Limpiar filtros** vuelve a mostrar todo. El navegador recuerda los filtros.
-- **⚙** (junto a Limpiar filtros, o Configuración → **Filtros sobre la lista**): cuáles de Continente, Solo cerca tuyo,
-  Ocultar confirmados, Solo LoTW y Actividad se ven. Uno oculto queda apagado. Los tipos de alerta, las bandas y los modos
-  son los de tus alertas (Configuración → Alertas).
+- **⚙** (junto a Limpiar filtros, o Configuración → **Filtros sobre la lista**): cuáles de Banda, Modo, el buscador,
+  Continente, Solo cerca tuyo, Ocultar confirmados, Solo LoTW y Actividad se ven. Uno oculto queda apagado. Los tipos de
+  alerta, las bandas y los modos son los de tus alertas (Configuración → Alertas). Después de **Guardar**, la página se
+  actualiza sola, sin recargar.
 - **Plegar los filtros:** el chevron junto a **Lista** / **Mapa** los pliega a una línea que dice
   qué está elegido ("FILTROS 20m · CW", resaltada mientras hay un filtro), para dejarle más lugar
   a la lista; quedan la búsqueda, Limpiar filtros, la cantidad y Limpiar lista. El navegador lo
@@ -680,9 +684,12 @@ derecha dice si funcionó.
 - **FlexRadio con AetherSDR (TCI), en prueba:** Sintonizar mueve el slice que transmite (el de
   TX; hasta que DX Agent sabe cuál es, el que tiene el foco) y pone el modo (CW, USB/LSB, RTTY,
   DIGU para FT8). Con dos o más slices abiertos, Sintonizar tiene un botón por
-  slice: su letra (o su número de RX, hasta que tuvo el foco) y dónde está ahora; el de TX está
-  marcado **TX**, y se destaca el que sintonizan las frecuencias de la lista. Elegir un slice ahí
-  lo sintoniza pero no le da el foco en AetherSDR: AetherSDR no deja que otro programa lo cambie.
+  slice: su letra y dónde está ahora (en la consola, el tooltip de cada botón dice qué sintoniza);
+  el de TX está marcado **TX**, y se destaca el que sintonizan las frecuencias de la lista (en
+  split, el que escucha; el botón del de TX queda deshabilitado). Elegir un slice ahí lo
+  sintoniza, pero no le da el foco ni la TX en AetherSDR: AetherSDR no deja que otro programa los
+  cambie. Para trabajar en otro slice, pasale la TX en AetherSDR y DX Agent lo sigue. Con el libro
+  de guardia activo, los botones son de la estación del formulario: si lo limpiás, desaparecen.
   Con **Mostrar las alertas en el panadaptador de la radio**
   (activado de fábrica), cada estación de la lista aparece en el panadaptador de AetherSDR con su
   color, su título y su país; se mueve cuando cambia de frecuencia y se saca cuando dejan de
@@ -702,7 +709,10 @@ derecha dice si funcionó.
   cambiar). Mientras transmitís, la frecuencia que muestra DX Agent sigue siendo la de escucha.
   Sintonizar una estación sin split lo termina, lo haya puesto quien sea (también WSJT-X
   o vos). No en FT8 ni FT4. Configuración → Radio → **Split cuando el spot lo dice**, activado de
-  fábrica.
+  fábrica. Con AetherSDR, el slice que transmite toma el modo del que escucha, y hay un split por
+  vez: un split en otro slice termina el primero. Cada split necesita un slice libre (una
+  FLEX-6400 tiene 2, una 6600 tiene 4); con todos abiertos, AetherSDR no puede abrirlo y el split
+  queda apagado.
 - **No mientras transmitís (TCI):** un Sintonizar con la radio en el aire no la mueve, ni le da
   a WSJT-X un indicativo nuevo. Configuración → Radio → **Mientras transmitís**: no sintonizar (de
   fábrica), sintonizar cuando termina la transmisión, o sintonizar igual. DX Agent nunca pone la
@@ -1050,7 +1060,12 @@ una columna a la izquierda de la consola.
   split (dentro de la banda), y la grande donde escuchás, sin tocar el split. El número cambia en
   el acto y la radio lo sigue cuando la rueda se queda quieta.
 - **Por TCI y Hamlib, un S-meter** va al lado de la frecuencia.
-- **El otro VFO**, o los otros slices de AetherSDR, van al lado (en la vista Log, debajo).
+- **El otro VFO**, o los otros slices de AetherSDR, van al lado (en la vista Log, debajo). Los
+  recuadros uno arriba del otro quedan alineados en columnas: letra, frecuencia, banda, modo,
+  S-meter y al final TX y SPLIT.
+- **Con AetherSDR, cada uno de los otros slices tiene sus controles:** la rueda sobre sus cifras y
+  las listas de banda y de modo cambian solo ese slice, sin tocar el split ni el formulario. El
+  slice de TX del split tiene la rueda, dentro de la banda, y el modo, pero no la banda.
 - **Un clic en el otro VFO pasa la radio a ese VFO**, por Hamlib, o por OmniRig si el
   archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, DX Agent lee los dos
   VFOs una vez al conectarse (un parpadeo en la pantalla de la radio), y después ese VFO

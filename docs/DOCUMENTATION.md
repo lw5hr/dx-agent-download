@@ -53,9 +53,11 @@ nothing warns, now or on later starts. Once installed, DX Agent updates itself �
 never come from a browser, so there is nothing to unblock again.
 
 Windows draws every `.bat` with cmd's own icon. **create-shortcut.bat** (double-click it once)
-makes `DX Agent.lnk` beside it: the same launcher, with DX Agent's logo
-(`dxagent/static/logo.ico`). Double-click the `.lnk` from then on; run it again after moving
-the folder (the shortcut holds absolute paths).
+makes `DX Agent.lnk` beside it: the same launcher, with DX Agent's logo (`logo.ico`, in that
+same folder). Double-click the `.lnk` from then on; run it again after moving the folder (the
+shortcut holds absolute paths). To do it by hand instead: right-click `start-dx-agent.bat` >
+**Create shortcut**, then in its **Properties** > **Change icon** > **Browse** pick `logo.ico`,
+which sits in the same folder.
 
 **On Linux:** unzip `dx-agent-<version>-linux-x86_64.tar.gz` (it includes Python too) and run
 its own launcher. It needs glibc 2.17 or newer, that is, any ordinary 64-bit distribution:
@@ -187,7 +189,7 @@ python -m dxagent run --no-ui       # console only
 | Area | What it shows |
 |------|---------------|
 | **Header** | Your call; one pill per feed (green = online, amber = connecting, red = down) with its spot count (hover for the server and last spot time; a click leaves in the list and the map only the stations it heard, see Filters); a **DXpeditions** pill next to them: how many are within their dates and how many of them were spotted in the last 15 minutes ("48 · 6 on the air", its dot green while one is; a click opens the DXpeditions tab); a **propagation** pill at their side: SFI, SN, A and K, the field's state in its dot, and the storm's level when there is one (**G2** red while it lasts, softer when it is only today's forecast; **R1** for a radio blackout; grey dashes when NOAA SWPC has nothing fresh), its tip saying how old each value is, what A and K mean and the G/R/S scales; your log totals; icon buttons (hover for what each does): **About** ⓘ (what DX Agent is, who made it, the collaborators, how to support it, and help: the website, the user manual and the issues page), **Settings** ⚙ (on the Settings page, a list icon back to the alerts), **EN/ES/PT** (language), **Theme** (half circle = Auto, sun = Light, moon = Dark, a palette = another theme; a click opens the menu of themes), **Browser sound** (speaker, crossed out when off), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop** (red); UTC clock. `#about` opens the About window. On a narrower window (up to 1800 px) the pills go below your call and the buttons, the whole width; the chevron after them folds them to their status dots, in one highlighted pill next to your call (a click on it opens them again; remembered in the browser) |
-| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and the DXpeditions that announced LoTW: the ones likely to confirm there. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
+| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and the DXpeditions that announced LoTW: the ones likely to confirm there. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
 | **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
 | **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a green ring marks the bands and modes where the station was spotted in the last 15 minutes, the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
 | **Ventanas tab** | When each country you still need is heard from near you: one row per country, with its Most Wanted rank and 24 hours as a line of bars. Order by **A–Z**, **Most Wanted** or **This hour**. Click one for every band and mode, hour by hour, with who heard it and how far, the empty hours filled with VOACAP. **Needed** / **All** (see Ventanas) |
@@ -411,20 +413,31 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   tune, and flrig sets it with `rig.flrig_tx_guard = "ptt"`. Not on FT8 and
   FT4 (a DXpedition's Fox/Hound isn't a radio split), nor a split off the band or more than
   50 kHz away.
+  On AetherSDR the slice that transmits keeps a mode of its own, so after a split Tune DX Agent
+  gives it the receiving slice's mode (a CW spot that says UP after the SPLIT button on SSB would
+  otherwise listen on CW and transmit on LSB). AetherSDR keeps one split at a time: a split Tune
+  on another slice ends the first and opens the TX slice for the new one. Each split needs a free
+  slice (a FLEX-6400 has 2, a 6600 4); with all of them open AetherSDR can't open it and says the
+  split is off. If another slice already transmits, AetherSDR uses it as the split's TX slice
+  instead of opening one, and doesn't give TX back when the split ends.
 - **WSJT-X on TCI too:** an FT8 or FT4 spot sent to WSJT-X moves WSJT-X's slice (the one on the
   dial WSJT-X's Status says), not the TX or focused one, so WSJT-X changes band with it: AetherSDR
   tells every program each slice's frequency, but WSJT-X only reads its own slice's. Needs
   WSJT-X's UDP messages reaching DX Agent; without them (or with WSJT-X on the TX slice), as above.
 - **With two or more slices open**, the Tune button becomes a button per slice:
-  under "Tune 14025.0 kHz CW on slice", its letter and where it is now (**A** 7074.0 DIGU ·
-  **B** 14010.0 CW). The TX slice is marked **TX**, and the one the list's and the grid's
-  frequencies tune stands out: the TX slice, else the one with the focus (once the focused slice
-  is closed, until AetherSDR gives the focus to another: the first one open). Choosing a slice
-  here tunes it but doesn't give it the focus in AetherSDR: AetherSDR keeps the focus to itself.
-  A slice shows its letter once it has had the focus (AetherSDR only says it then); until then,
-  its RX number in AetherSDR's TCI applet (**RX2** = the slice the applet shows on RX2). The
-  buttons follow AetherSDR: a slice opened, closed, given the focus or TX shows within a few
-  seconds.
+  its letter and where it is now (**A** 7074.0 DIGU · **B** 14010.0 CW), under "Tune 14025.0 kHz
+  CW on slice" in the Station tab; in the console each button's tooltip says it. The TX slice is
+  marked **TX**, and the one the list's and the grid's frequencies tune stands out: the TX slice,
+  else the one with the focus (once the focused slice is closed, until AetherSDR gives the focus
+  to another: the first one open); in DX Agent's split, the slice that listens, and the split's
+  TX slice's button is greyed out (it moves with the split). Choosing a slice here tunes it but
+  doesn't give it the focus or TX in AetherSDR: AetherSDR keeps both to itself, so to work on
+  another slice give it TX in AetherSDR and DX Agent follows. With the logbook on, the buttons
+  belong to the station in the console's form: with the form emptied (**Clear**, Escape, a QSO
+  saved) they go, so a slice's button can't tune an old spot (and its split) again. A slice
+  shows its letter as AetherSDR says it once the slice has had the focus; until then, the one
+  its number has (receiver 0 **A**, 1 **B**, 2 **C**). The buttons follow AetherSDR: a slice
+  opened, closed, given the focus or TX shows within a few seconds.
 - **The alerts go on the panadapter** (**Show the alerts on the radio's panadapter**, on by
   default): each station of the alert list in its colour (ATNO red, new band orange, new
   mode cyan...), with its headline and country. It moves when a newer spot puts it on
@@ -505,7 +518,8 @@ Only one of the two can be on TCI, and two on OmniRig must be its Rig 1 and Rig 
   in the console's radio box makes it the active one. The QSO form follows it, and the alert
   list's frequencies tune it.
 - **Tune**, after the radios in the console, has a button for each radio (each slice of the one
-  on AetherSDR), with where it is now; the active one stands out.
+  on AetherSDR), with where it is now; the active one stands out, and each button's tooltip says
+  what it tunes.
 - **The console's radio strip**, along its top, shows both side by side, each with its name before
   its VFOs or slices, a line between them; the active one's name in the accent colour.
 - **N1MM or DXLog.net (SO2R):** Tune is blocked because PTT cannot be verified.
@@ -853,7 +867,9 @@ or none.
 Click **Settings** in the header (or open `http://localhost:8073/#settings`). Change
 what you need and click **Save and apply**: the agent rewrites `config.toml`,
 reloads your log and reconnects the feeds within a few seconds. You don't need to
-restart it. The settings are in tabs, one group at a time (the one open is remembered); the
+restart it. The page waits for the agent to answer with the new settings and draws
+itself again in place: the filters and their chips, the header and the tabs are as the
+settings left them, no reload needed. The settings are in tabs, one group at a time (the one open is remembered); the
 **Log** tab only shows with DX Agent's logbook as your log.
 
 | Section | What you can set |
@@ -1615,7 +1631,7 @@ You can also edit it by hand; restart `run` afterwards.
 | alerts      | `alert_on`                  | `atno, dxpedition, new_band, new_mode, watchlist` | Which alert types fire |
 | alerts      | `call_scope`                | `band_mode`                                       | For DXpedition and watchlist calls: `call` = any QSO counts, `band` = per band, `band_mode` = per band and mode |
 | alerts      | `bands`                     | 160m–6m (no 60m)                                  | Spots on other bands are ignored |
-| alerts      | `modes`                     | `CW, PHONE, DIGI`                                 | Mode groups to alert on |
+| alerts      | `modes`                     | `CW, PHONE, DIGI`                                 | Mode groups to alert on; the list breaks the digital ones down by mode |
 | alerts      | `watchlist`                 | empty                                             | Calls to always look for; wildcards allowed, e.g. `"VP8*"` |
 | alerts      | `ignore`                    | empty                                             | Calls never to alert on; wildcards allowed |
 | alerts      | `cooldown_minutes`          | `15`                                              | Minimum time before repeating the same alert |
@@ -1633,8 +1649,9 @@ You can also edit it by hand; restart `run` afterwards.
 | ui          | `open_browser`              | `true`                                            | Open the dashboard automatically when `run` starts |
 | ui          | `check_updates`             | `true`                                            | Say on the dashboard (a pill next to the version) when a newer DX Agent is out, and get it ready: asks GitHub every hour for the latest release of the download repository, and downloads and checks its package. Nothing of yours is sent; it is installed when you click **Install** |
 | ui          | `install_updates`           | `false`                                           | Install a new version without asking, as soon as it is ready: DX Agent restarts by itself, also in the middle of a QSO |
-| ui          | `filters`                   | `["continent", "near", "hide_confirmed", "lotw", "activity"]` | The filters shown above the alert list (a hidden one is off); the dashboard's ⚙ next to Clear filters saves it too |
+| ui          | `filters`                   | `["bands", "modes", "search", "continent", "near", "hide_confirmed", "lotw", "activity"]` | The filters shown above the alert list (a hidden one is off, and what it had picked is cleared); the dashboard's ⚙ next to Clear filters saves it too |
 | ui          | `hidden_types`              | `[]`                                              | Alert types whose filter doesn't show (they still alert), by their name in English: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); the dashboard's ⚙ at the end of the alert types saves it too |
+| ui          | `digital_modes`             | `true`                                            | A filter for FT8, FT4 and RTTY, next to CW, phone and digital; the other digital modes show on their row and count as digital |
 | logbook     | `reload_seconds`            | `60`                                              | How often to check the ADIF file for changes |
 | logbook     | `live`                      | `true`                                            | Also read the QSOs Log4OM 2 saved since its last backup, every 10 seconds, from its database |
 | logbook     | `udp_port`                  | `12065`                                           | QSOs your logger sends over UDP as you log them (N1MM, DXLog.net, Log4OM, WSJT-X; see "Your QSOs as you log them"); 0 = off |
@@ -1811,7 +1828,13 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   writes it to the radio, so it always knows where you transmit. Through flrig, writing B switches the
   radio to B for a moment and back to A; through TCI (a Flex on AetherSDR) only `vfo:N,1` goes, and
   AetherSDR moves the slice it opened to transmit. **The wheel on a digit of the large frequency** (where you
-  listen) moves it the same way, leaving the split as it is; in split, within the band. On TCI and Hamlib, the S-meter too, as the
+  listen) moves it the same way, leaving the split as it is; in split, within the band. On
+  AetherSDR **each other slice's tile has its own controls**: the wheel on its digits, and its band
+  and mode lists. They set that slice alone, not a Tune: the split, the form and the slice DX Agent
+  follows stay as they are; the split's TX slice has the wheel (within the band) and the mode, no
+  band. Under the list and the map the tiles share their columns (letter, frequency, band, mode,
+  S-meter, then TX and SPLIT, and the large frequency without its MHz), so tiles one over the other
+  line up; in the Log view each slice's band and mode lists sit under the large tile's. On TCI and Hamlib, the S-meter too, as the
   program says it: a bar beside the frequency with its reading (S7, S9+20), green up to S9 and
   red over it, and a small one on each of the other tiles (OmniRig doesn't read it). Hamlib
   reads only the current VFO and never switches VFOs just to poll; in split it also reads the other
@@ -2199,7 +2222,11 @@ when it comes from the LoTW download. eQSL doesn't count, matching DXCC rules.
    minutes, else from the frequency: FT8/FT4 frequencies (14074, 10136...) are FT8/FT4,
    the CW and phone parts of the band plan are CW and SSB. Only a spot in a part used by
    several modes (the digital part, 160m and 6m phone) is shown with `?`. Modes are grouped like DXCC:
-   **CW**, **PHONE** (SSB, AM, FM) and **DIGI** (FT8, FT4, RTTY, PSK, MFSK...).
+   **CW**, **PHONE** (SSB, AM, FM) and **DIGI** (FT8, FT4, RTTY, PSK, MFSK...). The group is what
+   alerts and what counts for DXCC; the list also breaks the digital ones down into FT8, FT4 and
+   RTTY (see Filters). The mode words it reads in a comment are WSJT-X's (FT8, FT4, JT4, JT9, JT65,
+   Q65, MSK144, FST4, FST4W, WSPR) and the usual HF ones (RTTY, PSK31/63/125, JS8, JT6M, FSK441,
+   MFSK, OLIVIA, SSTV, QRA64).
 4. **Filters.** Beacons, your own call, bands and modes you don't want, calls in
    `ignore`, and (if set) spotters outside your chosen continents are dropped.
 5. **Country lookup.** The call is matched to a DXCC entity with AD1C's `cty.csv`:
@@ -2297,11 +2324,12 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `config.example.toml`       | The starting settings for a new installation |
 | `start-dx-agent.bat`        | Double-click to start DX Agent on Windows, without a window |
 | `start-dx-agent-console.bat` | The same, in a console window that shows everything it prints |
-| `create-shortcut.bat`       | Windows draws a `.bat` with cmd's icon: this makes `DX Agent.lnk`, the same launcher with DX Agent's logo (`dxagent/static/logo.ico`) |
+| `create-shortcut.bat`       | Windows draws a `.bat` with cmd's icon: this makes `DX Agent.lnk`, the same launcher with DX Agent's logo (`logo.ico`) |
+| `logo.ico`                  | The DX Agent logo as a Windows icon (16 to 256 px), in the root where it is easy to find: what `create-shortcut.bat` puts on `DX Agent.lnk`, and what to pick in Properties > Change icon when the shortcut is made by hand |
 | `start-dx-agent.sh`         | The same two launchers for Linux and macOS (`-console.sh` shows what it prints); they use the package's Python if it brings one (`python/`, or on a Mac `python-arm64/` / `python-x86_64/`) |
 | `start-dx-agent.command`    | macOS: double-click in Finder to start it; takes the folder out of quarantine so the bundled Python can run |
 | `tools/make_package.py`     | Builds the packages to share: the Windows zip and the Linux and macOS tarballs (Python included, program compiled), plus the source zip with `--source`, and `SHA256SUMS` with its signature (`SHA256SUMS.sig`) — what DX Agent checks its own updates against; never your personal data |
-| `tools/make_icon.py`        | Draws `dxagent/static/logo.ico` at each size from the SVG logos (Edge or Chrome does the drawing); only when the logo changes |
+| `tools/make_icon.py`        | Draws `logo.ico` at each size from the SVG logos (Edge or Chrome does the drawing); only when the logo changes |
 | `tools/sign_release.py`     | The release key: `keygen` makes it once (`data/release-key.txt`, never in git), `sign` writes `dist/SHA256SUMS.sig`, `verify` checks it as an installed DX Agent will |
 | `tools/make-shortcut.ps1`   | What `create-shortcut.bat` runs: the `DX Agent.lnk` pointing at the launcher, with the icon |
 | `config.toml.bak`           | The previous settings, kept on every save |
@@ -2349,7 +2377,6 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `dxagent/static/index.html` | The dashboard and Settings page (HTML, CSS and JavaScript in one file) |
 | `dxagent/static/logo.svg`  | The DX Agent logo (dashboard header) |
 | `dxagent/static/logo-small.svg` | The same logo cut down to what reads at 16 px: the browser tab icon |
-| `dxagent/static/logo.ico`  | The same logo as a Windows icon (16 to 256 px): what the launcher's shortcut shows |
 | `tests/test_dxagent.py`     | 361 unit tests (`python -m unittest tests.test_dxagent`) |
 | `tests/test_filters.js`     | The alert list's filters, every combination (run by the tests above when Node.js is installed) |
 
