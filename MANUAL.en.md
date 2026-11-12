@@ -151,8 +151,8 @@ The settings are in tabs: Station, Log (only with DX Agent's logbook), LoTW, Ale
 Propagation, Marathon, Spot sources, Radio and Other. Saving keeps what you changed by hand in
 `config.toml` and the page doesn't show.
 
-The dashboard follows your browser's language; the **EN/ES/PT** button in the header switches it:
-English, Spanish or Portuguese (Brazil).
+The dashboard follows your browser's language; the **EN/ES/PT/FR** button in the header switches it:
+English, Spanish, Portuguese (Brazil) or French (France).
 
 ## 4. The screen
 
@@ -173,9 +173,9 @@ and what it reads now, and another with the ideal and critical thresholds of SFI
 line, with each value's age, turns green when every index is inside the good range; a click on the
 pill pins the card —with a blue border— to read it or copy the numbers, and another click, a click
 elsewhere or Escape closes it); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
-(hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT**, **Theme** (a menu with
+(hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT/FR**, **Theme** (a menu with
 a preview of each: Auto, Light, Dark, High contrast dark and light, Solarized dark and light,
-Nord, Dracula, Dracula orange, Alucard, Alucard black and Sepia), **Sound** (a beep for the important alerts, off by default), **Full
+Nord, Dracula, Sepia, Flexoki paper and Flexoki ink), **Sound** (a beep for the important alerts, off by default), **Full
 screen** (four corners; the **F** key too, F or Esc to leave) and **Stop**, in red; the UTC
 clock. **About** tells what DX Agent is, who made it and its collaborators, and has the links to
 support it, to the website, to this manual and to report a problem. On a narrower window the
@@ -907,8 +907,9 @@ DX Agent can keep your log itself, instead of reading your logger's file: Settin
 - **Each of your callsigns has its own logbook**, with every field of every QSO. They never mix
   (each uploads as its callsign); alerts, DXCC and WAZ still count them together.
 - **Import your logger's ADIF once:** Settings → Log → **Import ADIF…**, or **Import QSOs…** in
-  the Log view's **Actions** tab (with All, you pick which callsign). Only that callsign's QSOs go in, and
-  a QSO already there is skipped. A backup is made first, and one every day (the last 10, in
+  the Log view's **Actions** tab (with All, you pick which callsign). Only that callsign's QSOs go in,
+  a QSO already there is skipped, and one the file brings twice (same call, minute, band and mode)
+  goes in once. A backup is made first, and one every day (the last 10, in
   `data\backups`).
 - **To go back to a backup**, import its `.zip` the same way: the QSOs that are missing come back
   in.
@@ -1086,6 +1087,14 @@ bureau, **✓D** direct, **↑** sent; a click on it opens that QSO's card.
 - The awards count a card at once (DXCC, WAZ, WAS, grids). A card received on a QSO already
   uploaded to Club Log is sent again with it (Club Log counts paper QSLs).
 
+**Duplicates**, also in the Actions tab (closed until you click its title), lists the QSOs your log
+has more than once: same call, minute and band. Those that also share the mode are the same QSO
+saved twice; in another mode they are two QSOs (a DXpedition worked on SSB and on CW) and stay.
+- The **✕** deletes the one you pick, with the same confirmation as the row's.
+- **Fix all** keeps one per group (the one already uploaded to LoTW, Club Log or QRZ; if none, the
+  most complete) and deletes the others. It says how many first.
+- Deleted QSOs are kept aside in the logbook, and aren't deleted from LoTW, Club Log or QRZ.com.
+
 **Export ADIF**, beside **Import QSOs…** in the Actions tab, saves the QSOs the log shows, with its
 search and filters as they are (none: the whole log; **All**: every callsign's logbook together),
 oldest first, with every field each QSO has, as `DXAgent-<CALL>-<date>-<time>.adi` in your browser's
@@ -1144,7 +1153,10 @@ a git clone or with your own Python (there it only announces), if your copy is o
 which is the first one that knows how to install itself, or, **on Windows, if it is older than
 0.4.32**: the self-update of 0.4.30 and 0.4.31 got stuck there, with a "find" window that opened again
 each time you closed it, so they only announce the new versions. If that happened to you, end
-`cmd.exe` in Task Manager (your old version is untouched) and install the new one by hand. In those
+`cmd.exe` in Task Manager (your old version is untouched) and install the new one by hand. **On
+Mac and Linux, if your copy is older than 0.4.37**: up to 0.4.36, **Install** closed DX Agent
+without installing the new version (it wrote the Windows script), so install 0.4.37 by hand once;
+two files named `%LOG%` and `%TASKS%` it left in the program's folder can be deleted. In those
 cases:
 
 1. Download the new package and unpack it wherever you like: in another folder or over the old

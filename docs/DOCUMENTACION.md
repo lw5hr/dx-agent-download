@@ -249,7 +249,7 @@ escala G, R y S.
   ayuda (el sitio web, el manual de usuario y la página de issues).
 - **Configuración** ⚙: abre la página de Configuración. Ahí, un ícono de lista vuelve a las
   alertas.
-- **EN/ES/PT**: idioma.
+- **EN/ES/PT/FR**: idioma.
 - **Tema**: medio círculo para Auto, sol para Claro, luna para Oscuro, una paleta para otro
   tema. Un clic abre el menú de temas.
 - **Sonido**: un parlante, tachado si está apagado.
@@ -1345,9 +1345,9 @@ La columna LOTW muestra la fecha de la última subida de la estación, `LoTW ann
 
 Cada alerta es una fila en el panel y una línea en la terminal: hora (UTC), título,
 indicativo, frecuencia (kHz), banda, modo, país y luego detalles separados por `|`.
-Con el panel en español los títulos y el detalle aparecen traducidos (por ejemplo
-**BANDA NUEVA**, "banda nueva"); la terminal y las alertas guardadas en `data/dxagent.db`
-siempre usan los nombres en inglés.
+Con el panel en español, portugués o francés, los títulos y el detalle aparecen traducidos
+(por ejemplo **BANDA NUEVA**, "banda nueva", o **NOUVELLE BANDE** en francés); la terminal y las
+alertas guardadas en `data/dxagent.db` siempre usan los nombres en inglés.
 
 ```text
 14:56Z DXPED NEED  VP2MAW   18095.0   17m FT8   Montserrat   NEED: 17m DIGI never worked | until 10-20 | no LoTW | rbn NG7M -14dB
@@ -2225,8 +2225,10 @@ necesitan archivo: cada uno tiene su logbook.
 
 - **Importá** el ADIF de tu logger una vez (Configuración → Log → **Importar ADIF…**, o **Importar QSOs…** en la vista Log, que importa en el indicativo que muestra el log o, con Todos, el que elijas en su menú; eligiendo el
   indicativo si tenés más de uno): el archivo solo se lee, un QSO que ya está se saltea, y entra
-  todo o nada (una transacción). Solo entran los QSOs de ese indicativo: uno hecho como otro
-  indicativo (`STATION_CALLSIGN`) queda afuera y se cuenta, con un aviso para importar el
+  todo o nada (una transacción). Un QSO que el archivo trae dos veces, con el mismo indicativo,
+  minuto, banda y modo, entra una sola vez: es el mismo QSO guardado dos veces. En otro modo, a la
+  misma hora, son dos QSOs, y los dos entran. Solo entran los QSOs de ese indicativo: uno hecho como
+  otro indicativo (`STATION_CALLSIGN`) queda afuera y se cuenta, con un aviso para importar el
   archivo en el logbook de ese indicativo. Un log de 50.000 QSOs tarda de 15 a 30 segundos.
 - **Los QSOs nuevos** llegan por UDP como antes (WSJT-X, N1MM, Log4OM…), cada uno al logbook del
   indicativo que dice, y desde la **consola** debajo de la lista, el mapa y la vista Log, así los
@@ -2395,8 +2397,9 @@ necesitan archivo: cada uno tiene su logbook.
   LOG, QSL PAPEL). Un clic elige una opción y otro clic en la misma la saca. Cada una dice cuántos
   QSOs mostraría con la búsqueda y los otros filtros como están; con 20 m elegido, los modos dicen
   cuántos en 20 m.
-- Una tira de íconos a la derecha del tab lleva a cada parte: subir y bajar, Banda, Modo, País y
-  fecha, Confirmaciones y la estación, con un punto en las que tienen un filtro puesto.
+- Una tira de íconos a la derecha del tab lleva a cada parte: subir y bajar, QSL en papel,
+  Duplicados, Banda, Modo, País y fecha, Confirmaciones y la estación, con un punto en las que
+  tienen un filtro puesto.
 - Tu log se tiene en memoria y se pone al día solo con lo que cambió, así que filtrar y ordenar no
   lo vuelven a leer entero. Los filtros se combinan con la búsqueda y el orden, el que está puesto
   se resalta, **Limpiar filtros** los saca y no se guardan al recargar.
@@ -2421,6 +2424,17 @@ necesitan archivo: cada uno tiene su logbook.
   borra un QSO cuando confirmás; queda guardado aparte en el logbook (tabla `deleted`) y no se borra
   de LoTW, QRZ.com ni Club Log.
 - Los botones de subir y bajar, con **Importar QSOs…**, en el tab **Acciones** del costado (Subir y bajar), aparecen solo para lo que está configurado: **Subir a LoTW** con TQSL instalado, **Bajar de LoTW** con el usuario y la contraseña de LoTW, **Subir a Club Log** con tu email y la contraseña de aplicación de Club Log, **Subir a QRZ** y **Bajar de QRZ** con la clave de la API del logbook de QRZ.com. Si la página no puede leer su estado (el log ocupado con una importación), lo vuelve a pedir a los pocos segundos.
+- **Duplicados**, también en el tab Acciones, lista los QSOs que el log tiene más de una vez: el
+  mismo indicativo, minuto y banda. Está cerrado hasta que lo abrís con un clic en su título (el
+  ícono y la flechita), para que no ocupe lugar en el panel. Los que además comparten el modo son el
+  mismo QSO guardado dos veces (el logger lo cargó dos veces, o el archivo venía con los dos) y
+  quedan marcados, con cuántas veces está cargado al lado de la estación; en otro modo, a la misma
+  hora, son dos QSOs, como una DXpedición trabajada en SSB y en CW. El **✕** borra el que elijas:
+  pide la misma confirmación que el ✕ de la fila y lo guarda en la tabla `deleted`. Al lado del
+  conteo, **Reparar todos** hace eso mismo de una vez: en cada grupo queda uno, el más completo (o el
+  que ya está subido a LoTW, Club Log o QRZ, para no mandarlo de nuevo) y los demás se borran, también
+  guardados aparte; antes dice cuántos van a ser. Un concurso llama duplicado a otra cosa (la misma
+  estación en la misma banda y modo durante todo el concurso), y el logbook no la usa para nada.
 - **Subir a LoTW**, en el tab Acciones del costado, con cuántos QSOs todavía no están ahí
   (`LOTW_QSL_SENT` no es `Y`): DX Agent los escribe en un archivo y corre **TQSL** con él
   (`tqsl -q -d -u -a compliant -l <ubicación>`), que los firma con tu certificado y los sube;

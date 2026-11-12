@@ -156,8 +156,8 @@ La configuración está en pestañas: Estación, Log (solo con el logbook de DX 
 Alertas, Propagación, Marathon, Fuentes de spots, Radio y Otros. Al guardar se respeta lo que
 cambiaste a mano en `config.toml` y la página no muestra.
 
-El panel aparece en el idioma del navegador; el botón **EN/ES/PT** del encabezado lo cambia:
-inglés, español o portugués (Brasil).
+El panel aparece en el idioma del navegador; el botón **EN/ES/PT/FR** del encabezado lo cambia:
+inglés, español, portugués (Brasil) o francés (Francia).
 
 ## 4. La pantalla
 
@@ -181,9 +181,9 @@ de cada valor, se pone verde cuando todos los índices están en el rango bueno;
 deja la tarjeta clavada —con el borde en azul— para leerla o copiar los números, y se cierra con otro
 clic, un clic afuera o Escape); los totales de tu log: los QSOs en azul, los países trabajados
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
-uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT**, **Tema** (un menú con una vista previa de
+uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT/FR**, **Tema** (un menú con una vista previa de
 cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
-Dracula, Dracula naranja, Alucard, Alucard negro y Sepia), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
+Dracula, Sepia, Flexoki papel y Flexoki tinta), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
 **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y
 **Detener**, en rojo; el reloj UTC. **Acerca de** cuenta qué es DX Agent, quién lo hizo y sus
 colaboradores, y tiene los links para apoyarlo, al sitio, a este manual y para reportar un
@@ -959,7 +959,8 @@ en Configuración → **Log**.
   sumando juntos.
 - **Importá el ADIF de tu programa de log una vez:** Configuración → Log → **Importar ADIF…**, o
   **Importar QSOs…** en la pestaña **Acciones** de la vista Log (con Todos, elegís en qué indicativo). Solo entran los
-  QSOs de ese indicativo, y lo que ya está se saltea. Antes se hace un backup, y uno por día (los
+  QSOs de ese indicativo, lo que ya está se saltea, y un QSO que el archivo trae dos veces (mismo
+  indicativo, minuto, banda y modo) entra una sola vez. Antes se hace un backup, y uno por día (los
   últimos 10, en `data\backups`).
 - **Para volver a un backup**, importá su `.zip` de la misma forma: los QSOs que falten vuelven a
   entrar.
@@ -1141,6 +1142,16 @@ directa, **↑** enviada; un clic en ella abre la tarjeta de ese QSO.
 - Los diplomas cuentan la tarjeta enseguida (DXCC, WAZ, WAS, grids). Si el QSO ya estaba subido a
   Club Log, se vuelve a mandar (Club Log cuenta las QSL en papel).
 
+**Duplicados**, también en la pestaña Acciones (cerrado hasta que hacés clic en su título), lista
+los QSOs que tu log tiene más de una vez: mismo indicativo, minuto y banda. Los que además comparten
+el modo son el mismo QSO guardado dos veces; en otro modo son dos QSOs (una DXpedición trabajada en
+SSB y en CW) y quedan.
+- El **✕** borra el que elijas, con la misma confirmación que el de la fila.
+- **Reparar todos** deja uno por grupo (el que ya está subido a LoTW, Club Log o QRZ; si ninguno,
+  el más completo) y borra los demás. Antes dice cuántos van a ser.
+- Los QSOs borrados quedan guardados aparte en el logbook, y no se borran de LoTW, Club Log ni
+  QRZ.com.
+
 **Exportar ADIF**, al lado de **Importar QSOs…** en la pestaña Acciones, guarda los QSOs que muestra
 el log, con su búsqueda y sus filtros como están (sin filtros: el log entero; **Todos**: los logbooks
 de todos tus indicativos juntos), del más viejo al más nuevo, con todos los campos de cada QSO, como
@@ -1204,8 +1215,11 @@ git o con tu propio Python (ahí sólo se avisa), si tu copia es anterior a la 0
 primera que sabe instalarse sola, o, **en Windows, si es anterior a la 0.4.32**: la actualización
 automática de la 0.4.30 y la 0.4.31 se trababa ahí, con una ventana «find» que volvía a abrirse cada
 vez que la cerrabas, así que esas solo avisan de las versiones nuevas. Si te pasó, terminá `cmd.exe`
-en el Administrador de tareas (tu versión anterior queda intacta) e instalá la nueva a mano. En esos
-casos:
+en el Administrador de tareas (tu versión anterior queda intacta) e instalá la nueva a mano. **En
+Mac y Linux, si tu versión es anterior a la 0.4.37**: hasta la 0.4.36, **Instalar** cerraba DX Agent
+sin instalar la versión nueva (escribía el script de Windows), así que instalá la 0.4.37 a mano una
+vez; los dos archivos llamados `%LOG%` y `%TASKS%` que dejó en la carpeta del programa se pueden
+borrar. En esos casos:
 
 1. Bajá el paquete nuevo y descomprimilo donde quieras: en otra carpeta o encima de la anterior.
 2. Abrilo como siempre con **start-dx-agent.bat** (Linux: `./start-dx-agent.sh`; Mac:
