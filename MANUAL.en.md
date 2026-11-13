@@ -352,7 +352,8 @@ with your radio and the WinKey, sits under all three (section 13).
   both off by default. A station that left the list comes back as soon as it is spotted again, even
   before it alerts again.
 - The list keeps the last 500 alerts. When it's full, NEW CALL ones leave first; the others
-  stay at least an hour.
+  stay at least an hour. With every one of them one that matters (the RBN can bring 50 NEW BANDs a
+  minute on FT8), DXpeditions and watchlist calls are the last to go.
 - When you work the station, its alerts in the list change by themselves: a NEW SLOT you worked
   isn't one any more (nor under that filter), and an alert that adds nothing now shows as
   **WORKED**, in grey. A DXpedition too: worked on that band and mode it shows as WORKED; on
@@ -999,12 +1000,16 @@ over the list's last rows:
 
 **The radios**, on top of the console, show your radio the way AetherSDR shows a slice. In the list
 and the map, each VFO or slice is a tile, side by side (more than fit go to a line below). In the
-Log view, with room to spare, the radio keeps its whole window, in a column at the console's left.
+Log view, with room to spare, the radio keeps its whole window, in a column at the console's left,
+a line between it and the form. With the console folded, the Log view shows the same strip of
+radios as the list and the map.
 - **The VFO the form follows** is large, with its letter in its colour (A cyan, B magenta, C green,
   D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, and its band
   and mode.
-- **SPLIT is a button:** a click puts the radio in split (transmitting on its other VFO, the same
-  frequency at first: the knob moves it after) and another click ends it, back on VFO A. Beside it,
+- **SPLIT is a button:** a click puts the radio in split (transmitting on its other VFO in the same
+  mode) and another click ends it, back on VFO A. VFO B (the TX slice, on a Flex through TCI) goes
+  up from where you listen as for a spot that says "UP" alone: 1 kHz on CW, RTTY and data, 5 kHz on
+  phone (Settings → Radio); down if up leaves the band. The knob or the wheel moves it after. Beside it,
   how far you transmit from where you listen: **▲2.5** up, **▼3.0** down, **±0.0** the same,
   following the knob. On a radio without targetable VFOs (an IC-9100 and other Icoms) DX Agent
   can't read VFO B: the offset is the one DX Agent set, so move it from DX Agent.
@@ -1018,6 +1023,8 @@ Log view, with room to spare, the radio keeps its whole window, in a column at t
 - **On AetherSDR each other slice has its own controls:** the wheel on its digits and its band and
   mode lists change that slice alone, without touching the split or the form. The split's TX slice
   has the wheel (within the band) and the mode, not the band.
+- **In split through Hamlib or flrig, VFO B has its own mode list**, to transmit in another mode
+  than A's. No band: B is on A's band. Going into split, B already takes A's mode.
 - **A click on the other VFO puts the radio on it**, through Hamlib, or OmniRig where the
   radio's file allows it (a TS-590 does, an IC-9100 doesn't). Through Hamlib, DX Agent reads both
   VFOs once when it connects (a blink on the radio's display), and then that VFO shows where the
@@ -1152,7 +1159,10 @@ version, so an update never cuts a QSO or a contest; the tab you have reloads it
 other one opens, from 0.4.34 on). The ✕ hides the pill until you reload the page.
 With **Install without asking** on (off out of the box), it installs as soon as it is ready. Your
 settings and your data are never touched, and if something goes wrong it goes back and keeps
-running the old one. (0.4.30 to 0.4.32 installed without asking.)
+running the old one. (0.4.30 to 0.4.32 installed without asking.) When it comes back, the
+dashboard shows the new version's **What's new** once, in its language, and **About** opens it
+again (from the update after 0.4.39 on). A backup of the previous version stays in `data/update`:
+the latest one only, for a week.
 
 Downloading it by hand is needed in these cases: if you turned that option off, if DX Agent runs from
 a git clone or with your own Python (there it only announces), if your copy is older than 0.4.29,

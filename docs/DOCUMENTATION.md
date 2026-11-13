@@ -406,7 +406,8 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   While you transmit in split the frequency shown, and the one the SPLIT button works with, is always
   the receiving one, after transmitting too (that radio stays on the TX VFO and answers with that
   frequency: when the reading equals the transmitting one, the last receiving one is kept). **UP** or **SPLIT** alone goes up by the default for
-  the mode (1 kHz on CW and RTTY, 5 on phone, set beside the option). The next Tune to a station
+  the mode (1 kHz on CW and RTTY, 5 on phone, set beside the option), and so does the console's
+  SPLIT button. The next Tune to a station
   without split ends it: on TCI it moves the receiving slice and AetherSDR closes the slice it
   opened; on OmniRig and Hamlib the radio's split is turned off, whoever turned it on (DX Agent before
   a restart, WSJT-X, you): the last station's split is no use for the next one.
@@ -1042,7 +1043,9 @@ headline, call, frequency (kHz), band, mode, country, then details separated by 
 The list and the map keep the last 500 alerts. When the list is full, the least important go
 first: the oldest NEW CALL and DXPED HAVE, or any alert over an hour old. The others (ATNO, a
 new band, mode or slot, a DXpedition, the watchlist, the Marathon) stay at least an hour, so
-NEW CALL, which can bring a hundred alerts a minute, doesn't push them out.
+NEW CALL, which can bring a hundred alerts a minute, doesn't push them out. With every alert in
+the list one that matters (the RBN can bring 50 NEW BANDs a minute on FT8 on the bands you seldom
+work), DXpeditions and watchlist calls go last; before them, the one spotted longest ago.
 
 When your log changes (you work the station), the alerts already listed follow: a reason that
 no longer holds leaves (a NEW SLOT you then worked isn't one any more, nor under that filter),
@@ -1484,6 +1487,9 @@ hop is up to 2,300 km, so a 5,000 km path bounces three times), the bigger the m
 it; by TEP or F2, at the path's midpoint. Those bounces are grouped into clouds, not averaged: with
 one cloud north and one south, their mean would fall between them, where there is nothing. Point
 your antenna at the cloud, not at the country. Tropo draws a wide corridor along its paths instead.
+Each opening's own dot on the map takes that colour too, and none of the VHF colours is green or
+amber: the award paints a confirmed country green and a worked one amber, and a green dot over a
+green country was a dot nobody saw.
 They fade as their row does and leave the map with it. Another feed's pill (the cluster's, the
 RBN's) hides the openings, in the list too: they aren't its spots.
 
@@ -1844,7 +1850,9 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   band, mode, the reports and **Log QSO**, and the WinKey's messages in a column at its right. In
   the Log view, where there is room to spare, the radio keeps its whole window instead of the strip:
   a column at the console's left, the frequency large, each VFO or slice a line under it, two radios
-  side by side; the form beside it (on a narrower screen, under it and the WinKey).
+  side by side, and a line between it and the form; on a narrower screen the form goes under it and
+  the WinKey, and there is no line, nothing beside it. Folded, the Log view shows the same strip of
+  radios the other views have.
   **Log a QSO**, at its top left, folds it to the radios alone, in any view, so the list gets the
   room (the WinKey's keys still send); a click opens it again. **Show details** opens your
   callsign, the date and time, name, QTH, grid square, references and comment (the browser remembers
@@ -1870,9 +1878,14 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   D yellow), **TX** on the one it transmits on (filled red while it does), **SPLIT**, its band and mode;
   beside it the radio's other VFO, or AetherSDR's other slices, a tile each (more than fit wrap to a line below) (OmniRig's VFO B when the radio's file
   reads it; on Thetis or ExpertSDR each receiver's A and B). **SPLIT is a button**: a click puts the radio
-  in split (transmitting on its other VFO, the same frequency at first) and another click ends it,
-  back on VFO A; beside it, how far it transmits from where you listen, **▲2.5** up, **▼3.0** down,
-  **±0.0** the same. **The mouse wheel on a digit of the TX frequency** moves it by that digit (up
+  in split (transmitting on its other VFO in the same mode) and another click ends it, back on VFO A.
+  VFO B (the TX slice, on a Flex through TCI) goes up from where you listen as for a spot that says
+  "UP" alone: 1 kHz on CW, RTTY and data, 5 kHz on phone, or what Settings → Radio says; down if up
+  leaves the band. Beside it, how far it transmits from where you listen, **▲2.5** up, **▼3.0** down,
+  **±0.0** the same. Through Hamlib and flrig, VFO B takes A's mode each time DX Agent puts the radio
+  in split (the button or a spot's split); through Hamlib B used to keep the last mode it had, and an
+  IC-9100 could listen in CW and transmit in USB. In split, VFO B's line has **its own mode list**, to
+  transmit in another one if need be; no band, B is on A's band. **The mouse wheel on a digit of the TX frequency** moves it by that digit (up
   adds: on the kHz digit 1 kHz at a time, on the hundreds of Hz 100 Hz), within the band: DX Agent
   writes it to the radio, so it always knows where you transmit. Through flrig, writing B switches the
   radio to B for a moment and back to A; through TCI (a Flex on AetherSDR) only `vfo:N,1` goes, and
@@ -1894,7 +1907,8 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   split), and moving it with the radio's knob isn't seen. Out of split the other line shows its last
   observed frequency, which may be stale. The display says when split TX is unknown and
   shows **PTT?** when the transmit state is unknown. **A click on the other VFO's tile puts the
-  radio on it** through Hamlib, OmniRig, or flrig (with its guard on) where supported, after checking PTT. **The band and
+  radio on it** through Hamlib, OmniRig, or flrig (with its guard on) where supported, after checking PTT (in split
+  through Hamlib or flrig, VFO B's line has its mode list instead). **The band and
   mode lists** also check PTT: a band returns to its last frequency and mode
   (`data/radio-bands.json`), or an appropriate default; a mode keeps the frequency. Typing in the frequency or the mode stops following the
   radio until the next station. The date and time follow the clock (in blue) until you type
@@ -2352,9 +2366,15 @@ installs it (Settings → **Install without asking**, `ui.install_updates`, off 
    restarted until then: a QSO or a contest isn't cut.
 3. On **Install** (a confirmation first), writes a small script and stops. The script waits for the process to end, copies the new files
    over the program's folder (never `data/`, `config.toml` or your `DX Agent.lnk`), keeps a backup
-   in `data/update/before-<version>/`, and starts DX Agent again. With a dashboard open (always,
+   in `data/update/before-<version>/`, and starts DX Agent again. Only the latest backup is kept,
+   for a week; older versions' backups go at the next start. With a dashboard open (always,
    when you clicked Install) it opens no other browser tab: the one you have reloads itself on the
    new version.
+
+When it comes back, the dashboard shows a window with **What's new in DX Agent 0.4.38**: what the
+version brings, in the dashboard's language. A release without the notes in that language shows the
+English ones, and the title says so. **Done** closes it, and it doesn't come back on the next
+reloads; while this is the installed version, **About** opens it again.
 
 Your settings and data live in a folder of their own (see above), so only the program is replaced.
 Nothing is installed where that isn't safe: a git checkout or a copy started with your own Python

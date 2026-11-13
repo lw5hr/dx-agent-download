@@ -628,7 +628,7 @@ un indicador **TCI**: verde mientras está conectado, con la cantidad de spots e
   siempre la de escucha, también después de transmitir: esa radio se queda en el VFO de TX y
   contesta con esa frecuencia, así que si la lectura es igual a la de transmisión se conserva la
   última de escucha. **UP** o **SPLIT** solos suben lo que diga la opción para el modo (1 kHz en
-  CW y RTTY, 5 en fonía), al lado de la opción.
+  CW y RTTY, 5 en fonía), al lado de la opción. El botón SPLIT de la consola sube lo mismo.
 
   El próximo Sintonizar a una estación sin split lo termina. Por TCI mueve el slice que recibe y
   AetherSDR cierra el que había abierto; por OmniRig y Hamlib apaga el split de la radio, lo
@@ -1431,7 +1431,9 @@ La lista y el mapa guardan las últimas 500 alertas. Cuando la lista se llena, s
 menos importantes: las INDICATIVO NUEVO y DXPED YA TENGO más viejas, o cualquier alerta de más de
 una hora. Las demás (ATNO, banda, modo o banda+modo nuevos, DXpediciones, seguimiento, Marathon)
 quedan al menos una hora, así INDICATIVO NUEVO, que puede traer cien alertas por minuto, no las
-saca.
+saca. Si todas las de la lista son de las que importan (la RBN puede traer 50 BANDA NUEVA por minuto
+en FT8 en las bandas que trabajás poco), las DXpediciones y las de seguimiento son las últimas en
+irse; antes se va la del spot más viejo.
 
 Cuando cambia tu log (trabajaste la estación), las alertas que ya están en la lista lo siguen: el
 motivo que ya no vale se va (una BANDA+MODO que después trabajaste deja de serlo, y de aparecer
@@ -1905,6 +1907,10 @@ Esos rebotes se agrupan en nubes, no se promedian: con una nube al norte y otra 
 caería entre las dos, donde no hay nada. Apuntá la antena a la nube, no al país. El tropo, en
 cambio, dibuja un pasillo ancho a lo largo de sus caminos.
 
+El punto de cada apertura en el mapa va en ese mismo color, y ningún color de VHF es verde ni
+ámbar: el premio pinta de verde el país confirmado y de ámbar el trabajado, y un punto verde sobre
+un país verde no se veía.
+
 Se apagan como su fila y salen del mapa con ella. La pastilla de otra fuente, el clúster o la RBN,
 oculta las aperturas también en la lista: no son spots suyos.
 Tres más, en **Además**, cada uno se activa por separado:
@@ -2286,8 +2292,10 @@ necesitan archivo: cada uno tiene su logbook.
   derecha.
 - **La consola en la vista Log** tiene lugar de sobra, así que la radio conserva su ventana
   completa en vez de la franja: una columna a la izquierda de la consola, la frecuencia en grande,
-  cada VFO o slice una línea debajo, y dos radios una al lado de la otra. El formulario va al lado;
-  en una pantalla más angosta, debajo de ella y del WinKey.
+  cada VFO o slice una línea debajo, y dos radios una al lado de la otra. El formulario va al lado,
+  separado de la radio por una línea vertical; en una pantalla más angosta va debajo de ella y del
+  WinKey, y ahí no hay línea porque no hay columna al lado. Plegada, la consola muestra la misma
+  franja de radios que las otras vistas.
 
   **Cargar un QSO**, arriba a la izquierda, la pliega y deja solo las radios, en cualquier vista,
   para que la lista gane el espacio; los atajos del WinKey siguen mandando, y un clic la vuelve a
@@ -2320,9 +2328,16 @@ necesitan archivo: cada uno tiene su logbook.
   y su modo. Al lado va el otro VFO de la radio, o los otros slices de AetherSDR, un recuadro cada
   uno; los que no entran pasan a una línea más abajo. También el VFO B de OmniRig cuando el
   archivo de la radio lo lee, y en Thetis o ExpertSDR, el A y el B de cada receptor.
-- **El SPLIT es un botón.** Un clic pone la radio en split, transmitiendo en el otro VFO, en la
-  misma frecuencia al principio, y otro clic lo termina y vuelve al VFO A. Al lado dice cuánto
-  transmite respecto de donde escucha: **▲2.5** arriba, **▼3.0** abajo, **±0.0** igual.
+- **El SPLIT es un botón.** Un clic pone la radio en split, transmitiendo en el otro VFO en el
+  mismo modo, y otro clic lo termina y vuelve al VFO A. El VFO B (o el slice de TX, en una Flex por
+  TCI) queda arriba de donde escuchás, lo mismo que con un spot que dice «UP» solo: 1 kHz en CW,
+  RTTY y digital, y 5 kHz en fonía, o lo que digan las opciones de Configuración → Radio. Si
+  subir se sale de la banda, baja. Al lado del botón dice cuánto transmite respecto de donde
+  escucha: **▲2.5** arriba, **▼3.0** abajo, **±0.0** igual.
+  Por Hamlib y por flrig, el VFO B toma el modo del A cada vez que DX Agent pone la radio en split
+  (el botón o el split de un spot). Antes, por Hamlib el B quedaba en el último modo que tenía, y
+  una IC-9100 podía escuchar en CW y transmitir en USB. En split, la línea del VFO B tiene **su
+  lista de modo**, para transmitir en otro si hace falta. No tiene banda: el B va en la banda del A.
 - **La rueda del mouse sobre una cifra de la frecuencia de TX** la mueve en esa cifra: sobre la de
   los kHz, de a 1 kHz; sobre la de los cientos de Hz, de a 100 Hz. Arriba suma, y siempre dentro de
   la banda. DX Agent la escribe en la radio y así sabe siempre dónde transmitís. Por flrig, para
@@ -2353,7 +2368,8 @@ necesitan archivo: cada uno tiene su logbook.
   Se avisa si se desconoce la frecuencia de TX en split, y se muestra **PTT?** si se desconoce el
   estado de transmisión.
 - **Un clic en el otro VFO** pasa la radio a ese VFO por Hamlib, OmniRig o flrig, con su guard
-  prendido, cuando lo admiten, previa comprobación del PTT.
+  prendido, cuando lo admiten, previa comprobación del PTT. En split por Hamlib o flrig, la línea
+  del VFO B tiene su lista de modo en lugar del clic.
 - **Las listas de banda y modo** también comprueban el PTT: una banda vuelve a su última
   frecuencia y modo (`data/radio-bands.json`), o a un valor apropiado por defecto, y un modo
   conserva la frecuencia.
@@ -2887,8 +2903,15 @@ la firma de ese archivo (`SHA256SUMS.sig`), DX Agent la deja lista.
 3. Al hacer clic en **Instalar** (te pide confirmación), escribe un script chico y se cierra. El script espera a que el proceso termine, copia los
    archivos nuevos sobre la carpeta del programa (nunca toca `data/`, `config.toml` ni tu
    `DX Agent.lnk`), deja un respaldo en `data/update/before-<versión>/` y arranca DX Agent de
-   nuevo. Con un panel abierto (siempre, si hiciste clic en Instalar) no abre otra pestaña del
+   nuevo. Se guarda solo el último respaldo, durante una semana; los de versiones anteriores se
+   borran en el arranque siguiente. Con un panel abierto (siempre, si hiciste clic en Instalar) no abre otra pestaña del
    navegador: la que tenés se recarga sola con la versión nueva.
+
+Al volver del reinicio, el panel muestra una ventana con **Novedades de DX Agent 0.4.38**: lo que
+trae la versión, en el idioma del panel. Si el release no trae las novedades en ese idioma, van las
+inglesas y al lado del título aclara que están en inglés. Se cierra con **Listo** y no vuelve a
+aparecer en las recargas siguientes; mientras sea la versión instalada, el botón de **Acerca** la
+abre de nuevo.
 
 Tu configuración y tus datos viven en una carpeta aparte (ver arriba), así que solo se reemplaza
 el programa. No se instala nada donde no sea seguro: un clon de git, o una copia arrancada con tu

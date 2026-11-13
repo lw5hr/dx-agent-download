@@ -377,7 +377,8 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
   nunca): las dos apagadas de fábrica. Una estación que salió de la lista vuelve apenas la spotean de
   nuevo, aunque todavía no vuelva a avisar.
 - La lista guarda las últimas 500 alertas. Cuando se llena, se van primero las de INDICATIVO
-  NUEVO; las demás quedan al menos una hora.
+  NUEVO; las demás quedan al menos una hora. Si todas son de las que importan (la RBN puede traer
+  50 BANDA NUEVA por minuto en FT8), las DXpediciones y las de seguimiento son las últimas en irse.
 - Cuando trabajás la estación, sus alertas en la lista cambian solas: una BANDA+MODO que ya
   trabajaste deja de serlo (y de aparecer con ese filtro), y una alerta que ya no te suma nada queda
   como **TRABAJADO**, en gris. Una DXpedición también: trabajada en esa banda y modo queda como
@@ -1054,12 +1055,16 @@ que coinciden, sobre las últimas filas de la lista:
 **Las radios**, arriba de la consola, muestran tu radio como AetherSDR muestra un slice. En la
 lista y el mapa, cada VFO o slice es un recuadro, uno al lado del otro (los que no entran pasan a
 otra línea). En la vista Log, que tiene lugar de sobra, la radio conserva su ventana completa, en
-una columna a la izquierda de la consola.
+una columna a la izquierda de la consola, separada del formulario por una línea. Con la consola
+plegada, la vista Log muestra la misma franja de radios que la lista y el mapa.
 - **El VFO que sigue el formulario** va en grande, con su letra en su color (A cian, B magenta,
   C verde, D amarillo), **TX** en el que transmite (en rojo lleno mientras transmite), **SPLIT**, y
   su banda y su modo.
-- **SPLIT es un botón:** un clic pone la radio en split (transmitiendo en el otro VFO, en la misma
-  frecuencia al principio: después la movés con la perilla) y otro clic lo termina y vuelve al VFO A.
+- **SPLIT es un botón:** un clic pone la radio en split, transmitiendo en el otro VFO en el mismo
+  modo, y otro clic lo termina y vuelve al VFO A. El VFO B (o el slice de TX, en una Flex por TCI)
+  queda arriba de donde escuchás, como con un spot que dice «UP» solo: 1 kHz en CW, RTTY y digital,
+  y 5 kHz en fonía (Configuración → Radio); si subir se sale de la banda, baja. Después lo movés
+  con la perilla o con la rueda.
   Al lado dice cuánto transmitís respecto de donde escuchás: **▲2.5** arriba, **▼3.0** abajo,
   **±0.0** igual, y sigue a la perilla. En una radio sin VFOs direccionables (una IC-9100 y otros
   Icom) DX Agent no puede leer el VFO B: el desplazamiento es el que puso DX Agent, así que movelo
@@ -1074,6 +1079,9 @@ una columna a la izquierda de la consola.
 - **Con AetherSDR, cada uno de los otros slices tiene sus controles:** la rueda sobre sus cifras y
   las listas de banda y de modo cambian solo ese slice, sin tocar el split ni el formulario. El
   slice de TX del split tiene la rueda, dentro de la banda, y el modo, pero no la banda.
+- **En split por Hamlib o flrig, el VFO B tiene su lista de modo**, para transmitir en otro modo
+  que el A. No tiene banda, porque el B va en la banda del A. Al entrar en split, el B ya toma el
+  modo del A.
 - **Un clic en el otro VFO pasa la radio a ese VFO**, por Hamlib, o por OmniRig si el
   archivo de la radio lo permite (el TS-590 sí, el IC-9100 no). Por Hamlib, DX Agent lee los dos
   VFOs una vez al conectarse (un parpadeo en la pantalla de la radio), y después ese VFO
@@ -1215,7 +1223,10 @@ un concurso; la pestaña que tenés se recarga sola con ella (desde la 0.4.34 no
 oculta la pastilla hasta que recargás la página. Con **Instalar sin preguntar**
 encendido (apagado de fábrica), la instala apenas está lista. Tus ajustes y tus datos no se tocan, y
 si algo sale mal vuelve atrás y sigue andando con la versión anterior. (De la 0.4.30 a la 0.4.32 se
-instalaba sin preguntar.)
+instalaba sin preguntar.) Al volver, el panel muestra una vez las **novedades** de la versión
+nueva, en su idioma, y el botón **Acerca** las vuelve a abrir (desde la actualización que sigue a
+la 0.4.39). Queda un respaldo de la versión anterior en `data/update`, solo el último y durante una
+semana.
 
 Bajarlo a mano hace falta en estos casos: si apagaste esa opción, si DX Agent corre desde un clon de
 git o con tu propio Python (ahí sólo se avisa), si tu copia es anterior a la 0.4.29, que es la
