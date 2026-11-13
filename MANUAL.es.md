@@ -547,10 +547,13 @@ de la lista, las 24 horas de la pestaña Estación, la pestaña Ventanas y el F2
 **VOACAP contra el aire dice cuánto acierta.** En la pestaña Estación, al lado de la predicción, lo
 que pasó en la última hora («VOACAP decía 20 m al 15 % hacia JA; la escucharon 6 receptores cerca
 tuyo»). Cuenta sólo el camino entre vos y la estación: los receptores cerca tuyo que la
-escucharon, o —si sólo se escuchó lejos— los que estaban reportando en esa misma banda. Con pocos,
-no se concluye nada: una banda callada no es una banda cerrada.
+escucharon o, si sólo se escuchó lejos, los que estaban reportando en esa misma banda; en ese caso la
+banda igual cuenta como abierta si cerca tuyo se escuchó otra estación a menos de 1.000 km de ella
+(VOACAP predice para una región, no para una estación). Si no hay con qué comparar, la línea no
+aparece: una banda callada no es una banda cerrada.
 
-Debajo del cuadro de 24 horas, la tabla de los últimos 30 días, por banda: **acierta** (la daba
+Debajo del cuadro de 24 horas, plegada (un clic en el título la abre, y el navegador lo recuerda), la
+tabla de los últimos 30 días, por banda: **acierta** (la daba
 abierta y se escuchó cerca tuyo, o cerrada y no llegó), **corto** (la daba cerrada y se escuchó
 cerca tuyo: conviene probar aunque la dé cerrada), **optimista** (la daba abierta y sólo se escuchó
 lejos, con suficientes receptores tuyos en ella: no te fíes cuando la da abierta) y **horas** (los
@@ -853,13 +856,17 @@ Clic en **Mapa** (al lado de **Lista**). Los filtros valen igual que en la lista
   centrado en tu grid locator, así el camino corto a cualquier estación es una línea recta desde
   el centro: su rumbo es el ángulo, con el norte arriba, y su distancia el radio, con círculos
   cada 2.500 km. Bajo el mouse, una línea punteada dice el rumbo y la distancia a ese punto. Todo
-  lo demás (DXCC, WAZ, Grillas, las alertas, la noche) funciona igual que en el rectangular.
+  lo demás (DXCC, WAZ, WITUZ, Grillas, las alertas, la noche) funciona igual que en el rectangular.
   Necesita tu grid locator.
 - **DXCC** (arriba a la izquierda) pinta cada entidad según tu diploma: verde = confirmada,
   ámbar = trabajada, rojo = falta. Se puede elegir Mixto, Fonía, CW, Digital, una banda,
   Satélite o el Challenge.
 - **WAZ** pinta las 40 zonas CQ de la misma forma, con sus variantes (por modo, por banda,
   5BWAZ...).
+- **WITUZ** pinta las zonas ITU según el Worked ITU Zones de la RSGB: WITUZ (70 de las 75 zonas en
+  80-10 m), 5BWITUZ, WARC y Top Band con sus clases, o Mixto, Fonía, CW y Digital por banda.
+  Confirmada es LoTW o QSL en papel (sin eQSL). El menú **Zonas** muestra los bordes de las zonas
+  CQ o ITU sobre cualquier vista.
 - **WAS** pinta los 50 estados de EE. UU. según cómo estás: verde confirmado (LoTW o QSL en papel),
   ámbar trabajado. Se elige Mixto, Fonía, CW o Digital, y una banda. El estado es el que guardó tu
   programa de log con el QSO.

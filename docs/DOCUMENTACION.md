@@ -384,7 +384,9 @@ punto sobre la banda, y el más reciente parpadea.
 
 Debajo está dónde trabajaste ese indicativo exacto, una fila por modo como lo registraste
 (FT8, FT4, SSB…), en las mismas columnas: ✓ verde confirmado, ✓ ámbar trabajado y **NEW** para
-una banda y modo que todavía son nuevos para el país. Siguen el estado de LoTW, los datos de
+una banda y modo que todavía son nuevos para el país. Si nunca lo trabajaste, la tabla aparece
+igual, con una fila para CW, fonía y digital y solo los NEW, y el título dice que no está en tu
+log. Siguen el estado de LoTW, los datos de
 la DXpedición, quién lo escucha más cerca tuyo, un botón **Consultar PSKReporter** (o, en
 vivo, los receptores que la reportan a medida que llegan), los botones **Ver solo** este
 indicativo, **☆ seguimiento** y **Spotear**, sus últimos spots y los enlaces a QRZ.com, HamQTH
@@ -768,6 +770,9 @@ de las dos puede ir por TCI, y dos por OmniRig tienen que ser su Radio 1 y su Ra
 En la pestaña Estación, que se abre con un clic en una alerta o en una DXpedición de la pestaña
 DXpediciones:
 
+- **Al cambiar de estación** el panel vuelve arriba, al nombre y el país de la nueva, y de ahí no
+  se mueve, aunque VOACAP llegue unos segundos después. Si la estación es la misma que ya estaba
+  abierta (Filtrar, la estrella, un QSO guardado, otro idioma), el panel se queda donde lo dejaste.
 - **Ver solo VP8PJ** deja en la lista y en el mapa solo ese indicativo. La lista muestra también
   sus spots que no generaron alerta (filas grises **SPOT**, por ejemplo en una banda que ya
   tenés), así una DXpedición en el aire nunca aparece con la lista vacía. Arriba de la lista
@@ -1069,6 +1074,43 @@ Sigue las reglas de CQ (n4baa.com/9_Rules.pdf, agosto 2026):
 - No se controla que hayas operado desde una sola entidad DXCC, ni las categorías
   Tradicional / Remota.
 
+#### Tus zonas ITU en el mapa (WITUZ)
+
+Elegí **WITUZ** en el primer menú para pintar las **zonas ITU** según cómo vas en el Worked ITU
+Zones de la RSGB: el mismo verde / ámbar / rojo, cada zona con su número y sus bordes. Elegí el
+diploma:
+
+- **WITUZ (80-10 m)**: 70 de las 75 zonas (de la 1 a la 75), cualquier modo, en 80, 40, 20, 15 y
+  10 m.
+- **5BWITUZ (80-10 m)**: zona por banda en esas cinco bandas. Cuantas más bandas confirmadas, más
+  verde, y el total cuenta banda-zona (de 375). Supreme pide 350; Class 1, 300 con al menos 50 por
+  banda; Class 2, 200 con al menos 30 por banda.
+- **WARC (30, 17 y 12 m)**: Supreme 210, Class 1 195 y Class 2 120 con al menos 30 por banda.
+- **Top Band (160 m)**: 60, 40 y 20 zonas.
+- **Mixto, Fonía, CW o Digital**, con todas las bandas o una: no son diplomas de la RSGB, sirven
+  para seguir lo que te falta en una banda o un modo.
+
+En los diplomas por banda, el resumen dice qué clase te alcanza y cuántas banda-zona te faltan
+para la siguiente, y al pasar el mouse muestra las confirmadas de cada banda.
+
+Sigue las reglas de la RSGB (rsgb.org, HF awards):
+
+- Confirmada quiere decir **LoTW o QSL en papel**. El WITUZ no acepta eQSL. Acepta Club Log,
+  pero DX Agent no baja sus confirmaciones: lo confirmado solo por Club Log se ve como trabajado.
+- Las zonas 78 (CE0 Salas y Gómez) y 90 (JD1 Minami Torishima) son de mar. En los diplomas por
+  banda cada una reemplaza una zona que te falte, hasta 75 por banda; en el WITUZ no cuentan.
+  Las demás zonas de mar (de la 76 a la 89, salvo la 78) quedan sin pintar.
+- Barcos y aviones (/MM, /AM), repetidoras e internet nunca cuentan; los QSOs por satélite no
+  entran en ningún diploma; los anteriores al 15/11/1945 tampoco.
+- La zona es la que tu programa de log guardó con el QSO (ITUZ en el ADIF; la de LoTW es la que
+  declaró la otra estación). Si falta y el país tiene varias zonas ITU (Argentina al norte y al sur
+  de 40°S, EE. UU., Canadá, Rusia, Brasil, China, Australia...), sale del locator del QSO; si
+  tampoco hay locator, de cty.csv, que da una sola zona por prefijo. Los QSOs que cargás en DX
+  Agent ya guardan el ITUZ calculado así.
+
+El menú **Zonas** (ninguna, CQ o ITU) muestra los bordes y números de unas u otras en cualquier
+vista. Las zonas ITU vienen del mapa de GridTracker y se bajan una vez a `data/itu-zones.json`.
+
 #### El mapa azimutal (tu QTH en el centro)
 
 El primer menú de la barra del mapa elige cómo muestra el mundo: **Rectangular** (el de siempre) o
@@ -1079,7 +1121,7 @@ estación es una línea recta desde el centro: su **rumbo** es el ángulo, con e
 alrededor del borde. El borde es tu antípoda: las tierras cercanas a él se estiran a lo largo del
 borde, como en cualquier mapa azimutal.
 
-Tiene todo lo del mapa rectangular: las vistas DXCC, WAZ y Grillas con sus menús, las zonas CQ, la
+Tiene todo lo del mapa rectangular: las vistas DXCC, WAZ, WITUZ y Grillas con sus menús, las zonas CQ e ITU, la
 capa Referencias, los prefijos de los países, la noche (línea gris), tu QTH, las alertas y las
 DXpediciones (con los filtros de arriba de la lista), las estaciones en el aire en su grid y la
 estación elegida, con su camino recto, rumbo y distancia.
@@ -1126,7 +1168,7 @@ configuración (desactivada por defecto): una alerta **GRID NUEVO** por una esta
 que no trabajaste en esa banda, en cualquier modo. Solo pueden avisar los spots que dicen el
 locator: los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN, no los del DX cluster.
 
-**Zonas CQ** (la casilla del menú) muestra los bordes y números de las zonas en cualquier
+**Zonas** (el menú: ninguna, CQ o ITU) muestra los bordes y números de las zonas en cualquier
 vista, con DXCC o sin nada.
 
 ### Seguridad
@@ -1670,8 +1712,9 @@ radio se puede cambiar (`iono_radius_km`, 2.000 km de fábrica).
 **De dónde sale cada predicción** se dice al lado, con el crédito de cada estación y de cada
 proveedor:
 
-- *VOACAP + Tucumán (KC2G, INGV/eSWua), hace 12 min*: el número y la corrección salieron de lo que
-  midió Tucumán hace 12 minutos (si hay más de una estación, las dos más cercanas).
+- *Ionosondas usadas: Tucumán y Bahía Blanca (datos de KC2G e INGV/eSWua)*: el número y la
+  corrección salieron de lo que midieron esas estaciones (las dos que más pesan). Al pasar el mouse,
+  cada una con su país y quién la publica.
 - *VOACAP, manchas solares 92 (KC2G eSSN, prop.kc2g.com)*: no hubo estación que dijera algo mejor;
   son los mapas con ese número.
 - *foF2 un 30 % bajo la mediana del mes cerca de Tucumán*: las estaciones ven la ionósfera lejos de
@@ -1692,19 +1735,25 @@ que escucha una estación japonesa) solo dice que la banda se usa allá, no que 
 cuenta como escuchado en tu camino.
 
 Escuchado cerca tuyo, el camino estaba abierto: acierto si VOACAP decía abierta, y se quedó corto si
-decía cerrada. Escuchado solo más lejos, y con 3 o más receptores cerca tuyo reportando **en esa
-misma banda** en la hora, la banda estaba cerrada desde acá: acierto si VOACAP decía cerrada, y
-optimista si decía abierta. Receptores cerca tuyo que están todos en 40 m no dicen nada de 15 m: no
+decía cerrada. Escuchado solo más lejos, pero con otra estación a menos de 1.000 km de esa zona
+escuchada cerca tuyo en la misma banda y la misma hora, también estaba abierta hacia allá: esa zona
+solo tenía estaciones débiles que no llegaron (un FT8 de 10 W que oye un skimmer vecino), y VOACAP
+predice para una región, no para una estación. Escuchado solo más lejos, sin nada cerca de ahí que
+llegara, y con 3 o más receptores cerca tuyo reportando **en esa misma banda** en la hora, la banda
+estaba cerrada desde acá: acierto si VOACAP decía cerrada, y optimista si decía abierta. Receptores cerca tuyo que están todos en 40 m no dicen nada de 15 m: no
 la dan por cerrada. Si nadie la escuchó en esa banda en la hora, no se compara nada: o VOACAP acertó
-o la estación no estaba en el aire, y el aire solo no lo puede decir.
+o la estación no estaba en el aire, y el aire solo no lo puede decir. En ese caso, y cuando hay
+menos de 3 receptores cerca tuyo en la banda, la pestaña no muestra la línea.
 
-Debajo del cuadro de 24 horas, **VOACAP contra el aire** resume los últimos 30 días, por banda:
+Debajo del cuadro de 24 horas, **VOACAP contra el aire** resume los últimos 30 días en una línea
+(cuánto acertó, se quedó corto o fue optimista). La tabla por banda y por hora viene plegada: un
+clic en el título la abre, y queda como la dejaste. Por banda:
 
 - **acierta**: la daba abierta y se escuchó cerca tuyo, o la daba cerrada y no llegó.
 - **corto**: la daba cerrada y se escuchó cerca tuyo. Con esta columna alta conviene probar la banda
   aunque VOACAP la dé cerrada.
-- **optimista**: la daba abierta y solo se escuchó lejos, con al menos esos 3 receptores tuyos
-  reportando en ella. Con esta columna alta, no te fíes cuando la da abierta.
+- **optimista**: la daba abierta y solo se escuchó lejos, sin nada a menos de 1.000 km de ahí que
+  llegara, con al menos esos 3 receptores tuyos reportando en ella. Con esta columna alta, no te fíes cuando la da abierta.
 - **horas**: los casos que hay detrás. Con pocos, el porcentaje vale poco.
 
 Debajo, **Por hora UTC**: las 24 horas del día UTC, más verde cuanto más acertó a esa hora (al pasar
@@ -2335,8 +2384,8 @@ necesitan archivo: cada uno tiene su logbook.
   **y N más** abre la vista Log con todos los QSOs de ese indicativo, sin filtros. Una estación que
   nunca trabajaste dice **Nuevo**. Con la consola angosta las dos mitades van una debajo de la
   otra.
-- Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente (cty.csv), tu
-  grid y tu indicativo.
+- Cada QSO lleva lo que agrega un logger: DXCC, país, zonas CQ e ITU, continente (cty.csv; la
+  zona ITU, del locator si el país tiene varias), tu grid y tu indicativo.
 - **Super Check Partial**, en el formulario de la consola: mientras escribís el indicativo aparecen
   arriba los que coinciden, sobre las últimas filas de la lista, sin una ventana aparte. Van
   primero los que están en el aire: el spoteado en la frecuencia del formulario (a 3 kHz o menos,
@@ -2760,9 +2809,13 @@ cuando viene de la descarga de LoTW. eQSL no cuenta, igual que en las reglas del
    CW, RTTY, FT8, FT4), si no del comentario del cluster (`cw`, `ssb`, `ft8`...), si
    no de lo que la RBN informó para ese indicativo a menos de 2 kHz en los últimos 30
    minutos, y si no de la frecuencia: las frecuencias de FT8/FT4 (14074, 10136...) son
-   FT8/FT4, y las partes de CW y de fonía del plan de bandas son CW y SSB. Solo un spot
-   en una parte que usan varios modos (la digital, la fonía de 160 y 6 m) se muestra
-   con `?`. Los modos se agrupan como en el DXCC:
+   FT8/FT4, y las partes de CW y de fonía del plan de bandas son CW y SSB. Un skimmer
+   que no distingue los modos manda `OTHER` (los CQ de W9SN en la parte de CW de 20 m,
+   sus balizas en 10 m): eso no nombra ningún modo, así que el spot sigue el mismo
+   camino que el que no lo informa. Una baliza es CW aunque su frecuencia caiga en la
+   parte digital o de fonía: lo dicen el comentario (`BEACON`, `NCDXF`) o el indicativo
+   terminado en `/B`. Solo un spot en una parte que usan varios modos (la digital, la
+   fonía de 160 y 6 m) se muestra con `?`. Los modos se agrupan como en el DXCC:
    **CW**, **PHONE** (SSB, AM, FM) y **DIGI** (FT8, FT4, RTTY, PSK, MFSK...). El grupo es lo
    que alerta y lo que cuenta para el DXCC; la lista, además, desglosa los digitales en FT8,
    FT4 y RTTY (ver Filtros). Los modos que se reconocen en el comentario son los de WSJT-X
@@ -2811,7 +2864,7 @@ están en pantalla se mantienen.
 | Natural Earth (world-atlas) | Costas y fronteras de los países para el mapa | https://www.naturalearthdata.com/ |
 | NOAA SWPC | El número de manchas solares que predice (VOACAP); el Kp planetario, el A, el flujo solar, el número de manchas y las escalas de tormenta G/R/S (la pastilla de propagación y las aperturas en VHF) | https://services.swpc.noaa.gov/ |
 | Open-Meteo | El pronóstico meteorológico para los ductos de tropo en 2 m (gratis para uso no comercial, CC BY 4.0) | https://open-meteo.com/ |
-| Mapas DXCC de GridTracker | Entidades DXCC, fronteras solo DXCC y zonas CQ para el mapa | https://gitlab.com/gridtracker.org/gridtracker2 |
+| Mapas DXCC de GridTracker | Entidades DXCC, fronteras solo DXCC y zonas CQ e ITU para el mapa | https://gitlab.com/gridtracker.org/gridtracker2 |
 
 ### Actualizaciones
 
@@ -2947,7 +3000,7 @@ hace falta.
 | `data/sota-summits.csv`                       | lista de cumbres de SOTA | cada mes  |
 | `data/pota-parks.csv`                          | Lista de parques de POTA (pestaña Referencias) | cada mes  |
 | `data/world-countries-50m.json`               | Natural Earth (vía world-atlas) | una vez |
-| `data/dxcc-shapes.json`, `data/cq-zones.json` | GridTracker                     | una vez |
+| `data/dxcc-shapes.json`, `data/cq-zones.json`, `data/itu-zones.json` | GridTracker | una vez |
 | `data/world-map.json`                         | armado con los dos de arriba (el mapa terminado) | cuando cambian |
 | `data/dxagent.db`                             | DX Agent: alertas (últimos `keep_days` días), dónde estuvo cada activador (últimos 32 días), tus QSOs con ellos, QSOs por UDP que todavía no están en tu log, y las horas en que se escucha cada país que te falta (Ventanas, `windows.keep_months`) | mientras corre |
 | `data/cache/log-<INDICATIVO>.pickle`          | DX Agent: los índices del log de cada indicativo tal como se leyó, para no volver a leer un log grande en cada arranque. Se usa solo si son iguales los archivos del log, el archivo de países, tus indicativos, el año y la versión de DX Agent; los QSOs posteriores (la base de tu logger, UDP) se suman encima como siempre. Se puede borrar sin problema | cuando cambia el log |

@@ -516,11 +516,13 @@ column, the Station tab's 24 hours, the Ventanas tab and the 6 m F2.
 
 **VOACAP against the air says how often it is right.** In the Station tab, beside the prediction,
 what happened in the last hour ("VOACAP said 20 m at 15% toward JA; 6 receivers near you heard
-it"). Only the path between you and the station counts: the receivers near you that heard it, or —
-when it was only heard far away — the ones reporting on that same band. With few, nothing is
-concluded: a quiet band is not a closed one.
+it"). Only the path between you and the station counts: the receivers near you that heard it, or,
+when it was only heard far away, the ones reporting on that same band; then the band still counts as
+open if another station within 1,000 km of it was heard near you (VOACAP predicts for a region, not
+for one station). With nothing to compare, the line doesn't show: a quiet band is not a closed one.
 
-Under the 24-hour grid, the last 30 days, band by band: **right** (it called it open and it was
+Under the 24-hour grid, folded (a click on its title opens it, and the browser remembers it), the
+last 30 days, band by band: **right** (it called it open and it was
 heard near you, or closed and nothing came through), **short** (it called it closed and it was heard
 near you: try the band even when it says closed), **optimistic** (it called it open and it was only
 heard far away, with enough of your receivers on it: don't trust it when it calls it open) and
@@ -806,11 +808,15 @@ Click **Map** (next to **List**). The filters work the same as in the list.
   your grid square, so the short path to any station is a straight line from the centre: its
   beam heading is the angle, north up, and its distance the radius, with circles every 2,500 km.
   Under the mouse, a dashed line says the heading and distance to that point. Everything else
-  (DXCC, WAZ, Grids, the alerts, the night) works as on the rectangular map. It needs your grid
+  (DXCC, WAZ, WITUZ, Grids, the alerts, the night) works as on the rectangular map. It needs your grid
   square.
 - **DXCC** (top left) paints each entity by your award standing: green = confirmed, amber =
   worked, red = missing. Pick Mixed, Phone, CW, Digital, one band, Satellite or the Challenge.
 - **WAZ** paints the 40 CQ zones the same way, with its variants (by mode, by band, 5BWAZ...).
+- **WITUZ** paints the ITU zones by the RSGB's Worked ITU Zones: WITUZ (70 of the 75 zones on
+  80-10 m), 5BWITUZ, WARC and Top Band with their classes, or Mixed, Phone, CW and Digital by band.
+  Confirmed by LoTW or a paper QSL (no eQSL). The **Zones** menu shows the CQ or ITU zones' borders
+  over any view.
 - **WAS** paints the 50 US states by your standing: green confirmed (LoTW or a paper QSL), amber
   worked. Pick Mixed, Phone, CW or Digital, and a band. The state is the one your logger saved
   with the QSO.
