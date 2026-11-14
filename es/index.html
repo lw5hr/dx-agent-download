@@ -61,7 +61,7 @@
     { "@type": "Question", "name": "¿Muestra los grids Maidenhead?",
       "acceptedAnswer": { "@type": "Answer", "text": "Si. La vista Grillas del mapa pinta los grids Maidenhead que trabajaste y confirmaste (reglas del VUCC, una banda para el VUCC o 6 m para el FFMA), pone en su grid a las estaciones oidas con locator, de los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN, y una alerta GRID NUEVO te avisa cuando esta en el aire un grid que te falta en esa banda." } },
     { "@type": "Question", "name": "¿Es gratis?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Si: licencia MIT, sin cuenta, sin telemetria y sin servicio en la nube. Corre en tu computadora." } }
+      "acceptedAnswer": { "@type": "Answer", "text": "Si: licencia MIT, sin cuenta y sin servicio en la nube. Corre en tu computadora, y no se manda nada de como lo usas si no prendes el aviso anonimo diario, apagado de fabrica." } }
   ]
 }
 </script>
@@ -189,7 +189,7 @@
       Radio Deluxe, DXLab… — y tus confirmaciones de LoTW. Un QSO que acabás de guardar se tiene en
       cuenta en segundos: directo de la base de Log4OM 2, o por UDP desde N1MM, DXLog.net, Log4OM y
       WSJT-X. Tus datos y tu configuración quedan en tu computadora.</p>
-    <p class="small">Solo biblioteca estándar de Python 3.11+: sin cuentas, sin nube, sin telemetría.</p>
+    <p class="small">Solo biblioteca estándar de Python 3.11+: sin cuentas, sin nube. Nada de cómo lo usás sale de tu computadora, salvo que prendas el aviso anónimo diario en Configuración, apagado de fábrica (la versión y el sistema, y nada más).</p>
   </div>
 
   <h2>Instalar</h2>
@@ -247,8 +247,9 @@
   </details>
   <details>
     <summary>¿Es gratis de verdad?</summary>
-    <p>Sí: licencia MIT, sin cuenta, sin telemetría y sin servicio en la nube. Corre en tu
-      computadora.</p>
+    <p>Sí: licencia MIT, sin cuenta y sin servicio en la nube. Corre en tu computadora, y nada de
+      cómo lo usás se manda salvo que prendas el aviso anónimo diario, apagado de fábrica: ahí va
+      la versión y el sistema, una vez por día.</p>
   </details>
 
   <section class="community" id="discusiones" aria-labelledby="community-title">
@@ -286,12 +287,13 @@
     DX Agent — creado por Diego (LW5HR), con <strong>Javi (LU5FF)</strong>, QA Product Advocate, Franco (LU2PWY),
     Juan Pablo (LU9HVR), Gustavo (LU7HW) y Daniel (LU1HLH). Licencia MIT.
     <a href="https://github.com/lw5hr/dx-agent-download">Código y versiones en GitHub</a>.
-    Las visitas a esta página se cuentan con GoatCounter, sin cookies ni datos personales.
+    Las visitas a esta página se cuentan con GoatCounter, sin cookies ni datos personales. El programa no manda nada salvo que prendas su aviso anónimo diario.
   </div>
 </footer>
 
 <!-- Visits and download clicks, counted by GoatCounter (no cookies, no personal data):
-     https://lw5hr.goatcounter.com -->
+     https://lw5hr.goatcounter.com
+     The program's anonymous ping, only with ui.telemetry on, counts at /ping/<version>/<system>. -->
 <script data-goatcounter="https://lw5hr.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 </body>
