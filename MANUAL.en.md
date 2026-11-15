@@ -151,8 +151,12 @@ The settings are in tabs: Station, Log (only with DX Agent's logbook), LoTW, Ale
 Propagation, Marathon, Spot sources, Radio and Other. Saving keeps what you changed by hand in
 `config.toml` and the page doesn't show.
 
-The dashboard follows your browser's language; the **EN/ES/PT/FR** button in the header switches it:
-English, Spanish, Portuguese (Brazil) or French (France).
+**Anonymous usage** (Settings → Other), off out of the box: the dashboard asks once, above the list.
+If you say yes, DX Agent sends one ping a day with the version and the system, and nothing else: no
+callsign, log, settings, country or grid square.
+
+The dashboard follows your browser's language; the **EN/ES/PT/FR/IT** button in the header switches
+it: English, Spanish, Portuguese (Brazil), French (France) or Italian.
 
 ## 4. The screen
 
@@ -173,7 +177,7 @@ and what it reads now, and another with the ideal and critical thresholds of SFI
 line, with each value's age, turns green when every index is inside the good range; a click on the
 pill pins the card —with a blue border— to read it or copy the numbers, and another click, a click
 elsewhere or Escape closes it); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
-(hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT/FR**, **Theme** (a menu with
+(hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT/FR/IT**, **Theme** (a menu with
 a preview of each: Auto, Light, Dark, High contrast dark and light, Solarized dark and light,
 Nord, Dracula, Sepia, Flexoki paper and Flexoki ink), **Sound** (a beep for the important alerts, off by default), **Full
 screen** (four corners; the **F** key too, F or Esc to leave) and **Stop**, in red; the UTC
@@ -213,7 +217,10 @@ pills go on a second line, and the chevron after them folds them to their status
 alert type, callsign, frequency, band, mode, country, **what you need**, LoTW, **VOACAP** (the
 chance of a QSO this hour, section 5), **near you** and who heard it. New rows flash. When the station is spotted again on the same band and mode, its
 row updates (time, frequency, who heard it, ×N): it shows where the station is now. Rows fade 10
-and 30 minutes after the station's last spot there.
+and 30 minutes after the station's last spot there. An FT8 mode can add `F/H?` or `SuperFox?`: a
+clue that the station runs Fox/Hound or SuperFox (a spotter said so, your WSJT-X decoded a composite
+message, or several decodes came with the same signal readings), not a confirmation; hover it to
+see which, and it goes 15 minutes after the last clue.
 
 **Clear list** (in red, top right): empties the list, after asking. Whatever is still on the air
 alerts again at its next spot. **One station only:** the **✕** next to its call (it shows with the
@@ -471,7 +478,8 @@ The path says what is measured; **VOACAP** says what to expect: the month's medi
 that hour, between you and the station, both ways (your signal there and theirs here). It is
 built in (VE3NEA's DVOACAP, in Python: nothing to install). It needs your grid square. In **Settings → Propagation** set your power, your
 antenna's gain (about 3 dBi for a dipole or a vertical, 8 to 10 for a Yagi) and the noise where
-you are (residential, rural or quiet).
+you are (residential, rural or quiet). Your antenna counts both ways; the other station is taken to
+run your power with an isotropic antenna, as not everyone you call has a big one.
 
 - The **VOACAP** column in the list: the chance of a QSO on the row's band and mode this hour,
   green from 50%, amber from 10%; hover it for the SNR each way and the MUF. For FT8 and FT4 it
@@ -1079,11 +1087,14 @@ any column (click its header), and filters in the side panel's **Actions** tab (
 Log view), one under another: **Band**, **Mode** (CW, phone,
 digital, FT8, FT4, RTTY), **Country**, **Date** (from and to), **LoTW** (confirmed, the last
 download, uploaded not confirmed, not uploaded), **Club Log** (uploaded, to upload again, rejected,
-not uploaded) and **QSL card** (received, sent not received, none). A click picks a choice and
+not uploaded), **QSL card** (received, sent not received, none) and **DXCC** (**New country,
+unconfirmed**: QSOs worked and not confirmed in a country where you have none confirmed). A click picks a choice and
 another click takes it off; each says how many QSOs it would show with the other filters as they
 are (with 20m picked, the modes say how many on 20m). The country is found by its name (as your log
 writes it: "Spain") or by a prefix (`LU`, `VP8`, `3Y`, `LU5`). **Clear filters** takes them off.
 A strip of icons at the tab's right goes to each part, with a dot on those that have a filter on.
+Each part of the tab folds with a click on its title, and the browser remembers how you left it; an
+icon on the strip opens a folded part and takes you to it.
 
 The **LoTW** and **CL** columns say where each QSO stands: in LoTW, **✓** confirmed and **↑**
 uploaded; in Club Log, **↑** uploaded, **↻** to upload again (you edited it) and **✗** rejected (the
@@ -1172,8 +1183,10 @@ each time you closed it, so they only announce the new versions. If that happene
 `cmd.exe` in Task Manager (your old version is untouched) and install the new one by hand. **On
 Mac and Linux, if your copy is older than 0.4.37**: up to 0.4.36, **Install** closed DX Agent
 without installing the new version (it wrote the Windows script), so install 0.4.37 by hand once;
-two files named `%LOG%` and `%TASKS%` it left in the program's folder can be deleted. In those
-cases:
+two files named `%LOG%` and `%TASKS%` it left in the program's folder can be deleted. **On every
+system, to go to 0.4.40**: the key that signs the releases changed with it, and the copies before it
+only trust the old one, so they announce 0.4.40 without installing it. Install 0.4.40 by hand once;
+from there on it gets the new versions ready by itself again. In those cases:
 
 1. Download the new package and unpack it wherever you like: in another folder or over the old
    one.

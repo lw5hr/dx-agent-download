@@ -249,7 +249,7 @@ escala G, R y S.
   ayuda (el sitio web, el manual de usuario y la página de issues).
 - **Configuración** ⚙: abre la página de Configuración. Ahí, un ícono de lista vuelve a las
   alertas.
-- **EN/ES/PT/FR**: idioma.
+- **EN/ES/PT/FR/IT**: idioma.
 - **Tema**: medio círculo para Auto, sol para Claro, luna para Oscuro, una paleta para otro
   tema. Un clic abre el menú de temas.
 - **Sonido**: un parlante, tachado si está apagado.
@@ -460,6 +460,15 @@ y la etiqueta siempre dice el nombre de la banda: el color nunca es la única pi
 el color de su grupo: CW azul, fonía (SSB, AM, FM) ámbar y digitales (FT8, FT4, RTTY…) rosa.
 Lo mismo los filtros de modo. Un modo que DX Agent adivinó tiene borde punteado; uno
 desconocido, gris.
+
+**Fox/Hound y SuperFox.** En FT8, la etiqueta puede agregar `F/H?` o `SuperFox?`. Al pasar el
+mouse se aclara si lo informó un spotter, si WSJT-X decodificó un mensaje compuesto compatible
+con Fox/Hound (también lo puede enviar MSHV), o si varias decodificaciones con los mismos datos
+de señal sugieren SuperFox. Son indicios: no confirman la configuración de la estación y pueden
+coincidir señales distintas. Se mantienen 15 minutos desde el último indicio, para el mismo
+indicativo y banda y hasta 1,5 kHz de diferencia; un spot que solo los hereda no renueva ese plazo.
+La frecuencia sola no identifica estos modos. Para usar las decodificaciones propias, WSJT-X o
+JTDX tiene que enviar sus mensajes UDP a DX Agent (ver «Lo que decodifica tu WSJT-X»).
 
 ### Sintonizar la radio
 
@@ -1387,8 +1396,9 @@ La columna LOTW muestra la fecha de la última subida de la estación, `LoTW ann
 
 Cada alerta es una fila en el panel y una línea en la terminal: hora (UTC), título,
 indicativo, frecuencia (kHz), banda, modo, país y luego detalles separados por `|`.
-Con el panel en español, portugués o francés, los títulos y el detalle aparecen traducidos
-(por ejemplo **BANDA NUEVA**, "banda nueva", o **NOUVELLE BANDE** en francés); la terminal y las
+Con el panel en español, portugués, francés o italiano, los títulos y el detalle aparecen traducidos
+(por ejemplo **BANDA NUEVA**, "banda nueva", **NOUVELLE BANDE** en francés o **NUOVA BANDA** en
+italiano); la terminal y las
 alertas guardadas en `data/dxagent.db` siempre usan los nombres en inglés.
 
 ```text
@@ -1630,10 +1640,12 @@ de manchas solares, a esa hora, entre vos y la estación. DX Agent trae VOACAP a
 en Python de DVOACAP de VE3NEA, licencia MIT, que da los mismos resultados que VOACAP; no hay nada
 que instalar). Necesita tu grid square.
 
-Lo calcula en los dos sentidos, tu señal allá y la de ellos acá, con cada estación como la tuya
-(**Configuración → Propagación**: tu potencia, la ganancia de tu antena sobre la isotrópica, unos
-3 dBi un dipolo o una vertical y 8 a 10 una Yagi, y el ruido artificial donde estás: residencial,
-rural o silencioso); un QSO necesita los dos, así que cuenta el peor. La chance es la confiabilidad
+Lo calcula en los dos sentidos, tu señal allá y la de ellos acá, con tu potencia y tu ruido en las
+dos puntas, pero tu antena solo en la tuya: la de la otra estación se toma como isotrópica, porque no
+todos los que llamás tienen una antena grande. Tu estación se describe en **Configuración →
+Propagación**: tu potencia, la ganancia de tu antena sobre la isotrópica, unos 3 dBi un dipolo o una
+vertical y 8 a 10 una Yagi, y el ruido artificial donde estás: residencial, rural o silencioso. Un
+QSO necesita los dos sentidos, así que cuenta el peor. La chance es la confiabilidad
 de VOACAP: cuántas veces en el mes la SNR llega a lo que el modo necesita, en 1 Hz: CW 24 dB y SSB
 45 (como la guía de voacap.com), FT8 13 y FT4 17 (sus límites de decodificación, -21 y -17,5 dB en
 2.500 Hz), RTTY 34; los otros modos digitales como FT8.
@@ -2139,6 +2151,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | ui          | `open_browser`              | `true`                                            | Abrir el panel automáticamente al iniciar `run` |
 | ui          | `check_updates`             | `true`                                            | Avisar en el panel (una pastilla junto a la versión) cuando sale un DX Agent más nuevo, y dejarlo listo: le pregunta a GitHub cada hora cuál es la última versión del repositorio de descargas, y baja y verifica su paquete. No se manda nada tuyo; se instala cuando hacés clic en **Instalar** |
 | ui          | `install_updates`           | `false`                                           | Instalar una versión nueva sin preguntar, apenas está lista: DX Agent se reinicia solo, aunque estés en medio de un QSO |
+| ui          | `telemetry`                 | `false`                                           | Un aviso anónimo por día de que se abrió DX Agent: la versión y el sistema (Windows, macOS o Linux), y nada más. No lleva indicativo, ni log, ni ajustes, ni un número que siga de un día al otro. Ver **Uso anónimo** |
 | ui          | `filters`                   | `["bands", "modes", "search", "continent", "near", "hide_confirmed", "lotw", "activity"]` | Los filtros que se ven sobre la lista de alertas (uno oculto queda apagado, y lo que tenía elegido se destilda); también lo guarda el ⚙ del panel, junto a Limpiar filtros |
 | ui          | `hidden_types`              | `[]`                                              | Tipos de alerta cuyo filtro no se ve (siguen alertando), por su nombre en inglés: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); también lo guarda el ⚙ del panel, al final de los tipos de alerta |
 | ui          | `digital_modes`             | `true`                                            | Un filtro para FT8, FT4 y RTTY, además de CW, fonía y digital; los demás modos digitales se ven en su fila y cuentan como digital |
@@ -2454,10 +2467,12 @@ necesitan archivo: cada uno tiene su logbook.
   uno debajo del otro bajo FILTROS. **Banda** trae las que hay en tu log. **Modo** trae CW, Fonía,
   Digitales, FT8, FT4 y RTTY. **País y fecha** acepta una parte del nombre como lo escribe el log o
   un prefijo (`LU`, `VP8`, `3Y`, `LU5`, por el DXCC del QSO según cty.csv), y un desde y un hasta.
-- **Confirmaciones** tiene tres grupos. LoTW: confirmados, la última bajada, subidos sin confirmar
+- **Confirmaciones** tiene cuatro grupos. LoTW: confirmados, la última bajada, subidos sin confirmar
   y sin subir. Club Log: subidos, a subir de nuevo, rechazados y sin subir. QSL papel: recibida,
   enviada sin recibir y ninguna, según `QSL_RCVD` y `QSL_SENT`, salvo que su `_VIA` diga `E`,
-  electrónica.
+  electrónica. **DXCC** tiene **País nuevo sin confirmar**: los QSOs trabajados y sin confirmar de
+  un país donde no tenés ninguno confirmado, los que te sumarían un país si te los confirman.
+  Cuenta las confirmaciones de todos tus indicativos juntos, como el DXCC.
 - Son botones como los de la lista, agrupados con su nombre (BANDA, MODO, PAÍS, FECHA, LOTW, CLUB
   LOG, QSL PAPEL). Un clic elige una opción y otro clic en la misma la saca. Cada una dice cuántos
   QSOs mostraría con la búsqueda y los otros filtros como están; con 20 m elegido, los modos dicen
@@ -2465,6 +2480,13 @@ necesitan archivo: cada uno tiene su logbook.
 - Una tira de íconos a la derecha del tab lleva a cada parte: subir y bajar, QSL en papel,
   Duplicados, Banda, Modo, País y fecha, Confirmaciones y la estación, con un punto en las que
   tienen un filtro puesto.
+- Cada parte se pliega con un clic en su título, y otro clic la abre: **La estación** (los QSOs
+  anteriores de la estación del formulario), **Subir y bajar**, **QSL en papel**, **Filtros**,
+  **Confirmaciones** y **Duplicados**. Plegada queda solo su título, con la flechita girada. La
+  primera vez Duplicados arranca plegado y las otras cinco abiertas; de ahí en más el navegador
+  recuerda cómo las dejaste y vuelven así al recargar. Los íconos de la tira de la derecha abren la
+  parte a la que llevan si estaba plegada, la traen a la vista y dejan el foco en ella, así que
+  seguís con Tab desde ahí.
 - Tu log se tiene en memoria y se pone al día solo con lo que cambió, así que filtrar y ordenar no
   lo vuelven a leer entero. Los filtros se combinan con la búsqueda y el orden, el que está puesto
   se resalta, **Limpiar filtros** los saca y no se guardan al recargar.
@@ -2923,6 +2945,25 @@ entorno apaga la instalación, aunque el aviso queda. Lo que hace el script qued
 `data/update/update.log`; si alguna vez deja un programa que no arranca, el respaldo que hizo está
 a una carpeta de distancia.
 
+### Uso anónimo
+
+Apagado de fábrica (`ui.telemetry`, Configuración → **Uso anónimo**). Encendido, DX Agent manda
+**un aviso por día** de que se abrió, a `lw5hr.goatcounter.com`, el mismo contador que cuenta las
+visitas del sitio: la ruta lleva la versión y el sistema (`/ping/0.4.39/windows`) y nada más.
+
+Lo que **no** sale: tu indicativo, el log, los ajustes, el país, el locator, ni un número que pueda
+seguirte de un día al otro. Como en cualquier visita a una página, el servidor que cuenta ve la
+dirección IP del pedido, y no la guarda junto al aviso. Un aviso por día y no uno por hora: cada
+aviso es una instalación que se abrió ese día, que es lo que dice si el programa se usa y en qué
+sistema. Si el pedido falla, el día no se pierde: se reintenta en el ciclo siguiente.
+
+La primera vez que arranca una versión con esto, el panel lo pregunta una vez, arriba de la lista,
+con **Sí, mandarlo** y **No, gracias**. La respuesta queda guardada y no vuelve a preguntar, ni
+siquiera si dijiste que no.
+
+El día del aviso queda en `data/telemetry.json`. Borrarlo manda otro aviso ese día; apagar
+`ui.telemetry` lo corta enseguida.
+
 **Publicar** (el lado del que mantiene el proyecto): `tools/make_package.py` escribe
 `dist/SHA256SUMS` y lo firma cuando la mitad privada de la clave está en `data/release-key.txt`.
 
@@ -3028,6 +3069,7 @@ hace falta.
 | `data/dxagent.db`                             | DX Agent: alertas (últimos `keep_days` días), dónde estuvo cada activador (últimos 32 días), tus QSOs con ellos, QSOs por UDP que todavía no están en tu log, y las horas en que se escucha cada país que te falta (Ventanas, `windows.keep_months`) | mientras corre |
 | `data/cache/log-<INDICATIVO>.pickle`          | DX Agent: los índices del log de cada indicativo tal como se leyó, para no volver a leer un log grande en cada arranque. Se usa solo si son iguales los archivos del log, el archivo de países, tus indicativos, el año y la versión de DX Agent; los QSOs posteriores (la base de tu logger, UDP) se suman encima como siempre. Se puede borrar sin problema | cuando cambia el log |
 | `data/update.json`                            | DX Agent: la última versión en GitHub, consultada cada hora (`ui.check_updates`), con los paquetes que trae el release | cada hora |
+| `data/telemetry.json`                         | DX Agent: el día (UTC) del último aviso anónimo (`ui.telemetry`) y la respuesta del panel cuando lo preguntó, para no mandar más de uno por día ni volver a preguntar | una vez por día, con el aviso |
 | `data/update/`                                | La actualización de DX Agent: el paquete bajado y descomprimido (`new/`), el respaldo que dejó el script (`before-<versión>/`) y lo que hizo (`update.log`) | en una actualización |
 | `data/dx-agent.log`                           | DX Agent (sin ventana) | mientras corre; menos de 5 MB |
 
@@ -3103,9 +3145,10 @@ el primer arranque los lee y los renombra `*.migrated`; se pueden borrar cuando 
   KG4 con sufijo de dos letras (KG4AA) están ahí: KG4 + una o tres letras (KG4OJT) es un
   indicativo de Estados Unidos, y DX Agent lo toma así. Las estaciones de Guantánamo que el
   archivo nombra una por una cuentan como Guantánamo.
-- **El archivo de países** (el `cty.csv` de AD1C) se baja de nuevo cuando tiene un día, revisándolo
-  cada 6 horas con DX Agent abierto; cuando cambió, los spots usan el nuevo y tu log se vuelve a
-  indexar con él.
+- **El archivo de países** (el `cty.csv` de AD1C) se baja de nuevo cuando tiene un día,
+  revisándolo cada 6 horas con DX Agent abierto; se le pregunta al servidor si cambió, así que
+  uno que no cambió no se baja de nuevo. Cuando cambió, los spots usan el nuevo y tu log se
+  vuelve a indexar con él.
 - **Arrancar no espera descargas.** DX Agent arranca con las listas que tiene guardadas, aunque
   sean viejas (el archivo de países, la actividad de usuarios de LoTW, los skimmers del RBN, las
   DXpediciones, el Most Wanted de Club Log), y enseguida baja en segundo plano las que tienen un

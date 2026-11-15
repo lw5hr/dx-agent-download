@@ -230,10 +230,20 @@ in the tag, so colour is never the only cue.
 colour: CW blue, phone (SSB, AM, FM) amber, digital (FT8, FT4, RTTY...) pink; the mode
 filter chips too. A mode DX Agent guessed has a dashed border, an unknown one is grey.
 
-**EN/ES/PT/FR** switches the dashboard between English, Spanish, Portuguese (Brazil) and French
-(France): each click goes to the next one. The first time it follows your browser's language; after
+**Fox/Hound and SuperFox.** An FT8 tag can add `F/H?` or `SuperFox?`. Hover to see whether a
+spotter reported it, WSJT-X decoded a composite message compatible with Fox/Hound (MSHV can send
+it too), or matching signal readings for several decodes suggest SuperFox. These are clues, not
+confirmation of the station's setting: separate signals can coincide. A clue lasts 15 minutes
+from the last observation, for the same call and band and within 1.5 kHz; a spot that only
+inherits it does not extend it. Frequency alone does not identify either mode. To use your own
+decodes, WSJT-X or JTDX must send its UDP messages to DX Agent (see "What your WSJT-X decodes").
+
+**EN/ES/PT/FR/IT** switches the dashboard between English, Spanish, Portuguese (Brazil), French
+(France) and Italian: each click goes to the next one. The first time it follows your browser's
+language; after
 that it remembers your choice. A link can force one: `http://localhost:8073/?lang=es` (or
-`?lang=pt`, `?lang=fr`). In Portuguese and French, the About window's website and manual links open
+`?lang=pt`, `?lang=fr`, `?lang=it`). In Portuguese, French and Italian, the About window's website
+and manual links open
 the English ones. Country names and DXpedition notes stay in
 English, as they come from their sources; the terminal and the alerts kept in
 `data/dxagent.db` are always in English.
@@ -1230,10 +1240,12 @@ the sunspot number, at that hour, between you and the station. DX Agent has VOAC
 Python port of VE3NEA's DVOACAP, MIT license, which gives VOACAP's own results; nothing to
 install). It needs your grid square.
 
-It works it out both ways, your signal there and theirs here, each station taken to be like yours
-(**Settings → Propagation**: your power, your antenna's gain over isotropic, about 3 dBi for a
-dipole or a vertical and 8 to 10 for a Yagi, and the man-made noise where you are: residential,
-rural or quiet); a QSO needs both, so the worse one counts. The chance is VOACAP's reliability:
+It works it out both ways, your signal there and theirs here, with your power and your noise at
+both ends but your antenna only at yours: the other station's is taken as isotropic, as not everyone
+you call has a big antenna. Your station is set in **Settings → Propagation**: your power, your
+antenna's gain over isotropic, about 3 dBi for a dipole or a vertical and 8 to 10 for a Yagi, and
+the man-made noise where you are: residential, rural or quiet. A QSO needs both ways, so the worse
+one counts. The chance is VOACAP's reliability:
 how often in the month the SNR reaches what the mode needs, in 1 Hz: CW 24 dB and SSB 45 (as
 voacap.com's setup guide), FT8 13 and FT4 17 (their decoding limits, -21 and -17.5 dB in
 2,500 Hz), RTTY 34; other digital modes as FT8.
@@ -1702,6 +1714,7 @@ You can also edit it by hand; restart `run` afterwards.
 | ui          | `open_browser`              | `true`                                            | Open the dashboard automatically when `run` starts |
 | ui          | `check_updates`             | `true`                                            | Say on the dashboard (a pill next to the version) when a newer DX Agent is out, and get it ready: asks GitHub every hour for the latest release of the download repository, and downloads and checks its package. Nothing of yours is sent; it is installed when you click **Install** |
 | ui          | `install_updates`           | `false`                                           | Install a new version without asking, as soon as it is ready: DX Agent restarts by itself, also in the middle of a QSO |
+| ui          | `telemetry`                 | `false`                                           | One anonymous ping a day saying DX Agent was opened: the version and the system (Windows, macOS or Linux), and nothing else. No callsign, no log, no setting, and no number that follows one day into the next. See **Anonymous usage** |
 | ui          | `filters`                   | `["bands", "modes", "search", "continent", "near", "hide_confirmed", "lotw", "activity"]` | The filters shown above the alert list (a hidden one is off, and what it had picked is cleared); the dashboard's ⚙ next to Clear filters saves it too |
 | ui          | `hidden_types`              | `[]`                                              | Alert types whose filter doesn't show (they still alert), by their name in English: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); the dashboard's ⚙ at the end of the alert types saves it too |
 | ui          | `digital_modes`             | `true`                                            | A filter for FT8, FT4 and RTTY, next to CW, phone and digital; the other digital modes show on their row and count as digital |
@@ -1971,7 +1984,9 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   **Confirmations** (LoTW: confirmed, the last download, uploaded not confirmed,
   not uploaded; Club Log: uploaded, to upload again, rejected, not uploaded; QSL card:
   received, sent not received, none: `QSL_RCVD` and `QSL_SENT`, unless their `_VIA` says `E`,
-  electronic). They are buttons like the list's, grouped under their name (BAND, MODE, COUNTRY, DATE, LOTW, CLUB LOG, QSL CARD): a click picks a choice, another click on it takes it off; each says how many QSOs it would show with the search and the other filters as they are (with 20m picked, the modes say how many on 20m), and a strip of icons at the tab's right goes to each part (the uploads, QSL card, Duplicates, Band, Mode, Country & date, Confirmations, the station), a dot on those with a filter on. Your log is kept in memory and brought up to date with only what changed, so filtering and sorting don't read it all again. They work with the search and the sort; the one in use stands out, **Clear
+  electronic; and DXCC: **New country, unconfirmed**, the QSOs worked and not confirmed in a
+  country where you have none confirmed, the ones that would add a country if they were, counted
+  with every callsign of yours together as DXCC does). They are buttons like the list's, grouped under their name (BAND, MODE, COUNTRY, DATE, LOTW, CLUB LOG, QSL CARD): a click picks a choice, another click on it takes it off; each says how many QSOs it would show with the search and the other filters as they are (with 20m picked, the modes say how many on 20m), and a strip of icons at the tab's right goes to each part (the uploads, QSL card, Duplicates, Band, Mode, Country & date, Confirmations, the station), a dot on those with a filter on; a click on one of them opens the part it goes to if it was folded, brings it into sight and leaves the focus on it, so Tab goes on from there. Each part folds with a click on its title, and a click opens it again: the station the form is on (QSOs anteriores), the uploads and downloads, QSL card, Filters, Confirmations and Duplicates. Folded, only its title is left, with the arrow turned; the first time Duplicates starts folded and the other five open, and from then on the browser remembers how you left them and they come back that way on a reload. Your log is kept in memory and brought up to date with only what changed, so filtering and sorting don't read it all again. They work with the search and the sort; the one in use stands out, **Clear
   filters** takes them off, and they aren't kept on a reload. A click on a
   column's header sorts the whole log by it (again: the other way; a third time: newest first
   again); QSOs without a value there go last, and the order is remembered. Each upload or
@@ -2384,6 +2399,25 @@ hours, and `DXAGENT_NO_AUTO_UPDATE=1` in the environment turns the installation 
 stays). What the script does goes to `data/update/update.log`; if it ever leaves a program that
 won't start, the backup it made is one folder away.
 
+### Anonymous usage
+
+Off out of the box (`ui.telemetry`, Settings → **Anonymous usage**). On, DX Agent sends **one ping
+a day** saying that it was opened, to `lw5hr.goatcounter.com`, the same counter that counts the
+website's visits: the path carries the version and the system (`/ping/0.4.39/windows`) and nothing
+else.
+
+What does **not** leave: your callsign, your log, your settings, the country, the grid square, and
+no number that could follow you from one day to the next. As on any web visit, the server that
+counts sees the IP address of the request, and does not keep it with the ping. One a day and not
+one an hour: each ping is an install that ran that day, which is what says whether the program is
+used, and on what system. A request that fails doesn't lose the day: the next cycle tries again.
+
+The first time a version with this starts, the dashboard asks once, above the list, with **Yes,
+send it** and **No, thanks**. The answer is kept and it doesn't ask again, not even after a no.
+
+The day of the ping is kept in `data/telemetry.json`. Delete it to send another one that day;
+turning `ui.telemetry` off stops it at once.
+
 **Releasing** (the maintainer's side): `tools/make_package.py` writes `dist/SHA256SUMS`, and signs
 it when the private half of the key is in `data/release-key.txt` (made once with
 `python tools/sign_release.py keygen`, which prints the public half to paste in
@@ -2484,6 +2518,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/dxagent.db`                             | DX Agent: alerts (last `keep_days` days), where activators were (last 32 days), your QSOs with them, QSOs over UDP not in your log yet, and the hours each country you miss is heard at (Ventanas, `windows.keep_months`) | while it runs |
 | `data/cache/log-<CALL>.pickle`                | DX Agent: each callsign's log indexes as last read, so a big log isn't read again at each start. Used only when the log files, the country file, your callsigns, the year and DX Agent's version are all the same; the QSOs since (your logger's database, UDP) are added on top as before. Safe to delete | when the log changes |
 | `data/update.json`                            | DX Agent: the latest version on GitHub, asked every hour (`ui.check_updates`), with the packages the release brings | every hour |
+| `data/telemetry.json`                         | DX Agent: the UTC day of the last anonymous ping (`ui.telemetry`) and the answer the panel got when it asked, so that no more than one a day goes out and it isn't asked again | once a day, with the ping |
 | `data/update/`                                | DX Agent's own update: the package downloaded and unpacked (`new/`), the backup the script left (`before-<version>/`) and what it did (`update.log`) | on an update |
 | `data/dx-agent.log`                           | DX Agent (without a window) | while it runs; kept under 5 MB |
 
@@ -2556,8 +2591,9 @@ example (shortened):
   US call, and DX Agent takes it as such. Guantanamo stations the file lists by name count
   as Guantanamo.
 - **The country file** (AD1C's `cty.csv`) is downloaded again when a day old, checked every
-  6 hours while DX Agent runs; when it changed, spots use the new one and your log is
-  indexed again with it.
+  6 hours while DX Agent runs; the server is asked whether it changed, so a file that didn't is
+  not downloaded again. When it did change, spots use the new one and your log is indexed again
+  with it.
 - **Starting doesn't wait for downloads.** DX Agent starts on the lists it has kept, however
   old (the country file, LoTW's user activity, RBN's skimmers, the DXpeditions, Club Log's Most
   Wanted), and right after it gets the ones a day old, or older than their refresh time, in the

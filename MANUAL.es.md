@@ -156,8 +156,12 @@ La configuración está en pestañas: Estación, Log (solo con el logbook de DX 
 Alertas, Propagación, Marathon, Fuentes de spots, Radio y Otros. Al guardar se respeta lo que
 cambiaste a mano en `config.toml` y la página no muestra.
 
-El panel aparece en el idioma del navegador; el botón **EN/ES/PT/FR** del encabezado lo cambia:
-inglés, español, portugués (Brasil) o francés (Francia).
+**Uso anónimo** (Configuración → Otros), apagado de fábrica: el panel lo pregunta una vez, arriba de
+la lista. Si decís que sí, DX Agent manda un aviso por día con la versión y el sistema, y nada más:
+ni indicativo, ni log, ni ajustes, ni país, ni locator.
+
+El panel aparece en el idioma del navegador; el botón **EN/ES/PT/FR/IT** del encabezado lo cambia:
+inglés, español, portugués (Brasil), francés (Francia) o italiano.
 
 ## 4. La pantalla
 
@@ -181,7 +185,7 @@ de cada valor, se pone verde cuando todos los índices están en el rango bueno;
 deja la tarjeta clavada —con el borde en azul— para leerla o copiar los números, y se cierra con otro
 clic, un clic afuera o Escape); los totales de tu log: los QSOs en azul, los países trabajados
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
-uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT/FR**, **Tema** (un menú con una vista previa de
+uno): **Acerca de** ⓘ, **Configuración** ⚙, **EN/ES/PT/FR/IT**, **Tema** (un menú con una vista previa de
 cada uno: Auto, Claro, Oscuro, Alto contraste oscuro y claro, Solarized oscuro y claro, Nord,
 Dracula, Sepia, Flexoki papel y Flexoki tinta), **Sonido** (un pitido para las alertas importantes, apagado de fábrica),
 **Pantalla completa** (cuatro esquinas; también la tecla **F**, se sale con F o Esc) y
@@ -227,7 +231,10 @@ LoTW, **VOACAP** (la chance de un QSO a esta hora, sección 5), **cerca tuyo** y
 escuchó. Las filas nuevas destellan. Cuando la estación vuelve a
 aparecer en la misma banda y modo, su fila se actualiza (hora, frecuencia, quién la escuchó, ×N):
 muestra dónde está ahora. Las filas se atenúan a los 10 y a los 30 minutos del último spot de la
-estación ahí.
+estación ahí. El modo FT8 puede agregar `F/H?` o `SuperFox?`: un indicio de que la estación opera en
+Fox/Hound o SuperFox (lo dijo un spotter, tu WSJT-X decodificó un mensaje compuesto, o varias
+decodificaciones llegaron con los mismos datos de señal), no una confirmación. Con el mouse encima
+se ve cuál, y se va a los 15 minutos del último indicio.
 
 **Limpiar lista** (en rojo, arriba a la derecha): vacía la lista, después de preguntar. Lo que
 siga en el aire vuelve a avisar en su próximo spot. **Una sola estación:** la **✕** al lado de su
@@ -499,7 +506,9 @@ El camino dice lo medido; **VOACAP** dice qué esperar: la ionosfera mediana del
 entre vos y la estación, en los dos sentidos (tu señal allá y la de ellos acá). Viene incluido
 (DVOACAP de VE3NEA, en Python: no hay nada que instalar). Necesita tu grid locator. En **Configuración → Propagación** poné tu
 potencia, la ganancia de tu antena (unos 3 dBi un dipolo o una vertical, 8 a 10 una Yagi) y el
-ruido donde estás (residencial, rural o silencioso).
+ruido donde estás (residencial, rural o silencioso). Tu antena cuenta en los dos sentidos; de la otra
+estación se toma tu potencia con una antena isotrópica, porque no todos los que llamás tienen una
+antena grande.
 
 - La columna **VOACAP** de la lista: la chance de un QSO en la banda y el modo de la fila a esta
   hora, verde desde 50%, ámbar desde 10%; pasando el mouse, la SNR de cada sentido y la MUF. Para
@@ -1135,12 +1144,15 @@ nuevo primero, 25 QSOs por página (o más), con búsqueda por
 indicativo, orden por cualquier columna (clic en su encabezado) y filtros en la pestaña
 **Acciones** del panel lateral (que aparece solo en la vista Log), uno debajo del otro: **Banda**, **Modo** (CW, fonía, digitales, FT8, FT4, RTTY), **País**, **Fecha** (desde y
 hasta), **LoTW** (confirmados, la última bajada, subidos sin confirmar, sin subir), **Club Log**
-(subidos, a subir de nuevo, rechazados, sin subir) y **QSL papel** (recibida, enviada sin recibir,
-ninguna). Un clic elige una opción y otro clic la saca; cada una dice cuántos QSOs mostraría con
+(subidos, a subir de nuevo, rechazados, sin subir), **QSL papel** (recibida, enviada sin recibir,
+ninguna) y **DXCC** (**País nuevo sin confirmar**: los QSOs trabajados y sin confirmar de un país
+donde no tenés ninguno confirmado). Un clic elige una opción y otro clic la saca; cada una dice cuántos QSOs mostraría con
 los otros filtros como están (con 20m elegido, los modos dicen cuántos en 20m). El país se busca
 por su nombre (como lo escribe tu log, en inglés: "Spain") o por un prefijo (`LU`, `VP8`, `3Y`,
 `LU5`). **Limpiar filtros** los saca. Una tira de íconos a la derecha de la pestaña lleva a cada
-parte, con un punto en las que tienen un filtro puesto.
+parte, con un punto en las que tienen un filtro puesto. Cada parte de la pestaña se pliega con un
+clic en su título, y el navegador recuerda cómo la dejaste; un ícono de la tira abre una parte
+plegada y te lleva a ella.
 
 Las columnas **LoTW** y **CL** dicen cómo está cada QSO: en LoTW, **✓** confirmado y **↑** subido;
 en Club Log, **↑** subido, **↻** a subir de nuevo (lo editaste) y **✗** rechazado (el motivo, con el
@@ -1237,7 +1249,10 @@ en el Administrador de tareas (tu versión anterior queda intacta) e instalá la
 Mac y Linux, si tu versión es anterior a la 0.4.37**: hasta la 0.4.36, **Instalar** cerraba DX Agent
 sin instalar la versión nueva (escribía el script de Windows), así que instalá la 0.4.37 a mano una
 vez; los dos archivos llamados `%LOG%` y `%TASKS%` que dejó en la carpeta del programa se pueden
-borrar. En esos casos:
+borrar. **En todos los sistemas, para pasar a la 0.4.40**: con ella cambió la clave que firma los
+releases, y las copias anteriores solo confían en la vieja, así que avisan de la 0.4.40 sin
+instalarla. Instalá la 0.4.40 a mano una vez; desde ahí vuelve a dejar listas las versiones nuevas
+sola. En esos casos:
 
 1. Bajá el paquete nuevo y descomprimilo donde quieras: en otra carpeta o encima de la anterior.
 2. Abrilo como siempre con **start-dx-agent.bat** (Linux: `./start-dx-agent.sh`; Mac:
