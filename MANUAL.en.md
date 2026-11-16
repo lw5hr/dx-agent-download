@@ -202,8 +202,8 @@ pills go on a second line, and the chevron after them folds them to their status
   didn't alert). Usually the filter is what you want. What your own WSJT-X decodes always counts as near
   (section 7);
 - **Hide confirmed:** hides what you already have confirmed on that band and mode;
-- **Only LoTW:** only stations that uploaded to LoTW in the last 12 months, and DXpeditions that
-  announced LoTW;
+- **Only LoTW:** only stations that uploaded to LoTW in the last 12 months, and every DXpedition,
+  LoTW announced or not;
 - a **search** box for a callsign or country;
 - **Clear filters** shows everything again. Your browser remembers the filters.
 - **⚙** (next to Clear filters, or Settings → **Filters above the list**): which of Band, Mode, the search box,
@@ -224,7 +224,10 @@ see which, and it goes 15 minutes after the last clue.
 
 **Clear list** (in red, top right): empties the list, after asking. Whatever is still on the air
 alerts again at its next spot. **One station only:** the **✕** next to its call (it shows with the
-mouse on the row), or a right click on the row → **Remove from the list**.
+mouse on the row), or a right click on the row → **Remove from the list**. In the same menu,
+**Never alert on this call** puts it on the Ignore list without going through Settings: its rows on
+every band leave the list at once and it doesn't alert again, whatever the feed (see **Ignore**
+below).
 
 **Pin a station:** the **anchor** next to the ✕ keeps it in the list on that band however long ago
 it was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent
@@ -370,7 +373,8 @@ with your radio and the WinKey, sits under all three (section 13).
 
 **Watchlist:** calls you always want to hear about, even if they add nothing. Wildcards work,
 for example `VP8*`. Edit it in Settings or with the ☆ in the Station tab. **Ignore** does the
-opposite: those calls never alert. In the filters, **WATCHLIST** with another type shows only the
+opposite: those calls never alert, and a right click on a row → **Never alert on this call** adds
+one without opening Settings. In the filters, **WATCHLIST** with another type shows only the
 calls you follow that are also that type: **WATCHLIST** + **NEW SLOT** is your watchlist on a band
 and mode you still need.
 
@@ -449,7 +453,7 @@ with no sound or notice. The map uses the same filters as the list: one marker p
 | **Activity** | Activations: POTA, SOTA, WWFF, IOTA… |
 | **Hide confirmed** | What you don't have confirmed yet on that band and mode |
 | **Near you only** | What a receiver within your "near you" distance heard |
-| **Only LoTW** | Stations that uploaded to LoTW in the last 12 months, and DXpeditions that announced it |
+| **Only LoTW** | Stations that uploaded to LoTW in the last 12 months, and every DXpedition, LoTW announced or not |
 | A header **pill** (cluster, RBN, PSKReporter, WSJT-X, VHF) | Only what that feed heard. With **VHF**, only the openings, with their paths on the map |
 
 YOU'RE HEARD and the openings aren't filtered by continent, confirmed, near you or LoTW, as they

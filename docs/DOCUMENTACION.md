@@ -191,6 +191,10 @@ alertas generadas.
 Windows, al hacer clic en una se abre el panel en esa estación (su grilla, con su fila a la vista). En
 Linux necesitan `plyer` (`pip install plyer`); sin él, las alertas igual se ven en el panel.
 
+**En el celular:** con un bot de Telegram tuyo, las mismas alertas llegan al teléfono aunque estés
+lejos del equipo. Se configura en el panel y se explica en
+[Alertas en el celular](#alertas-en-el-celular).
+
 **En el panel**, las mismas alertas (y toda apertura en VHF, un ducto en 2 m y una DXpedición que
 sale al aire) también aparecen arriba a la derecha, una debajo de la otra, la más nueva arriba: cada
 una queda dos minutos (no mientras tenés el mouse encima), hasta que hacés clic o la cerrás con su ✕;
@@ -319,8 +323,9 @@ Dos filtros de una casilla:
 
 - **Ocultar confirmados** saca las estaciones cuya entidad ya tenés confirmada en esa banda y
   modo, sea una alerta de indicativo nuevo o una fila SPOT. Quedan solo las que suman a tu log.
-- **Solo LoTW** deja las estaciones que subieron a LoTW en los últimos 12 meses y las
-  DXpediciones que anunciaron LoTW: las que probablemente confirmen ahí.
+- **Solo LoTW** deja las estaciones que subieron a LoTW en los últimos 12 meses y todas las
+  DXpediciones, anuncien LoTW o no: las primeras probablemente confirmen, y una DXpedición puede
+  confirmar más adelante o al menos deja el QSO para OQRS.
 
 **Una fuente a la vez.** Un clic en la pastilla de una fuente del encabezado (Cluster, RBN CW,
 RBN FT8, PSKReporter, WSJT-X) deja las filas que spoteó esa fuente y las estaciones que
@@ -334,6 +339,13 @@ JTDX, las que se escuchan donde estás.
 fila, o clic derecho en la fila → **Quitar de la lista**, saca esa estación en esa banda de la
 lista y del panadaptador de la radio, en todos los paneles abiertos. Su tiempo sin repetir
 sigue, así que vuelve a avisar cuando termine.
+
+**No avisar más por este indicativo.** Clic derecho en la fila → **No avisar más por este
+indicativo** agrega esa estación a **Ignorar** (Configuración → Alertas) sin abrir la
+configuración. Sus filas de todas las bandas salen de la lista y del panadaptador, y no vuelve a
+alertar por ninguna fuente: cluster, RBN o WSJT-X. Con otro clic derecho, **Volver a avisar por
+este indicativo** la saca de Ignorar. Sirve para sacarte de encima las estaciones que no
+confirman sin renunciar a las DXpediciones, que el filtro **Solo LoTW** deja pasar igual.
 
 El **ancla** al lado de la ✕, **Fijar en la lista**, hace lo contrario: deja esa estación en
 esa banda en la lista aunque haga mucho que no se spotea, arriba de todo y con cualquier
@@ -779,6 +791,12 @@ de las dos puede ir por TCI, y dos por OmniRig tienen que ser su Radio 1 y su Ra
 En la pestaña Estación, que se abre con un clic en una alerta o en una DXpedición de la pestaña
 DXpediciones:
 
+**En el teléfono**, el enlace de cada alerta de Telegram abre `http://<tu PC>:8073/m?call=3Y0K`, una
+página chica con lo justo: el indicativo y su país con lo que suma, dónde se está escuchando en los
+últimos minutos, la grilla de tu log con ese país y con ese indicativo, el estado de LoTW y, para las
+bandas en las que se lo está escuchando ahora, la chance de esta hora según VOACAP (verde desde 50%,
+ámbar desde 10%, gris por debajo). Necesita **Red local** prendido (ver Seguridad).
+
 - **Al cambiar de estación** el panel vuelve arriba, al nombre y el país de la nueva, y de ahí no
   se mueve, aunque VOACAP llegue unos segundos después. Si la estación es la misma que ya estaba
   abierta (Filtrar, la estrella, un QSO guardado, otro idioma), el panel se queda donde lo dejaste.
@@ -1186,6 +1204,14 @@ vista, con DXCC o sin nada.
   acceder.
 - Solo responde a pedidos dirigidos a `localhost` (protección contra trucos de
   *DNS rebinding* desde sitios web).
+- **Abrirlo desde el celular** es opcional y hay que prenderlo a mano: **Red local**, en la tarjeta
+  del panel. Ahí el panel escucha en la red y acepta los nombres propios de la PC, pero **no tiene
+  contraseña**: cualquiera que llegue a esa dirección puede cambiar los ajustes o borrar QSOs. La
+  radio y el WinKey quedan afuera de eso: los pedidos que los mueven se rechazan si no vienen de la
+  propia PC, y en otro dispositivo la página ni siquiera dibuja los botones de Tune ni la caja de CW
+  (en la barra de filtros avisa por qué). Dejalo apagado en redes ajenas (hoteles, eventos) y, si lo
+  prendés, que el firewall deje entrar solo a tu red. Al arrancar, la consola imprime la dirección
+  que usa el celular.
 - La configuración solo se puede guardar desde la propia página del panel. Otros
   sitios web que visites no pueden enviar un pedido que la modifique ni mostrar el
   panel dentro de su propia página.
@@ -1251,7 +1277,9 @@ contraseña y cada cuánto descargar. **Probar ingreso** prueba el usuario y la 
   siguiente título, BANDA NUEVA en vez de INDICATIVO NUEVO.
 - Bandas y modos.
 - Cuándo una DXpedición o un indicativo de la lista de seguimiento cuenta como trabajado.
-- **Lista de seguimiento** e **Ignorar**.
+- **Lista de seguimiento** e **Ignorar**: indicativos que nunca generan alerta, con comodines
+  como `VP8*`. También se agregan desde la lista, con clic derecho en la fila (ver Una sola
+  estación).
 - Cuánto esperar antes de repetir la misma alerta, y **Dejar solo la última fila de cada
   estación**: mismo indicativo, banda y modo, a 3 kHz o menos de su frecuencia, así un spot un
   poco corrido, como pasa en FT8, es la misma estación. Cuando vuelve a aparecer, sus filas
@@ -1260,6 +1288,64 @@ contraseña y cada cuánto descargar. **Probar ingreso** prueba el usuario y la 
   modo durante ese tiempo salen de la lista. 0 es nunca, el valor por defecto.
 - El radio de «cerca tuyo» y **Avisar solo si se escucha cerca tuyo**.
 - Las notificaciones de Windows y para qué alertas.
+- Las alertas al celular, por Telegram (ver Alertas en el celular).
+
+#### Alertas en el celular
+
+DX Agent puede mandar las alertas a un bot de Telegram tuyo, así llegan al teléfono aunque estés
+lejos del equipo. Es la misma alerta del panel, filtrada aparte:
+
+- **Mandar las alertas a Telegram**: el interruptor de la tarjeta.
+- **Token del bot**: el que da [@BotFather](https://t.me/botfather) al crear el bot (`/newbot`,
+  dos minutos). Se guarda cifrado para tu usuario de Windows en `data/telegram.secret`, nunca en
+  `config.toml`, y no se vuelve a mostrar.
+- **Chat**: adónde escribe el bot. Tu id te lo dice [@userinfobot](https://t.me/userinfobot); el de
+  un grupo empieza con signo menos.
+
+Después de pegar el token queda un paso que no es obvio: **hablarle al bot**. Telegram no deja que un
+bot inicie una conversación, así que si nunca le escribiste, la prueba contesta «chat not found». Se
+arregla así: abrí el chat del bot (buscá en Telegram el nombre que te dio @BotFather, o usá **Abrir el
+chat del bot**, que aparece al costado del error), tocá **Iniciar** o mandale cualquier mensaje, y
+volvé a probar. Con un grupo es igual: agregá el bot y escribí algo ahí.
+- **Qué alertas llegan al celular**: el nivel, con los mismos valores que las notificaciones de
+  Windows (1 = solo ATNO), y si hace falta algo más fino, los tipos de alerta. Con **Solo las
+  estaciones que se escuchan cerca tuyo** llegan solo las que entran en «cerca tuyo», con la
+  distancia de **Alertas**.
+- **Aperturas en VHF**: 6 m y 2 m (Es, TEP, tropo, lluvia de meteoros y salto corto de 10 m) llegan
+  siempre, sin importar el nivel, igual que las notificaciones de Windows. El mensaje dice qué está
+  abierto y hacia dónde, qué camino es y la estación a llamar, por ejemplo «OPEN 6m: Japan (Es)» con
+  «3 stations within 200 km hear 2 there». Se generan con [Aperturas en VHF](#aperturas-en-vhf-6-m-y-2-m),
+  y si eso está apagado no hay nada que mandar.
+- **Como mucho un mensaje cada** N segundos: Telegram acepta más o menos un mensaje por segundo, y
+  en un concurso entran decenas de alertas en ese tiempo, así que las que llegan mientras tanto
+  salen juntas en un solo mensaje. Si la cola se llena, se descartan las más viejas.
+- **Dirección del panel**: cada mensaje termina con un enlace a la estación. Sin dirección usa el
+  panel de esta PC: `http://localhost:<puerto>` con el panel solo local, o la dirección de la red
+  cuando está prendido **Red local**, que es la que el celular alcanza. Poné una dirección acá si
+  llegás por una VPN o un túnel con otro nombre.
+- **Mandar una prueba**: manda un mensaje en el momento, con el token y el chat que estén en el
+  formulario, y muestra lo que contestó Telegram con qué revisar: un 401 es el token y un 400 el
+  chat (o que el bot todavía no vio un mensaje tuyo).
+
+El mensaje llega en negrita el titular y el indicativo, y debajo lo que sirve para decidir: la
+frecuencia, banda, modo y país; qué suma (o LoTW); quién lo escuchó y a qué distancia, con los dB si
+es la RBN; y un enlace a la estación en el panel. Por ejemplo:
+
+```
+NEW BAND · KK4RXE
+1840.0 kHz · 160m · FT8 · United States
+LoTW 2026-11-08
+Nearest K1HTV (7902 km) · RBN -13 dB
+Open the station
+```
+
+El enlace del final abre **la estación en el teléfono** (`/m?call=…`), una página pensada para el
+celular: el indicativo y su país, dónde se está escuchando, tus slots y LoTW, y la chance de esta hora
+en cada banda en la que se lo escucha, según VOACAP. Si el mismo skimmer cerca tuyo es el
+que lo escuchó, su indicativo aparece una sola vez.
+
+El envío no frena el procesamiento de spots: las alertas esperan en una cola y salen desde otro
+hilo. Al volver a guardar los ajustes, la cola anterior se cierra y la nueva arranca vacía.
 
 #### Fuentes de spots
 
@@ -1316,7 +1402,8 @@ Marathon.
 #### DXpediciones, log y panel
 
 Mostrar las DXpediciones que ya tenés; las fuentes de DXpediciones y cada cuánto releerlas; cada
-cuánto revisar el archivo del log; el puerto del panel, y si abre el navegador al iniciar. También
+cuánto revisar el archivo del log; el puerto del panel, si escucha en la red local para abrirlo desde el
+celular, y si abre el navegador al iniciar. También
 qué filtros y qué tipos de alerta se ven sobre la lista, y si los modos digitales se desglosan en
 FT8, FT4 y RTTY con un botón cada uno (ver Filtros).
 
@@ -1329,7 +1416,9 @@ Cómo se comporta:
 - **La contraseña de LoTW** se guarda cifrada para tu usuario de Windows en `data/lotw.secret`,
   nunca en `config.toml`, y no se vuelve a mostrar. El cuadro indica si hay una guardada. Si se
   deja vacío, se conserva; marcando **Olvidar la contraseña guardada** se elimina.
-- **El puerto del panel** cambia recién la próxima vez que se inicie DX Agent.
+- **El puerto del panel** y **Red local** se aplican al guardar: el panel se muda ahí en el momento
+  (si cambiaste el puerto, abrí la página en el nuevo; si prendiste la red local, la dirección de
+  siempre sigue andando y además responde a las de la red).
 - **Comentarios.** Al guardar, `config.toml` se reescribe con sus propios comentarios breves; los
   comentarios agregados a mano no se conservan.
 
@@ -2110,7 +2199,8 @@ confirma lo que oyó un skimmer y dice si una estación se escucha cerca tuyo.
 actividad, Ocultar confirmados, Solo cerca tuyo, Solo LoTW y las pastillas de las fuentes) se
 aplican todos a la vez, a la lista y al mapa. No borran nada: lo que ocultan aparece apenas cambia
 el filtro. TE ESCUCHAN y las aperturas no se filtran por continente, confirmados, cerca tuyo ni
-LoTW; TE ESCUCHAN pasa además cualquier pastilla, y las aperturas solo la de VHF. Los caminos de las
+LoTW; TE ESCUCHAN pasa además cualquier pastilla, y las aperturas solo la de VHF. **Solo LoTW**
+deja pasar también las DXpediciones, con LoTW anunciado o no. Los caminos de las
 aperturas se dibujan en el mapa con el filtro **50-144 MHz** o la pastilla **VHF** activados.
 `alerts.latest_only` y `alerts.expire_minutes` cambian solo la lista.
 
@@ -2146,8 +2236,17 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | alerts      | `self_spots`                | `true`                                            | Listar los spots de tu propio indicativo (TE ESCUCHAN): quién te escucha y a qué distancia |
 | alerts      | `expire_minutes`            | `0`                                               | Lista del panel: quitar las estaciones que no se spotean en esa banda y modo hace estos minutos (0 = nunca) |
 | alerts      | `keep_days`                 | `7`                                               | Días de alertas que se guardan en `data/dxagent.db` (0 = ninguna). Con la RBN, unas 25.000 alertas por día, unos 15 MB |
+| telegram    | `enabled`                   | `false`                                           | Mandar las alertas a un bot de Telegram (el token se guarda desde el panel, ver Alertas en el celular) |
+| telegram    | `chat_id`                   | vacío                                             | Adónde escribe el bot: tu id, el de un grupo (empieza con signo menos) o `@canal` |
+| telegram    | `min_priority`              | `1`                                               | Qué alertas llegan al celular: 1 = solo ATNO, 2 = también banda nueva, DXpedición y ventana, 3 = también modo nuevo, seguimiento, grid y prefijo |
+| telegram    | `reasons`                   | `[]`                                              | Solo estos tipos de alerta llegan al celular (vacío = todos los que deje pasar el nivel) |
+| telegram    | `near_only`                 | `false`                                           | Solo las estaciones que se escuchan cerca tuyo |
+| telegram    | `vhf`                       | `true`                                            | Las aperturas en VHF (6 m y 2 m: Es, TEP, tropo, lluvia de meteoros, salto corto) llegan sin importar el nivel, como las notificaciones de Windows |
+| telegram    | `min_seconds`               | `10`                                              | Tiempo mínimo entre dos mensajes; las alertas que llegan mientras tanto salen juntas en uno |
+| telegram    | `dashboard_url`             | vacío                                             | La dirección del panel como la alcanza el teléfono, para el enlace del final de cada mensaje |
 | ui          | `enabled`                   | `true`                                            | Iniciar el panel web con `run` |
-| ui          | `port`                      | `8073`                                            | Dirección del panel: `http://localhost:8073` |
+| ui          | `port`                      | `8073`                                            | Dirección del panel: `http://localhost:8073`. Se aplica al guardar (el panel se muda ahí) |
+| ui          | `lan`                       | `false`                                           | Escuchar también en la red local, para abrir el panel desde el celular (el panel no tiene contraseña: ver Seguridad). Se aplica al guardar |
 | ui          | `open_browser`              | `true`                                            | Abrir el panel automáticamente al iniciar `run` |
 | ui          | `check_updates`             | `true`                                            | Avisar en el panel (una pastilla junto a la versión) cuando sale un DX Agent más nuevo, y dejarlo listo: le pregunta a GitHub cada hora cuál es la última versión del repositorio de descargas, y baja y verifica su paquete. No se manda nada tuyo; se instala cuando hacés clic en **Instalar** |
 | ui          | `install_updates`           | `false`                                           | Instalar una versión nueva sin preguntar, apenas está lista: DX Agent se reinicia solo, aunque estés en medio de un QSO |
@@ -3059,6 +3158,7 @@ hace falta.
 | `data/lotw_qsls.adi` + `data/lotw_state.json` | tu cuenta de LoTW    | cada 12 horas  |
 | `data/log-<INDICATIVO>.db`, `data/backups/`   | el logbook de DX Agent (experimental) | al loguear; un backup por día |
 | `data/lotw.secret`                            | página de configuración | al guardar una contraseña |
+| `data/telegram.secret`                        | página de configuración | al guardar el token del bot |
 | `data/rigctld-<n>.json`                       | DX Agent: el rigctld que corre para la radio 1 o 2 (el id de su proceso), para que un arranque lo encuentre en vez de arrancar otro | mientras corre ese rigctld |
 | `data/rbn-skimmers.json`                      | lista de skimmers de la RBN | cada día |
 | `data/sota-summits.csv`                       | lista de cumbres de SOTA | cada mes  |

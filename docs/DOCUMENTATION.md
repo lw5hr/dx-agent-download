@@ -164,6 +164,9 @@ Notification Center, with nothing extra to install. On Windows, clicking one ope
 dashboard at that station (its grid, its row in view). On Linux they need `plyer`
 (`pip install plyer`); without it the alerts still appear in the dashboard.
 
+**On the phone:** with a Telegram bot of yours, the same alerts reach the phone while you are away
+from the radio. It is set up from the dashboard; see [Alerts on the phone](#alerts-on-the-phone).
+
 **In the dashboard**, the same alerts (and every VHF opening, a 2 m duct and a DXpedition coming on
 the air) also show at the top right, one under the other, the newest on top: each stays two
 minutes (not while the mouse is on it), until you click it or close it with its ✕; with two or
@@ -189,7 +192,7 @@ python -m dxagent run --no-ui       # console only
 | Area | What it shows |
 |------|---------------|
 | **Header** | Your call; one pill per feed (green = online, amber = connecting, red = down) with its spot count (hover for the server and last spot time; a click leaves in the list and the map only the stations it heard, see Filters); a **DXpeditions** pill next to them: how many are within their dates and how many of them were spotted in the last 15 minutes ("48 · 6 on the air", its dot green while one is; a click opens the DXpeditions tab); a **propagation** pill at their side: SFI, SN, A and K, the field's state in its dot, and the storm's level when there is one (**G2** red while it lasts, softer when it is only today's forecast; **R1** for a radio blackout; grey dashes when NOAA SWPC has nothing fresh), its tip saying how old each value is, what A and K mean and the G/R/S scales; your log totals; icon buttons (hover for what each does): **About** ⓘ (what DX Agent is, who made it, the collaborators, how to support it, and help: the website, the user manual and the issues page), **Settings** ⚙ (on the Settings page, a list icon back to the alerts), **EN/ES/PT/FR** (language), **Theme** (half circle = Auto, sun = Light, moon = Dark, a palette = another theme; a click opens the menu of themes), **Browser sound** (speaker, crossed out when off), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop** (red); UTC clock. `#about` opens the About window. On a narrower window (up to 1800 px) the pills go below your call and the buttons, the whole width; the chevron after them folds them to their status dots, in one highlighted pill next to your call (a click on it opens them again; remembered in the browser) |
-| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and the DXpeditions that announced LoTW: the ones likely to confirm there. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
+| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
 | **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
 | **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a green ring marks the bands and modes where the station was spotted in the last 15 minutes, the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
 | **Ventanas tab** | When each country you still need is heard from near you: one row per country, with its Most Wanted rank and 24 hours as a line of bars. Order by **A–Z**, **Most Wanted** or **This hour**. Click one for every band and mode, hour by hour, with who heard it and how far, the empty hours filled with VOACAP. **Needed** / **All** (see Ventanas) |
@@ -539,6 +542,12 @@ Only one of the two can be on TCI, and two on OmniRig must be its Rig 1 and Rig 
 ### Follow one station
 
 In the Station tab (click an alert, or a DXpedition in the DXpeditions tab):
+
+**On the phone**, each Telegram alert's link opens `http://<your PC>:8073/m?call=3Y0K`, a small page
+with just what is needed: the call and its country with what it adds, where it has been heard in the
+last minutes, your log's grid with that country and with that call, the LoTW state and, for the bands
+it is being heard on right now, this hour's chance from VOACAP (green from 50%, amber from 10%, grey
+below). It needs **Local network** on (see Safety).
 
 - **Changing stations** puts the panel back at the top, on the new call's name and country, and it
   stays there while VOACAP lands a few seconds later. The same station drawn again (Filter, the
@@ -905,6 +914,14 @@ or none.
 - The dashboard only listens on `127.0.0.1`, so other computers can't reach it.
 - It only answers requests addressed to `localhost` (protection against
   DNS-rebinding tricks from websites).
+- **Opening it from the phone** is optional and has to be turned on by hand: **Local network**, in
+  the dashboard card. There the dashboard listens on the network and answers this PC's own names,
+  but it **has no password**: whoever reaches that address can change the settings or delete QSOs.
+  The radio and the WinKey are outside that: the requests that move them are refused unless they come
+  from this PC, and on another device the page doesn't even draw the Tune buttons or the CW box (the
+  filter bar says why). Keep it off on networks that are not yours (hotels, events) and, if you turn
+  it on, let the firewall admit only your network. On start, the console prints the address the phone
+  uses.
 - Settings can only be saved from the dashboard page itself. Other websites you visit
   can't send a request that changes them, and can't show the dashboard inside their
   own page.
@@ -928,13 +945,14 @@ settings left them, no reload needed. The settings are in tabs, one group at a t
 | **Station** | Your callsign; **Your log**: an ADIF file from your logger, **LoTW only** (see LoTW as your log), or **Start from scratch** (see A new log); the path to your ADIF log (one per line; `*` picks the newest file, e.g. `…/CALL_*_backup.adi` for Log4OM backups). **Browse…** opens the Windows file window to pick the file (if you pick a dated Log4OM backup, it becomes `…/CALL_*_backup.adi` so the newest is always used). **Test** shows which file it found, its size, date and QSO count; your grid square (empty = taken from your log); **Your other callsigns**, each with its own log (see Several callsigns) |
 | **Log** | Only with DX Agent's logbook: **Import ADIF…**; TQSL (where it is) and each callsign's TQSL Station Location, for uploads to LoTW; your Club Log email and application password, for uploads to Club Log; each callsign's QRZ.com Logbook API key (with **Test**), for uploads to and downloads from QRZ (see DX Agent's logbook) |
 | **LoTW** | Turn the confirmation download on or off; LoTW username (empty = your call); LoTW password; how often to download. **Test login** checks the username and password with LoTW |
-| **Alerts** | Which alert types you want (and **Your own call**: who hears you; a type turned off also leaves the list: an alert only for it goes, another one shows its next headline, NEW BAND rather than NEW CALL); bands; modes; when a DXpedition or watchlist call counts as worked; watchlist; ignore list; how long before the same alert repeats and **Keep only the latest row of each station** (same call, band and mode, within 3 kHz of its frequency: a spot a little off it, as happens on FT8, is the same station; when it shows up again, its older rows leave the list); **Take out of the list after** N minutes (stations not spotted on that band and mode for that long leave the list; 0 = never, the default); the "near you" radius and **Only alert when heard near you**; Windows pop-ups and for which alerts |
+| **Alerts** | Which alert types you want (and **Your own call**: who hears you; a type turned off also leaves the list: an alert only for it goes, another one shows its next headline, NEW BAND rather than NEW CALL); bands; modes; when a DXpedition or watchlist call counts as worked; watchlist; ignore list (also with a right click on a row); how long before the same alert repeats and **Keep only the latest row of each station** (same call, band and mode, within 3 kHz of its frequency: a spot a little off it, as happens on FT8, is the same station; when it shows up again, its older rows leave the list); **Take out of the list after** N minutes (stations not spotted on that band and mode for that long leave the list; 0 = never, the default); the "near you" radius and **Only alert when heard near you**; Windows pop-ups and for which alerts |
+| **Alerts on the phone** | Send the alerts to a Telegram bot of yours: its token (stored encrypted in `data/telegram.secret`, never in `config.toml`), the chat it writes to, which alerts go there (a level like the pop-ups', and the alert types), only the stations heard near you, how long between two messages (the alerts in between go out together in one), the dashboard's address as the phone reaches it (for the link at the end of each message), and **Send a test** (see Alerts on the phone) |
 | **Spot sources** | DX cluster on/off, its servers (`host:port`, tried in order) and login commands; **Recent spots on connecting** (minutes, 0 = off); which continents' cluster spotters to use; RBN on/off, CW/RTTY and FT8/FT4 feeds; which continents' skimmers count |
 | **Radio (Tune button)** | For **Radio 1** and, if you use two, **Radio 2** (see Two radios): which program tunes it (Off, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), its name, its address and port (0 = default), whether to set the mode too, which OmniRig radio, and with Hamlib whether DX Agent starts rigctld and with what arguments; for **Both radios**, WSJT-X, split, and — shown only with a radio on TCI — whether the alerts go on the panadapter and what a Tune does while the radio transmits, and — shown only with a radio on flrig — whether a Tune goes through flrig; and **CW with WinKey**: its port, speed and messages (see DX Agent's logbook) |
 | **CQ DX Marathon** | Follow it or not; the year or the Sprint, and the Sprint's dates; the modes that count (all, CW, phone, digital, or Classic: CW and phone); alerts for a new Marathon country and for a new zone |
 | **VHF openings** | Watch the stations near you hearing far ones, and the stations hearing you; the bands (6 m, 2 m); how far from you is near; how many stations must hear it, and how many there; what a place is (a country, a continent, a grid field); at least how far, and the time to live, for each band; the grace before closing; how far off north-south a TEP path may cross; meteor scatter; 10 m short skip; 2 m tropo from the weather forecast; leave out moonbounce; a Windows pop-up when the band opens (see VHF openings) |
 | **Ventanas** | Count the hours each country you miss is heard from near you, and show them in the Ventanas tab; how far from you counts as near; the months kept; how often the same spot counts; whether a spotter known only by its country counts, and whether your own country is left out; the hour's alert (on at least how many days, at most how many countries, heard within how many days) and its pop-up (see Ventanas) |
-| **DXpeditions, log and dashboard** | Show DXpeditions you already have; DXpedition sources and how often to re-read them; how often to check the log file; dashboard port; open the browser on start |
+| **DXpeditions, log and dashboard** | Show DXpeditions you already have; DXpedition sources and how often to re-read them; how often to check the log file; dashboard port; whether the dashboard listens on the local network (so the phone opens it, with a warning: the dashboard has no password); open the browser on start |
 
 How it behaves:
 
@@ -946,7 +964,9 @@ How it behaves:
   `data/lotw.secret` — never in `config.toml` — and is never shown again. The box
   says whether a password is saved. Leave it empty to keep the saved one; tick
   **Forget the saved password** to remove it.
-- **Dashboard port** changes take effect the next time you start DX Agent.
+- **Dashboard port** and **Local network** apply when you save: the dashboard moves there right away
+  (if you changed the port, open the page on the new one; with the local network on, the address you
+  had keeps working and it also answers the network's).
 - **Comments.** Saving rewrites `config.toml` with its own short comments; comments
   you added by hand are not kept.
 
@@ -1144,6 +1164,62 @@ By default only ATNO pops up (`notify_max_priority = 1`), in Windows and in the 
 pop-ups for priority 2 or 3 alerts too, change it under
 **Windows pop-ups** on the Settings page. Every alert is also
 kept in `data/dxagent.db` (the last `keep_days` days).
+
+### Alerts on the phone
+
+DX Agent can send the alerts to a Telegram bot of yours, so they reach the phone while you are away
+from the radio. It is the same alert as in the dashboard, filtered on its own:
+
+- **Send the alerts to Telegram** turns it on.
+- **Bot token**: the one [@BotFather](https://t.me/botfather) gives you when you create the bot
+  (`/newbot`, two minutes). It is stored encrypted for your Windows user in `data/telegram.secret`,
+  never in `config.toml`, and it is never shown again.
+- **Chat**: where the bot writes. [@userinfobot](https://t.me/userinfobot) tells you your own id; a
+  group's starts with a minus sign.
+
+Once the token is in there is one step that is not obvious: **talking to the bot**. Telegram does not
+let a bot start a conversation, so if you never wrote to it, the test answers "chat not found". The
+fix: open the bot's chat (search in Telegram for the name @BotFather gave it, or use **Open the bot's
+chat**, which shows next to the error), press **Start** or send it any message, and try again. For a
+group it is the same: add the bot and write something there.
+- **Which alerts go to the phone**: a level with the same values as the pop-ups (1 = ATNO only),
+  and, if you want it finer, the alert types. **Only the stations heard near you** leaves in only
+  those that count as near you, with the distance set in **Alerts**.
+- **VHF openings**: 6 m and 2 m (Es, TEP, tropo, meteor scatter and 10 m short skip) always go,
+  whatever the level says, as with the Windows pop-ups. The message says what is open and where to,
+  what the path is, and the station to call, such as "OPEN 6m: Japan (Es)" with "3 stations within
+  200 km hear 2 there". They come from [VHF openings](#vhf-openings-6-m-and-2-m); with that off
+  there is nothing to send.
+- **A message at most every** N seconds: Telegram takes about one message a second, and a contest
+  fires dozens of alerts in that time, so the ones that come in meanwhile go out together in one
+  message. If the queue fills up, the oldest are dropped.
+- **The dashboard's address**: every message ends with a link to the station. With none it uses this
+  PC's dashboard: `http://localhost:<port>` while the panel is local only, or the network address when
+  **Local network** is on, which is the one the phone reaches. Put an address here if you get there
+  through a VPN or a tunnel with another name.
+- **Send a test** sends one message right away, with the token and the chat in the form, and shows
+  what Telegram answered with what to check: a 401 is the token, a 400 is the chat (or a bot that
+  has not seen a message from you yet).
+
+The message comes with the headline and the call in bold, and under it what you need to decide: the
+frequency, band, mode and country; what it adds (or LoTW); who heard it and how far, with the dB on
+an RBN spot; and a link to the station in the dashboard. For example:
+
+```
+NEW BAND · KK4RXE
+1840.0 kHz · 160m · FT8 · United States
+LoTW 2026-11-08
+Nearest K1HTV (7902 km) · RBN -13 dB
+Open the station
+```
+
+The link at the end opens **the station on the phone** (`/m?call=…`), a page made for the phone: the
+call and its country, where it is being heard, your slots and LoTW, and this hour's chance from
+VOACAP on each band it is being heard on. When the skimmer near you is the one that heard it, its
+call is said once.
+
+Sending never holds up the spots: the alerts wait in a queue and go out from a thread of their own.
+Saving the settings closes the old queue and the new one starts empty.
 
 ### Near you: is the station reaching your area?
 
@@ -1673,7 +1749,8 @@ confirms what a skimmer heard and tells whether a station is heard near you.
 confirmed, Near you only, Only LoTW and the feeds' pills) all apply at once, to the list and the
 map. They delete nothing: what they hide shows as soon as the filter changes. YOU'RE HEARD and the
 openings aren't filtered by continent, confirmed, near you or LoTW; YOU'RE HEARD also passes any
-pill, and the openings only VHF's. The openings' paths are drawn on the map with the **50-144 MHz**
+pill, and the openings only VHF's. **Only LoTW** keeps the DXpeditions too, LoTW announced or not.
+The openings' paths are drawn on the map with the **50-144 MHz**
 filter or the **VHF** pill on. `alerts.latest_only` and `alerts.expire_minutes` only change the list.
 
 ---
@@ -1709,8 +1786,17 @@ You can also edit it by hand; restart `run` afterwards.
 | alerts      | `self_spots`                | `true`                                            | List the spots of your own callsign (YOU'RE HEARD): who hears you, and how far away |
 | alerts      | `expire_minutes`            | `0`                                               | Dashboard list: take out stations not spotted on that band and mode for this many minutes (0 = never) |
 | alerts      | `keep_days`                 | `7`                                               | Days of alerts kept in `data/dxagent.db` (0 = none). With RBN on, about 25,000 alerts a day, some 15 MB |
+| telegram    | `enabled`                   | `false`                                           | Send the alerts to a Telegram bot (its token is saved from the dashboard; see Alerts on the phone) |
+| telegram    | `chat_id`                   | empty                                             | Where the bot writes: your own id, a group's (it starts with a minus sign) or `@channel` |
+| telegram    | `min_priority`              | `1`                                               | Which alerts go to the phone: 1 = ATNO only, 2 = also new band, DXpedition and window, 3 = also new mode, watchlist, grid and prefix |
+| telegram    | `reasons`                   | `[]`                                              | Only these alert types reach the phone (empty = every one the level lets through) |
+| telegram    | `near_only`                 | `false`                                           | Only the stations heard near you |
+| telegram    | `vhf`                       | `true`                                            | VHF openings (6 m and 2 m: Es, TEP, tropo, meteor scatter, short skip) go whatever the level says, as with the Windows pop-ups |
+| telegram    | `min_seconds`               | `10`                                              | At least this long between two messages; the alerts that come in meanwhile go out together in one |
+| telegram    | `dashboard_url`             | empty                                             | The dashboard as the phone reaches it, for the link at the end of each message |
 | ui          | `enabled`                   | `true`                                            | Start the web dashboard with `run` |
-| ui          | `port`                      | `8073`                                            | Dashboard address: `http://localhost:8073` |
+| ui          | `port`                      | `8073`                                            | Dashboard address: `http://localhost:8073`. Applies when you save (the dashboard moves there) |
+| ui          | `lan`                       | `false`                                           | Listen on the local network too, to open the dashboard from the phone (the dashboard has no password: see Safety). Applies when you save |
 | ui          | `open_browser`              | `true`                                            | Open the dashboard automatically when `run` starts |
 | ui          | `check_updates`             | `true`                                            | Say on the dashboard (a pill next to the version) when a newer DX Agent is out, and get it ready: asks GitHub every hour for the latest release of the download repository, and downloads and checks its package. Nothing of yours is sent; it is installed when you click **Install** |
 | ui          | `install_updates`           | `false`                                           | Install a new version without asking, as soon as it is ready: DX Agent restarts by itself, also in the middle of a QSO |
@@ -2508,6 +2594,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/lotw_qsls.adi` + `data/lotw_state.json` | your LoTW account  | every 12 hours |
 | `data/log-<CALL>.db`, `data/backups/`         | DX Agent's logbook (experimental) | as you log; a backup a day |
 | `data/lotw.secret`                            | Settings page      | when you save a password |
+| `data/telegram.secret`                        | Settings page      | when you save the bot's token |
 | `data/rigctld-<n>.json`                       | DX Agent: the rigctld it runs for radio 1 or 2 (its process id), so a start finds it again instead of starting a second one | while that rigctld runs |
 | `data/rbn-skimmers.json`                      | RBN skimmer list   | daily          |
 | `data/sota-summits.csv`                       | SOTA summits list  | monthly        |

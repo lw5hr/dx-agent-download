@@ -212,8 +212,8 @@ tienen después las pliega a sus puntos de estado.
   avisaron). Casi siempre lo que conviene es el filtro. Lo que decodifica tu propio WSJT-X siempre cuenta como cerca
   (sección 7);
 - **Ocultar confirmados:** saca lo que ya tenés confirmado en esa banda y modo;
-- **Solo LoTW:** solo las estaciones que subieron a LoTW en los últimos 12 meses y las
-  DXpediciones que anunciaron LoTW;
+- **Solo LoTW:** solo las estaciones que subieron a LoTW en los últimos 12 meses y todas las
+  DXpediciones, anuncien LoTW o no;
 - un cuadro de **búsqueda** por indicativo o país;
 - **Limpiar filtros** vuelve a mostrar todo. El navegador recuerda los filtros.
 - **⚙** (junto a Limpiar filtros, o Configuración → **Filtros sobre la lista**): cuáles de Banda, Modo, el buscador,
@@ -239,7 +239,9 @@ se ve cuál, y se va a los 15 minutos del último indicio.
 **Limpiar lista** (en rojo, arriba a la derecha): vacía la lista, después de preguntar. Lo que
 siga en el aire vuelve a avisar en su próximo spot. **Una sola estación:** la **✕** al lado de su
 indicativo (aparece con el mouse sobre la fila), o clic derecho en la fila → **Quitar de la
-lista**.
+lista**. En el mismo menú, **No avisar más por este indicativo** lo agrega a Ignorar sin pasar
+por Configuración: sus filas de todas las bandas salen de la lista en el momento y no vuelve a
+alertar, venga de donde venga el spot (ver **Ignorar**, más abajo).
 
 **Fijar una estación:** el **ancla** al lado de la ✕ la deja en la lista en esa banda aunque haga
 mucho que no se spotea: no la saca **Quitar de la lista después de**, ni Limpiar lista, ni
@@ -395,7 +397,8 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
 
 **Lista de seguimiento:** indicativos que querés que te avisen siempre que salgan, aunque no
 te sumen nada. Admite comodines, por ejemplo `VP8*`. Se edita en Configuración o con la ☆ de
-la pestaña Estación. **Ignorar** hace lo contrario: esos indicativos nunca alertan. En los
+la pestaña Estación. **Ignorar** hace lo contrario: esos indicativos nunca alertan, y se carga
+también con clic derecho en una fila de la lista → **No avisar más por este indicativo**. En los
 filtros, **SIGUIENDO** junto con otro tipo muestra solo los que seguís que además son de ese
 tipo: **SIGUIENDO** + **BANDA+MODO** son tus indicativos en seguimiento en una banda y modo que
 te faltan.
@@ -477,7 +480,7 @@ estación.
 | **Actividad** | Las activaciones: POTA, SOTA, WWFF, IOTA… |
 | **Ocultar confirmados** | Lo que todavía no tenés confirmado en esa banda y modo |
 | **Solo cerca tuyo** | Lo que escuchó un receptor dentro de tu distancia «cerca tuyo» |
-| **Solo LoTW** | Las estaciones que subieron a LoTW en los últimos 12 meses, y las DXpediciones que lo anunciaron |
+| **Solo LoTW** | Las estaciones que subieron a LoTW en los últimos 12 meses, y todas las DXpediciones, lo hayan anunciado o no |
 | Una **pastilla** del encabezado (cluster, RBN, PSKReporter, WSJT-X, VHF) | Solo lo que escuchó esa fuente. Con **VHF**, solo las aperturas, con sus caminos en el mapa |
 
 TE ESCUCHAN y las aperturas no se filtran por continente, confirmados, cerca tuyo ni LoTW, porque
