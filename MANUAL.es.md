@@ -156,6 +156,11 @@ La configuración está en pestañas: Estación, Log (solo con el logbook de DX 
 Alertas, Propagación, Marathon, Fuentes de spots, Radio y Otros. Al guardar se respeta lo que
 cambiaste a mano en `config.toml` y la página no muestra.
 
+**API para otros programas** (Configuración → Otros), apagada de fábrica: otro programa puede leer
+la lista tal como la muestra el panel, con sus filtros, las alertas, el log y los premios, y cargar,
+editar y subir QSOs, en `/api/v1`. Cada programa tiene su propio token, para solo leer o también
+escribir; cada pedido queda anotado en `data\api.log`.
+
 **Uso anónimo** (Configuración → Otros), apagado de fábrica: el panel lo pregunta una vez, arriba de
 la lista. Si decís que sí, DX Agent manda un aviso por día con la versión y el sistema, y nada más:
 ni indicativo, ni log, ni ajustes, ni país, ni locator.
@@ -181,7 +186,9 @@ mouse, una tarjeta con los gráficos de los últimos días —el SFI de cuatro, 
 de las últimas 24 horas, cada uno en su color—, debajo el pronóstico de hoy con la chance de apagón de
 radio, una tabla que dice qué es cada escala —geomagnética, apagón de radio, radiación— y cuánto marca
 ahora, y otra con los umbrales ideales y críticos de SFI, K y A; la línea de arriba, con la antigüedad
-de cada valor, se pone verde cuando todos los índices están en el rango bueno; un clic en la pastilla
+de cada valor, se pone verde cuando todos los índices están en el rango bueno; a su derecha,
+**Desde tu zona, últimos 30 min**: por banda, qué continentes escucharon los receptores cerca tuyo en
+la última media hora, más verde cuantos más receptores, que sirve para elegir banda; un clic en la pastilla
 deja la tarjeta clavada —con el borde en azul— para leerla o copiar los números, y se cierra con otro
 clic, un clic afuera o Escape); los totales de tu log: los QSOs en azul, los países trabajados
 en ámbar, los confirmados en verde; botones con íconos (al pasar el mouse dicen qué hace cada
@@ -382,7 +389,8 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
 - Una alerta puede ser de varios tipos a la vez: una BANDA NUEVA que además es un grid nuevo
   aparece con el filtro **GRID NUEVO**, y con ese filtro elegido la fila dice GRID NUEVO.
 - En Configuración → Alertas también están **Dejar solo la última fila de cada estación** (mismo
-  indicativo, banda y modo, a 3 kHz o menos) y **Quitar de la lista después de** N minutos sin spot (0 =
+  indicativo, banda y modo, en cualquier frecuencia de la banda: una DXpedición que se movió unos kHz
+  sigue siendo una sola fila) y **Quitar de la lista después de** N minutos sin spot (0 =
   nunca): las dos apagadas de fábrica. Una estación que salió de la lista vuelve apenas la spotean de
   nuevo, aunque todavía no vuelva a avisar.
 - La lista guarda las últimas 500 alertas. Cuando se llena, se van primero las de INDICATIVO
@@ -516,7 +524,10 @@ antena grande.
 - La columna **VOACAP** de la lista: la chance de un QSO en la banda y el modo de la fila a esta
   hora, verde desde 50%, ámbar desde 10%; pasando el mouse, la SNR de cada sentido y la MUF. Para
   FT8 y FT4 también da la SNR como la informa WSJT-X, para comparar con los reportes que recibís.
-  VOACAP llega hasta 30 MHz: nada en 6 m para arriba.
+  VOACAP llega hasta 30 MHz: nada en 6 m para arriba. Al lado del porcentaje, **● aire** en verde
+  dice que en la última media hora receptores cerca tuyo escucharon esa zona en esa banda, o una
+  estación a menos de 1.000 km de ella: la banda está abierta hacia allá, diga lo que diga VOACAP.
+  Que no aparezca no quiere decir cerrada: puede que nadie de ahí haya transmitido.
 - **Propagación (VOACAP)** en la pestaña Estación: las próximas 24 horas por banda, con la hora
   actual marcada, para CW, SSB, FT8, FT4 o RTTY.
 - **Paso corto o paso largo:** calcula los dos caminos, el directo y el que da la vuelta al mundo
@@ -560,10 +571,14 @@ de la lista, las 24 horas de la pestaña Estación, la pestaña Ventanas y el F2
 **VOACAP contra el aire dice cuánto acierta.** En la pestaña Estación, al lado de la predicción, lo
 que pasó en la última hora («VOACAP decía 20 m al 15 % hacia JA; la escucharon 6 receptores cerca
 tuyo»). Cuenta sólo el camino entre vos y la estación: los receptores cerca tuyo que la
-escucharon o, si sólo se escuchó lejos, los que estaban reportando en esa misma banda; en ese caso la
-banda igual cuenta como abierta si cerca tuyo se escuchó otra estación a menos de 1.000 km de ella
-(VOACAP predice para una región, no para una estación). Si no hay con qué comparar, la línea no
-aparece: una banda callada no es una banda cerrada.
+escucharon o, si sólo se escuchó lejos, los de esa misma banda que reportan todo lo que decodifican;
+en ese caso la banda igual cuenta como abierta si cerca tuyo se escuchó otra estación a menos de
+1.000 km de ella (VOACAP predice para una región, no para una estación). Solo los receptores que
+reportan todo pueden dar una banda por cerrada: los skimmers del RBN y los receptores de PSKReporter
+cerca tuyo, que DX Agent recibe por cuadrícula con una conexión propia (`near_receivers` en
+`[propagation]`, prendido de fábrica; el radio se achica donde hay muchos receptores). Un spotter del
+cluster spotea lo que elige, así que su silencio no prueba nada. Si no hay con qué comparar, la línea
+no aparece: una banda callada no es una banda cerrada.
 
 Debajo del cuadro de 24 horas, plegada (un clic en el título la abre, y el navegador lo recuerda), la
 tabla de los últimos 30 días, por banda: **acierta** (la daba
@@ -1171,6 +1186,13 @@ directa, **↑** enviada; un clic en ella abre la tarjeta de ese QSO.
   tarjeta como está, para corregirla.
 - Los diplomas cuentan la tarjeta enseguida (DXCC, WAZ, WAS, grids). Si el QSO ya estaba subido a
   Club Log, se vuelve a mandar (Club Log cuenta las QSL en papel).
+
+**Marcar como subidos**: cada fila tiene su casilla, y la barra marca los QSOs tildados (o, si no
+tildaste ninguno, todos los que muestran la búsqueda y los filtros) como ya subidos a LoTW, Club Log
+o QRZ.com, sin mandar nada: para los QSOs que ese servicio ya tiene, como pasa con un log importado de
+un logger que los había subido. También borra el rechazo de ese servicio. Un log exportado de Club Log
+entra marcado como ya subido ahí. Esta barra y **Duplicados** se prenden en Configuración → Log; las
+dos vienen apagadas.
 
 **Duplicados**, también en la pestaña Acciones (cerrado hasta que hacés clic en su título), lista
 los QSOs que tu log tiene más de una vez: mismo indicativo, minuto y banda. Los que además comparten

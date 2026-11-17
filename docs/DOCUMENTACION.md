@@ -1198,6 +1198,97 @@ locator: los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN, no los del D
 **Zonas** (el menú: ninguna, CQ o ITU) muestra los bordes y números de las zonas en cualquier
 vista, con DXCC o sin nada.
 
+### Leer la lista desde otro programa
+
+El panel también entrega la lista como JSON, para que otro programa la lea sin abrir el navegador:
+`http://localhost:8073/api/filteredspots`. Sin parámetros devuelve lo mismo que ves en la lista:
+el panel le pasa al agente sus filtros (los chips, la búsqueda, **Solo este indicativo**, una
+píldora de fuente) así que lo que llega es lo que tenés en pantalla. Y si el pedido nombra un
+filtro, ese manda para esa respuesta.
+
+| Parámetro | Qué deja pasar |
+|---|---|
+| `bands=20m,40m` | esas bandas |
+| `modes=CW,DIGI,FT8` | esos modos, por grupo (CW, PHONE, DIGI) o por modo |
+| `conts=EU,NA` | esos continentes |
+| `call=3Y0J` | una estación sola, escrita como sea (`PD9DX/TF` encuentra `TF/PD9DX`) |
+| `q=3y` | la búsqueda de la barra: por indicativo o por país, en inglés |
+| `act=POTA` (o `any`) | las activaciones de ese programa, o cualquiera |
+| `types=ATNO,NEW+BAND` | esos tipos de alerta |
+| `feed=rbn-ft8` | una fuente: `cluster`, `rbn-cw`, `rbn-ft8`, `psk`, `wsjtx`, `vhf`, `tci` |
+| `hide_cfm=1` | solo lo que te suma al log |
+| `near=1` | solo lo que se escucha cerca tuyo |
+| `lotw=1` | solo lo que confirma por LoTW |
+| `since=2026-11-17T21:00:00Z` | solo lo que entró después de esa hora |
+| `limit=100` | cuántas filas como mucho (500 por defecto, 1.000 el tope) |
+
+Sin `since` cada respuesta trae la lista de ese momento. Con `since`, la hora de la última fila que
+leíste, trae solo lo nuevo, así se pregunta cada tanto sin repetir. La respuesta trae `count`,
+`now`, los `filters` que se aplicaron, si hubo filtros del panel (`panel`) y `spots`: las filas que
+la lista mostraría, las más nuevas primero y las fijadas arriba. Cada fila es la que usa el panel,
+con indicativo, frecuencia, banda, modo, país, continente, SNR, quién la escuchó, hora, qué te
+falta (`need`), si se escucha cerca tuyo (`reach`) y LoTW; las de alerta traen además la latitud y
+la longitud para el mapa.
+
+```
+curl "http://localhost:8073/api/filteredspots?since=2026-11-17T21:00:00Z"
+```
+
+Hace falta DX Agent corriendo, y el pedido se hace desde la misma PC o desde la red si prendiste
+**Red local**, igual que la página. Si nunca abriste el panel, el agente no tiene sus filtros y
+devuelve la lista entera, como la mostraría sin filtros.
+
+Para pasárselo a quien programa del otro lado, en [INTEGRACION-LISTA.md](./INTEGRACION-LISTA.md)
+está el mismo detalle junto, con un ejemplo.
+
+La misma lista está en la API con token, en `GET /api/v1/list`: es la que conviene usar en un
+programa nuevo, porque es la que no va a cambiar de forma. La ruta sin token sigue igual mientras
+dure la migración, para no romper lo que ya la usa.
+
+### La API para otros programas
+
+La API es para un programa, no para el navegador: vive en `/api/v1`, pide un token en cada pedido y
+se prende en **Configuración → Otros → API para otros programas**.
+
+- **Servir la API**: apagada, `/api/v1` no existe y contesta 404.
+- **Tokens**: uno por programa, con su nombre, para poder revocar uno sin tocar los demás. Al
+  crearlo se elige qué puede hacer: `read` (leer) o `write` (escribir en el log, que incluye leer).
+  El texto se muestra una sola vez; después queda solo su hash. El programa lo manda así:
+  `Authorization: Bearer dxa_...`. Con **Revocar** deja de valer en el acto.
+- **Páginas web permitidas**: si el programa es una página que corre en otro servidor, va su origen
+  acá (`http://192.168.1.10:8080`). Vacío, ninguna página puede llamarla.
+- **Pedidos por segundo y por token**: un tope para leer y otro para escribir. Pasado el tope la
+  respuesta es 429 y el programa puede reintentar.
+- Cada pedido con token queda en `data/api.log`: hora, token, IP, ruta y resultado. Es lo primero
+  que hay que mirar si un programa dice que no puede entrar.
+
+```bash
+curl -H "Authorization: Bearer dxa_..." http://localhost:8073/api/v1/list
+```
+
+La lista de rutas, con lo que pide cada una, está en `GET /api/v1`, y el contrato completo en
+`GET /api/v1/openapi.json`. Ninguna de las dos pide token.
+
+- **Todo lo que muestra el panel** está como una ruta: la lista, las alertas, los totales del
+  logbook, los slots de DXCC, WAZ, WITUZ, WAS y grillas, el Marathon, el pronóstico, las referencias,
+  las DXpeditions y el log, página por página.
+- **En vivo**: `GET /api/v1/events` es el stream de eventos del panel (SSE). Cada evento trae su
+  `id`, y con `Last-Event-ID` el programa sigue donde quedó después de una reconexión. Un navegador
+  puede mandar el token en la dirección (`?token=`) porque su `EventSource` no acepta encabezados.
+- **Si cambió o no**: las vistas que salen del log (DXCC, WAZ, WITUZ, WAS, grillas, Marathon y
+  referencias) devuelven un `ETag`; el programa lo manda en `If-None-Match` y, cuando nada cambió,
+  recibe un 304 sin cuerpo en vez de los cientos de KB.
+
+Para quien programa del otro lado, en [INTEGRACION-API.md](./INTEGRACION-API.md) está la guía
+completa: cómo se autentica, los errores, los límites, el cursor, el ETag, el stream y el catálogo de
+rutas con ejemplos.
+
+La radio no está en la API: `tune`, `rig/*` y `cw/*` siguen siendo solo desde la PC donde corre DX
+Agent. Un programa externo que quiera mover la radio usa Hamlib, el mismo `rigctld` o el mismo TCI.
+
+El token viaja sin cifrar porque el servidor es HTTP. Sirve en la red local, así que no lo uses en
+una red ajena (hoteles, eventos) y revocalo si se te escapa.
+
 ### Seguridad
 
 - El panel solo escucha en `127.0.0.1`, así que otras computadoras no pueden
@@ -1281,9 +1372,9 @@ contraseña y cada cuánto descargar. **Probar ingreso** prueba el usuario y la 
   como `VP8*`. También se agregan desde la lista, con clic derecho en la fila (ver Una sola
   estación).
 - Cuánto esperar antes de repetir la misma alerta, y **Dejar solo la última fila de cada
-  estación**: mismo indicativo, banda y modo, a 3 kHz o menos de su frecuencia, así un spot un
-  poco corrido, como pasa en FT8, es la misma estación. Cuando vuelve a aparecer, sus filas
-  anteriores salen de la lista.
+  estación**: mismo indicativo, banda y modo, en cualquier frecuencia, así una expedición que se
+  movió unos kHz, o que alguien spoteó donde escucha, sigue siendo una sola fila. Cuando vuelve a
+  aparecer, sus filas anteriores salen de la lista.
 - **Quitar de la lista después de** N minutos: las estaciones que no se spotean en esa banda y
   modo durante ese tiempo salen de la lista. 0 es nunca, el valor por defecto.
 - El radio de «cerca tuyo» y **Avisar solo si se escucha cerca tuyo**.
@@ -1762,6 +1853,13 @@ Dónde se ve:
   los pocos segundos. VOACAP llega hasta 30 MHz: nada en 6 m y arriba. La SNR de VOACAP es en 1 Hz;
   en FT8 y FT4 el tooltip también la da como la reporta WSJT-X, en 2.500 Hz, 34 dB menos (27 dB en
   1 Hz son unos -7 dB en WSJT-X).
+
+  Al lado del porcentaje puede aparecer **● aire**, en verde: en la última media hora, receptores
+  cerca tuyo escucharon esa zona en esa banda, o una estación a menos de 1.000 km de ella (un tercio
+  del camino si es corto). La banda está abierta hacia allá, diga lo que diga VOACAP; el tooltip dice
+  cuántos receptores. Cuentan el RBN, el cluster y PSKReporter. Que no aparezca no quiere decir que
+  esté cerrada: puede que nadie de esa zona haya transmitido. Al ordenar por la columna, las filas
+  con aire van primero.
 - **Propagación (VOACAP)** en la pestaña Estación: las próximas 24 horas por banda (tus bandas de
   alerta), cada cuadrado más verde cuanto mejor la chance, para CW, SSB, FT8, FT4 o RTTY (al
   principio el modo de la fila); al pasar el mouse por un cuadrado, sus cifras. Arriba, la banda de
@@ -1842,11 +1940,21 @@ decía cerrada. Escuchado solo más lejos, pero con otra estación a menos de 1.
 escuchada cerca tuyo en la misma banda y la misma hora, también estaba abierta hacia allá: esa zona
 solo tenía estaciones débiles que no llegaron (un FT8 de 10 W que oye un skimmer vecino), y VOACAP
 predice para una región, no para una estación. Escuchado solo más lejos, sin nada cerca de ahí que
-llegara, y con 3 o más receptores cerca tuyo reportando **en esa misma banda** en la hora, la banda
-estaba cerrada desde acá: acierto si VOACAP decía cerrada, y optimista si decía abierta. Receptores cerca tuyo que están todos en 40 m no dicen nada de 15 m: no
-la dan por cerrada. Si nadie la escuchó en esa banda en la hora, no se compara nada: o VOACAP acertó
-o la estación no estaba en el aire, y el aire solo no lo puede decir. En ese caso, y cuando hay
-menos de 3 receptores cerca tuyo en la banda, la pestaña no muestra la línea.
+llegara, y con 3 o más receptores cerca tuyo **que reportan todo lo que decodifican** en esa misma
+banda en la hora, la banda estaba cerrada desde acá: acierto si VOACAP decía cerrada, y optimista si
+decía abierta.
+
+Esos receptores son los skimmers del RBN y los de PSKReporter cerca tuyo, que DX Agent recibe
+completos por su cuadrícula (`near_receivers` en `[propagation]`, prendido de fábrica). El radio
+arranca en 300 km y crece hasta tu distancia de «cerca tuyo» mientras lleguen pocos reportes; donde
+hay muchos receptores, como en Europa, se achica. Los demás no sirven para cerrar una banda: un
+spotter del cluster spotea lo que elige, y de los otros receptores de PSKReporter DX Agent solo ve las
+estaciones que sigue. Que no hayan reportado esa zona no prueba nada. Tampoco cuentan los receptores
+de otra banda: los que están todos en 40 m no dicen nada de 15 m.
+
+Si nadie la escuchó en esa banda en la hora, no se compara nada: o VOACAP acertó o la estación no
+estaba en el aire, y el aire solo no lo puede decir. En ese caso, y cuando hay menos de 3 de esos
+receptores cerca tuyo en la banda, la pestaña no muestra la línea.
 
 Debajo del cuadro de 24 horas, **VOACAP contra el aire** resume los últimos 30 días en una línea
 (cuánto acertó, se quedó corto o fue optimista). La tabla por banda y por hora viene plegada: un
@@ -1856,7 +1964,8 @@ clic en el título la abre, y queda como la dejaste. Por banda:
 - **corto**: la daba cerrada y se escuchó cerca tuyo. Con esta columna alta conviene probar la banda
   aunque VOACAP la dé cerrada.
 - **optimista**: la daba abierta y solo se escuchó lejos, sin nada a menos de 1.000 km de ahí que
-  llegara, con al menos esos 3 receptores tuyos reportando en ella. Con esta columna alta, no te fíes cuando la da abierta.
+  llegara, con al menos 3 receptores cerca tuyo que reportan todo en esa banda. Con esta columna
+  alta, no te fíes cuando la da abierta.
 - **horas**: los casos que hay detrás. Con pocos, el porcentaje vale poco.
 
 Debajo, **Por hora UTC**: las 24 horas del día UTC, más verde cuanto más acertó a esa hora (al pasar
@@ -1875,8 +1984,10 @@ Nada de esto hace falta para usar la aplicación; es para quien quiera mirar deb
 
 - Las comparaciones se guardan en `data/propcheck.db` (una fila por hora, zona del DX y banda, 30
   días), con el número de manchas con que se predijo y su origen, si esa zona usó las ionosondas, y
-  cuántos receptores cerca tuyo reportaban en esa banda y en total. Las filas sin veredicto (nadie
-  la escuchó en esa banda, o menos de 3 receptores tuyos en ella) quedan guardadas pero no cuentan.
+  cuántos receptores cerca tuyo reportaban en esa banda, cuántos de ellos reportan todo y en total.
+  Las filas sin veredicto (nadie la escuchó en esa banda, o menos de 3 de esos receptores en ella)
+  quedan guardadas pero no cuentan. Las filas guardadas antes de contar solo los receptores que
+  reportan todo valen cuando dicen «abierta», nunca como «cerrada».
 - Cada predicción se calcula también **sin** las ionosondas y se guarda al lado (`rel_base`), así
   las dos se comparan contra el mismo aire y se puede decir si las ionosondas mejoran algo.
 - Las mediciones, tal como llegan, quedan en `data/ionohistory.db` (30 días) para la calibración:
@@ -1989,6 +2100,11 @@ estable, y arriba de 20, inestable.
 Arriba de todo, la línea con la antigüedad de cada valor y qué significan el A y el K en palabras
 se pone **verde** cuando todos los índices están en el rango bueno y ninguna escala está
 encendida. La línea del Kp se dibuja en rojo cuando en esas 24 horas hubo tormenta.
+
+Al final de la tarjeta, **Desde tu zona, últimos 30 min**: por banda, qué continentes escucharon
+los receptores cerca tuyo en la última media hora, más verde cuantos más receptores. Solo aparecen
+las bandas con algo escuchado, y cada cuadrado dice en su tooltip cuántos receptores fueron. Es lo
+que pasa ahora en el aire, no una predicción: sirve para decidir a qué banda pasarte.
 
 Un **clic** en la pastilla deja la tarjeta clavada, con el borde en azul, para leerla o copiar los
 números sin que se vaya con el mouse. Se cierra con otro clic en la pastilla, un clic afuera o
@@ -2232,7 +2348,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | alerts      | `near_km`                   | `1500`                                            | "Cerca tuyo" = la escuchó una estación a esta distancia en km o menos |
 | alerts      | `near_only`                 | `false`                                           | Avisar solo si la estación se escucha cerca tuyo |
 | alerts      | `rbn_confirm`               | `true`                                            | Un spot de la RBN avisa cuando la estación la escucha un 2.º skimmer, o un spot del cluster o de PSKReporter (un indicativo mal decodificado no avisa) |
-| alerts      | `latest_only`               | `false`                                           | Lista del panel: dejar solo la última fila de cada estación en la misma banda y modo, a 3 kHz o menos |
+| alerts      | `latest_only`               | `false`                                           | Lista del panel: dejar solo la última fila de cada estación en la misma banda y modo, en cualquier frecuencia |
 | alerts      | `self_spots`                | `true`                                            | Listar los spots de tu propio indicativo (TE ESCUCHAN): quién te escucha y a qué distancia |
 | alerts      | `expire_minutes`            | `0`                                               | Lista del panel: quitar las estaciones que no se spotean en esa banda y modo hace estos minutos (0 = nunca) |
 | alerts      | `keep_days`                 | `7`                                               | Días de alertas que se guardan en `data/dxagent.db` (0 = ninguna). Con la RBN, unas 25.000 alertas por día, unos 15 MB |
@@ -2397,6 +2513,9 @@ necesitan archivo: cada uno tiene su logbook.
   misma hora, son dos QSOs, y los dos entran. Solo entran los QSOs de ese indicativo: uno hecho como
   otro indicativo (`STATION_CALLSIGN`) queda afuera y se cuenta, con un aviso para importar el
   archivo en el logbook de ese indicativo. Un log de 50.000 QSOs tarda de 15 a 30 segundos.
+  **Un ADIF exportado de Club Log** entra marcado como ya subido a Club Log: esos QSOs son los
+  registros de Club Log, así que la vista Log no te los ofrece para subir de nuevo. Lo que el
+  archivo diga de cada QSO se respeta.
 - **Los QSOs nuevos** llegan por UDP como antes (WSJT-X, N1MM, Log4OM…), cada uno al logbook del
   indicativo que dice, y desde la **consola** debajo de la lista, el mapa y la vista Log, así los
   spots quedan a la vista mientras cargás: arriba las radios, debajo una línea con el indicativo,
@@ -2611,7 +2730,9 @@ necesitan archivo: cada uno tiene su logbook.
   de LoTW, QRZ.com ni Club Log.
 - Los botones de subir y bajar, con **Importar QSOs…**, en el tab **Acciones** del costado (Subir y bajar), aparecen solo para lo que está configurado: **Subir a LoTW** con TQSL instalado, **Bajar de LoTW** con el usuario y la contraseña de LoTW, **Subir a Club Log** con tu email y la contraseña de aplicación de Club Log, **Subir a QRZ** y **Bajar de QRZ** con la clave de la API del logbook de QRZ.com. Si la página no puede leer su estado (el log ocupado con una importación), lo vuelve a pedir a los pocos segundos.
 - **Duplicados**, también en el tab Acciones, lista los QSOs que el log tiene más de una vez: el
-  mismo indicativo, minuto y banda. Está cerrado hasta que lo abrís con un clic en su título (el
+  mismo indicativo, minuto y banda. Viene apagada: se prende en Configuración → Log → **La vista
+  Log** (`[logbook] dups`), y apagada la vista no muestra ni la parte ni su ícono. Está cerrado
+  hasta que lo abrís con un clic en su título (el
   ícono y la flechita), para que no ocupe lugar en el panel. Los que además comparten el modo son el
   mismo QSO guardado dos veces (el logger lo cargó dos veces, o el archivo venía con los dos) y
   quedan marcados, con cuántas veces está cargado al lado de la estación; en otro modo, a la misma
@@ -2676,6 +2797,14 @@ necesitan archivo: cada uno tiene su logbook.
   la key sirve.
 - Las subidas y la bajada corren en segundo plano, cada una en su recuadro debajo de los botones.
   Antes de subir, DX Agent dice cuántos QSOs de cada indicativo van a ir.
+- **Marcar como subidos**, en la barra de la vista Log, para un log que esos servicios ya tienen.
+  Viene apagada: se prende en Configuración → Log → **La vista Log** (`[logbook] mark_uploaded`), y
+  apagada la barra y las casillas de las filas no se muestran.
+  La casilla de cada fila elige QSOs y la del encabezado elige los de la página; cuando la búsqueda
+  y los filtros listan más que una página, **Tildar los N que filtran** los elige todos. Con algo
+  tildado, **LoTW**, **Club Log** y **QRZ.com** los marcan como subidos sin mandar nada: solo cambia
+  el estado de cada QSO, y lo que ese servicio había rechazado de uno se borra porque ahora lo tiene.
+  Te pregunta primero, diciendo cuántos son.
 - **Una estación clickeada en la vista Log** se abre en el tab Acciones, no en el tab Estación (el
   formulario queda como está, arriba de la lista): debajo de los filtros, el QSO clickeado con un botón **Editar
   este QSO**, lo que dicen tus callbooks de la estación, las bandas y modos en que la trabajaste

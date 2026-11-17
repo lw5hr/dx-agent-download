@@ -151,6 +151,11 @@ The settings are in tabs: Station, Log (only with DX Agent's logbook), LoTW, Ale
 Propagation, Marathon, Spot sources, Radio and Other. Saving keeps what you changed by hand in
 `config.toml` and the page doesn't show.
 
+**API for other programs** (Settings → Other), off out of the box: another program can read the
+list as the dashboard shows it, with its filters, the alerts, the log and the awards, and load, edit
+and upload QSOs, at `/api/v1`. Each program gets its own token, to only read or also write; every
+request is logged in `data\api.log`.
+
 **Anonymous usage** (Settings → Other), off out of the box: the dashboard asks once, above the list.
 If you say yes, DX Agent sends one ping a day with the version and the system, and nothing else: no
 callsign, log, settings, country or grid square.
@@ -174,7 +179,9 @@ more —an R or an S stays in its number—; hover it for a card with the last d
 the A and the Kp of the last 24 hours, each in its own colour—, today's forecast with the chance of a
 radio blackout under them, a table saying what each scale is —geomagnetic, radio blackout, radiation—
 and what it reads now, and another with the ideal and critical thresholds of SFI, K and A; the top
-line, with each value's age, turns green when every index is inside the good range; a click on the
+line, with each value's age, turns green when every index is inside the good range; at its right,
+**From your area, last 30 min**: band by continent, which continents the receivers near you heard in
+the last half hour, the greener the more receivers, which helps pick a band; a click on the
 pill pins the card —with a blue border— to read it or copy the numbers, and another click, a click
 elsewhere or Escape closes it); your log's totals: QSOs in blue, countries worked in amber, confirmed in green; icon buttons
 (hover one to see what it does): **About** ⓘ, **Settings** ⚙, **EN/ES/PT/FR/IT**, **Theme** (a menu with
@@ -358,7 +365,7 @@ with your radio and the WinKey, sits under all three (section 13).
 - An alert can be of several types: a NEW BAND that is a new grid square too shows under the
   **NEW GRID** filter, and with that filter picked the row says NEW GRID.
 - Settings → Alerts also has **Keep only the latest row of each station** (same call,
-  band and mode, within 3 kHz) and **Take out of the list after** N minutes without a spot (0 = never):
+  band and mode, on any frequency of the band: a DXpedition that moved a few kHz is still one row) and **Take out of the list after** N minutes without a spot (0 = never):
   both off by default. A station that left the list comes back as soon as it is spotted again, even
   before it alerts again.
 - The list keeps the last 500 alerts. When it's full, NEW CALL ones leave first; the others
@@ -488,7 +495,10 @@ run your power with an isotropic antenna, as not everyone you call has a big one
 - The **VOACAP** column in the list: the chance of a QSO on the row's band and mode this hour,
   green from 50%, amber from 10%; hover it for the SNR each way and the MUF. For FT8 and FT4 it
   also gives the SNR as WSJT-X reports it, to compare with the reports you get. VOACAP stops at
-  30 MHz: nothing on 6 m and up.
+  30 MHz: nothing on 6 m and up. Beside the percentage, a green **● air** says that in the last half
+  hour receivers near you heard that zone on that band, or a station within 1,000 km of it: the band
+  is open towards there, whatever VOACAP says. Its absence doesn't mean closed: maybe nobody there
+  was transmitting.
 - **Propagation (VOACAP)** in the Station tab: the next 24 hours by band, this hour marked, for
   CW, SSB, FT8, FT4 or RTTY.
 - **Short path or long path:** it works out both, the direct one and the one the other way round
@@ -530,9 +540,14 @@ column, the Station tab's 24 hours, the Ventanas tab and the 6 m F2.
 **VOACAP against the air says how often it is right.** In the Station tab, beside the prediction,
 what happened in the last hour ("VOACAP said 20 m at 15% toward JA; 6 receivers near you heard
 it"). Only the path between you and the station counts: the receivers near you that heard it, or,
-when it was only heard far away, the ones reporting on that same band; then the band still counts as
-open if another station within 1,000 km of it was heard near you (VOACAP predicts for a region, not
-for one station). With nothing to compare, the line doesn't show: a quiet band is not a closed one.
+when it was only heard far away, the ones on that same band that report everything they decode;
+then the band still counts as open if another station within 1,000 km of it was heard near you
+(VOACAP predicts for a region, not for one station). Only receivers that report everything can call
+a band closed: the RBN skimmers, and PSKReporter's receivers near you, which DX Agent takes by grid
+square on a connection of its own (`near_receivers` in `[propagation]`, on out of the box; the
+radius shrinks where there are many receivers). A cluster spotter spots what they choose, so their
+silence proves nothing. With nothing to compare, the line doesn't show: a quiet band is not a closed
+one.
 
 Under the 24-hour grid, folded (a click on its title opens it, and the browser remembers it), the
 last 30 days, band by band: **right** (it called it open and it was
@@ -1114,6 +1129,13 @@ bureau, **✓D** direct, **↑** sent; a click on it opens that QSO's card.
   its card as it is, to correct it.
 - The awards count a card at once (DXCC, WAZ, WAS, grids). A card received on a QSO already
   uploaded to Club Log is sent again with it (Club Log counts paper QSLs).
+
+**Mark as uploaded**: each row has a checkbox, and the bar marks the ticked QSOs (or, with none
+ticked, all those the search and filters show) as already uploaded to LoTW, Club Log or QRZ.com,
+sending nothing: for QSOs that service already has, as with a log imported from a logger that had
+uploaded them. It also clears that service's rejection. A log exported from Club Log comes in marked
+as already uploaded there. This bar and **Duplicates** are turned on in Settings → Log; both are
+off out of the box.
 
 **Duplicates**, also in the Actions tab (closed until you click its title), lists the QSOs your log
 has more than once: same call, minute and band. Those that also share the mode are the same QSO
