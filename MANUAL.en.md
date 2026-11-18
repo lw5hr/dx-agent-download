@@ -628,7 +628,7 @@ top right says whether it worked.
 | **OmniRig** | pick OmniRig's rig 1 or 2 in DX Agent | yes |
 | **Hamlib (rigctld)**, the one to start with | have rigctld running, or let DX Agent start it (below) | yes |
 | **flrig** | its XML-RPC server (port 12345); to tune, **Tune through flrig** in DX Agent (see below) | yes |
-| **DXLab Commander** | doesn't tune (see below) | — |
+| **DXLab Commander** | Config → General → **Net Serv** → **TCP Network Service** running (Base Port 52000, it listens on 52002) | yes |
 | **TCI** (AetherSDR for FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (or **Enable** in its TCI applet, port 50001) | yes |
 
 - **Hamlib, the one to start with.** It tunes, sets the mode and the split, and reads the radio
@@ -678,8 +678,7 @@ top right says whether it worked.
   AetherSDR's demo radio; if you use it with a Flex, tell us how it went in
   [issue #10](https://github.com/lw5hr/dx-agent-download/issues/10).
 - **Never while you transmit.** Before each change of frequency, band, mode or VFO, DX Agent checks
-  that the radio is receiving; if it transmits, or the program can't say, it doesn't move it. So
-  **DXLab Commander doesn't tune**: its connection doesn't say whether the radio transmits. With
+  that the radio is receiving; if it transmits, or the program can't say, it doesn't move it. With
   Log4OM, frequency and mode go through OmniRig; without OmniRig it doesn't tune. It isn't an
   absolute interlock: transmission can start between the check and the command.
   - **N1MM and DXLog.net** say every 10 seconds whether the radio transmits, through the same UDP
@@ -692,6 +691,13 @@ top right says whether it worked.
     (Settings → Radio; it shows with a radio on flrig). Do it only if flrig has its PTT input set up
     (by CAT or the serial port, as WSJT-X needs): each command goes after flrig says the radio
     receives. By default flrig only reads.
+  - **DXLab Commander** reads the radio over the same TCP it is tuned through: frequency, mode,
+    split and PTT, and before each Tune it asks whether it is transmitting (`CmdSendTx`). Commander
+    needs **Config → General → Net Serv → TCP Network Service** running, Base Port 52000 by default,
+    which listens on 52002, DX Agent's default port. If Windows reserved that range for Hyper-V or
+    WSL, Commander says the port is in use although nothing is listening: change the Base Port to
+    45000 (it listens on 45002) and set that port in DX Agent. Commander's UDP service is not used
+    for this.
 - **Split:** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
   14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
   AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, where the
