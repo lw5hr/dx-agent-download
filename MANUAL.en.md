@@ -701,7 +701,8 @@ top right says whether it worked.
   - **The radio box with Commander** shows the frequency with the wheel on each digit, the band and
     mode lists, and in split one more line for VFO B with the transmitting frequency, which the wheel
     moves too. A spot that says where it listens, or the SPLIT button, puts the radio in split, and
-    the next Tune without split ends it. What there is no S-meter: Commander doesn't share it.
+    the next Tune without split ends it. Out of split there is no B line, because Commander says
+    nothing about the other VFO. No S-meter either: Commander doesn't share it.
   - **Starting Commander with DX Agent:** with **Start DXLab Commander with DX Agent** ticked
     (Settings → Radio), DX Agent opens it at start when it isn't running and closes it on exit, and
     leaves alone the one you opened. Its program is set there too; empty is
