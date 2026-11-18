@@ -709,6 +709,14 @@ derecha dice si funcionó.
     para Hyper-V o WSL, Commander avisa que el puerto está ocupado aunque no haya nadie escuchando:
     cambiá el Base Port a 45000 (escucha en 45002) y poné ese puerto en DX Agent. El servicio UDP de
     Commander no se usa para esto.
+  - **La caja de la radio con Commander** muestra la frecuencia con la rueda en cada cifra, las listas
+    de banda y modo, y en split una línea más para el VFO B con la frecuencia de transmisión, que
+    también se mueve con la rueda. El split lo arma un spot que dice dónde escucha o el botón SPLIT, y
+    el próximo Sintonizar sin split lo termina. Lo que no hay es S-meter: Commander no lo comparte.
+  - **Arrancar Commander con DX Agent:** con **Arrancar DXLab Commander con DX Agent** activado
+    (Configuración → Radio), DX Agent lo abre al empezar si no está corriendo y lo cierra al salir, y
+    no toca uno que abriste vos. El programa se cambia ahí mismo; vacío es
+    `C:\DXLab\Commander\CI-V Commander.exe`.
 - **Con Log4OM, además de la frecuencia se completa el indicativo** en su ventana de QSO,
   listo para loguear. Si ya escribiste un indicativo a mano ahí, Log4OM no lo reemplaza.
 - **Con Log4OM, el modo** cambia por OmniRig, el programa con el que Log4OM maneja la radio:
