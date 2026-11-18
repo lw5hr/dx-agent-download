@@ -190,7 +190,10 @@ Nord, Dracula, Sepia, Flexoki paper and Flexoki ink), **Sound** (a beep for the 
 screen** (four corners; the **F** key too, F or Esc to leave) and **Stop**, in red; the UTC
 clock. **About** tells what DX Agent is, who made it and its collaborators, and has the links to
 support it, to the website, to this manual and to report a problem. On a narrower window the
-pills go on a second line, and the chevron after them folds them to their status dots.
+pills go on a second line, and the chevron after them folds them to their status dots. While DX
+Agent downloads one of the files it keeps up to date (the country list, Super Check Partial, the
+sunspot number, the ionosondes...), a small pill next to the version says which: **CTY**, **SCP**,
+**eSSN**, **Iono** and so on. Downloads over in a blink are never shown.
 
 **Filters**, above the list, in three rows:
 
@@ -222,7 +225,9 @@ pills go on a second line, and the chevron after them folds them to their status
 
 **The alert list:** one row per alert, newest on top, coloured by type. Columns: UTC time,
 alert type, callsign, frequency, band, mode, country, **what you need**, LoTW, **VOACAP** (the
-chance of a QSO this hour, section 5), **near you** and who heard it. New rows flash. When the station is spotted again on the same band and mode, its
+chance of a QSO this hour, section 5), **near you** and who heard it. **What you need** takes one
+line, its whole text in the tooltip, so the table fits the screen. **A right click on a header**
+picks the columns shown (the callsign always stays), and the browser remembers the choice. New rows flash. When the station is spotted again on the same band and mode, its
 row updates (time, frequency, who heard it, ×N): it shows where the station is now. Rows fade 10
 and 30 minutes after the station's last spot there. An FT8 mode can add `F/H?` or `SuperFox?`: a
 clue that the station runs Fox/Hound or SuperFox (a spotter said so, your WSJT-X decoded a composite
@@ -610,6 +615,10 @@ your "near you" distance.
 - **The ITS HOUR alert:** at the top of each UTC hour, the country you need that is heard the most at
   that hour, if it was heard on 2 days or more (within the last 45). It takes a few days of counting;
   until then, filtering by ITS HOUR says why the list is empty. Set up in Settings → Ventanas.
+- **The hours DX Agent was closed** are filled from the RBN's daily archive: one file a day,
+  downloaded one at a time with a pause between them, and counted by the same rules as live. A
+  fresh installation fills the last 45 days. The archive has CW and RTTY, no FT8 or FT4, and
+  today's hours are only filled tomorrow.
 
 ## 6. Tune the radio and pass the call to your logger
 
@@ -698,10 +707,14 @@ top right says whether it worked.
     WSL, Commander says the port is in use although nothing is listening: change the Base Port to
     45000 (it listens on 45002) and set that port in DX Agent. Commander's UDP service is not used
     for this.
+  - **When Commander doesn't report the PTT:** it doesn't for every radio. The radio is read all
+    the same, but no Tune goes out unless **Tune when Commander doesn't report the PTT** (Settings →
+    Radio) says Yes. When Commander says the radio transmits, it is never tuned.
   - **The radio box with Commander** shows the frequency with the wheel on each digit, the band and
     mode lists, and in split one more line for VFO B with the transmitting frequency, which the wheel
-    moves too. A spot that says where it listens, or the SPLIT button, puts the radio in split, and
-    the next Tune without split ends it. Out of split there is no B line, because Commander says
+    moves too; the wheel moves one VFO only. A spot that says where it listens, or the SPLIT button,
+    puts the radio in split (first where it listens, with the mode, then where you transmit), and the
+    next Tune without split ends it. Out of split there is no B line, because Commander says
     nothing about the other VFO. No S-meter either: Commander doesn't share it.
   - **Starting Commander with DX Agent:** with **Start DXLab Commander with DX Agent** ticked
     (Settings → Radio), DX Agent opens it at start when it isn't running and closes it on exit, and
@@ -1167,7 +1180,9 @@ downloads.
 
 **A click on a QSO opens it right there**, over its row, with all its fields: **Save changes** (or Enter)
 changes it without leaving the view, **Delete** deletes it once you confirm, and Esc or a click
-outside leaves it as it was. Name, QTH and grid it lacks are filled from your callbook, marked, and
+outside leaves it as it was. **RX kHz** and **TX kHz** say where you listened and where you
+transmitted, here and in the console's ✎: out of split they move together, so fixing a typo doesn't
+make a split, and two different ones save the QSO in split. Name, QTH and grid it lacks are filled from your callbook, marked, and
 saved only with Save changes. **✎**, a double click or **Edit this QSO** edit it in the console (**Save
 changes**), and **✕** deletes it once you confirm. **With several callsigns**, the **Log** filter in
 the Actions tab picks which to see with a chip per callsign, without changing the header (which also

@@ -199,7 +199,10 @@ Dracula, Sepia, Flexoki papel y Flexoki tinta), **Sonido** (un pitido para las a
 **Detener**, en rojo; el reloj UTC. **Acerca de** cuenta qué es DX Agent, quién lo hizo y sus
 colaboradores, y tiene los links para apoyarlo, al sitio, a este manual y para reportar un
 problema. En una ventana más angosta las pastillas pasan a una segunda línea, y la flecha que
-tienen después las pliega a sus puntos de estado.
+tienen después las pliega a sus puntos de estado. Mientras DX Agent baja uno de los archivos que
+mantiene al día (la lista de países, Super Check Partial, el número de manchas, las ionosondas...),
+una pastilla chica al lado de la versión dice cuál: **CTY**, **SCP**, **eSSN**, **Iono** y los
+demás. Las bajadas que terminan en un instante no se muestran.
 
 **Filtros**, arriba de la lista, en tres filas:
 
@@ -235,7 +238,9 @@ tienen después las pliega a sus puntos de estado.
 **La lista de alertas:** una fila por alerta, la más nueva arriba, con el color de su tipo.
 Columnas: hora UTC, tipo de alerta, indicativo, frecuencia, banda, modo, país, **qué te falta**,
 LoTW, **VOACAP** (la chance de un QSO a esta hora, sección 5), **cerca tuyo** y quién la
-escuchó. Las filas nuevas destellan. Cuando la estación vuelve a
+escuchó. **Qué te falta** ocupa un renglón, con el texto entero en el tooltip, así la tabla entra en
+la pantalla. **Con clic derecho en un encabezado** elegís qué columnas se ven (el indicativo queda
+siempre), y el navegador recuerda la elección. Las filas nuevas destellan. Cuando la estación vuelve a
 aparecer en la misma banda y modo, su fila se actualiza (hora, frecuencia, quién la escuchó, ×N):
 muestra dónde está ahora. Las filas se atenúan a los 10 y a los 30 minutos del último spot de la
 estación ahí. El modo FT8 puede agregar `F/H?` o `SuperFox?`: un indicio de que la estación opera en
@@ -645,6 +650,10 @@ dentro de tu distancia "cerca tuyo".
   hora, si se escuchó en 2 días o más (y en los últimos 45). Hacen falta unos días de conteo; hasta
   entonces, filtrar por SU HORA dice por qué la lista está vacía. Se configura en Configuración →
   Ventanas.
+- **Las horas con DX Agent cerrado** se rellenan con el archivo diario del RBN: un archivo por día,
+  bajados de a uno con una pausa entre uno y otro, y contados con las mismas reglas que en vivo. Una
+  instalación nueva rellena los últimos 45 días. El archivo tiene CW y RTTY, nada de FT8 ni FT4, y
+  las horas de hoy recién se rellenan mañana.
 
 ## 6. Sintonizar la radio y pasar el indicativo al logger
 
@@ -709,9 +718,13 @@ derecha dice si funcionó.
     para Hyper-V o WSL, Commander avisa que el puerto está ocupado aunque no haya nadie escuchando:
     cambiá el Base Port a 45000 (escucha en 45002) y poné ese puerto en DX Agent. El servicio UDP de
     Commander no se usa para esto.
+  - **Cuando Commander no informa el PTT:** con algunas radios no lo hace. La radio se lee igual,
+    pero no sale ningún Sintonizar salvo que **Sintonizar cuando Commander no informa el PTT**
+    (Configuración → Radio) diga Sí. Si Commander dice que la radio transmite, no se sintoniza nunca.
   - **La caja de la radio con Commander** muestra la frecuencia con la rueda en cada cifra, las listas
     de banda y modo, y en split una línea más para el VFO B con la frecuencia de transmisión, que
-    también se mueve con la rueda. El split lo arma un spot que dice dónde escucha o el botón SPLIT, y
+    también se mueve con la rueda; la rueda mueve un solo VFO. El split lo arma un spot que dice
+    dónde escucha o el botón SPLIT (primero donde escucha, con el modo, y después donde transmitís), y
     el próximo Sintonizar sin split lo termina. Fuera de split no hay línea del B, porque Commander no
     dice nada del otro VFO. Tampoco hay S-meter: Commander no lo comparte.
   - **Arrancar Commander con DX Agent:** con **Arrancar DXLab Commander con DX Agent** activado
@@ -1226,7 +1239,9 @@ de todos tus indicativos juntos), del más viejo al más nuevo, con todos los ca
 
 **Un clic en un QSO lo abre ahí mismo**, sobre su fila, con todos sus campos: **Guardar cambios** (o Enter)
 lo cambia sin salir de la vista, **Borrar** lo borra después de confirmar, y Esc o un clic afuera lo
-deja como estaba. El nombre, el QTH y la grilla que le falten se completan desde tu callbook,
+deja como estaba. **RX kHz** y **TX kHz** dicen dónde escuchaste y dónde transmitiste, acá y en el
+✎ de la consola: sin split se mueven juntas, así corregir un tipeo no arma un split, y dos distintas
+guardan el QSO en split. El nombre, el QTH y la grilla que le falten se completan desde tu callbook,
 marcados, y se guardan recién con Guardar cambios. **✎**, un doble clic o **Editar este QSO** lo editan en
 la consola (**Guardar cambios**), y **✕** lo borra después de confirmar. **Con varios indicativos**,
 el filtro **Log** de la pestaña Acciones elige cuál ver con un chip por indicativo, sin cambiar la

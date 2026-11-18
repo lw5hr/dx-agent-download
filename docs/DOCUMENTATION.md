@@ -193,10 +193,16 @@ python -m dxagent run --no-ui       # console only
 |------|---------------|
 | **Header** | Your call; one pill per feed (green = online, amber = connecting, red = down) with its spot count (hover for the server and last spot time; a click leaves in the list and the map only the stations it heard, see Filters); a **DXpeditions** pill next to them: how many are within their dates and how many of them were spotted in the last 15 minutes ("48 · 6 on the air", its dot green while one is; a click opens the DXpeditions tab); a **propagation** pill at their side: SFI, SN, A and K, the field's state in its dot, and the storm's level when there is one (**G2** red while it lasts, softer when it is only today's forecast; **R1** for a radio blackout; grey dashes when NOAA SWPC has nothing fresh), its tip saying how old each value is, what A and K mean and the G/R/S scales; your log totals; icon buttons (hover for what each does): **About** ⓘ (what DX Agent is, who made it, the collaborators, how to support it, and help: the website, the user manual and the issues page), **Settings** ⚙ (on the Settings page, a list icon back to the alerts), **EN/ES/PT/FR** (language), **Theme** (half circle = Auto, sun = Light, moon = Dark, a palette = another theme; a click opens the menu of themes), **Browser sound** (speaker, crossed out when off), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop** (red); UTC clock. `#about` opens the About window. On a narrower window (up to 1800 px) the pills go below your call and the buttons, the whole width; the chevron after them folds them to their status dots, in one highlighted pill next to your call (a click on it opens them again; remembered in the browser) |
 | **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
-| **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
+| **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. When the columns don't fit your screen, a right click on any header (or the menu key, or Shift+F10, on a focused one) lists them with a tick box each: untick the ones you don't read and the table narrows at once; the menu stays open while you tick, **Show all** brings them back, the call always shows, and your choice is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
 | **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a green ring marks the bands and modes where the station was spotted in the last 15 minutes, the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
 | **Ventanas tab** | When each country you still need is heard from near you: one row per country, with its Most Wanted rank and 24 hours as a line of bars. Order by **A–Z**, **Most Wanted** or **This hour**. Click one for every band and mode, hour by hour, with who heard it and how far, the empty hours filled with VOACAP. **Needed** / **All** (see Ventanas) |
 | **DXpeditions tab** | Active DXpeditions and those starting in the next 30 days. Badge: **ATNO**, **Not confirmed**, or how many bands you have (e.g. "1 of 10 bands", highlighted when fewer than half). Tick **only needed** to hide ones you already have on most bands. Sorted by what's **on the air** (spotted in the last 15 minutes, the latest on top), by Club Log's **Most Wanted** rank (most wanted country first) or by start date: **Order** at the top. Each card shows its sources and Club Log's **Most Wanted** rank; one spotted in the last 15 minutes is framed in green as **ON THE AIR**. Click one to open its grid; the **☆** adds it to your watchlist |
+
+**The version and the downloads.** The version sits next to the name. While DX Agent is
+downloading one of the files it keeps up to date (the country list, Super Check Partial, the
+sunspot number, the ionosondes, the forecasts, the Marathon lists, the summits and the parks), a
+small pill shows there with its name and a pulsing dot: **CTY**, **SCP**, **eSSN**, **Iono** and
+so on; hover it and the tip says what they are. Downloads over in a blink are never shown.
 
 **Which station was it?** Hover over a **C** or **W** cell of the Station tab's grid and a
 card lists the QSOs that made it — call, date, mode, and a **✓** when confirmed — newest
@@ -309,13 +315,14 @@ hardware-enforced TX lock.
 | OmniRig | Windows COM, through PowerShell; Rig 1 or Rig 2 | — | yes |
 | Hamlib rigctld | TCP `V VFOA` + `F <Hz>` / `M <mode> -1` (split: `S 1 VFOB`, `I <Hz>` and `V VFOA`; ended: `S 0 VFOA`); reads the current VFO, PTT and S-meter; requires uncached PTT | 4532 | yes |
 | flrig | XML-RPC `rig.set_frequency` / `set_mode` / `set_AB` (split: `set_frequency` on VFO A; B by switching the radio to it with `set_AB`, `set_frequency` and `set_mode`, and back to A, since on a radio that can't target VFOs, like the IC-9100, `set_vfoB` writes the VFO it is on; and `set_split`), and `get_vfo` / `get_vfoA` / `get_vfoB` / `get_AB` / `get_mode` / `get_split` to read it; Tuning and VFO switches only with `rig.flrig_tx_guard = "ptt"`, each command after asking flrig for the radio's PTT (it cannot say whether its PTT input is configured) | 12345 | yes |
-| DXLab Commander | Tuning blocked: no verifiable PTT on this connection | 52002 | — |
+| DXLab Commander | TCP: `CmdSetFreq` / `CmdSetFreqMode` to tune, and `CmdGetFreq`, `CmdSendMode`, `CmdSendSplit`, `CmdSendTx` (plus `CmdGetTXFreq` in split) to read the frequency, mode, split and PTT; the PTT is asked before every Tune | 52002 | yes |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, on a connection DX Agent keeps open; it also puts the alerts on the panadapter | 50001 | yes |
 
 Hamlib can read frequency, mode, PTT, split and the S-meter, and DX Agent can start `rigctld`.
 OmniRig needs Windows and the radio's file; flrig, its XML-RPC server on its control port (no
-`rigctld` needed); TCI, a supported server. Blocking Tune through DXLab Commander does not
-disable receiving QSOs from it.
+`rigctld` needed); TCI, a supported server. DXLab Commander reads the radio over the same TCP
+connection it is tuned through, so the panel shows frequency, mode, split and PTT while Commander
+runs.
 
 - **N1MM Logger+ and DXLog.net (`RadioInfo`):** both broadcast a `RadioInfo` message with the radio
   they have, its frequency and mode, and `IsTransmitting`. DX Agent tunes them over UDP and sends
@@ -337,6 +344,38 @@ disable receiving QSOs from it.
   **PTT?**: unknown). Without it, use
   Hamlib or OmniRig for Tune and leave flrig to read the radio; both cannot own the serial port at
   the same time.
+
+- **DXLab Commander:** Commander answers the same `<command:..>` messages WSJT-X uses, so DX Agent
+  reads the radio with nothing else: `CmdGetFreq`, `CmdSendMode`, `CmdSendSplit` and `CmdSendTx`
+  every second, plus `CmdGetTXFreq` in split. The panel then shows frequency, mode, split and PTT,
+  as with flrig. A Tune sends `CmdSetFreq` or `CmdSetFreqMode` (with the mode too when **Also set
+  the mode** is ticked) and asks the PTT with `CmdSendTx` first: if Commander says it transmits, or
+  doesn't answer, nothing goes out. It is the guard WSJT-X uses, with the same caveat as N1MM: it
+  covers a transmission the program started, not one you key with the radio's own PTT. Commander
+  doesn't report the PTT of every radio (then `CmdSendTx` gets no answer): the radio is read all the
+  same, its PTT unknown, but no Tune goes out. If yours is one of those, Settings → Radio has **Tune
+  when Commander doesn't report the PTT** (`rig.dxlab_tx_guard`): `"block"`, the default, doesn't
+  tune; `"tune"` tunes without knowing whether the radio transmits. When Commander says it
+  transmits, neither tunes. Commander
+  needs **Config → General → Net Serv → TCP Network Service** running, Base Port 52000 by default:
+  it listens on the base port plus 2, 52002, which is DX Agent's default. Watch out for the ports
+  Windows reserves for Hyper-V and WSL (`netsh int ipv4 show excludedportrange protocol=tcp`): when
+  52002 falls inside a reserved range Commander says the port is in use although nothing is
+  listening, and with Base Port 45000 it listens on 45002, which is then the port to set in DX
+  Agent. A spot that says where it listens, or the SPLIT button, puts the radio in split: where it
+  listens first, with the mode (`CmdSetFreqMode`), then `CmdQSXSplit`, which gives TX that same mode.
+  The next Tune without split ends it (`CmdSplit off`). The box shows it as it does with Hamlib: the
+  frequency with the wheel on each digit, the band and mode lists, and in split a line for VFO B with
+  the transmitting frequency, which the wheel moves too. The wheel moves one VFO: `CmdSetFreq` the
+  receiving one, `CmdQSXSplit` the transmitting one. Out of split there is
+  no B line: Commander says nothing about the other VFO (it gives one frequency; with Hamlib it is
+  read and a click switches to it). No S-meter either: Commander doesn't share it over this channel.
+
+  **Start DXLab Commander with DX Agent** (Settings → Radio, `rig.commander`) opens it at start when
+  it isn't running and closes it on exit, and leaves alone the one you opened. Its program is set
+  there too (`rig.commander_path`); empty means `C:\DXLab\Commander\CI-V Commander.exe`. Commander's
+  UDP `RadioInfo` service is not needed for any of this and doesn't work as the radio's source: it
+  doesn't report the PTT and publishes impossible frequencies while transmitting.
 
 - **Split by radio (Hamlib and flrig):** the SPLIT button, the wheel on the digits and a spot's
   split work with any radio the program can put in split, but what DX Agent can read of the TX
@@ -424,8 +463,8 @@ Radio → Tune through **TCI**. DX Agent then keeps one connection open (the hea
   without split ends it: on TCI it moves the receiving slice and AetherSDR closes the slice it
   opened; on OmniRig and Hamlib the radio's split is turned off, whoever turned it on (DX Agent before
   a restart, WSJT-X, you): the last station's split is no use for the next one.
-  Log4OM is not asked to split. To N1MM and DXLog only the frequency goes, DXLab Commander cannot
-  tune, and flrig sets it with `rig.flrig_tx_guard = "ptt"`. Not on FT8 and
+  Log4OM is not asked to split. To N1MM and DXLog only the frequency goes, DXLab Commander sets it
+  with `CmdQSXSplit`, and flrig with `rig.flrig_tx_guard = "ptt"`. Not on FT8 and
   FT4 (a DXpedition's Fox/Hound isn't a radio split), nor a split off the band or more than
   50 kHz away.
   On AetherSDR the slice that transmits keeps a mode of its own, so after a split Tune DX Agent
@@ -1039,10 +1078,10 @@ settings left them, no reload needed. The settings are in tabs, one group at a t
 | **Alerts** | Which alert types you want (and **Your own call**: who hears you; a type turned off also leaves the list: an alert only for it goes, another one shows its next headline, NEW BAND rather than NEW CALL); bands; modes; when a DXpedition or watchlist call counts as worked; watchlist; ignore list (also with a right click on a row); how long before the same alert repeats and **Keep only the latest row of each station** (same call, band and mode, on any frequency: a DXpedition that moved a few kHz, or was spotted where it listens, is still one row; when it shows up again, its older rows leave the list); **Take out of the list after** N minutes (stations not spotted on that band and mode for that long leave the list; 0 = never, the default); the "near you" radius and **Only alert when heard near you**; Windows pop-ups and for which alerts |
 | **Alerts on the phone** | Send the alerts to a Telegram bot of yours: its token (stored encrypted in `data/telegram.secret`, never in `config.toml`), the chat it writes to, which alerts go there (a level like the pop-ups', and the alert types), only the stations heard near you, how long between two messages (the alerts in between go out together in one), the dashboard's address as the phone reaches it (for the link at the end of each message), and **Send a test** (see Alerts on the phone) |
 | **Spot sources** | DX cluster on/off, its servers (`host:port`, tried in order) and login commands; **Recent spots on connecting** (minutes, 0 = off); which continents' cluster spotters to use; RBN on/off, CW/RTTY and FT8/FT4 feeds; which continents' skimmers count |
-| **Radio (Tune button)** | For **Radio 1** and, if you use two, **Radio 2** (see Two radios): which program tunes it (Off, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), its name, its address and port (0 = default), whether to set the mode too, which OmniRig radio, and with Hamlib whether DX Agent starts rigctld and with what arguments; for **Both radios**, WSJT-X, split, and — shown only with a radio on TCI — whether the alerts go on the panadapter and what a Tune does while the radio transmits, and — shown only with a radio on flrig — whether a Tune goes through flrig; and **CW with WinKey**: its port, speed and messages (see DX Agent's logbook) |
+| **Radio (Tune button)** | For **Radio 1** and, if you use two, **Radio 2** (see Two radios): which program tunes it (Off, Log4OM 2, N1MM Logger+, DXLog.net, OmniRig, Hamlib rigctld, flrig, DXLab Commander, TCI), its name, its address and port (0 = default), whether to set the mode too, which OmniRig radio, and with Hamlib whether DX Agent starts rigctld and with what arguments; for **Both radios**, WSJT-X, split, and — shown only with a radio on TCI — whether the alerts go on the panadapter and what a Tune does while the radio transmits, and — shown only with a radio on flrig — whether a Tune goes through flrig, and — shown only with a radio on DXLab Commander — whether to tune when Commander doesn't report the PTT; and **CW with WinKey**: its port, speed and messages (see DX Agent's logbook) |
 | **CQ DX Marathon** | Follow it or not; the year or the Sprint, and the Sprint's dates; the modes that count (all, CW, phone, digital, or Classic: CW and phone); alerts for a new Marathon country and for a new zone |
 | **VHF openings** | Watch the stations near you hearing far ones, and the stations hearing you; the bands (6 m, 2 m); how far from you is near; how many stations must hear it, and how many there; what a place is (a country, a continent, a grid field); at least how far, and the time to live, for each band; the grace before closing; how far off north-south a TEP path may cross; meteor scatter; 10 m short skip; 2 m tropo from the weather forecast; leave out moonbounce; a Windows pop-up when the band opens (see VHF openings) |
-| **Ventanas** | Count the hours each country you miss is heard from near you, and show them in the Ventanas tab; how far from you counts as near; the months kept; how often the same spot counts; whether a spotter known only by its country counts, and whether your own country is left out; the hour's alert (on at least how many days, at most how many countries, heard within how many days) and its pop-up (see Ventanas) |
+| **Ventanas** | Count the hours each country you miss is heard from near you, and show them in the Ventanas tab; how far from you counts as near; the months kept; how often the same spot counts; whether a spotter known only by its country counts, and whether your own country is left out; the hour's alert (on at least how many days, at most how many countries, heard within how many days) and its pop-up (see Ventanas). The RBN archive fill isn't on the page: `windows.history` and `windows.history_days` in `config.toml` (see Ventanas) |
 | **DXpeditions, log and dashboard** | Show DXpeditions you already have; DXpedition sources and how often to re-read them; how often to check the log file; dashboard port; whether the dashboard listens on the local network (so the phone opens it, with a warning: the dashboard has no password); open the browser on start |
 
 How it behaves:
@@ -1753,6 +1792,22 @@ skimmers hearing it at once, or a contest weekend full of spots, are still one d
 for this time of year — this month and the one either side — since the hours a band opens move
 with the seasons: last June says little about December.
 
+The hours DX Agent wasn't open are filled from the **RBN's daily archive**
+(`data.reversebeacon.net/rbn_history/YYYYMMDD.zip`, published at 00:02 UTC of the next day). A few
+minutes after starting, and once a day from then on, DX Agent downloads the zip of each day it is
+missing, one at a time and with a pause between them, and counts it by the same rules as live. The
+hours it was listening in (the cluster or the RBN connected) are noted, and the archive only fills
+the ones it wasn't: nothing was counted live there, so the day adds one more. A day it has read is
+not downloaded again.
+
+A fresh installation fills the last 45 days, 150 to 300 MB spread over a while (each day takes a few
+seconds). `windows.history_days` changes how far back it looks, and `windows.history = false`
+downloads nothing.
+
+The archive has CW and RTTY (and some PSK31), no FT8 or FT4: the port 7001 feed isn't published, and
+today's hours are only filled tomorrow. It also depends on RBN skimmers near you: plenty in Europe
+and North America, very few in South America.
+
 The **Ventanas** tab lists what you still need, **one row per country**, with its Club Log Most Wanted
 rank and its 24 hours as a line of bars, all its bands together. **Order** offers **A–Z** (the default),
 **Most Wanted** (the lowest rank first, unranked countries last) and **This hour** (the countries most
@@ -1781,8 +1836,9 @@ a band and mode you miss, when VOACAP gives that band open now with at least the
 row says so: "its hour by VOACAP: 100% now · heard near you at 23:17 UTC, 849 km". As many countries
 at most as the heard ones, besides them. It needs the sunspot number, the Station tab's.
 
-Nothing extra has to be downloaded: it is built from the spots DX Agent already reads. Where you have
-no log yet it counts every country; the more the log says, the better it knows what you miss.
+Nothing has to be set up: it is built from the spots DX Agent already reads, and from the RBN's
+archive of the hours it was closed. Where you have no log yet it counts every country; the more
+the log says, the better it knows what you miss.
 
 ### Busted RBN calls
 
@@ -1977,6 +2033,8 @@ You can also edit it by hand; restart `run` afterwards.
 | windows     | `alert_min` / `alert_max`   | `2` / `1`                                         | Heard in the hour on at least this many days / at most this many countries in the row (the next few named) |
 | windows     | `fresh_days` / `notify`     | `45` / `true`                                     | Only if it was heard within these days / a Windows pop-up for it |
 | windows     | `voacap` / `voacap_pct`     | `false` / `70`                                    | Also those heard near you in the last 2 hours, when VOACAP gives the band open now / with at least this % |
+| windows     | `history`                   | `true`                                            | Fill the hours DX Agent wasn't open from the RBN's daily archive (nothing at startup) |
+| windows     | `history_days`              | `45`                                              | How many days back it fills: 45 on a fresh installation, one zip at a time |
 | scp         | `enabled`                   | `true`                                            | Super Check Partial: suggest calls in the QSO forms as you type |
 | scp         | `spotted` / `log` / `master` | `true` / `true` / `true`                         | Suggest the calls spotted lately / in your log / in MASTER.SCP (without it, not downloaded) |
 | scp         | `modes`                     | `CW, PHONE, DIGI`                                 | The mode groups whose spots count as on the air |
@@ -2204,7 +2262,10 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   `edited`). Changing the call, time, band or mode of a QSO already uploaded marks it to
   upload again (Club Log and QRZ.com: `M`; LoTW: `N`, LoTW takes it as a new QSO and the old
   one stays there). **✕** deletes a QSO once you confirm: it is kept aside in the logbook
-  (table `deleted`), and it isn't deleted from LoTW, QRZ.com or Club Log.
+  (table `deleted`), and it isn't deleted from LoTW, QRZ.com or Club Log. Both forms, the row's and
+  the console's, show **RX kHz** (where you listened) and **TX kHz** (where you transmitted): out of
+  split they're the same, and fixing one takes the other along; two different ones save the QSO in
+  split (`FREQ_RX`, and `BAND_RX` across bands), an RX empty or the same as TX out of it.
 - **Duplicates**, also in the Actions tab, lists the QSOs the log has more than once: the same
   call, minute and band. It comes off: turn it on in Settings → Log → **The Log view**
   (`[logbook] dups`), and off the view shows neither the part nor its icon. It stays closed until a
@@ -2682,7 +2743,8 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `dxagent/alerts.py`         | Console line, colours, pop-up, cooldown, alert history |
 | `dxagent/queries.py`        | Station grid, DXpedition list and DXCC standing, shared by the commands and the dashboard |
 | `dxagent/reach.py`          | "Near you": who heard each station and how far from you; RBN skimmer list; PSKReporter |
-| `dxagent/windows.py`        | Ventanas: when each country you miss is heard from near you, an hour and a month a bucket, and the hour's alert |
+| `dxagent/windows.py`        | Ventanas: when each country you miss is heard from near you, an hour and a month a bucket, and the hour's alert; the hours a feed was listening in, and the fill of the ones it wasn't |
+| `dxagent/rbnhist.py`        | The RBN's daily archive: the hours DX Agent wasn't listening, read from one zip a day and counted as the live spots are |
 | `dxagent/pskmqtt.py`        | PSKReporter live: an MQTT client for mqtt.pskreporter.info, and the stations followed |
 | `dxagent/refinfo.py`        | A POTA park's or SOTA summit's page, for the Station tab |
 | `dxagent/geo.py`            | Grid squares and distances |
@@ -2727,7 +2789,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/world-countries-50m.json`               | Natural Earth (via world-atlas) | once |
 | `data/dxcc-shapes.json`, `data/cq-zones.json`, `data/itu-zones.json` | GridTracker | once |
 | `data/world-map.json`                         | made from the two above (the finished map) | when they change |
-| `data/dxagent.db`                             | DX Agent: alerts (last `keep_days` days), where activators were (last 32 days), your QSOs with them, QSOs over UDP not in your log yet, and the hours each country you miss is heard at (Ventanas, `windows.keep_months`) | while it runs |
+| `data/dxagent.db`                             | DX Agent: alerts (last `keep_days` days), where activators were (last 32 days), your QSOs with them, QSOs over UDP not in your log yet, the hours each country you miss is heard at (Ventanas, `windows.keep_months`), the hours DX Agent was listening in and the days of the RBN's archive already read | while it runs |
 | `data/cache/log-<CALL>.pickle`                | DX Agent: each callsign's log indexes as last read, so a big log isn't read again at each start. Used only when the log files, the country file, your callsigns, the year and DX Agent's version are all the same; the QSOs since (your logger's database, UDP) are added on top as before. Safe to delete | when the log changes |
 | `data/update.json`                            | DX Agent: the latest version on GitHub, asked every hour (`ui.check_updates`), with the packages the release brings | every hour |
 | `data/telemetry.json`                         | DX Agent: the UTC day of the last anonymous ping (`ui.telemetry`) and the answer the panel got when it asked, so that no more than one a day goes out and it isn't asked again | once a day, with the ping |
@@ -2747,6 +2809,8 @@ whole and read whole. The tables:
 | `hunted`     | your QSOs with activators seen on the air (call, program, reference, band, time) | for good |
 | `udp_qsos`   | QSOs your programs sent over UDP that your log file doesn't have yet (their ADIF fields) | until the log has them; at most 2,000, 30 days |
 | `window_hour` | when each country you miss is heard near you: country, band, mode, UTC hour and month, on how many days and how many spots, how far and how strong, who heard it last (Ventanas) | `windows.keep_months` months (24) |
+| `window_watch` | the UTC hours DX Agent was listening in, a feed connected: the RBN's archive doesn't fill them | `windows.keep_months` months (24) |
+| `window_fill` | the days of the RBN's daily archive already read, so they aren't downloaded again | `windows.keep_months` months (24) |
 
 Any SQLite tool opens it (DB Browser for SQLite, `sqlite3`), even while DX Agent runs.
 Earlier versions wrote `alerts.jsonl` (and `activations*.jsonl`): the first start reads

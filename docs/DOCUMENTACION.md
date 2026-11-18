@@ -232,6 +232,13 @@ python -m dxagent run --no-ui       # solo terminal
 Arriba de todo están tu indicativo, una pastilla por fuente de spots, la pastilla de
 DXpediciones, la de propagación, los totales del log, los botones y el reloj UTC.
 
+**La versión y las descargas.** Al lado del nombre va la versión. Mientras DX Agent baja
+alguno de los archivos que mantiene al día (la lista de países, el Super Check Partial, el
+número de manchas solares, las ionosondas, los pronósticos, las listas del Maratón, las
+cumbres y los parques), aparece ahí una pastilla chica con su nombre y un punto que late:
+**CTY**, **SCP**, **eSSN**, **Iono** y demás. Al pasar el mouse, la ayuda dice de qué se
+trata. Las bajadas que se resuelven en un parpadeo no llegan a verse.
+
 **Fuentes de spots.** Cada pastilla dice cuántos spots trae esa fuente y se pinta según el
 estado: verde conectada, ámbar conectando, rojo caída. Al pasar el mouse muestra el servidor
 y la hora del último spot. Un clic deja en la lista y en el mapa solo las estaciones que
@@ -378,6 +385,12 @@ lo más nuevo arriba. La flecha muestra el orden. Las filas sin dato en esa colu
 final, los empates quedan con la más nueva primero, las alertas nuevas entran en su lugar y
 el orden se recuerda en el navegador.
 
+**Columnas.** Si en tu pantalla no entran todas, un clic derecho en cualquier encabezado abre
+la lista de columnas con una casilla para cada una: destildá las que no leés y la tabla se
+angosta en el momento. El menú queda abierto mientras tildás, y **Mostrar todas** las vuelve
+a poner. El indicativo se ve siempre, y lo que elegís queda guardado en el navegador. Con el
+teclado, la tecla de menú (o Mayús+F10) sobre un encabezado abre la misma lista.
+
 **Qué cambia en una fila.** Las filas nuevas destellan. Un spot más nuevo de la misma
 estación, banda y modo actualiza la fila aunque no avise, porque la misma alerta no se repite:
 cambia la hora, la frecuencia, el modo y quién la escuchó (**×N**). Así la fila muestra dónde
@@ -518,13 +531,14 @@ en TX, hace falta un enclavamiento físico o un bloqueo atómico en el equipo.
 | OmniRig | COM de Windows, mediante PowerShell; radio 1 o 2 | — | sí |
 | Hamlib rigctld | TCP `V VFOA` + `F <Hz>` / `M <modo> -1`; split con `S 1 VFOB`, `I <Hz>` y `V VFOA`, y al terminar `S 0 VFOA`. Lee VFO, PTT y S-meter; pide PTT sin caché | 4532 | sí |
 | flrig | XML-RPC: `rig.set_frequency`, `set_mode`, `set_AB` y `set_split`; lee con `get_vfo`, `get_vfoA`, `get_vfoB`, `get_AB`, `get_mode` y `get_split`. Sintoniza solo con `rig.flrig_tx_guard = "ptt"` | 12345 | sí |
-| DXLab Commander | Sintonización bloqueada: no se puede verificar el PTT por esta conexión | 52002 | — |
+| DXLab Commander | TCP: `CmdSetFreq` / `CmdSetFreqMode` para sintonizar y `CmdGetFreq`, `CmdSendMode`, `CmdSendSplit`, `CmdSendTx` (y `CmdGetTXFreq` en split) para leer frecuencia, modo, split y PTT; el PTT se pregunta antes de cada Sintonizar | 52002 | sí |
 | TCI (AetherSDR, ExpertSDR, Thetis) | WebSocket `vfo` / `modulation`, por una conexión que DX Agent mantiene abierta; también pone las alertas en el panadaptador | 50001 | sí |
 
 Hamlib puede leer frecuencia, modo, PTT, split y S-meter, y DX Agent puede arrancar `rigctld`.
 OmniRig necesita Windows y el archivo de la radio; flrig, su servidor XML-RPC en su puerto de
-control (sin `rigctld`); TCI, un servidor compatible. Bloquear la sintonización por DXLab
-Commander no desactiva la recepción de sus QSOs.
+control (sin `rigctld`); TCI, un servidor compatible. DXLab Commander lee la radio por el mismo
+TCP con el que la sintoniza, así que el panel muestra frecuencia, modo, split y PTT mientras
+Commander corra.
 
 **N1MM Logger+ y DXLog.net (`RadioInfo`).** Los dos emiten un `RadioInfo` con la radio que
 tienen, su frecuencia, su modo e `IsTransmitting`. DX Agent los sintoniza por UDP y no manda nada
@@ -551,6 +565,47 @@ muestra el panel es el de flrig. Con `"block"` dice **PTT?**, desconocido.
 
 Sin eso, sintonizá por Hamlib u OmniRig y dejá que flrig lea la radio: los dos no pueden tener el
 puerto serie a la vez.
+
+**DXLab Commander.** Commander atiende por TCP los mismos mensajes `<command:..>` con los que
+WSJT-X lo maneja, y contesta las consultas, así que DX Agent lee la radio sin nada más:
+`CmdGetFreq`, `CmdSendMode`, `CmdSendSplit` y `CmdSendTx` cada segundo, más `CmdGetTXFreq` en
+split. El panel muestra frecuencia, modo, split y PTT, como con flrig.
+
+Sintonizar manda `CmdSetFreq` o `CmdSetFreqMode`, con el modo también si está marcado **También
+cambiar el modo**, y antes pregunta el PTT con `CmdSendTx`: si Commander dice que transmite, o no
+contesta, no sale nada. Es la misma guardia que usa WSJT-X, y el aviso vale igual que para N1MM:
+cubre la transmisión que inició el programa, no la que arrancás con el PTT de la radio.
+
+Commander no informa el PTT de todas las radios: con esas, `CmdSendTx` no tiene respuesta. La
+radio se lee igual, con el PTT como desconocido, pero Sintonizar no sale. Si la tuya es una de
+esas, en Configuración → Radio está **Sintonizar cuando Commander no informa el PTT**
+(`rig.dxlab_tx_guard`): con `"block"`, la opción de fábrica, no sintoniza; con `"tune"` sintoniza
+sin saber si la radio transmite. Si Commander dice que transmite, no sintoniza con ninguna de las
+dos.
+
+En Commander tiene que estar andando **Config → General → Net Serv → TCP Network Service**, con
+Base Port 52000 de fábrica: escucha en el Base Port más 2, o sea 52002, que es el puerto por
+defecto de DX Agent. Ojo con los puertos que Windows reserva para Hyper-V y WSL (`netsh int ipv4
+show excludedportrange protocol=tcp`): si 52002 cae en un rango reservado, Commander avisa que el
+puerto está ocupado aunque no haya nadie escuchando. Con Base Port 45000 escucha en 45002, y en DX
+Agent se pone ese puerto.
+
+El split lo arma un spot que dice dónde escucha o el botón SPLIT: primero va la frecuencia donde
+escucha, con el modo (`CmdSetFreqMode`), y después `CmdQSXSplit`, que le pone a la TX ese mismo
+modo. El próximo Sintonizar sin split lo termina (`CmdSplit off`). La caja lo muestra como a
+Hamlib: la frecuencia con la rueda en cada cifra, las listas de banda y modo, y en split una línea
+más para el VFO B con la frecuencia de transmisión, que también se mueve con la rueda. La rueda
+mueve un solo VFO: `CmdSetFreq` el de recepción y `CmdQSXSplit` el de transmisión. Fuera de split no hay línea del B
+porque Commander no dice nada del otro VFO: entrega una sola frecuencia, y con Hamlib sí se lee y se
+puede cambiar con un clic. Tampoco hay S-meter, porque Commander no lo comparte por este canal.
+
+Si querés que DX Agent lo arranque, activá **Arrancar DXLab Commander con DX Agent** en Configuración
+→ Radio (`rig.commander`): lo abre al empezar si no está corriendo y lo cierra al salir, y no toca uno
+que abriste vos. El programa se cambia ahí mismo (`rig.commander_path`); vacío es
+`C:\DXLab\Commander\CI-V Commander.exe`.
+
+El servicio UDP de Commander (`RadioInfo`) no hace falta para esto y no sirve como fuente de la radio: no informa el
+PTT y publica frecuencias imposibles mientras transmite.
 
 **Split según la radio (Hamlib y flrig).** El botón SPLIT, la rueda sobre las cifras y el split
 de un spot andan con cualquier radio que el programa ponga en split. Lo que DX Agent puede leer
@@ -613,7 +668,8 @@ regla.
 propia página del panel, así que otros sitios web no pueden mover tu radio.
 
 **Probado.** Las comprobaciones actuales de PTT son con programas simulados y la radio dummy de
-Hamlib. Todavía no se verificaron con una radio real.
+Hamlib. La excepción es DXLab Commander, probado con una IC-9100 real: lectura de frecuencia, modo
+y PTT, la guardia bloqueando en TX y Sintonizar moviendo la radio.
 
 **FlexRadio con AetherSDR (TCI).** AetherSDR, el cliente de FlexRadio, tiene un servidor TCI,
 como ExpertSDR para SunSDR y Thetis. En AetherSDR activá Settings → **Autostart TCI with
@@ -655,7 +711,7 @@ un indicador **TCI**: verde mientras está conectado, con la cantidad de spots e
   AetherSDR cierra el que había abierto; por OmniRig y Hamlib apaga el split de la radio, lo
   haya puesto quien sea, DX Agent antes de reiniciarse, WSJT-X o vos, porque el split de la
   estación anterior no le sirve a la nueva. A Log4OM no se le pide split; por N1MM y DXLog va
-  solo la frecuencia; DXLab Commander no sintoniza, y flrig lo pone con `rig.flrig_tx_guard =
+  solo la frecuencia; DXLab Commander lo pone con `CmdQSXSplit`, y flrig con `rig.flrig_tx_guard =
   "ptt"`. No en FT8 ni FT4, porque el Fox/Hound de una DXpedición no es un split de la radio, ni
   un split fuera de la banda o a más de 50 kHz.
 
@@ -1458,7 +1514,8 @@ Para la **Radio 1** y, si usás dos, la **Radio 2** (ver Dos radios):
 
 Para **Las dos radios**: WSJT-X, el split, y las opciones que solo aparecen con una radio por TCI
 (las alertas en el panadaptador y qué hace Sintonizar mientras la radio transmite) o por flrig (si
-sintoniza por flrig). Y **CW con WinKey**: su puerto, su velocidad y sus mensajes (ver El logbook
+sintoniza por flrig), y con una por DXLab Commander, si sintoniza cuando Commander no informa el
+PTT. Y **CW con WinKey**: su puerto, su velocidad y sus mensajes (ver El logbook
 de DX Agent).
 
 #### CQ DX Marathon
@@ -1489,6 +1546,10 @@ Marathon.
 - Si cuenta un spotter conocido solo por su país, y si se deja afuera tu propio país.
 - El aviso de la hora (en cuántos días como mínimo, cuántos países como máximo y dentro de cuántos
   días) y su notificación (ver Ventanas).
+
+El relleno de las horas en que DX Agent no estaba abierto con el archivo diario del RBN no está en la
+página: se apaga con `windows.history = false` en `config.toml`, y `windows.history_days` dice cuántos
+días atrás mira.
 
 #### DXpediciones, log y panel
 
@@ -2198,6 +2259,22 @@ skimmers escuchándolo a la vez, o un fin de semana de concurso lleno de spots, 
 Y se lee para esta época del año (este mes y el de cada lado), porque las horas en que abre una
 banda cambian con las estaciones: junio dice poco de diciembre.
 
+Las horas en que DX Agent no estaba abierto las rellena el **archivo diario del RBN**
+(`data.reversebeacon.net/rbn_history/AAAAMMDD.zip`, que sale a las 00:02 UTC del día siguiente). Unos
+minutos después de arrancar, y una vez por día de ahí en más, DX Agent baja el zip de cada día que le
+falta, uno por vez y con una pausa entre descargas, y lo cuenta con las mismas reglas que en vivo. Las
+horas en que estaba escuchando, con el clúster o el RBN conectados, quedan anotadas, y el archivo solo
+rellena las que no: ahí no se contó nada en vivo, así que el día suma una vez más. Un día que ya leyó
+no se vuelve a bajar.
+
+En una instalación nueva rellena los últimos 45 días, entre 150 y 300 MB repartidos a lo largo de un
+rato (cada día tarda unos segundos). `windows.history_days` cambia cuántos días atrás mira, y con
+`windows.history = false` no se baja nada.
+
+El archivo trae CW y RTTY (y algo de PSK31), no FT8 ni FT4: el feed del puerto 7001 no se publica, y las
+horas de hoy se rellenan recién mañana. Depende, además, de que haya skimmers del RBN cerca tuyo: en
+Europa y Norteamérica sobran, y en Sudamérica hay muy pocos.
+
 La pestaña **Ventanas** lista lo que todavía te falta, una fila por país, con su puesto en el Most
 Wanted de Club Log y sus 24 horas como una línea de barras, todas sus bandas juntas.
 
@@ -2231,8 +2308,9 @@ Es una predicción, no algo escuchado a esa hora, y la fila lo dice: "its hour b
 heard near you at 23:17 UTC, 849 km". Son tantos países como máximo como los escuchados, aparte de
 ellos. Necesita el número de manchas solares, el mismo de la pestaña Estación.
 
-No hay que bajar nada extra: se arma con los spots que DX Agent ya lee. Sin log todavía cuenta todos
-los países; cuanto más sabe el log, mejor sabe qué te falta.
+No hay que bajar nada extra: se arma con los spots que DX Agent ya lee, más el archivo del RBN de las
+horas en que estaba cerrado. Sin log todavía cuenta todos los países; cuanto más sabe el log, mejor sabe
+qué te falta.
 
 ### Indicativos mal decodificados de la RBN
 
@@ -2430,6 +2508,8 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | windows     | `alert_min` / `alert_max`   | `2` / `1`                                         | Escuchado en la hora al menos en estos días / países como máximo en la fila (los siguientes se nombran) |
 | windows     | `fresh_days` / `notify`     | `45` / `true`                                     | Sólo si se escuchó dentro de estos días / un aviso de Windows |
 | windows     | `voacap` / `voacap_pct`     | `false` / `70`                                    | También los escuchados cerca tuyo en las últimas 2 horas, si VOACAP da la banda abierta ahora / con al menos este % |
+| windows     | `history`                   | `true`                                            | Rellenar las horas en que DX Agent no estaba abierto con el archivo diario del RBN (nada al arrancar) |
+| windows     | `history_days`              | `45`                                              | Cuántos días atrás rellena: 45 en una instalación nueva, un zip por vez |
 | scp         | `enabled`                   | `true`                                            | Super Check Partial: sugerir indicativos en los formularios de QSO mientras escribís |
 | scp         | `spotted` / `log` / `master` | `true` / `true` / `true`                         | Sugerir los spoteados hace poco / los de tu log / los del MASTER.SCP (sin este, no se baja) |
 | scp         | `modes`                     | `CW, PHONE, DIGI`                                 | Los grupos de modos cuyos spots cuentan como en el aire |
@@ -2728,6 +2808,10 @@ necesitan archivo: cada uno tiene su logbook.
   Log y QRZ.com con `M`, y LoTW con `N`, que lo toma como un QSO nuevo y deja el viejo ahí. **✕**
   borra un QSO cuando confirmás; queda guardado aparte en el logbook (tabla `deleted`) y no se borra
   de LoTW, QRZ.com ni Club Log.
+- Los dos formularios, el de la fila y el de la consola, muestran **RX kHz** (donde escuchaste) y
+  **TX kHz** (donde transmitiste). En un QSO sin split son la misma frecuencia, y si corregís una,
+  la otra la sigue. Con dos frecuencias distintas el QSO queda en split (`FREQ_RX`, y `BAND_RX` si es otra
+  banda); con la RX vacía o igual a la TX, queda sin split.
 - Los botones de subir y bajar, con **Importar QSOs…**, en el tab **Acciones** del costado (Subir y bajar), aparecen solo para lo que está configurado: **Subir a LoTW** con TQSL instalado, **Bajar de LoTW** con el usuario y la contraseña de LoTW, **Subir a Club Log** con tu email y la contraseña de aplicación de Club Log, **Subir a QRZ** y **Bajar de QRZ** con la clave de la API del logbook de QRZ.com. Si la página no puede leer su estado (el log ocupado con una importación), lo vuelve a pedir a los pocos segundos.
 - **Duplicados**, también en el tab Acciones, lista los QSOs que el log tiene más de una vez: el
   mismo indicativo, minuto y banda. Viene apagada: se prende en Configuración → Log → **La vista
@@ -3251,6 +3335,7 @@ hace falta.
 | `dxagent/queries.py`        | Grilla de la estación, lista de DXpediciones y avance en el DXCC, compartidas por los comandos y el panel |
 | `dxagent/reach.py`          | "Cerca tuyo": quién escuchó cada estación y a qué distancia de vos; lista de skimmers de la RBN; PSKReporter |
 | `dxagent/windows.py`        | Ventanas: cuándo se escucha cerca tuyo cada país que te falta, un casillero por hora y mes, y el aviso de la hora |
+| `dxagent/rbnhist.py`        | El archivo diario del RBN: las horas en que DX Agent no estaba escuchando, leídas de un zip por día y contadas como las de en vivo |
 | `dxagent/pskmqtt.py`        | PSKReporter en vivo: un cliente MQTT para mqtt.pskreporter.info, y las estaciones seguidas |
 | `dxagent/refinfo.py`        | La página de un parque POTA o una cumbre SOTA, para la pestaña Estación |
 | `dxagent/geo.py`            | Grid locators y distancias |
@@ -3295,7 +3380,7 @@ hace falta.
 | `data/world-countries-50m.json`               | Natural Earth (vía world-atlas) | una vez |
 | `data/dxcc-shapes.json`, `data/cq-zones.json`, `data/itu-zones.json` | GridTracker | una vez |
 | `data/world-map.json`                         | armado con los dos de arriba (el mapa terminado) | cuando cambian |
-| `data/dxagent.db`                             | DX Agent: alertas (últimos `keep_days` días), dónde estuvo cada activador (últimos 32 días), tus QSOs con ellos, QSOs por UDP que todavía no están en tu log, y las horas en que se escucha cada país que te falta (Ventanas, `windows.keep_months`) | mientras corre |
+| `data/dxagent.db`                             | DX Agent: alertas (últimos `keep_days` días), dónde estuvo cada activador (últimos 32 días), tus QSOs con ellos, QSOs por UDP que todavía no están en tu log, las horas en que se escucha cada país que te falta (Ventanas, `windows.keep_months`), las horas en que DX Agent estuvo escuchando y los días del archivo del RBN que ya leyó | mientras corre |
 | `data/cache/log-<INDICATIVO>.pickle`          | DX Agent: los índices del log de cada indicativo tal como se leyó, para no volver a leer un log grande en cada arranque. Se usa solo si son iguales los archivos del log, el archivo de países, tus indicativos, el año y la versión de DX Agent; los QSOs posteriores (la base de tu logger, UDP) se suman encima como siempre. Se puede borrar sin problema | cuando cambia el log |
 | `data/update.json`                            | DX Agent: la última versión en GitHub, consultada cada hora (`ui.check_updates`), con los paquetes que trae el release | cada hora |
 | `data/telemetry.json`                         | DX Agent: el día (UTC) del último aviso anónimo (`ui.telemetry`) y la respuesta del panel cuando lo preguntó, para no mandar más de uno por día ni volver a preguntar | una vez por día, con el aviso |
@@ -3315,6 +3400,8 @@ reemplaza entero y se lee entero. Las tablas:
 | `hunted`     | tus QSOs con activadores vistos en el aire (indicativo, programa, referencia, banda, hora) | para siempre |
 | `udp_qsos`   | QSOs que tus programas mandaron por UDP y tu archivo de log todavía no tiene (sus campos ADIF) | hasta que el log los tenga; como máximo 2.000, 30 días |
 | `window_hour` | cuándo se escucha cada país que te falta, cerca tuyo: país, banda, modo, hora UTC y mes, en cuántos días y con cuántos spots, a qué distancia y con cuánto SNR, quién lo escuchó la última vez (Ventanas) | `windows.keep_months` meses (24) |
+| `window_watch` | las horas UTC en que DX Agent estuvo escuchando, con un feed conectado: el archivo del RBN no las rellena | `windows.keep_months` meses (24) |
+| `window_fill` | los días del archivo diario del RBN que ya se leyeron, para no bajarlos de nuevo | `windows.keep_months` meses (24) |
 
 Cualquier programa de SQLite lo abre (DB Browser for SQLite, `sqlite3`), incluso con DX Agent
 corriendo. Las versiones anteriores escribían `alerts.jsonl` (y `activations*.jsonl`):
