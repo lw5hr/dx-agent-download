@@ -698,6 +698,14 @@ top right says whether it worked.
     WSL, Commander says the port is in use although nothing is listening: change the Base Port to
     45000 (it listens on 45002) and set that port in DX Agent. Commander's UDP service is not used
     for this.
+  - **The radio box with Commander** shows the frequency with the wheel on each digit, the band and
+    mode lists, and in split one more line for VFO B with the transmitting frequency, which the wheel
+    moves too. A spot that says where it listens, or the SPLIT button, puts the radio in split, and
+    the next Tune without split ends it. What there is no S-meter: Commander doesn't share it.
+  - **Starting Commander with DX Agent:** with **Start DXLab Commander with DX Agent** ticked
+    (Settings → Radio), DX Agent opens it at start when it isn't running and closes it on exit, and
+    leaves alone the one you opened. Its program is set there too; empty is
+    `C:\DXLab\Commander\CI-V Commander.exe`.
 - **Split:** when a station's spots say where it listens (**UP 5**, **UP 1-3**, **QSX
   14.205**...), Tune puts the radio in split, and the message says it ("split: TX 14026.0 kHz"):
   AetherSDR opens a second slice that transmits there (TCI); through OmniRig and Hamlib, where the
