@@ -712,7 +712,8 @@ derecha dice si funcionó.
   - **La caja de la radio con Commander** muestra la frecuencia con la rueda en cada cifra, las listas
     de banda y modo, y en split una línea más para el VFO B con la frecuencia de transmisión, que
     también se mueve con la rueda. El split lo arma un spot que dice dónde escucha o el botón SPLIT, y
-    el próximo Sintonizar sin split lo termina. Lo que no hay es S-meter: Commander no lo comparte.
+    el próximo Sintonizar sin split lo termina. Fuera de split no hay línea del B, porque Commander no
+    dice nada del otro VFO. Tampoco hay S-meter: Commander no lo comparte.
   - **Arrancar Commander con DX Agent:** con **Arrancar DXLab Commander con DX Agent** activado
     (Configuración → Radio), DX Agent lo abre al empezar si no está corriendo y lo cierra al salir, y
     no toca uno que abriste vos. El programa se cambia ahí mismo; vacío es
