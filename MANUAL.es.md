@@ -664,7 +664,7 @@ derecha dice si funcionó.
 | **OmniRig** | elegir en DX Agent la radio 1 o 2 de OmniRig | sí |
 | **Hamlib (rigctld)**, la opción para empezar | que rigctld esté corriendo, o que lo arranque DX Agent (abajo) | sí |
 | **flrig** | su servidor XML-RPC (puerto 12345); para sintonizar, **Sintonizar por flrig** en DX Agent (ver abajo) | sí |
-| **DXLab Commander** | no sintoniza (ver abajo) | — |
+| **DXLab Commander** | Config → General → **Net Serv** → **TCP Network Service** activo (Base Port 52000, escucha en 52002) | sí |
 | **TCI** (AetherSDR para FlexRadio, ExpertSDR, Thetis) | AetherSDR: Settings → **Autostart TCI with AetherSDR** (o **Enable** en su applet TCI, puerto 50001) | sí |
 
 - **Hamlib, la opción para empezar.** Sintoniza, cambia el modo y el split, y lee la radio para la
@@ -689,9 +689,8 @@ derecha dice si funcionó.
 
 - **Nunca mientras transmitís.** Antes de cada cambio de frecuencia, banda, modo o VFO, DX Agent
   comprueba que la radio esté en recepción; si está transmitiendo, o el programa no puede decirlo,
-  no la mueve. Por eso **DXLab Commander no sintoniza**: su conexión no dice si la radio transmite.
-  Con Log4OM, la frecuencia y el modo van por OmniRig; sin OmniRig no sintoniza. No es un
-  enclavamiento absoluto: la transmisión puede empezar entre la comprobación y el comando.
+  no la mueve. Con Log4OM, la frecuencia y el modo van por OmniRig; sin OmniRig no sintoniza. No es
+  un enclavamiento absoluto: la transmisión puede empezar entre la comprobación y el comando.
   - **N1MM y DXLog.net** dicen cada 10 segundos si la radio transmite, por el mismo puerto UDP por
     donde mandan los QSOs (hay que marcar **Radio** en su broadcast, arriba). Sin ese aviso en los
     últimos 30 segundos, o con el programa cerrado, no sintoniza. Cambia solo la frecuencia: el
@@ -703,6 +702,13 @@ derecha dice si funcionó.
     tiene configurada su entrada de PTT (por CAT o por el puerto serie, lo mismo que necesita
     WSJT-X): cada comando sale después de que flrig dice que la radio recibe. De fábrica, flrig es
     solo lectura.
+  - **DXLab Commander** lee la radio por el mismo TCP con el que la sintoniza: frecuencia, modo,
+    split y PTT, y antes de cada Sintonizar pregunta si transmite (`CmdSendTx`). Commander tiene que
+    tener activo **Config → General → Net Serv → TCP Network Service**, con Base Port 52000 de
+    fábrica, que escucha en 52002, el puerto por defecto de DX Agent. Si Windows reservó ese rango
+    para Hyper-V o WSL, Commander avisa que el puerto está ocupado aunque no haya nadie escuchando:
+    cambiá el Base Port a 45000 (escucha en 45002) y poné ese puerto en DX Agent. El servicio UDP de
+    Commander no se usa para esto.
 - **Con Log4OM, además de la frecuencia se completa el indicativo** en su ventana de QSO,
   listo para loguear. Si ya escribiste un indicativo a mano ahí, Log4OM no lo reemplaza.
 - **Con Log4OM, el modo** cambia por OmniRig, el programa con el que Log4OM maneja la radio:
