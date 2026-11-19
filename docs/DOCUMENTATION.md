@@ -1,6 +1,6 @@
 # DX Agent — User Guide
 
-*Created by Diego – LW5HR, with **Javi – LU5FF** (QA Product Advocate). Thanks to Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW and Daniel – LU1HLH for trying the first versions. MIT License. Thanks to Pancho – LU4DCW, Javi – LU5FF and Enrique – CP6UA for their support. Support DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · also with crypto, [Cafecito](https://cafecito.app/lw5hr) · by card or bank transfer, [Wise](https://wise.com/pay/me/diegod2572).
+*Created by Diego – LW5HR, with **Javi – LU5FF** (QA Product Advocate). Thanks to Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW and Daniel – LU1HLH for trying the first versions. MIT License. Thanks to Pancho – LU4DCW, Javi – LU5FF, Enrique – CP6UA and Murf – N7UVH for their support. DX Agent is free, and we have no intention of making money with it: a contribution helps us keep it going. Support DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · also with crypto, [Cafecito](https://cafecito.app/lw5hr) · by card or bank transfer, [Wise](https://wise.com/pay/me/diegod2572).
 Versión en español: [DOCUMENTACION.md](DOCUMENTACION.md).*
 
 DX Agent watches the DX cluster and the Reverse Beacon Network (RBN), checks every
@@ -42,7 +42,7 @@ install. DX Agent runs without a window (and asks Windows not to put it in "effi
 runs just opens the dashboard. Starting a new version while an older one is still running
 stops the old one first (as its Stop button would) and starts the new one. If it can't start, a Windows message says why; what it
 prints goes to `data/dx-agent.log` in your DX Agent folder (see below), and **start-dx-agent-console.bat** runs it in a
-window to watch it. (The source zip, `dx-agent-<version>-source.zip`, needs
+window to watch it. An error that stops something is kept in that file in a window too, with its details to send if needed. (The source zip, `dx-agent-<version>-source.zip`, needs
 [Python 3.11+](https://www.python.org/downloads/) installed with "Add python.exe to
 PATH"; without it, start-dx-agent.bat says so and offers to install it with winget.)
 
@@ -192,11 +192,11 @@ python -m dxagent run --no-ui       # console only
 | Area | What it shows |
 |------|---------------|
 | **Header** | Your call; one pill per feed (green = online, amber = connecting, red = down) with its spot count (hover for the server and last spot time; a click leaves in the list and the map only the stations it heard, see Filters); a **DXpeditions** pill next to them: how many are within their dates and how many of them were spotted in the last 15 minutes ("48 · 6 on the air", its dot green while one is; a click opens the DXpeditions tab); a **propagation** pill at their side: SFI, SN, A and K, the field's state in its dot, and the storm's level when there is one (**G2** red while it lasts, softer when it is only today's forecast; **R1** for a radio blackout; grey dashes when NOAA SWPC has nothing fresh), its tip saying how old each value is, what A and K mean and the G/R/S scales; your log totals; icon buttons (hover for what each does): **About** ⓘ (what DX Agent is, who made it, the collaborators, how to support it, and help: the website, the user manual and the issues page), **Settings** ⚙ (on the Settings page, a list icon back to the alerts), **EN/ES/PT/FR** (language), **Theme** (half circle = Auto, sun = Light, moon = Dark, a palette = another theme; a click opens the menu of themes), **Browser sound** (speaker, crossed out when off), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop** (red); UTC clock. `#about` opens the About window. On a narrower window (up to 1800 px) the pills go below your call and the buttons, the whole width; the chevron after them folds them to their status dots, in one highlighted pill next to your call (a click on it opens them again; remembered in the browser) |
-| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band (your log says so) or click its anchor again. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
+| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that station on that band in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order, highlighted with its anchor always in sight, and on the radio's panadapter; it stays pinned until you take it out with its ✕, work it on that band after pinning it (your log says so) or click its anchor again. An earlier QSO doesn't count: a DXpedition you already have on that band and need in another mode stays pinned while you log other QSOs. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
 | **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. When the columns don't fit your screen, a right click on any header (or the menu key, or Shift+F10, on a focused one) lists them with a tick box each: untick the ones you don't read and the table narrows at once; the menu stays open while you tick, **Show all** brings them back, the call always shows, and your choice is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
-| **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a green ring marks the bands and modes where the station was spotted in the last 15 minutes, the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
+| **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a ring marks the bands and modes where the station was spotted in the last 15 minutes — cyan, orange or grey by VOACAP's chance this hour, its own colours so they never read as the cells', see below — the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
 | **Ventanas tab** | When each country you still need is heard from near you: one row per country, with its Most Wanted rank and 24 hours as a line of bars. Order by **A–Z**, **Most Wanted** or **This hour**. Click one for every band and mode, hour by hour, with who heard it and how far, the empty hours filled with VOACAP. **Needed** / **All** (see Ventanas) |
-| **DXpeditions tab** | Active DXpeditions and those starting in the next 30 days. Badge: **ATNO**, **Not confirmed**, or how many bands you have (e.g. "1 of 10 bands", highlighted when fewer than half). Tick **only needed** to hide ones you already have on most bands. Sorted by what's **on the air** (spotted in the last 15 minutes, the latest on top), by Club Log's **Most Wanted** rank (most wanted country first) or by start date: **Order** at the top. Each card shows its sources and Club Log's **Most Wanted** rank; one spotted in the last 15 minutes is framed in green as **ON THE AIR**. Click one to open its grid; the **☆** adds it to your watchlist |
+| **DXpeditions tab** | Active DXpeditions and those starting in the next 30 days. Badge: **ATNO**, **Not confirmed**, or how many bands you have (e.g. "1 of 10 bands": teal when fewer than half, violet when half or more but not all, grey only when you have the country on all your bands). Tick **only needed** to hide ones you already have on most bands. Sorted by what's **on the air** (spotted in the last 15 minutes, the latest on top), by Club Log's **Most Wanted** rank (most wanted country first) or by start date: **Order** at the top. **List** / **Timeline** swaps the cards for a calendar, one row per DXpedition (see DXpeditions). Each card shows its sources and Club Log's **Most Wanted** rank; one spotted in the last 15 minutes is framed in green as **ON THE AIR**. Click one to open its grid; the **☆** adds it to your watchlist |
 
 **The version and the downloads.** The version sits next to the name. While DX Agent is
 downloading one of the files it keeps up to date (the country list, Super Check Partial, the
@@ -213,15 +213,21 @@ the station is on the air, its latest spot.
 **On the air, in the Station tab's grid.** The band × mode grid also shows where the station
 is transmitting now:
 
-- **Green ring** on each band and mode where it was spotted (cluster or RBN) in the last 15
+- **A ring** on each band and mode where it was spotted (cluster or RBN) in the last 15
   minutes, and a **dot ●** over that band. The ring is set apart from the cell, so it shows
   on a confirmed **C**, a worked **W** or an empty cell alike; on an empty one, it's on the
   air on a band you still need.
+- **The ring's colour** is VOACAP's chance this hour on that band and mode, the list's column
+  figure: cyan from 50 %, orange from 10 %, grey below (see The prediction: VOACAP). Its own
+  colours, so they never read as a C's green or a W's amber. Without a VOACAP figure, like on
+  6 m, the ring turns dotted.
 - **Blinking:** only the cell of the **latest spot**, where the station is now. The others
   keep a steady ring. When a spot comes in on another band, the blinking moves there.
 - **On several bands at once** (a DXpedition with several stations, S9R say): every band
   spotted in the last 15 minutes has its ring, and the latest one blinks.
-- **Hover** a ringed cell: when it was spotted, on what frequency and mode, and by whom.
+- **Hover** any cell: VOACAP's chance this hour on that band and mode, and the next 24 hours as
+  a strip of squares, more intense the better, striped where the long path is better and this
+  hour outlined. With a spot, also when it was spotted, on what frequency and mode, and by whom.
 - **Click** a ringed cell (with a radio set up, see Tune the radio): Tune goes to that band
   and mode's latest spot, and the Tune button keeps it.
 - A spot that doesn't say its mode marks the whole band. With no spot for 15 minutes, the
@@ -760,7 +766,8 @@ world map. The filters apply to both views.
   as a lookup shows a call's country: its card, beam headings to its centre, status, CQ DX
   Marathon box and band × mode grid.
 - **Diamonds** are active DXpeditions: red = ATNO, amber = not confirmed, teal = you have the
-  country but on fewer than half of your bands, grey = you have it. With an alert in the last
+  country but on fewer than half of your bands, violet = on half or more but not all, grey = on
+  all your bands. With an alert in the last
   15 minutes the diamond takes the alert's colour. A **green frame** means it was spotted in
   the last 15 minutes (on the air). The legend in the bottom-left corner sums this up (its chevron folds it to one word,
   "Legend", remembered in the browser). Several at
@@ -784,7 +791,7 @@ world map. The filters apply to both views.
   where they would overlap, the most important ones are shown (hover a dot for its call).
 - The Station tab also shows both **beam headings**, big, each with a compass pointing that
   way and its distance: the short path in blue, the long path (the other way round the
-  Earth) in orange, in either view.
+  Earth) in orange, in either view, and under each one VOACAP's chance by that way.
 - The borders are **DXCC** borders, not just countries': European and Asiatic Russia,
   England, Scotland and Wales or Mount Athos are split too. Hover anywhere on the map to see
   which entity it is. Each entity shows its prefix once it is big enough on screen (zoom in
@@ -1033,8 +1040,11 @@ For whoever writes the other program, [INTEGRACION-API.md](./INTEGRACION-API.md)
 (in Spanish): how it authenticates, the errors, the limits, the cursor, the ETag, the stream, and the
 route catalog with examples.
 
-The radio is not in the API: `tune`, `rig/*` and `cw/*` still only work from the PC DX Agent runs
-on. A program that wants to move the radio uses Hamlib, the same `rigctld` or the same TCI.
+The radio and the WinKey are in the API too, with a token of scope `write`, but only from the PC DX
+Agent runs on: `POST /api/v1/cw/send`, `cw/stop`, `cw/speed`, `cw/esm` and `cw/test` for the WinKey,
+and `POST /api/v1/rig/tune`, `rig/freq` and `rig/split` for the radio. The same request from another
+computer gets a 403, token or not. PTT and the mode on its own are not there: a program that needs
+them uses Hamlib, the same `rigctld` or the same TCI.
 
 The token travels unencrypted because the server is HTTP. It is for the local network: keep it off
 networks that are not yours (hotels, events) and revoke it if it leaks.
@@ -1248,6 +1258,28 @@ and a message pops up in the dashboard the moment one comes on. This happens for
 active DXpedition, needed or not and on your watchlist or not; **only needed** never
 hides one that is on the air.
 
+**Timeline.** **List** / **Timeline**, at the top of the tab, swaps the cards for a calendar:
+one row per DXpedition, from a week ago to 30 days ahead (UTC days, weekends
+shaded and today highlighted). Each bar has your status's colour, as the card's badge; one on
+the air has a green border, and a click opens its grid. A bar that runs on before or after the
+range ends square at the edge, and an end that fades out is a date nobody announced: the start
+of one 425 DX News gives only as "till 31/10", or the end of one known only from Club Log,
+which says until when QSOs were uploaded but not when it ends. **Only needed** applies here
+too, and the browser remembers the view. On a wide screen, **« 60 days** widens the panel to
+the left, over the list or the map, and shows the next 60 days; it goes back to its width with
+**30 days »**, on another tab or view, or when the panel is folded. While it is wide the QSO
+console folds, and it opens again when the panel is back to its width.
+
+Above the bars, a legend says what each colour, the fade and the green ring are. A click on a
+status (ATNO, Not confirmed, Few bands, Most bands or All your bands) hides those bars and
+another shows them again; the ones on the air always show, and the browser remembers which
+you hid.
+
+The timeline has its own **Order**, **Start** to begin with: **On the air**, **Most Wanted**,
+**Status** (ATNO first, then not confirmed, then the ones you have on fewest bands), **Start**
+and **End** (the soonest to end first, and last the ones whose end isn't known). What a criterion
+doesn't tell apart goes by start date.
+
 **In the Station tab.** Open a DXpedition's call and the **DXpedition** box shows its
 dates, QSL, sources and what the announcement says. Also before it starts: when that call
 has one announced further ahead, the next one is shown, with **starts in 17 days** (or
@@ -1448,10 +1480,19 @@ install). It needs your grid square.
 
 It works it out both ways, your signal there and theirs here, with your power and your noise at
 both ends but your antenna only at yours: the other station's is taken as isotropic, as not everyone
-you call has a big antenna. Your station is set in **Settings → Propagation**: your power, your
-antenna's gain over isotropic, about 3 dBi for a dipole or a vertical and 8 to 10 for a Yagi, and
-the man-made noise where you are: residential, rural or quiet. A QSO needs both ways, so the worse
-one counts. The chance is VOACAP's reliability:
+you call has a big antenna. Your station is set in **Settings → Propagation**: your power, the
+antenna's shape (horizontal, the one it comes with, or vertical), its height above ground (a wire's
+or a beam's own; a vertical's base, 0 when it stands on the ground) and its gain in free space, the
+catalogue's: a dipole or a quarter-wave vertical about 2, a 3-element Yagi about 8 and a 5-element
+10. The ground is added on top, angle by angle: at the best angle of a horizontal wire it adds 5 or
+6 dB, and near the horizon it takes nearly everything away. Then the man-made noise where you are:
+residential, rural or quiet. Each band can have
+its own antenna, with its own shape, gain and height, because a vertical on 80 and 40 with a wire or
+a Yagi up higher is not unusual. The prediction picks each mode's take-off angle and charges the
+signal for what the antenna gives there, so the height counts: on each band it is a different
+fraction of a wavelength, and a dipole 10 m up on 80 m is an eighth of one, radiating upwards and
+not arriving. With the isotropic shape, on the other hand, the gain is the same at every angle. A QSO
+needs both ways, so the worse one counts. The chance is VOACAP's reliability:
 how often in the month the SNR reaches what the mode needs, in 1 Hz: CW 24 dB and SSB 45 (as
 voacap.com's setup guide), FT8 13 and FT4 17 (their decoding limits, -21 and -17.5 dB in
 2,500 Hz), RTTY 34; other digital modes as FT8.
@@ -1462,11 +1503,21 @@ On each band and hour the one whose worse way has the better SNR counts; on a ti
 Beside the percentage, the list says **SP** (short path) or **LP** (long path, highlighted).
 When the long one is better, with a chance of 10% or more, the Station tab stripes that hour, and
 the tooltip says the distance and the bearing to point the antenna at (from South America, Japan on
-15 m at dusk, say). In the Station tab's **Beam**, the path that is better now on the row's band
-and mode is highlighted, with its chance, and the other one faint. Long paths are nearly always
+15 m at dusk, say). In the Station tab's **Beam**, each path shows its own chance now under its
+heading, on the row's band and mode. The better one is highlighted from 10% and the other one faint,
+so a long path at 5% reads as the less bad of two closed ways, not as advice. When a path gets
+clearly better in the next 24 hours (it reaches 10% and gains 10 points or more), it says when:
+"34% at 21Z". Long paths are nearly always
 over 10,000 km, where VOACAP uses a simplified model: that prediction is rougher than the short
 path's. What is measured (the path) can't tell the two apart: a report doesn't say which way the
 signal came.
+
+That model also misses **grey-line** long paths: when one end is at its sunrise or sunset and, from
+there, at least half of the path is in the dark, the signal comes in far better than VOACAP says. At
+those hours, on the bands under the long path's MUF, the Station tab's **Beam** doesn't dim the long
+path and a note under it says to try it too, and the list's tooltip gives the heading to point the
+antenna at. An example from central Argentina: New Caledonia on 17 m at 18Z in November. VOACAP gave the short
+path, and the station came in by the long one.
 
 Where to see it:
 
@@ -1487,6 +1538,9 @@ Where to see it:
   square greener the better the chance, for CW, SSB, FT8, FT4 or RTTY (the row's mode at first);
   hover a square for its figures. Above it, the row's band now. Striped, the hours better by the
   long path; under it, each path's distance and bearing.
+- **The grid's ring** in the Station tab: each slot spotted in the last 15 minutes takes the
+  colour of its chance on that band and mode (cyan high, orange medium, grey low); hover for the
+  percentage and the slot's next 24 hours. Dotted without a figure.
 
 #### Where the sunspot number comes from
 
@@ -2403,6 +2457,28 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   (`14025`, `7012.5`, `3525,2`) tunes the active radio there, in the mode it is in, and empties the
   box; nothing is saved or sent, ESM on or off.
 - While the logbook is experimental, keep a copy of your log elsewhere too.
+- **External keyer**, the CW / Voice Keyer companion, a program of its own. Settings → Radio →
+  **Who sends the CW** picks between DX Agent's WinKey and the external keyer. With the external
+  one, the WinKey box is not drawn and its **F1** to **F10** keys send nothing: the keyer sends the
+  CW. In that box's place, in the Log view's console, is the **Open the keyer** button, which starts
+  it or brings its window to the front; **Alt+K** does the same from any view.
+- Opening it twice leaves one: the keyer already keeps a single instance, and the second process
+  asks the first to show its window. The notice at the top right says whether it was started or only
+  brought to the front, and when it can't, why: no program to run, it closed right away, or no
+  answer. Closed, DX Agent starts it in a process of its own, which stays open when DX Agent closes,
+  and waits up to 20 s for it to answer; the dashboard keeps going while it waits.
+- The button isn't drawn on another device on the network, as with Tune and CW: the keyer runs on the
+  station's PC. The Windows package already carries it in `keyer/`, so there is nothing to install:
+  the button starts it from there. In `config.toml`: `[keyer]` (`use` (`winkey` or `external`),
+  `port` (8074, on 127.0.0.1 only) and `command`, the program's path. That one is
+  `keyer/CW-Voice-Keyer.exe` out of the box, counted from DX Agent's folder, which is where the
+  package leaves it and what keeps it working if the folder is moved or renamed. Empty or that
+  default, DX Agent looks for `CW-Voice-Keyer.exe`, `cw_keyer_tci.exe` or `cw_keyer_tci.py` in its
+  folder and in `keyer/`, running a .py with its own .venv or DX Agent's; run from the source code,
+  which has no `keyer/`, it also looks in `DXAGENT_KEYER_DIR` and in the keyer's `dist/` beside it
+  (`../cw-voice-keyer-tci/dist`), where the package takes it from. A path of your own is used as it
+  is: when it isn't there, the message names it). The keyer has DX Agent's address and
+  token saved already, so it connects on its own.
 
 ### Your QSOs as you log them
 
@@ -2694,7 +2770,10 @@ turning `ui.telemetry` off stops it at once.
 it when the private half of the key is in `data/release-key.txt` (made once with
 `python tools/sign_release.py keygen`, which prints the public half to paste in
 `dxagent/selfupdate.py`; `$DXAGENT_RELEASE_KEY` with the seed in hex works instead, for a machine
-that only signs). Attach `SHA256SUMS` and `SHA256SUMS.sig` to the release beside the packages, and
+that only signs). The Windows zip carries the keyer in `keyer/` with a `VERSION` file saying which
+build it is, and the build stops if the keyer's `.exe` is older than its last code change (or than
+an uncommitted edit): that is the cue to run `tools/build_exe.ps1` in the keyer and build again.
+Attach `SHA256SUMS` and `SHA256SUMS.sig` to the release beside the packages, and
 run `python tools/sign_release.py verify` first: it checks them exactly as an installed DX Agent
 will. That private half is the whole trust in the automatic updates — back it up, and keep it out
 of git and out of the packages. Losing it means publishing a new key in a new release and having
@@ -2718,7 +2797,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `logo.ico`                  | The DX Agent logo as a Windows icon (16 to 256 px), in the root where it is easy to find: what `create-shortcut.bat` puts on `DX Agent.lnk`, and what to pick in Properties > Change icon when the shortcut is made by hand |
 | `start-dx-agent.sh`         | The same two launchers for Linux and macOS (`-console.sh` shows what it prints); they use the package's Python if it brings one (`python/`, or on a Mac `python-arm64/` / `python-x86_64/`) |
 | `start-dx-agent.command`    | macOS: double-click in Finder to start it; takes the folder out of quarantine so the bundled Python can run |
-| `tools/make_package.py`     | Builds the packages to share: the Windows zip and the Linux and macOS tarballs (Python included, program compiled), plus the source zip with `--source`, and `SHA256SUMS` with its signature (`SHA256SUMS.sig`) — what DX Agent checks its own updates against; never your personal data |
+| `tools/make_package.py`     | Builds the packages to share: the Windows zip (Python included, program compiled, and the keyer in `keyer/`) and the Linux and macOS tarballs, plus the source zip with `--source`, and `SHA256SUMS` with its signature (`SHA256SUMS.sig`) — what DX Agent checks its own updates against; never your personal data |
 | `tools/make_icon.py`        | Draws `logo.ico` at each size from the SVG logos (Edge or Chrome does the drawing); only when the logo changes |
 | `tools/sign_release.py`     | The release key: `keygen` makes it once (`data/release-key.txt`, never in git), `sign` writes `dist/SHA256SUMS.sig`, `verify` checks it as an installed DX Agent will |
 | `tools/make-shortcut.ps1`   | What `create-shortcut.bat` runs: the `DX Agent.lnk` pointing at the launcher, with the icon |
@@ -2794,7 +2873,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/update.json`                            | DX Agent: the latest version on GitHub, asked every hour (`ui.check_updates`), with the packages the release brings | every hour |
 | `data/telemetry.json`                         | DX Agent: the UTC day of the last anonymous ping (`ui.telemetry`) and the answer the panel got when it asked, so that no more than one a day goes out and it isn't asked again | once a day, with the ping |
 | `data/update/`                                | DX Agent's own update: the package downloaded and unpacked (`new/`), the backup the script left (`before-<version>/`) and what it did (`update.log`) | on an update |
-| `data/dx-agent.log`                           | DX Agent (without a window) | while it runs; kept under 5 MB |
+| `data/dx-agent.log`                           | DX Agent (without a window; in one, only the errors that stop something) | while it runs; kept under 5 MB |
 
 ### data/dxagent.db
 

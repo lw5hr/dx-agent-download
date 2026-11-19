@@ -146,8 +146,8 @@ log. Hacé clic en **Configuración** (arriba a la derecha) y completá:
    nunca en texto.
 3. **Alertas:** qué tipos de alerta querés, en qué bandas y modos. Para empezar, los valores
    de fábrica andan bien.
-4. **Propagación:** tu potencia, la ganancia de tu antena y el ruido donde estás, para las
-   predicciones de VOACAP; y las aperturas en VHF, 6 m y 2 m (sección 5).
+4. **Propagación:** tu potencia, tu antena (su forma, su altura y su ganancia de catálogo, banda
+   por banda si tenés más de una) y el ruido donde estás, para las predicciones de VOACAP; y las aperturas en VHF, 6 m y 2 m (sección 5).
 5. **Radio:** el programa que maneja tu radio (ver sección 6). Si no
    querés que DX Agent mueva la radio, dejalo en *Desactivado*.
 6. Hacé clic en **Guardar y aplicar**. No hace falta reiniciar: en unos segundos vuelve a
@@ -263,7 +263,7 @@ alertar, venga de donde venga el spot (ver **Ignorar**, más abajo).
 mucho que no se spotea: no la saca **Quitar de la lista después de**, ni Limpiar lista, ni
 reiniciar DX Agent. Va arriba de todo con cualquier orden, con su ancla siempre a la vista (en el
 color del skin), y también queda en el panadaptador de la radio. Sale cuando la trabajás en esa
-banda, con su ✕, o con otro clic en su ancla.
+banda después de fijarla (un QSO de antes no cuenta), con su ✕, o con otro clic en su ancla.
 
 **Ordenar por una columna:** al hacer clic en el encabezado de una columna la lista se ordena por
 ella: por frecuencia, por banda, por modo (CW, fonía y digitales juntos), por país... **Alerta** y
@@ -276,17 +276,22 @@ frecuencia) se abre la estación:
 
 - una tarjeta con el indicativo, el país, sus zonas y su puesto en el **Most Wanted** de Club Log;
 - los dos **rumbos de antena**, grandes, cada uno con su brújula y su distancia: el paso corto en
-  azul y el paso largo en naranja;
+  azul y el paso largo en naranja. Debajo de cada uno, la chance de VOACAP por ese camino en la
+  banda y el modo elegidos, y cuándo una hora de las próximas 24 es claramente mejor («34 % a las
+  21Z»);
 - la grilla banda × modo de ese país: **C** verde = confirmado, **W** ámbar = trabajado, gris =
   falta. **Al pasar el mouse sobre una C o una W** ves los QSOs que la hicieron (indicativo,
   fecha, modo, ✓ si está confirmado): sabés enseguida si ese QSO de 20 m fue esta DXpedición u
   otra estación de hace años;
-- **dónde está en el aire ahora**, en esa misma grilla: un **anillo verde** en cada banda y modo
-  donde la spotearon en los últimos 15 minutos, y un punto ● sobre la banda. El cuadro del
+- **dónde está en el aire ahora**, en esa misma grilla: un **anillo** en cada banda y modo donde
+  la spotearon en los últimos 15 minutos, con el color de la chance de VOACAP de esta hora en esa
+  banda y modo (turquesa desde 50 %, naranja desde 10 %, gris por debajo; punteado si VOACAP no
+  tiene cifra), y un punto ● sobre la banda. El cuadro del
   **spot más reciente parpadea**: ahí está ahora la estación; los otros quedan con el anillo
   fijo, y el parpadeo se mueve cuando la spotean en otra banda. Una DXpedición en varias bandas
   a la vez (por ejemplo S9R) muestra un anillo en cada una, y parpadea la más reciente. Pasando
-  el mouse por un cuadro con anillo ves cuándo, dónde y quién la spoteó; **con un clic sintonizás
+  el mouse por un cuadro con anillo ves cuándo, dónde y quién la spoteó (cualquier cuadro muestra
+  además la chance de esta hora y las próximas 24 horas en una tira); **con un clic sintonizás
   ahí** (con una radio configurada, sección 6). Sin spots durante 15
   minutos, el anillo se apaga. Un anillo sobre un cuadro vacío: está en el aire en una banda que
   te falta;
@@ -525,8 +530,13 @@ después de** (Configuración → Alertas) cambian solo la lista.
 El camino dice lo medido; **VOACAP** dice qué esperar: la ionosfera mediana del mes a esa hora,
 entre vos y la estación, en los dos sentidos (tu señal allá y la de ellos acá). Viene incluido
 (DVOACAP de VE3NEA, en Python: no hay nada que instalar). Necesita tu grid locator. En **Configuración → Propagación** poné tu
-potencia, la ganancia de tu antena (unos 3 dBi un dipolo o una vertical, 8 a 10 una Yagi) y el
-ruido donde estás (residencial, rural o silencioso). Tu antena cuenta en los dos sentidos; de la otra
+potencia, tu antena y el ruido donde estás (residencial, rural o silencioso). La antena es su forma
+(horizontal o vertical), su altura sobre el suelo (en una vertical, la de su base: 0 si está apoyada
+en el suelo) y su ganancia de catálogo, la de espacio libre: un dipolo o una vertical de cuarto de
+onda unos 2 dBi, una Yagi de 3 elementos unos 8. Si tenés más de una antena, cada banda puede tener
+la suya. VOACAP elige el rayo con el que tu antena puede trabajar y le cobra la ganancia a ese
+ángulo, así que la altura pesa: un dipolo a 10 m radia para arriba en 80 m y a 15° en 10 m. De
+fábrica es un dipolo horizontal a 10 m. Tu antena cuenta en los dos sentidos; de la otra
 estación se toma tu potencia con una antena isotrópica, porque no todos los que llamás tienen una
 antena grande.
 
@@ -541,10 +551,12 @@ antena grande.
   actual marcada, para CW, SSB, FT8, FT4 o RTTY.
 - **Paso corto o paso largo:** calcula los dos caminos, el directo y el que da la vuelta al mundo
   por el otro lado, y muestra el más conveniente: al lado del porcentaje, la lista dice **SP** (paso
-  corto) o **LP** (paso largo, resaltado). Por paso largo, la pestaña Estación raya esa hora, y pasando el mouse ves la distancia y hacia dónde apuntar la
+  corto) o **LP** (paso largo, resaltado, desde 10 %: por debajo no es un consejo para girar la
+  antena). Por paso largo, la pestaña Estación raya esa hora, y pasando el mouse ves la distancia y hacia dónde apuntar la
   antena (desde Sudamérica, Japón en 15 m al atardecer, por ejemplo). En el **Rumbo** de la pestaña
-  Estación, el camino mejor ahora va resaltado y el otro más tenue. Por paso largo la predicción es
-  más aproximada.
+  Estación cada camino muestra su propia chance; el mejor ahora va resaltado y el otro más tenue.
+  Cuando el paso largo va por la línea gris no se apaga, y una nota dice que lo pruebes aunque
+  VOACAP prefiera el corto. Por paso largo la predicción es más aproximada.
 
 **De dónde sale: el número de manchas solares.** VOACAP no inventa la ionósfera: la toma de unos
 mapas del mes hechos para un número de manchas solares, y ese número es lo que la mueve. Con más
@@ -855,6 +867,12 @@ reunidas de NG3K, 425 DX News y Club Log.
   más buscado según Club Log primero) o **Fecha**.
 - **Solo las que faltan** oculta las que ya tenés en la mayoría de las bandas (las que están
   en el aire se ven igual).
+- **Lista o Línea de tiempo**, arriba: la línea de tiempo tiene una fila por DXpedición por fecha,
+  desde hace una semana hasta dentro de 30 días, con el color de lo que te falta (rojo país nuevo,
+  ámbar sin confirmar, turquesa menos de la mitad de tus bandas, violeta la mitad o más, gris
+  todas), y una leyenda que con un clic oculta o muestra cada estado. Un clic en una barra abre su
+  grilla. **« 60 días** ensancha el panel y muestra 60 días; la línea de tiempo tiene su propio
+  orden.
 - **Cuando termina:** al pasar su fecha de fin anunciada, DX Agent vuelve a leer las fuentes
   antes de sacarla de la lista. Si alguna la extendió, sigue con la fecha nueva.
 - Al abrir una DXpedición que sube su log a Club Log, DX Agent busca tu indicativo en su log:
@@ -1172,6 +1190,12 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
   el formulario, de a 2. Cambia en el acto, también en medio de un mensaje, y queda guardada.
 - Sin indicativo en el formulario, un mensaje con `{CALL}` no se manda.
 - Sin el WinKey activado en Configuración, la columna no aparece.
+
+**El CW / Voice Keyer de LU5FF (beta):** el paquete de Windows trae el keyer de Javi – LU5FF en su
+carpeta `keyer`. En Configuración → Radio → **Quién manda el CW** elegís **El WinKey de DX Agent** o
+**El keyer externo**. Con el keyer, la columna del WinKey deja lugar a una caja con **Abrir el
+keyer** (Alt+K), que lo arranca o trae su ventana al frente, solo desde la PC de la estación. Es una
+beta: contanos lo que encuentres.
 
 **ESM (Enter Sends Message)**, como en N1MM, apagado de fábrica: se prende con el botón **ESM** de
 la columna del WinKey, en Configuración o escribiendo `ESMON` (`ESMOF` lo apaga) en el indicativo y

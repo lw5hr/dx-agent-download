@@ -141,8 +141,8 @@ yet. Click **Settings** (top right) and fill in:
    plain text.
 3. **Alerts:** which alert types you want, on which bands and modes. The defaults are a good
    start.
-4. **Propagation:** your power, your antenna's gain and the noise where you are, for VOACAP's
-   predictions; and the VHF openings on 6 m and 2 m (section 5).
+4. **Propagation:** your power, your antenna (its shape, height and catalogue gain, band by band if
+   you have more than one) and the noise where you are, for VOACAP's predictions; and the VHF openings on 6 m and 2 m (section 5).
 5. **Radio:** the program that controls your radio (see section 6). If you don't
    want DX Agent to move your radio, leave it off.
 6. Click **Save and apply**. No restart needed: within seconds it reads your log again (the top
@@ -248,8 +248,8 @@ below).
 **Pin a station:** the **anchor** next to the ✕ keeps it in the list on that band however long ago
 it was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent
 takes it out. It goes on top whatever the order, with its anchor always in sight (in the skin's
-colour), and stays on the radio's panadapter too. It leaves when you work it on that band, with
-its ✕, or with another click on its anchor.
+colour), and stays on the radio's panadapter too. It leaves when you work it on that band after
+pinning it (a QSO from before doesn't count), with its ✕, or with another click on its anchor.
 
 **Sort by a column:** click a column's header to sort the list by it: by frequency, by band, by
 mode (CW, phone and digital together), by country... **Alert** and **What you need** put the
@@ -262,16 +262,20 @@ station:
 
 - a card with the call, its country, zones and **Most Wanted** rank on Club Log;
 - both **beam headings**, large, each with its compass and distance: the short path in blue,
-  the long path in orange;
+  the long path in orange. Under each one, VOACAP's chance by that way on the band and mode picked,
+  and when a later hour of the next 24 is clearly better by it ("34% at 21Z");
 - the band × mode grid of its country: green **C** = confirmed, amber **W** = worked, grey =
   missing. **Hover a C or W** for the QSOs that made it (call, date, mode, ✓ when confirmed):
   you see at once whether that 20 m QSO was this DXpedition or another station years ago;
-- **where it's on the air now**, in that same grid: a **green ring** on each band and mode
-  where it was spotted in the last 15 minutes, and a dot ● over the band. The cell of the
+- **where it's on the air now**, in that same grid: a **ring** on each band and mode where it was
+  spotted in the last 15 minutes, coloured by VOACAP's chance this hour on that band and mode
+  (turquoise from 50%, orange from 10%, grey below; dotted when VOACAP has no figure), and a dot ●
+  over the band. The cell of the
   **latest spot blinks**: that's where the station is now; the others keep a steady ring, and
   the blinking moves when it's spotted on another band. A DXpedition on several bands at
   once (S9R, say) shows a ring on each, with the latest one blinking. Hover a ringed cell
-  for when, where and who spotted it; **click it to tune there** (with a radio set up, section 6). With no spot for 15 minutes, the ring goes. A ring on
+  for when, where and who spotted it (any cell also shows this hour's chance and the next 24 hours
+  in a strip); **click it to tune there** (with a radio set up, section 6). With no spot for 15 minutes, the ring goes. A ring on
   an empty cell: it's on the air on a band you need;
 - whether you worked that exact call, its LoTW status and, for a DXpedition, its details;
 - when the station said its grid locator on the air (your WSJT-X, RBN's FT8/FT4), its **grid
@@ -497,8 +501,13 @@ Alerts) only change the list.
 The path says what is measured; **VOACAP** says what to expect: the month's median ionosphere at
 that hour, between you and the station, both ways (your signal there and theirs here). It is
 built in (VE3NEA's DVOACAP, in Python: nothing to install). It needs your grid square. In **Settings → Propagation** set your power, your
-antenna's gain (about 3 dBi for a dipole or a vertical, 8 to 10 for a Yagi) and the noise where
-you are (residential, rural or quiet). Your antenna counts both ways; the other station is taken to
+antenna and the noise where you are (residential, rural or quiet). The antenna is its shape
+(horizontal or vertical), its height above ground (for a vertical, its base: 0 when it stands on the
+ground) and its catalogue gain, the free-space one: a dipole or a quarter-wave vertical about 2 dBi,
+a 3-element Yagi about 8. With more than one antenna, each band can have its own. VOACAP picks the
+ray your antenna can work at and counts its gain at that angle, so the height matters: a dipole
+10 m up radiates upwards on 80 m and at 15 degrees on 10 m. Out of the box it is a horizontal dipole
+10 m up. Your antenna counts both ways; the other station is taken to
 run your power with an isotropic antenna, as not everyone you call has a big one.
 
 - The **VOACAP** column in the list: the chance of a QSO on the row's band and mode this hour,
@@ -512,9 +521,11 @@ run your power with an isotropic antenna, as not everyone you call has a big one
   CW, SSB, FT8, FT4 or RTTY.
 - **Short path or long path:** it works out both, the direct one and the one the other way round
   the world, and shows the better: beside the percentage the list says **SP** (short path) or **LP**
-  (long path, highlighted). By the long path, the Station tab stripes that hour, and hovering shows the distance and where to point the antenna (from
-  South America, Japan on 15 m at dusk, say). In the Station tab's **Beam**, the path that is better
-  now is highlighted and the other one faint. The long path's prediction is rougher.
+  (long path, highlighted, from 10%: below that it isn't advice to turn the antenna). By the long path, the Station tab stripes that hour, and hovering shows the distance and where to point the antenna (from
+  South America, Japan on 15 m at dusk, say). In the Station tab's **Beam**, each path shows its own chance;
+  the one better now is highlighted and the other one faint. When the long path runs along the grey
+  line it isn't dimmed, and a note says to try it even if VOACAP prefers the short one. The long
+  path's prediction is rougher.
 
 **Where it comes from: the sunspot number.** VOACAP doesn't invent the ionosphere: it takes it from
 a month's maps made for a sunspot number, and that number is what moves it. More sunspots, and the
@@ -810,6 +821,11 @@ gathered from NG3K, 425 DX News and Club Log.
 - **Order:** **On the air** (the ones transmitting first), **Most Wanted** (the most wanted
   country on Club Log first) or **Date**.
 - **only needed** hides the ones you have on most bands (those on the air still show).
+- **List or Timeline**, at the top: the timeline has one row per DXpedition by date, from a week ago
+  to 30 days ahead, coloured by what you need (red a new one, amber not confirmed, turquoise fewer
+  than half your bands, violet half or more, grey all of them), with a legend whose click hides or
+  shows each status. A click on a bar opens its grid. **« 60 days** widens the panel and shows 60
+  days; the timeline has its own order.
 - **When one ends:** once its announced end date has passed, DX Agent reads the sources again
   before taking it off the list. If one of them extended it, it stays with the new date.
 - When you open a DXpedition that uploads its log to Club Log, DX Agent looks for your call in
@@ -1115,6 +1131,12 @@ the console's right, with the speed on top, a button per message you set, three 
   the form, by 2. It changes at once, also in the middle of a message, and is kept.
 - With no call in the form, a message with `{CALL}` isn't sent.
 - Without the WinKey on in Settings, the column doesn't show.
+
+**LU5FF's CW / Voice Keyer (beta):** the Windows package brings Javi – LU5FF's keyer in its `keyer`
+folder. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey** or **The external
+keyer**. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
+starts it or brings its window to the front, only from the station's PC. It is a beta: tell us what
+you find.
 
 **ESM (Enter Sends Message)**, as in N1MM, off by default: turn it on with the **ESM** button in the
 WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.

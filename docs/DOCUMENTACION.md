@@ -1,6 +1,6 @@
 # DX Agent: guía de uso
 
-*Creado por Diego – LW5HR, con **Javi – LU5FF** (QA Product Advocate). Gracias a Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW y Daniel – LU1HLH por probar las primeras versiones. Licencia MIT. Gracias a Pancho – LU4DCW, Javi – LU5FF y Enrique – CP6UA por su aporte. Apoyá DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · también con cripto, [Cafecito](https://cafecito.app/lw5hr) · con tarjeta o transferencia, [Wise](https://wise.com/pay/me/diegod2572).
+*Creado por Diego – LW5HR, con **Javi – LU5FF** (QA Product Advocate). Gracias a Franco – LU2PWY, Juan Pablo – LU9HVR, Gustavo – LU7HW y Daniel – LU1HLH por probar las primeras versiones. Licencia MIT. Gracias a Pancho – LU4DCW, Javi – LU5FF, Enrique – CP6UA y Murf – N7UVH por su aporte. DX Agent es gratis y no tenemos intención de ganar dinero con él: un aporte nos ayuda a seguir adelante. Apoyá DX Agent: [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) · también con cripto, [Cafecito](https://cafecito.app/lw5hr) · con tarjeta o transferencia, [Wise](https://wise.com/pay/me/diegod2572).
 English version: [DOCUMENTATION.md](DOCUMENTATION.md).*
 
 DX Agent vigila el DX cluster y la Reverse Beacon Network (RBN), compara cada
@@ -50,7 +50,8 @@ grande tardaba segundos en ordenar o borrar un QSO.
 
 Si no puede arrancar, un cartel de Windows dice por qué. Lo que va mostrando queda en
 `data/dx-agent.log`, en tu carpeta de DX Agent, y **start-dx-agent-console.bat** lo corre en
-una ventana para verlo.
+una ventana para verlo. Un error que corta algo queda en ese archivo también cuando DX Agent corre en
+una ventana, con el detalle para mandarlo si hace falta.
 
 El zip con el código, `dx-agent-<versión>-source.zip`, es otra cosa: requiere
 [Python 3.11+](https://www.python.org/downloads/) instalado con «Add python.exe to PATH». Si
@@ -358,8 +359,9 @@ El **ancla** al lado de la ✕, **Fijar en la lista**, hace lo contrario: deja e
 esa banda en la lista aunque haga mucho que no se spotea, arriba de todo y con cualquier
 orden, resaltada y con su ancla a la vista. No la saca **Quitar de la lista después de**, ni
 que la lista esté llena, ni **Limpiar lista**, ni reiniciar DX Agent. Queda fijada hasta que
-la saques con su ✕, la trabajes en esa banda (lo dice tu log) o hagas clic otra vez en su
-ancla. En todos los paneles abiertos y en el panadaptador.
+la saques con su ✕, la trabajes en esa banda después de fijarla (lo dice tu log) o hagas clic
+otra vez en su ancla. Un QSO de antes no cuenta: una DXpedición que ya tenés en esa banda y te
+falta en otro modo queda fijada aunque registres otros QSOs. En todos los paneles abiertos y en el panadaptador.
 
 **Limpiar lista** pide confirmación y vacía la lista de alertas en todos los paneles abiertos
 y también al recargar. Reinicia el tiempo sin repetir, así que lo que siga en el aire vuelve a
@@ -404,8 +406,10 @@ después de** en Configuración, salen de la lista pasados esos minutos.
 
 Al hacer clic en una alerta, o al escribir un indicativo en el cuadro, aparece la grilla banda
 × modo de ese país: **C** verde es confirmado, **W** ámbar trabajado y gris no trabajado. Un
-anillo verde marca las bandas y modos donde la spotearon en los últimos 15 minutos, con un
-punto sobre la banda, y el más reciente parpadea.
+anillo marca las bandas y modos donde la spotearon en los últimos 15 minutos, con un
+punto sobre la banda, y parpadea el más reciente. El color del anillo es la chance de VOACAP a
+esta hora en esa banda y modo: turquesa desde 50 %, naranja desde 10 % y gris por debajo (ver
+**La predicción: VOACAP**).
 
 Debajo está dónde trabajaste ese indicativo exacto, una fila por modo como lo registraste
 (FT8, FT4, SSB…), en las mismas columnas: ✓ verde confirmado, ✓ ámbar trabajado y **NEW** para
@@ -432,16 +436,23 @@ sigue mostrando eso y, si la estación está en el aire, su último spot.
 
 **En el aire.** La grilla también muestra dónde está transmitiendo la estación ahora:
 
-- **Anillo verde** en cada banda y modo donde la spotearon (cluster o RBN) en los últimos 15
+- **Un anillo** en cada banda y modo donde la spotearon (cluster o RBN) en los últimos 15
   minutos, con un punto ● sobre esa banda. El anillo va separado del cuadro, así se ve igual
   sobre una **C** confirmada, una **W** trabajada o un cuadro vacío; sobre uno vacío, la
   estación está en el aire en una banda que te falta.
+- **El color del anillo** es la chance de esta hora en esa banda y modo según VOACAP, la misma
+  cifra de la columna de la lista: turquesa desde 50 %, naranja desde 10 % y gris por debajo (ver
+  **La predicción: VOACAP**). Los colores son propios del anillo, así no se confunden con el
+  verde de una **C** ni el ámbar de una **W**. Sin número de VOACAP, como en 6 m, el anillo queda
+  punteado.
 - **Parpadeo** solo en el cuadro del spot más reciente, donde está ahora. Los otros quedan con
   el anillo fijo, y el parpadeo pasa al cuadro cuando llega un spot en otra banda.
 - **En varias bandas a la vez**, como una DXpedición con varias estaciones (S9R, por ejemplo):
   cada banda spoteada en los últimos 15 minutos tiene su anillo, y parpadea la más reciente.
-- **Al pasar el mouse** por un cuadro con anillo: cuándo la spotearon, en qué frecuencia y
-  modo, y quién.
+- **Al pasar el mouse** por cualquier cuadro: la chance de VOACAP de esta hora en esa banda y
+  modo, y las próximas 24 horas en una tira de cuadraditos, uno por hora: más intenso cuanto
+  mejor la chance, rayado el que conviene por el paso largo y marcada la hora actual. Con un
+  spot, además, cuándo la spotearon, en qué frecuencia y modo, y quién.
 - **Un clic** en un cuadro con anillo, con una radio configurada (ver Sintonizar la radio),
   sintoniza el spot más reciente de esa banda y modo, y el botón Sintonizar queda en ese spot.
 - Un spot que no dice su modo marca la banda entera. Sin spots durante 15 minutos, el anillo y
@@ -460,12 +471,36 @@ Ventanas).
 
 Muestra las DXpediciones activas y las que empiezan en los próximos 30 días. Cada una lleva
 una etiqueta: **ATNO**, **No confirmado** o cuántas bandas tenés, por ejemplo «1 de 10
-bandas», resaltado cuando son menos de la mitad.
+bandas»: turquesa si son menos de la mitad, violeta si son la mitad o más pero no todas, y
+gris solo cuando tenés el país en todas tus bandas.
 
 **Orden.** Arriba, **Orden** elige entre las que están en el aire (spoteadas en los últimos 15
 minutos, la más reciente primero), el puesto en el **Most Wanted** de Club Log (el país más
 buscado primero) o la fecha de inicio. **Solo las que faltan** oculta las que ya tenés en la
 mayoría de las bandas.
+
+**Línea de tiempo.** Arriba, **Lista** / **Línea de tiempo** cambia las tarjetas por un
+calendario con una fila por DXpedición, desde hace una semana hasta
+dentro de 30 días (en días UTC, con los fines de semana sombreados y el día de hoy marcado).
+Cada barra tiene el color de tu estado, como la etiqueta de la tarjeta; la que está en el aire
+lleva borde verde, y un clic abre su grilla. Una barra que sigue antes o después del rango
+termina recta en el borde, y un extremo que se desvanece es una fecha que nadie anunció: el
+inicio de las que 425 DX News da solo con «till 31/10», o el final de las que conocemos solo
+por Club Log, que dice hasta cuándo subieron QSOs pero no cuándo terminan. **Solo las que
+faltan** vale también acá, y el navegador recuerda la vista. Con la pantalla ancha, **« 60 días**
+ensancha el panel hacia la izquierda, sobre la lista o el mapa, y muestra los próximos 60 días;
+vuelve a su ancho con **30 días »**, al cambiar de pestaña o de vista o al plegar el panel. Mientras
+está ancho, la consola de QSO se pliega, y se vuelve a abrir al volver al ancho de siempre.
+
+Arriba de las barras, una leyenda dice qué es cada color, el desvanecido y el borde verde. Un
+clic en un estado (ATNO, No confirmado, Pocas bandas, Casi todas o Todas tus bandas) oculta
+esas barras y otro las vuelve a mostrar; las que están en el aire se ven siempre, y el
+navegador recuerda cuáles ocultaste.
+
+La línea de tiempo tiene su propio **Orden**, que arranca por **Inicio**: **En el aire**, **Most
+Wanted**, **Estado** (primero las ATNO, después las no confirmadas y después las que tenés en
+menos bandas), **Inicio** y **Fin** (primero las que terminan antes y al final las que no tienen
+fecha de fin). Lo que el criterio no separa va por fecha de inicio.
 
 Cada tarjeta muestra sus fuentes y el puesto en el Most Wanted de Club Log, y las spoteadas en
 los últimos 15 minutos van en verde como **EN EL AIRE**. Al hacer clic se abre su grilla, y la
@@ -1051,7 +1086,8 @@ mismas alertas en un mapa del mundo. Los filtros valen para las dos vistas.
   pestaña Estación, como cuando consultás un indicativo: su tarjeta, los rumbos a su centro,
   el estado, el cuadro del CQ DX Marathon y la grilla banda × modo.
 - **Los rombos** son DXpediciones activas: rojo = ATNO, ámbar = sin confirmar, turquesa = tenés
-  el país pero en menos de la mitad de tus bandas, gris = ya la tenés. Si tienen una alerta de
+  el país pero en menos de la mitad de tus bandas, violeta = en la mitad o más pero no en todas,
+  gris = en todas tus bandas. Si tienen una alerta de
   los últimos 15 minutos, el rombo toma el color de la alerta, y un **borde verde** quiere decir
   que la spotearon en esos 15 minutos: está en el aire. La leyenda abajo a la izquierda lo
   resume; su chevron la pliega a la palabra «Leyenda», y el navegador lo recuerda.
@@ -1080,7 +1116,8 @@ mismas alertas en un mapa del mundo. Los filtros valen para las dos vistas.
   donde se pisarían, se muestran los más importantes (pasá el mouse por un punto para ver su indicativo).
 - La pestaña Estación también muestra los dos **rumbos**, grandes, cada uno con una brújula
   que apunta hacia ahí y su distancia: el paso corto en azul y el paso largo (dando la vuelta
-  al mundo por el otro lado) en naranja, en cualquiera de las dos vistas.
+  al mundo por el otro lado) en naranja, en cualquiera de las dos vistas, y debajo de cada uno
+  la chance de VOACAP por ese camino.
 - Las fronteras son las **DXCC**, no solo las de los países: también están separadas la Rusia
   europea y la asiática, Inglaterra, Escocia y Gales o el Monte Athos. Pasá el mouse por el
   mapa para ver qué entidad es. Cada entidad muestra su prefijo cuando entra en pantalla
@@ -1339,8 +1376,11 @@ Para quien programa del otro lado, en [INTEGRACION-API.md](./INTEGRACION-API.md)
 completa: cómo se autentica, los errores, los límites, el cursor, el ETag, el stream y el catálogo de
 rutas con ejemplos.
 
-La radio no está en la API: `tune`, `rig/*` y `cw/*` siguen siendo solo desde la PC donde corre DX
-Agent. Un programa externo que quiera mover la radio usa Hamlib, el mismo `rigctld` o el mismo TCI.
+La radio y el WinKey también están en la API, con un token de scope `write`, pero solo desde la PC
+donde corre DX Agent: `POST /api/v1/cw/send`, `cw/stop`, `cw/speed`, `cw/esm` y `cw/test` para el
+WinKey, y `POST /api/v1/rig/tune`, `rig/freq` y `rig/split` para la radio. El mismo pedido desde otra
+máquina recibe un 403, con token o sin él. El PTT y el modo por separado no están: un programa que los
+necesite usa Hamlib, el mismo `rigctld` o el mismo TCI.
 
 El token viaja sin cifrar porque el servidor es HTTP. Sirve en la red local, así que no lo uses en
 una red ajena (hoteles, eventos) y revocalo si se te escapa.
@@ -1884,9 +1924,17 @@ que instalar). Necesita tu grid square.
 Lo calcula en los dos sentidos, tu señal allá y la de ellos acá, con tu potencia y tu ruido en las
 dos puntas, pero tu antena solo en la tuya: la de la otra estación se toma como isotrópica, porque no
 todos los que llamás tienen una antena grande. Tu estación se describe en **Configuración →
-Propagación**: tu potencia, la ganancia de tu antena sobre la isotrópica, unos 3 dBi un dipolo o una
-vertical y 8 a 10 una Yagi, y el ruido artificial donde estás: residencial, rural o silencioso. Un
-QSO necesita los dos sentidos, así que cuenta el peor. La chance es la confiabilidad
+Propagación**: tu potencia, la forma de la antena (horizontal, la de fábrica, o vertical), su altura
+sobre el suelo (la del alambre o la Yagi; en una vertical, la de su base, 0 si está apoyada en el
+suelo) y la ganancia en espacio libre, la que da el catálogo: un dipolo o una vertical de cuarto de
+onda unos 2, una Yagi de 3 elementos unos 8 y una de 5 elementos 10. El suelo se suma arriba, ángulo
+por ángulo: en el mejor ángulo de un alambre horizontal agrega 5 o 6 dB, y cerca del horizonte se
+lleva casi todo. Por último, el ruido artificial donde estás: residencial, rural o silencioso. Cada banda puede tener su antena, con su forma, su ganancia y su altura, porque no es raro
+tener una vertical en 80 y 40 y un alambre o una Yagi más arriba. La predicción elige el ángulo de
+salida de cada modo y cobra la señal según lo que la antena da ahí, así que la altura pesa: en cada
+banda es una fracción de onda distinta, y un dipolo de 10 m en 80 m es un octavo de onda, que radia
+para arriba y no llega. Con la forma isótropa, en cambio, la ganancia es la misma en todos los
+ángulos. Un QSO necesita los dos sentidos, así que cuenta el peor. La chance es la confiabilidad
 de VOACAP: cuántas veces en el mes la SNR llega a lo que el modo necesita, en 1 Hz: CW 24 dB y SSB
 45 (como la guía de voacap.com), FT8 13 y FT4 17 (sus límites de decodificación, -21 y -17,5 dB en
 2.500 Hz), RTTY 34; los otros modos digitales como FT8.
@@ -1898,12 +1946,22 @@ del porcentaje, la lista dice **SP** (paso corto) o **LP** (paso largo, resaltad
 
 Cuando conviene el largo, con una chance de 10 % o más, la pestaña Estación raya esa hora, y el
 tooltip dice la distancia y el rumbo para apuntar la antena: desde Sudamérica, Japón en 15 m al
-atardecer, por ejemplo. En el **Rumbo** de la pestaña Estación, el camino mejor ahora en la banda y
-el modo de la fila va resaltado, con su chance, y el otro más tenue.
+atardecer, por ejemplo. En el **Rumbo** de la pestaña Estación, cada camino muestra debajo de su
+rumbo su propia chance ahora, en la banda y el modo de la fila. El mejor va resaltado desde 10 % y el
+otro más tenue, así que un paso largo al 5 % se lee como el menos malo de dos caminos cerrados y no
+como un consejo. Si en las próximas 24 horas un camino mejora claramente (llega a 10 % y sube 10
+puntos o más), al lado dice a qué hora: «34 % a las 21Z».
 
 Por paso largo los caminos pasan casi siempre de 10.000 km, donde VOACAP usa un modelo
 simplificado: esa predicción es más aproximada que la del corto. Lo medido, el camino, no distingue
 los dos: un reporte no dice por dónde llegó la señal.
+
+Ese modelo tampoco ve los pasos largos por la **línea gris**: cuando una punta está en su amanecer o
+su atardecer y, desde ahí, al menos la mitad del camino va de noche, la señal llega mucho mejor de lo
+que dice VOACAP. A esas horas, en las bandas que quedan debajo de la MUF del paso largo, el **Rumbo**
+de la pestaña Estación no pone el paso largo más tenue y abajo avisa que lo pruebes también, y el
+tooltip de la lista da el rumbo para apuntar la antena. Un ejemplo desde el centro de Argentina: Nueva Caledonia en
+17 m a las 18Z, en noviembre. VOACAP daba el corto, y la estación entró por el largo.
 Dónde se ve:
 
 - La columna **VOACAP** de la lista: la chance en la banda y el modo de la fila a esta hora, verde
@@ -1926,6 +1984,9 @@ Dónde se ve:
   principio el modo de la fila); al pasar el mouse por un cuadrado, sus cifras. Arriba, la banda de
   la fila ahora. Rayadas, las horas mejores por paso largo; abajo, la distancia y el rumbo de cada
   camino.
+- **El anillo de la grilla** de la pestaña Estación: el de cada slot spoteado en los últimos 15
+  minutos toma el color de la chance en esa banda y modo (turquesa alta, naranja media, gris baja);
+  al pasar el mouse, el porcentaje y las próximas 24 horas de ese slot. Sin número, punteado.
 
 #### De dónde sale el número de manchas solares
 
@@ -2975,6 +3036,28 @@ Al editar un QSO
   (`14025`, `7012.5`, `3525,2`) sintoniza ahí la radio activa, con el modo que ya tiene, y el campo
   queda vacío; no se guarda ni se manda nada, con ESM o sin él.
 - Mientras el logbook sea experimental, guardá también una copia de tu log en otro lado.
+- **Keyer externo**, el CW / Voice Keyer compañero, un programa aparte. En Configuración → Radio →
+  **Quién manda el CW** se elige entre el WinKey de DX Agent y el keyer externo. Con el externo, la
+  caja del WinKey no se dibuja y sus atajos **F1** a **F10** no mandan nada: el CW lo manda el
+  keyer. En el lugar de esa caja, en la consola del Log, queda el botón **Abrir el keyer**, que lo
+  abre o trae su ventana al frente; **Alt+K** hace lo mismo desde cualquier vista.
+- Abrirlo dos veces no deja dos: el keyer ya resuelve la instancia única, y el segundo proceso le
+  pide al primero que se muestre. El aviso de arriba a la derecha dice si lo abrió o si solo lo
+  trajo al frente, y cuando no puede, por qué: no encuentra el programa, se cerró al arrancar, o no
+  contestó. Cerrado, lo abre DX Agent en un proceso propio, que sigue abierto cuando DX Agent se
+  cierra, y espera hasta 20 s a que conteste; mientras espera, el panel sigue andando.
+- El botón no aparece desde otro equipo de la red, igual que el Tune y el CW: el keyer corre en la
+  PC de la estación. El paquete de Windows ya lo trae en `keyer/`, así que no hay nada que instalar
+  aparte: el botón lo abre de ahí. En `config.toml` está en `[keyer]`: `use` (`winkey` o
+  `external`), `port`, que es 8074 y solo en 127.0.0.1, y `command`, la ruta del programa. De
+  fábrica es `keyer/CW-Voice-Keyer.exe`, contada desde la carpeta de DX Agent, que es donde el
+  paquete lo deja y así sigue andando si movés la carpeta. Vacía o con esa ruta de fábrica, DX Agent
+  lo busca entre `CW-Voice-Keyer.exe`, `cw_keyer_tci.exe` y `cw_keyer_tci.py` en su carpeta y en
+  `keyer/`, y un `.py` lo corre con su propio `.venv` o con el de DX Agent. Si corrés DX Agent desde
+  el código fuente, que no tiene `keyer/`, también lo busca en la carpeta de `DXAGENT_KEYER_DIR` y en
+  el `dist/` del keyer al lado (`../cw-voice-keyer-tci/dist`), los mismos lugares de donde lo toma el
+  paquete. Una ruta tuya se usa tal cual: si no está, el aviso la nombra. El keyer ya tiene guardados la
+  dirección y el token de DX Agent, así que se conecta solo.
 
 ### Tus QSOs a medida que los logueás
 
@@ -3278,6 +3361,9 @@ El día del aviso queda en `data/telemetry.json`. Borrarlo manda otro aviso ese 
 
 **Publicar** (el lado del que mantiene el proyecto): `tools/make_package.py` escribe
 `dist/SHA256SUMS` y lo firma cuando la mitad privada de la clave está en `data/release-key.txt`.
+El zip de Windows lleva el keyer en `keyer/` con un archivo `VERSION` que dice qué build es, y el
+armado se corta si el `.exe` del keyer es más viejo que su último cambio de código (o que una
+edición sin commitear): ahí hay que correr `tools/build_exe.ps1` en el keyer y volver a armar.
 
 Esa clave se crea una vez con `python tools/sign_release.py keygen`, que imprime la mitad pública
 para pegar en `dxagent/selfupdate.py`. En una máquina que solo firma sirve `$DXAGENT_RELEASE_KEY`
@@ -3309,7 +3395,7 @@ hace falta.
 | `logo.ico`                  | El logo de DX Agent como ícono de Windows (16 a 256 px), en la raíz para tenerlo a mano: es el que pone `create-shortcut.bat` en `DX Agent.lnk`, y el que se elige en Propiedades > Cambiar icono si el acceso directo se arma a mano |
 | `start-dx-agent.sh`         | Los mismos dos lanzadores para Linux y macOS (`-console.sh` muestra lo que va informando); usan el Python del paquete si lo trae (`python/`, o en la Mac `python-arm64/` / `python-x86_64/`) |
 | `start-dx-agent.command`    | macOS: doble clic en Finder para arrancarlo; saca la carpeta de cuarentena para que el Python que trae pueda correr |
-| `tools/make_package.py`     | Arma los paquetes para compartir: el zip de Windows y los tar.gz de Linux y macOS (con Python, programa compilado), y con `--source` el zip con el código, más `SHA256SUMS` con su firma (`SHA256SUMS.sig`): contra eso DX Agent verifica sus propias actualizaciones; nunca tus datos personales |
+| `tools/make_package.py`     | Arma los paquetes para compartir: el zip de Windows (con Python, programa compilado y el keyer en `keyer/`) y los tar.gz de Linux y macOS, y con `--source` el zip con el código, más `SHA256SUMS` con su firma (`SHA256SUMS.sig`): contra eso DX Agent verifica sus propias actualizaciones; nunca tus datos personales |
 | `tools/make_icon.py`        | Dibuja `logo.ico` en cada tamaño a partir de los logos SVG (lo dibuja Edge o Chrome); solo cuando cambia el logo |
 | `tools/sign_release.py`     | La clave de release: `keygen` la crea una vez (`data/release-key.txt`, nunca en git), `sign` escribe `dist/SHA256SUMS.sig` y `verify` lo controla como lo hará un DX Agent instalado |
 | `tools/make-shortcut.ps1`   | Lo que corre `create-shortcut.bat`: el `DX Agent.lnk` que apunta al lanzador, con su icono |
@@ -3385,7 +3471,7 @@ hace falta.
 | `data/update.json`                            | DX Agent: la última versión en GitHub, consultada cada hora (`ui.check_updates`), con los paquetes que trae el release | cada hora |
 | `data/telemetry.json`                         | DX Agent: el día (UTC) del último aviso anónimo (`ui.telemetry`) y la respuesta del panel cuando lo preguntó, para no mandar más de uno por día ni volver a preguntar | una vez por día, con el aviso |
 | `data/update/`                                | La actualización de DX Agent: el paquete bajado y descomprimido (`new/`), el respaldo que dejó el script (`before-<versión>/`) y lo que hizo (`update.log`) | en una actualización |
-| `data/dx-agent.log`                           | DX Agent (sin ventana) | mientras corre; menos de 5 MB |
+| `data/dx-agent.log`                           | DX Agent (sin ventana; con ventana, solo los errores que cortan algo) | mientras corre; menos de 5 MB |
 
 ### data/dxagent.db
 
