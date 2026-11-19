@@ -30,7 +30,7 @@ jobs:
       - name: Stage the page
         run: |
           mkdir -p _site
-          cp index.html style.css robots.txt sitemap.xml _site/
+          cp index.html style.css download.js robots.txt sitemap.xml _site/
           cp -r images es _site/
 
       - uses: actions/upload-pages-artifact@v3
