@@ -48,7 +48,11 @@ Contenido:
 ## 2. Instalarlo y abrirlo
 
 1. Bajá el último `dx-agent-<versión>-win64.zip` de la página
-   [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest).
+   [Releases](https://github.com/lw5hr/dx-agent-download/releases/latest). En esa lista hay tres
+   paquetes, uno por sistema, y dos archivos que solo sirven para comprobar la descarga
+   (`SHA256SUMS` y `SHA256SUMS.sig`). En Windows se baja el que dice `win64.zip`; los otros dos son
+   para Linux y para Mac. Desde [la página en castellano](https://lw5hr.github.io/dx-agent-download/es/)
+   el botón de descarga ya baja el archivo que corresponde a tu sistema, sin pasar por la lista.
 2. Descomprimilo donde quieras, por ejemplo en `Documentos`. Tu configuración y tus datos no
    quedan ahí, sino en una carpeta tuya que usan todas las versiones (sección 14): la carpeta
    del programa se puede reemplazar o borrar.

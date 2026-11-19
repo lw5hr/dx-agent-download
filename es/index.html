@@ -10,7 +10,7 @@
 <link rel="alternate" hreflang="es" href="https://lw5hr.github.io/dx-agent-download/es/">
 <link rel="alternate" hreflang="x-default" href="https://lw5hr.github.io/dx-agent-download/">
 <link rel="icon" href="../images/list.es.png" type="image/png">
-<link rel="stylesheet" href="../style.css?v=6acea93">
+<link rel="stylesheet" href="../style.css?v=6e32505">
 <meta property="og:type" content="website">
 <meta property="og:title" content="DX Agent — alertas del DX cluster para lo que te falta">
 <meta property="og:description" content="Vigila el DX cluster y el RBN y te avisa cuando está en el aire algo que te falta. Windows, Linux y Mac. Gratis y open source.">
@@ -93,9 +93,17 @@
       falta: un país nuevo, una banda o un modo nuevo, un grid, una DXpedición que suma algo, un parque
       o una cumbre que no trabajaste.</p>
     <div class="cta">
-      <a class="btn" href="https://github.com/lw5hr/dx-agent-download/releases/latest" data-goatcounter-click="download">Bajar la última versión</a>
+      <a class="btn" href="https://github.com/lw5hr/dx-agent-download/releases/latest"
+         data-download-button
+         data-label-windows="Descargar para Windows"
+         data-label-macos="Descargar para macOS"
+         data-label-linux="Descargar para Linux"
+         data-goatcounter-click="download">Bajar la última versión</a>
       <a class="btn secondary" href="https://github.com/lw5hr/dx-agent-download/blob/main/MANUAL.es.md">Leer el manual</a>
     </div>
+    <p class="download-hint">Baja <span data-download-file>el paquete de tu sistema</span>. En la
+      lista de versiones hay un archivo por sistema, y dos más que solo comprueban la descarga:
+      esos no hacen falta.</p>
     <p class="hero-meta"><span>Windows · Linux · macOS</span><span>Python incluido</span><span>Gratis · MIT</span></p>
   </section>
 
@@ -195,10 +203,16 @@
   <h2>Instalar</h2>
   <div class="card">
     <ol>
-      <li>Bajá la última versión desde la
-        <a href="https://github.com/lw5hr/dx-agent-download/releases/latest" data-goatcounter-click="download-install">página de releases</a>.</li>
-      <li><b>Windows:</b> descomprimí <code>dx-agent-&lt;versión&gt;-win64.zip</code> y hacé doble clic
-        en <code>start-dx-agent.bat</code>.<br>
+      <li>Bajá el archivo de tu sistema desde la
+        <a href="https://github.com/lw5hr/dx-agent-download/releases/latest" data-goatcounter-click="download-install">página de versiones</a>.
+        Son tres paquetes y dos archivos que solo comprueban la descarga
+        (<code>SHA256SUMS</code> y <code>SHA256SUMS.sig</code>), así que alcanza con bajar uno:
+        en Windows el que dice <code>win64.zip</code>, en Linux el que dice
+        <code>linux-x86_64.tar.gz</code> y en Mac el que dice <code>macos.tar.gz</code>. El botón
+        de arriba ya baja el que te toca.</li>
+      <li><b>Windows:</b> antes de descomprimir, clic derecho en el zip, <b>Propiedades</b>, tildá
+        <b>Desbloquear</b> y Aceptar. Después descomprimí <code>dx-agent-&lt;versión&gt;-win64.zip</code>
+        donde quieras y hacé doble clic en <code>start-dx-agent.bat</code>.<br>
         <b>Linux (x86_64):</b> descomprimí <code>dx-agent-&lt;versión&gt;-linux-x86_64.tar.gz</code> y
         ejecutá <code>./start-dx-agent.sh</code>.<br>
         <b>Mac:</b> descomprimí <code>dx-agent-&lt;versión&gt;-macos.tar.gz</code> y hacé doble clic en
@@ -296,5 +310,6 @@
      The program's anonymous ping, only with ui.telemetry on, counts at /ping/<version>/<system>. -->
 <script data-goatcounter="https://lw5hr.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
+<script src="../download.js?v=2077093" defer></script>
 </body>
 </html>

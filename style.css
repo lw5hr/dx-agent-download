@@ -47,6 +47,7 @@ header nav a[href*="#discussions"], header nav a[href*="#discusiones"] { border-
 .btn:hover { color: var(--accent-text); filter: brightness(1.12); }
 .btn.secondary { background: transparent; color: var(--text); border-color: var(--line); }
 .btn.secondary:hover { border-color: var(--accent); color: var(--accent); filter: none; }
+.download-hint { color: var(--muted); font: 12px/1.6 var(--mono); margin: 0 0 18px; max-width: 70ch; }
 .hero-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font: 12px/1.5 var(--mono); margin: 0; }
 .hero-meta span + span::before { content: "/"; color: var(--signal); margin-right: 20px; }
 
