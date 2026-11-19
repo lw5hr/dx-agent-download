@@ -84,6 +84,10 @@ Made by / Creado por Diego – LW5HR · Collaborators / Colaboradores: **Javi �
 
 Free software, [MIT License](LICENSE) / Software libre, licencia MIT.
 
+We have no intention of making money with DX Agent: a contribution helps us keep it going. / No tenemos intención de ganar dinero con DX Agent: un aporte nos ayuda a seguir adelante.
+
+Thanks for their support / Gracias por su aporte: Pancho – LU4DCW, Javi – LU5FF, Enrique – CP6UA, Murf – N7UVH
+
 Support DX Agent / Apoyá DX Agent:
 [Ko-fi](https://ko-fi.com/lw5hr) · [PayPal](https://paypal.me/diegodimunzio1) ·
 [Cafecito](https://cafecito.app/lw5hr) (also with crypto / también con cripto) ·
