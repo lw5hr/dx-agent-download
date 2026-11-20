@@ -341,6 +341,7 @@ with your radio and the WinKey, sits under all three (section 13).
 | **NEW GRID** | A grid square not worked on this band, any mode (VUCC, FFMA). Only spots that say the locator can alert: your WSJT-X's decodes and RBN's FT8/FT4 (section 10) | off |
 | **NEW PREFIX** | A prefix you have never worked, on any band or mode, as the CQ WPX award counts them (LU1ABC: LU1; N8BJQ/KH9: KH9). Far fewer than NEW CALL | off |
 | **NEW CALL** | This exact call isn't in your log (lots of alerts) | off |
+| **ACTIVITY** | A POTA, SOTA, WWFF, IOTA or COTA activation at a reference you haven't worked on that band (section 9) | off |
 | **MARATHON** | A country or CQ zone you haven't worked yet in the CQ DX Marathon (section 11) | on, while you follow the Marathon |
 | **YOU'RE HEARD** | Your own call spotted, on any band and mode, by the cluster, the RBN or, with PSKReporter live, a PSKReporter receiver: the row is highlighted in pink and says how far away and in which country the receiver is ("heard 8,912 km away, in United States"). Click it for every receiver that heard you, on the map too | on |
 | **50 MHz**, **144 MHz** | 6 m or 2 m open around you (see VHF openings, below); highlighted in green | off |
@@ -373,6 +374,11 @@ with your radio and the WinKey, sits under all three (section 13).
   hears it too (a few minutes at most), so a skimmer's busted call (P9DX as an ATNO) doesn't
   alert. Cluster spots, posted by people, and active DXpeditions alert at once. Off: they all
   alert at once, marked **?**.
+- **Single modes** (Settings → Alerts → **Modes**): under the three groups there is a row of modes
+  per category (**Phone**, **Digital**, **Digital voice**) and an **Other** box. A group with modes
+  picked alerts only on those; one with none picked alerts on all its modes. With FT8 and FT4
+  picked, an RTTY spot doesn't alert, and CW and phone stay as they were. A spot that doesn't say
+  its mode goes by its group. D-STAR, C4FM, DMR and FreeDV count as phone, as DXCC counts them.
 - **An alert type turned off in Settings also leaves the list:** an alert only for it goes, and
   one with another reason shows that one (NEW BAND rather than NEW CALL).
 - An alert can be of several types: a NEW BAND that is a new grid square too shows under the
@@ -393,10 +399,17 @@ with your radio and the WinKey, sits under all three (section 13).
 
 **Watchlist:** calls you always want to hear about, even if they add nothing. Wildcards work,
 for example `VP8*`. Edit it in Settings or with the ☆ in the Station tab. **Ignore** does the
-opposite: those calls never alert, and a right click on a row → **Never alert on this call** adds
+opposite: those calls never alert (nor in ITS HOUR), and a right click on a row → **Never alert on this call** adds
 one without opening Settings. In the filters, **WATCHLIST** with another type shows only the
 calls you follow that are also that type: **WATCHLIST** + **NEW SLOT** is your watchlist on a band
 and mode you still need.
+
+**Several clusters at once:** in Settings → Spot sources, **Connect at once to** sets how many
+servers of your list DX Agent connects to at the same time (1 by default, up to 10). It connects to
+the first ones and keeps the rest as spares: if one drops, it takes a spare. With more than one you
+get the spots a single cluster doesn't pass on, and a spot that comes in through two clusters is
+taken once. The **Cluster** pill shows connected if any of them is, with its servers in the
+tooltip, and **Spot** sends your spot through the first one connected.
 
 **PSKReporter live:** in Settings → Spot sources → **PSKReporter** you can pick **When you ask**
 (one query every 5 minutes, with the Station tab's button; the default) or **Live (MQTT)**:
@@ -852,6 +865,12 @@ off.
   **on that band** is marked new, even if you have the country confirmed. DX Agent knows what
   you worked from the references in your log and from your QSOs with activators it saw on the
   air (since you started using it).
+- **ACTIVITY alert:** in Settings → Alerts → **Activations** you pick the programs that alert:
+  POTA, SOTA, WWFF, IOTA and COTA (none by default). With one picked, a reference you haven't
+  worked on that band is an **ACTIVITY** alert, priority 5, even if you already have the country;
+  once you work it, it turns WORKED. It follows **Only alert when heard near you**, and the **Near
+  you only** filter also keeps the grey rows heard near you. To get it on Telegram, pick
+  **Activity** in its types and set the level to 5: the message names the reference.
 - On the map, with an activity picked, summits are mountains and parks are pine trees, at their
   real location: red if you haven't worked that reference, amber worked, green confirmed. With no
   activity picked they are a dot like any other station.
@@ -1133,8 +1152,8 @@ the console's right, with the speed on top, a button per message you set, three 
 - Without the WinKey on in Settings, the column doesn't show.
 
 **LU5FF's CW / Voice Keyer (beta):** the Windows package brings Javi – LU5FF's keyer in its `keyer`
-folder. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey** or **The external
-keyer**. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
+folder. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
+keyer** or **None**. With **None**, DX Agent sends no CW and the console shows neither box. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
 starts it or brings its window to the front, only from the station's PC. It is a beta: tell us what
 you find.
 
@@ -1304,7 +1323,8 @@ version beside it) and says so on the dashboard. The old version stays as it was
 | My logger or WSJT-X sends its QSOs and DX Agent doesn't get them | The destination must be the **UDP port for logged QSOs** (Settings → Other, `12065` by default), not the dashboard's 8073 nor the radio's port (section 7) |
 | Slow to start with a very big log | The first time it reads the whole log (250,000 QSOs: about 15 seconds); then it keeps a cache in `data\cache` (in your DX Agent folder) and starts in a second, unless the log changed |
 | Too many alerts | In Settings → Alerts keep only **ATNO** and **DXpedition**, or untick bands you don't operate |
-| Very few cluster alerts | Normal: the cluster sends a few spots a minute, and the RBN usually reports the same station first. If a server stays connected but sends no spot for 10 minutes, DX Agent moves on to the next one by itself |
+| Very few cluster alerts | Normal: the cluster sends a few spots a minute, and the RBN usually reports the same station first. If a server stays connected but sends no spot for 10 minutes, DX Agent moves on to the next one by itself. To get more, connect to more than one server at once (section 5) |
+| 0.4.44 stops at start-up with "unexpected keyword argument 'end_known'" | It shares the data folder with a newer version. Delete the `data\dxped-*.json` files in your DX Agent folder (they are a cache) or update: from 0.4.46 on, an older version no longer trips on a newer one's cache |
 | No Windows pop-ups | Settings → **Show pop-ups**, and in Windows: Settings → System → Notifications (including "Windows PowerShell") |
 | Mac: "start-dx-agent.command cannot be opened" | It isn't signed by Apple: System Settings → Privacy & Security → **Open Anyway** (section 2) |
 | Tune doesn't move the radio | Check your program's remote control (section 6) and that it's running; the message at the top right says what failed |

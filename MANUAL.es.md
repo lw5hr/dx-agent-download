@@ -363,6 +363,7 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
 | **GRID NUEVO** | Un grid que no trabajaste en esta banda, en cualquier modo (VUCC, FFMA). Solo avisan los spots que dicen el locator: los decodes de tu WSJT-X y FT8/FT4 de la RBN (sección 10) | desactivada |
 | **PREFIJO NUEVO** | Un prefijo que nunca trabajaste, en ninguna banda ni modo, como los cuenta el diploma CQ WPX (LU1ABC: LU1; N8BJQ/KH9: KH9). Muchas menos que INDICATIVO NUEVO | desactivada |
 | **INDICATIVO NUEVO** | Este indicativo exacto no está en tu log (genera muchísimas alertas) | desactivada |
+| **ACTIVIDAD** | Una activación de POTA, SOTA, WWFF, IOTA o COTA en una referencia que no trabajaste en esa banda (sección 9) | desactivada |
 | **MARATHON** | Un país o una zona CQ que todavía no trabajaste en el CQ DX Marathon (sección 11) | activada, si seguís el Marathon |
 | **TE ESCUCHAN** | Spotearon tu propio indicativo, en cualquier banda y modo, en el cluster, la RBN o, con PSKReporter en vivo, un receptor de PSKReporter: la fila va resaltada en rosa y dice a qué distancia y en qué país está el receptor ("te escuchan a 8.912 km, en United States"). Al hacer clic se ven todos los receptores que te escucharon, también en el mapa | activada |
 | **50 MHz**, **144 MHz** | 6 m o 2 m abiertos a tu alrededor (ver Aperturas en VHF, más abajo); resaltada en verde | desactivada |
@@ -397,6 +398,11 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
   decodificado por un skimmer (P9DX como ATNO) no avisa. Los spots del cluster, que publican
   personas, y las DXpediciones activas avisan enseguida. Desmarcado: avisan todos enseguida,
   marcados con **?**.
+- **Modos sueltos** (Configuración → Alertas → **Modos**): debajo de los tres grupos hay una fila
+  de modos por categoría (**Fonía**, **Digitales**, **Voz digital**) y un campo **Otros**. Un grupo
+  con modos elegidos alerta solo por esos; uno sin ninguno elegido alerta por todos sus modos. Con
+  FT8 y FT4 elegidos, un spot de RTTY no alerta, y CW y fonía siguen igual. Un spot que no dice su
+  modo va por su grupo. D-STAR, C4FM, DMR y FreeDV cuentan como fonía, igual que en el DXCC.
 - **Un tipo de alerta que apagás en Configuración también sale de la lista:** una alerta solo de
   ese tipo se va, y una que tiene otro motivo pasa a mostrarlo (BANDA NUEVA en vez de INDICATIVO
   NUEVO).
@@ -419,11 +425,18 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
 
 **Lista de seguimiento:** indicativos que querés que te avisen siempre que salgan, aunque no
 te sumen nada. Admite comodines, por ejemplo `VP8*`. Se edita en Configuración o con la ☆ de
-la pestaña Estación. **Ignorar** hace lo contrario: esos indicativos nunca alertan, y se carga
+la pestaña Estación. **Ignorar** hace lo contrario: esos indicativos nunca alertan (tampoco en SU HORA), y se carga
 también con clic derecho en una fila de la lista → **No avisar más por este indicativo**. En los
 filtros, **SIGUIENDO** junto con otro tipo muestra solo los que seguís que además son de ese
 tipo: **SIGUIENDO** + **BANDA+MODO** son tus indicativos en seguimiento en una banda y modo que
 te faltan.
+
+**Varios clusters a la vez:** en Configuración → Fuentes de spots, **Conectarse a la vez a** dice a
+cuántos servidores de tu lista se conecta DX Agent al mismo tiempo (1 de fábrica, hasta 10). Se
+conecta a los primeros y deja el resto de reserva: si uno se cae, toma uno de reserva. Con más de
+uno llegan los spots que un solo cluster no reparte, y un spot que llega por dos clusters se toma
+una sola vez. La pastilla **Cluster** figura conectada si alguno lo está, con sus servidores en el
+tooltip, y **Spotear** manda tu spot por el primero conectado.
 
 **PSKReporter en vivo:** en Configuración → Fuentes de spots → **PSKReporter** podés elegir
 **Cuando lo pedís** (una consulta cada 5 minutos, con el botón de la pestaña Estación; es lo de
@@ -899,6 +912,12 @@ Actividad.
   trabajaste **en esa banda** se marca como nuevo, aunque el país ya lo tengas confirmado.
   DX Agent sabe qué trabajaste por las referencias de tu log y por tus QSOs con activadores
   que vio en el aire (desde que lo usás).
+- **Alerta ACTIVIDAD:** en Configuración → Alertas → **Activaciones** elegís los programas que
+  avisan: POTA, SOTA, WWFF, IOTA y COTA (de fábrica, ninguno). Con uno elegido, una referencia que
+  no trabajaste en esa banda da una alerta **ACTIVIDAD**, de prioridad 5, aunque ya tengas el país;
+  cuando la trabajás, pasa a TRABAJADO. Respeta **Avisar solo si se escucha cerca tuyo**, y el filtro **Solo cerca tuyo** deja también
+  las filas grises que se escuchan cerca. Para recibirla en Telegram, elegí **Actividad** en sus
+  tipos y poné el nivel en 5: el mensaje dice la referencia.
 - En el mapa, con una actividad elegida, las cumbres son montañas y los parques pinos, en su
   ubicación real: en rojo si no trabajaste esa referencia, ámbar trabajada, verde confirmada. Sin
   actividad elegida son un punto como las demás estaciones.
@@ -1192,8 +1211,9 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
 - Sin el WinKey activado en Configuración, la columna no aparece.
 
 **El CW / Voice Keyer de LU5FF (beta):** el paquete de Windows trae el keyer de Javi – LU5FF en su
-carpeta `keyer`. En Configuración → Radio → **Quién manda el CW** elegís **El WinKey de DX Agent** o
-**El keyer externo**. Con el keyer, la columna del WinKey deja lugar a una caja con **Abrir el
+carpeta `keyer`. En Configuración → Radio → **Quién manda el CW** elegís **El WinKey de DX Agent**,
+**El keyer externo** o **Ninguno**. Con **Ninguno**, DX Agent no manda CW y la consola no muestra
+ninguna de las dos cajas. Con el keyer, la columna del WinKey deja lugar a una caja con **Abrir el
 keyer** (Alt+K), que lo arranca o trae su ventana al frente, solo desde la PC de la estación. Es una
 beta: contanos lo que encuentres.
 
@@ -1371,7 +1391,8 @@ queda como estaba.
 | Mi programa de log o WSJT-X manda sus QSOs y a DX Agent no le llegan | El destino tiene que ser el **Puerto UDP de los QSOs logueados** (Configuración → Otros, `12065` de fábrica), no el 8073 del panel ni el puerto de la radio (sección 7) |
 | Tarda en arrancar con un log muy grande | La primera vez lee todo el log (con 250.000 QSOs, unos 15 segundos); después guarda un caché en `data\cache` (en tu carpeta de DX Agent) y arranca en un segundo, salvo que el log haya cambiado |
 | Demasiadas alertas | En Configuración → Alertas dejá solo **ATNO** y **DXpedición**, o sacá bandas que no operás |
-| Muy pocas alertas del cluster | Es normal: el cluster manda pocos spots por minuto y la RBN suele reportar primero la misma estación. Si un servidor sigue conectado pero no manda ningún spot en 10 minutos, DX Agent pasa solo al siguiente |
+| Muy pocas alertas del cluster | Es normal: el cluster manda pocos spots por minuto y la RBN suele reportar primero la misma estación. Si un servidor sigue conectado pero no manda ningún spot en 10 minutos, DX Agent pasa solo al siguiente. Para recibir más, conectate a más de un servidor a la vez (sección 5) |
+| La 0.4.44 se detiene al arrancar con «unexpected keyword argument 'end_known'» | Pasa cuando comparte la carpeta de datos con una versión más nueva. Borrá los archivos `data\dxped-*.json` de tu carpeta de DX Agent (son caché) o actualizá: desde la 0.4.46, una versión más vieja ya no se traba con el caché de una más nueva |
 | No aparecen notificaciones de Windows | Configuración → **Mostrar notificaciones**, y en Windows: Configuración → Sistema → Notificaciones (incluida "Windows PowerShell") |
 | Mac: "No se puede abrir start-dx-agent.command" | No está firmado por Apple: Configuración del Sistema → Privacidad y seguridad → **Abrir igualmente** (sección 2) |
 | El botón Sintonizar no mueve la radio | Revisá en tu programa el control remoto (sección 6) y que esté abierto; el mensaje arriba a la derecha dice qué falló |

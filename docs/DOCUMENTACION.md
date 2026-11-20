@@ -307,6 +307,21 @@ Los demás modos digitales (**JT65**, **JT9**, **Q65**, **MSK144**, **JS8**, **P
 informa el spot, y cuentan como digital. Un modo que DX Agent no reconoce también cuenta como
 digital, solo que la fila dice `?` porque lo sacó de la frecuencia y no del spot.
 
+Todo eso vale para la lista. Las alertas tienen su propio filtro por modo, en Configuración → Alertas
+→ **Modos** (#158): debajo de los tres botones de grupo hay una fila de botones por categoría,
+**Fonía** (SSB, AM, FM), **Digitales** (FT8, FT4, RTTY, PSK, JS8, JT65, JT9, MSK144, OLIVIA, HELL,
+SSTV, PACKET, Q65, VARA) y **Voz digital** (D-STAR, C4FM, DMR, FreeDV), y un campo **Otros** para
+cualquier modo que no esté, separados por comas. La fila de una categoría se apaga mientras su
+grupo esté apagado, y la de voz digital depende de fonía: D-STAR, C4FM, DMR y FreeDV cuentan como
+fonía, igual que en el DXCC. Si elegís modos sueltos dentro de un grupo, ese grupo alerta solo por
+esos; un grupo sin ninguno elegido alerta por todos sus modos. Con FT8 y FT4 elegidos, un spot de
+RTTY no alerta, y CW y fonía siguen igual. Un spot que no dice su modo (no trae ninguno, o trae
+solo el del plan de bandas) va por su grupo y pasa; FT8 en su frecuencia de dial sí cuenta como
+modo conocido, y FT4 no, porque sus frecuencias caen entre las de RTTY. USB y LSB valen como SSB, PSK31 y PSK63 como PSK, JT65A como JT65 y FELDHELL
+como HELL. FM y AM no se leen del comentario, porque "fm" suele ser "from": con solo FM elegido
+alerta la fonía que no dice su modo, y no la que dice SSB. Lo elegido en un grupo apagado se guarda
+igual, para cuando lo vuelvas a prender. Lo que cuenta como modo nuevo sigue siendo el grupo.
+
 Cada opción dice cuántas estaciones mostraría con los demás filtros como están. Con 20 m
 elegido, los modos dicen cuántas hay en 20 m; una estación en varias bandas cuenta como una.
 Sin ningún botón seleccionado se muestra todo.
@@ -934,6 +949,23 @@ es *ninguna*: sin filtro de Actividad, se ve todo.
   **SPOT**: un parque en un país que ya tenés también aparece), de la última hora.
 - Cada fila dice la activación debajo de *Qué necesitás*, con su referencia: `POTA US-5584`,
   `IOTA EU-038`, `WWFF KFF-6494`…
+- **Alerta por referencia nueva.** En **Configuración → Alertas → Activaciones** se eligen los
+  programas: POTA, SOTA, WWFF, IOTA y COTA. De fábrica no hay ninguno elegido. Con un programa
+  elegido, la activación de un parque, una cumbre, una isla o un castillo que todavía no trabajaste
+  en esa banda es una alerta **ACTIVIDAD**, aunque ya tengas el país. Cuando trabajás la referencia
+  en esa banda, la fila pasa a TRABAJADO.
+  - Un parque de POTA cuenta si POTA muestra a la estación activándolo, o si está en la lista de
+    parques de POTA y en el país de la estación. Cualquier «XX-1234» de un comentario tiene forma
+    de parque, y uno con el prefijo viejo («K-1234», hoy US-1234) figuraría siempre como nuevo.
+    Sin la lista de parques bajada, alcanza con que el spot diga POTA.
+  - Tiene prioridad 5, como INDICATIVO NUEVO: un fin de semana de POTA trae cientos de
+    activadores, y con la lista llena se van antes que un ATNO.
+  - Respeta **Avisar solo si se escucha cerca tuyo**, como las demás alertas.
+  - Para recibirlas en Telegram, elegí **Actividad** en sus tipos y poné el nivel en 5. El mensaje
+    dice la referencia: el spot de la RBN muchas veces dice solo «CQ».
+- Con **Solo cerca tuyo** activado, las filas grises **SPOT** de las activaciones se filtran por
+  quién las escucha: quedan las que se escuchan cerca tuyo. Lo mismo vale para las de la lista de
+  seguimiento y las de **Solo** *indicativo*.
 - **La pestaña Referencias** aparece cuando hay una Actividad elegida en el menú, y abre en ese
   programa. Lista todas las cumbres, parques, islas y castillos que trabajaste (POTA, SOTA,
   WWFF, IOTA, WCA), programa por programa: cuántas trabajadas, confirmadas y confirmadas por
@@ -1538,6 +1570,12 @@ hilo. Al volver a guardar los ajustes, la cola anterior se cierra y la nueva arr
 
 - DX cluster: activado o no, sus servidores (`servidor:puerto`, en orden) y los comandos al
   conectar.
+- **Conectarse a la vez a**: a cuántos servidores de la lista te conectás al mismo tiempo,
+  empezando por los primeros; el resto queda de reserva. Con más de uno llegan los spots que
+  un solo cluster no reparte (los de sus usuarios locales, o los que se pierden entre nodos), y
+  si uno se cae los otros siguen. Un spot que llega por dos clusters se toma una sola vez. El
+  botón **Spot** manda tu spot por el primero que esté conectado. De fábrica es 1: un servidor por vez, como
+  siempre.
 - **Spots recientes al conectar**, en minutos; 0 es no.
 - De qué continentes tomar los spotters del cluster.
 - RBN: activada o no, y las fuentes CW/RTTY y FT8/FT4.
@@ -1710,6 +1748,7 @@ alertas guardadas en `data/dxagent.db` siempre usan los nombres en inglés.
 | GRID NUEVO        | NEW GRID            | Grid no trabajado en esta banda, en cualquier modo (VUCC, FFMA). Solo los spots que dicen el locator: los decodes de tu WSJT-X y FT8/FT4 de la RBN (ver Tus grids en el mapa) | desactivada |
 | PREFIJO NUEVO     | NEW PREFIX          | Un prefijo que nunca trabajaste, en ninguna banda ni modo, como los cuenta el diploma CQ WPX: las letras y números hasta el último número antes del sufijo (LU1ABC: LU1, HG19ABC: HG19), y en un portable el otro prefijo (N8BJQ/KH9: KH9, PA/N8BJQ: PA0, N8BJQ/7: N7; /P, /M, /QRP no cuentan). Lo dice Qué te falta ("prefijo N1 nunca trabajado") y la pestaña Estación ("Prefijo N1: PREFIJO NUEVO", o trabajado). Muchas menos que INDICATIVO NUEVO: cuando trabajás una estación de un prefijo, las demás de ese prefijo no avisan | desactivada |
 | INDICATIVO NUEVO  | NEW CALL            | Este indicativo exacto no está en tu log (genera muchísimas alertas) | desactivada |
+| ACTIVIDAD         | ACTIVITY            | Una activación de POTA, SOTA, WWFF, IOTA o COTA en una referencia que no trabajaste en esa banda (ver Activaciones) | desactivada (`alerts.activities`) |
 | MARATHON          | MARATHON            | Un país o una zona CQ que todavía no trabajaste en el CQ DX Marathon (ver CQ DX Marathon) | activada, mientras sigas el Marathon |
 | TE ESCUCHAN       | YOU'RE HEARD        | Spotearon tu propio indicativo (cualquiera de los tuyos, en cualquier banda y modo): el cluster, la RBN o, con PSKReporter en vivo, un receptor de PSKReporter (cada uno una vez por banda cada 5 minutos: en FT8 reporta cada CQ): quién te escucha y a qué distancia, en Qué te falta ("te escuchan a 8.912 km, en United States"); la fila va resaltada en rosa y sigue al último spot (×N skimmers). Al hacer clic se ven todos los receptores que te escucharon, del más cercano al más lejano, y en el mapa | activada (`alerts.self_spots`) |
 | 50 MHz, 144 MHz   | OPEN                | 6 m o 2 m abierta (su filtro: 50-144 MHz): estaciones cerca tuyo escuchan estaciones lejanas, o estaciones lejanas te escuchan a vos (ver Aperturas en VHF); resaltada en verde | desactivada (`vhf.near`, `vhf.self`) |
@@ -1812,7 +1851,7 @@ lo que se gana es una confirmación, **DXPED YA TENGO** cuando no se gana nada.
 | 2         | amarillo       | no           | BANDA NUEVA; DXPED FALTA/CONFIRMAR por banda o modo nuevos, o país no confirmado |
 | 3         | celeste        | no           | MODO NUEVO, SIGUIENDO, GRID NUEVO, PREFIJO NUEVO; DXPED por banda+modo nuevos o banda/modo no confirmados |
 | 4         | verde          | no           | BANDA+MODO; DXPED por banda+modo no confirmados               |
-| 5         | gris           | no           | INDICATIVO NUEVO, DXPED YA TENGO                              |
+| 5         | gris           | no           | INDICATIVO NUEVO, ACTIVIDAD, DXPED YA TENGO                   |
 
 La columna de notificación es la configuración por defecto
 (`notify_max_priority = 1`): por defecto solo ATNO muestra notificación, en Windows y en el panel. Para que también
@@ -1842,7 +1881,8 @@ estación más cercana a vos que la escuchó en esa banda en los últimos 15 min
 - **Actualización:** la columna se refresca cada 20 segundos, porque los receptores
   cercanos suelen reportar una estación un poco después del primer spot.
 - **Filtro o ajuste.** El botón **Solo cerca tuyo** solo *oculta* las alertas que no se escuchan
-  cerca tuyo: siguen avisando, y vuelven a verse al desmarcarlo.
+  cerca tuyo: siguen avisando, y vuelven a verse al desmarcarlo. Las filas grises SPOT
+  (actividades, seguimiento, **Solo** *indicativo*) también quedan si se escuchan cerca tuyo.
 - **Avisar solo si se escucha cerca tuyo**, en la configuración, decide qué *avisa*: una estación
   que solo se escucha lejos no avisa nunca, no entra a la lista ni hay notificación, hasta que
   alguien cerca tuyo la escucha.
@@ -2358,7 +2398,9 @@ países que te faltan que se suelen escuchar justo ahora (escuchados en esa hora
 dentro de 45 días), y nombra los siguientes. Es la respuesta a "qué tendría que estar escuchando a
 esta hora", y no sale como notificación salvo que lo dejes activado. Son solo las bandas y modos que te
 faltan: un país que ya tenés confirmado en 20 m FT8 no sale por 20 m FT8, aunque se escuche. Si DX Agent
-se vuelve a abrir dentro de la hora, la fila de esa hora vuelve a la lista.
+se vuelve a abrir dentro de la hora, la fila de esa hora vuelve a la lista. Si la estación que muestra
+la fila (la última que se escuchó de ese país en esa banda y modo) está en **Ignorar**, ese país no
+sale.
 
 Una DXpedición que recién empieza todavía no tiene horas contadas: VP2M escuchado cerca tuyo a las
 23 UTC no sale a las 00 UTC, aunque siga en el aire. Para eso está **También por VOACAP**
@@ -2428,14 +2470,16 @@ pasa estas preguntas. En la primera que no pasa, no hay alerta:
    sin las puertas siguientes salvo la última.
 2. **¿Es una baliza?** Se descarta.
 3. **¿La banda está en tus bandas?** (`alerts.bands`)
-4. **¿El modo está en tus modos?** (`alerts.modes`)
+4. **¿El modo está en tus modos?** (`alerts.modes`, y dentro de cada grupo `alerts.only_modes`
+   si elegiste modos sueltos; un spot que no dice su modo pasa por su grupo)
 5. **¿Está en Ignorar?** (`alerts.ignore`, admite `*`)
 6. **¿El spotter es de tus continentes?** (`cluster.spotter_continents`, `rbn.spotter_continents`,
    cada fuente los suyos)
 7. **¿Qué te falta?** Contra el log del indicativo activo, trabajado y confirmado (ver Tipos de
    alerta). Una DXpedición que ya tenés confirmada solo sigue con `dxpeditions.show_have`.
 8. **¿Lo marcaste en Avisarme de?** (`alerts.alert_on`), más los motivos del Marathon si está
-   activo (`marathon.alert_countries`, `alert_zones`).
+   activo (`marathon.alert_countries`, `alert_zones`) y ACTIVIDAD si elegiste ese programa en
+   Activaciones (`alerts.activities`).
 9. **¿Lo oyó más de un skimmer?** (`alerts.rbn_confirm`): con uno solo, espera a otro, o a alguien
    del cluster o de PSKReporter, dentro de 10 minutos (ver Indicativos mal decodificados de la
    RBN). Desactivado, pasa con **?**.
@@ -2447,7 +2491,7 @@ pasa estas preguntas. En la primera que no pasa, no hay alerta:
 Lo que pasa todas es una alerta: la terminal, la notificación de Windows si su prioridad llega a
 `alerts.notify_max_priority` y `alerts.desktop` está activado, `data/dxagent.db`, el panadapter con
 `rig.tci_spots`, y el panel. **SU HORA** (`[windows]`) y las aperturas en VHF (`[vhf]`) no pasan por
-estas puertas: cada una tiene sus propias reglas. PSKReporter no genera alertas por sí solo:
+estas puertas: cada una tiene sus propias reglas. SU HORA sí respeta Ignorar. PSKReporter no genera alertas por sí solo:
 confirma lo que oyó un skimmer y dice si una estación se escucha cerca tuyo.
 
 **Los filtros del panel** (banda, modo, tipo de alerta, búsqueda, Solo *indicativo*, continente,
@@ -2479,6 +2523,8 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | alerts      | `call_scope`                | `band_mode`                                       | Para DXpediciones y lista de seguimiento: `call` = cualquier QSO cuenta, `band` = por banda, `band_mode` = por banda y modo |
 | alerts      | `bands`                     | 160m–6m (sin 60m)                                 | Los spots en otras bandas se ignoran |
 | alerts      | `modes`                     | `CW, PHONE, DIGI`                                 | Grupos de modos con alertas; la lista desglosa los digitales por modo |
+| alerts      | `only_modes`                | `[]`                                              | Modos sueltos, por ejemplo `["FT8", "FT4"]`: un grupo con alguno elegido alerta solo por esos, uno sin ninguno por todos sus modos. Los de un grupo apagado en `modes` se guardan pero no cuentan |
+| alerts      | `activities`                | `[]`                                              | Programas cuya referencia nueva avisa: `POTA`, `SOTA`, `WWFF`, `IOTA`, `COTA`. Una referencia que no trabajaste en esa banda es una alerta ACTIVIDAD |
 | alerts      | `watchlist`                 | vacío                                             | Indicativos a buscar siempre; admite comodines, por ejemplo `"VP8*"` |
 | alerts      | `ignore`                    | vacío                                             | Indicativos que nunca generan alerta; admite comodines |
 | alerts      | `cooldown_minutes`          | `15`                                              | Tiempo mínimo antes de repetir la misma alerta |
@@ -2525,6 +2571,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | lotw        | `refresh_hours`             | `12`                                              | Cada cuánto descargar confirmaciones nuevas |
 | cluster     | `enabled`                   | `true`                                            | Usar el DX cluster |
 | cluster     | `hosts`                     | `w3lpl.net:7373`, `dxspider.co.uk:7300`, `dx.k3lr.com:23` | Servidores de cluster, en orden. Si uno falla, no envía nada durante 5 minutos o no envía ningún spot durante 10 (una sesión que el servidor dejó de atender), se usa el siguiente. Vale también para la RBN |
+| cluster     | `connections`               | `1`                                               | A cuántos de esos servidores conectarse a la vez, empezando por los primeros (de 1 a 10, nunca más que los de la lista); el resto queda de reserva. Un spot que llega por más de uno se toma una sola vez |
 | cluster     | `commands`                  | vacío                                             | Comandos enviados al conectar, por ejemplo `["set/ft8"]` |
 | cluster     | `history_minutes`           | `30`                                              | Al conectar, pedirle al cluster sus últimos spots (`sh/dx 100`) y quedarse con los de los últimos N minutos; `0` = no |
 | cluster     | `spotter_continents`        | vacío (todos)                                     | Usar solo spots de spotters de estos continentes |
@@ -3037,10 +3084,12 @@ Al editar un QSO
   queda vacío; no se guarda ni se manda nada, con ESM o sin él.
 - Mientras el logbook sea experimental, guardá también una copia de tu log en otro lado.
 - **Keyer externo**, el CW / Voice Keyer compañero, un programa aparte. En Configuración → Radio →
-  **Quién manda el CW** se elige entre el WinKey de DX Agent y el keyer externo. Con el externo, la
-  caja del WinKey no se dibuja y sus atajos **F1** a **F10** no mandan nada: el CW lo manda el
-  keyer. En el lugar de esa caja, en la consola del Log, queda el botón **Abrir el keyer**, que lo
-  abre o trae su ventana al frente; **Alt+K** hace lo mismo desde cualquier vista.
+  **Quién manda el CW** se elige entre el WinKey de DX Agent, el keyer externo y **Ninguno**. Con el
+  externo, la caja del WinKey no se dibuja y sus atajos **F1** a **F10** no mandan nada: el CW lo
+  manda el keyer. En el lugar de esa caja, en la consola del Log, queda el botón **Abrir el keyer**,
+  que lo abre o trae su ventana al frente; **Alt+K** hace lo mismo desde cualquier vista. Con
+  **Ninguno** el CW no lo manda ninguno de los dos, la consola no muestra ninguna de las dos cajas y
+  la Configuración ni busca los puertos serie: esos se buscan solo con el WinKey elegido.
 - Abrirlo dos veces no deja dos: el keyer ya resuelve la instancia única, y el segundo proceso le
   pide al primero que se muestre. El aviso de arriba a la derecha dice si lo abrió o si solo lo
   trajo al frente, y cuando no puede, por qué: no encuentra el programa, se cerró al arrancar, o no
@@ -3048,8 +3097,8 @@ Al editar un QSO
   cierra, y espera hasta 20 s a que conteste; mientras espera, el panel sigue andando.
 - El botón no aparece desde otro equipo de la red, igual que el Tune y el CW: el keyer corre en la
   PC de la estación. El paquete de Windows ya lo trae en `keyer/`, así que no hay nada que instalar
-  aparte: el botón lo abre de ahí. En `config.toml` está en `[keyer]`: `use` (`winkey` o
-  `external`), `port`, que es 8074 y solo en 127.0.0.1, y `command`, la ruta del programa. De
+  aparte: el botón lo abre de ahí. En `config.toml` está en `[keyer]`: `use` (`winkey`, `external`
+  o `none`), `port`, que es 8074 y solo en 127.0.0.1, y `command`, la ruta del programa. De
   fábrica es `keyer/CW-Voice-Keyer.exe`, contada desde la carpeta de DX Agent, que es donde el
   paquete lo deja y así sigue andando si movés la carpeta. Vacía o con esa ruta de fábrica, DX Agent
   lo busca entre `CW-Voice-Keyer.exe`, `cw_keyer_tci.exe` y `cw_keyer_tci.py` en su carpeta y en
@@ -3249,11 +3298,15 @@ cuando viene de la descarga de LoTW. eQSL no cuenta, igual que en las reglas del
    parte digital o de fonía: lo dicen el comentario (`BEACON`, `NCDXF`) o el indicativo
    terminado en `/B`. Solo un spot en una parte que usan varios modos (la digital, la
    fonía de 160 y 6 m) se muestra con `?`. Los modos se agrupan como en el DXCC:
-   **CW**, **PHONE** (SSB, AM, FM) y **DIGI** (FT8, FT4, RTTY, PSK, MFSK...). El grupo es lo
-   que alerta y lo que cuenta para el DXCC; la lista, además, desglosa los digitales en FT8,
-   FT4 y RTTY (ver Filtros). Los modos que se reconocen en el comentario son los de WSJT-X
-   (FT8, FT4, JT4, JT9, JT65, Q65, MSK144, FST4, FST4W, WSPR) y los de siempre en HF (RTTY,
-   PSK31/63/125, JS8, JT6M, FSK441, MFSK, OLIVIA, SSTV, QRA64).
+   **CW**, **PHONE** (SSB, AM, FM y la voz digital: D-STAR, C4FM, DMR, FreeDV) y **DIGI**
+   (FT8, FT4, RTTY, PSK, MFSK...). El grupo es lo que alerta, salvo que elijas modos sueltos
+   (`alerts.only_modes`), y lo que cuenta para el DXCC; la lista, además, desglosa los digitales
+   en FT8, FT4 y RTTY (ver Filtros). Los modos que se reconocen en el comentario son los de
+   WSJT-X (FT8, FT4, JT4, JT9, JT65, Q65, MSK144, FST4, FST4W, WSPR), los de siempre en HF (RTTY,
+   PSK31/63/125, JS8, JT6M, FSK441, MFSK, OLIVIA, SSTV, QRA64, FELDHELL, PACKET) y los de voz
+   digital (D-STAR, C4FM, DMR, FreeDV). HELL y VARA solos no se leen, porque aparecen en
+   comentarios que no hablan del modo ("what the hell", la localidad noruega). Un spot que dice
+   FELDHELL cuenta como HELL en Configuración; uno de VARA no se reconoce, y va por su grupo.
 4. **Filtros.** Se descartan las balizas, tu propio indicativo, las bandas y modos
    que no se quieren, los indicativos de la lista de ignorados y (si está
    configurado) los spotters fuera de los continentes elegidos.
