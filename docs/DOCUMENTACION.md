@@ -224,6 +224,7 @@ python -m dxagent run --no-ui       # solo terminal
 | **Encabezado** | Tu indicativo, una pastilla por fuente de spots, la de DXpediciones, la de propagación, los totales del log y los botones |
 | **Filtros** | Tipo de alerta, banda, modo, continente y búsqueda |
 | **Tabla de alertas** | Una fila por alerta, la más nueva arriba, con hora, estación, banda, modo y qué te falta |
+| **Tira del bandmap** | La banda de la radio por frecuencia, alrededor del VFO (con una radio configurada) |
 | **Pestaña Estación** | La grilla de ese país y dónde trabajaste ese indicativo |
 | **Pestaña Ventanas** | A qué hora se escucha cerca tuyo cada país que te falta |
 | **Pestaña DXpediciones** | Las activas y las que empiezan en los próximos 30 días |
@@ -370,13 +371,17 @@ alertar por ninguna fuente: cluster, RBN o WSJT-X. Con otro clic derecho, **Volv
 este indicativo** la saca de Ignorar. Sirve para sacarte de encima las estaciones que no
 confirman sin renunciar a las DXpediciones, que el filtro **Solo LoTW** deja pasar igual.
 
-El **ancla** al lado de la ✕, **Fijar en la lista**, hace lo contrario: deja esa estación en
-esa banda en la lista aunque haga mucho que no se spotea, arriba de todo y con cualquier
-orden, resaltada y con su ancla a la vista. No la saca **Quitar de la lista después de**, ni
-que la lista esté llena, ni **Limpiar lista**, ni reiniciar DX Agent. Queda fijada hasta que
-la saques con su ✕, la trabajes en esa banda después de fijarla (lo dice tu log) o hagas clic
-otra vez en su ancla. Un QSO de antes no cuenta: una DXpedición que ya tenés en esa banda y te
-falta en otro modo queda fijada aunque registres otros QSOs. En todos los paneles abiertos y en el panadaptador.
+El **ancla** al lado de la ✕, **Fijar en la lista**, hace lo contrario: deja esa estación, en
+esa banda y modo, en la lista aunque haga mucho que no se spotea, resaltada y con su ancla a la
+vista. Cada fila tiene la suya: si la estación está en 20 m en CW y en FT8, fijás una y la otra
+queda como estaba. Va arriba de todo con cualquier orden, salvo ordenada por frecuencia: ahí se
+queda en su banda, en su lugar por frecuencia, y la línea de la banda no se repite. No la saca
+**Quitar de la lista después de**, ni que la lista esté llena, ni **Limpiar lista**, ni reiniciar
+DX Agent. Queda fijada hasta que la saques con su ✕, la trabajes en esa banda después de fijarla
+(lo dice tu log; guarda la banda, así que se sueltan las anclas de esa estación en esa banda) o
+hagas clic otra vez en su ancla. Un QSO de antes no cuenta: una DXpedición que ya tenés en esa
+banda y te falta en otro modo queda fijada aunque registres otros QSOs. En todos los paneles
+abiertos y en el panadaptador.
 
 **Limpiar lista** pide confirmación y vacía la lista de alertas en todos los paneles abiertos
 y también al recargar. Reinicia el tiempo sin repetir, así que lo que siga en el aire vuelve a
@@ -401,6 +406,12 @@ buscado; **LoTW**, las subidas más recientes. Otro clic ordena al revés, y un 
 lo más nuevo arriba. La flecha muestra el orden. Las filas sin dato en esa columna van al
 final, los empates quedan con la más nueva primero, las alertas nuevas entran en su lugar y
 el orden se recuerda en el navegador.
+
+**Por frecuencia, una línea por banda.** Ordenada por **kHz**, la lista abre cada banda con una
+línea propia, del color de la banda y con su nombre: las estaciones quedan juntas y no hace falta
+leer la columna para ver dónde termina una banda y empieza la siguiente. Las fijadas se quedan en
+su banda, en su lugar por frecuencia (en los otros órdenes van arriba de todo). Los otros órdenes
+no llevan líneas.
 
 **Columnas.** Si en tu pantalla no entran todas, un clic derecho en cualquier encabezado abre
 la lista de columnas con una casilla para cada una: destildá las que no leés y la tabla se
@@ -892,6 +903,50 @@ de las dos puede ir por TCI, y dos por OmniRig tienen que ser su Radio 1 y su Ra
   activa va en el color de acento.
 - **N1MM o DXLog.net (SO2R):** Sintonizar queda bloqueado porque no se puede verificar el PTT.
 
+### El bandmap: la banda alrededor del VFO
+
+Con una radio configurada, a la derecha de la lista aparece una tira angosta con la banda de esa
+radio: las estaciones spoteadas puestas por frecuencia y el VFO en el medio. Es el bandmap, como el
+de DXLog. Sin ninguna radio no se muestra; apenas configurás una en Configuración → Radio, aparece
+sin recargar la página. Tampoco se muestra en una ventana de menos de 1000 px de ancho, para no
+sacarle lugar a la lista. Si la radio está configurada pero no se lee (el programa cerrado, la radio
+apagada), la tira queda en la última banda elegida y sin VFO; vuelve a seguirlo cuando la radio
+responde.
+
+**La tira.** Muestra las estaciones con spot en la banda de la radio en los últimos 30 minutos, una
+por indicativo en su última frecuencia. Cada una lleva el color de su alerta en la lista, o gris si
+no alertó, y se va apagando a medida que envejece. Los kHz van en la escala de la izquierda; si dos
+etiquetas no entran una al lado de la otra, se separan con una línea hasta su frecuencia. El
+selector de banda del encabezado queda fijo en la banda de la radio mientras la radio la informa.
+
+**Zoom y desplazamiento.** La rueda del mouse hace zoom, de 4 a 128 px por kHz. Arrastrando sobre
+la tira se recorre la banda; la tira deja de seguir al VFO por 15 segundos y después vuelve sola.
+El botón ◎ la trae de vuelta al VFO en el momento.
+
+**El riel.** El botón » del encabezado la pliega a un riel de 30 px con la banda entera: una marca
+donde hay estaciones, más larga cuantas más hay y con el color de su alerta, y el VFO. Un clic en el
+riel la abre en esa frecuencia. El navegador se acuerda de si quedó plegada.
+
+**CW, SSB y DIGI.** Los tres botones de abajo del encabezado juntan las estaciones de ese modo en
+una etiqueta por tramo, por ejemplo «FT8 · 37», que se abre con un clic. De entrada solo vienen
+agrupadas las digitales. Un spot digital sin modo, como el F/H de una DXpedición spoteado a mano,
+entra en el grupo que tiene cerca en vez de armar uno suelto. Cada navegador se acuerda de la
+elección.
+
+**El embudo.** Deja solo las estaciones que muestra la lista, con todos sus filtros menos el de
+banda, porque la tira ya muestra la de la radio. Sirve para ver alrededor del VFO lo mismo que se ve
+en la lista.
+
+**Un clic sintoniza.** Un clic en una estación la selecciona como una fila de la lista y sintoniza
+la radio. La estación seleccionada queda marcada con una banda del color de acento. Cualquier Tune
+del panel mueve la tira en el acto, sin esperar a que se vuelva a leer la radio.
+
+**Dos radios (SO2R).** Con dos radios configuradas hay dos tiras, una al lado de la otra: la de la
+Radio 1 y después la de la Radio 2. Cada una muestra la banda y el VFO de su radio, con su propio
+zoom, su riel y sus botones, y el navegador guarda cada juego por separado. El título de cada tira
+es el nombre de su radio, y el de la activa va en el color de acento. Un clic en una estación
+sintoniza la radio de esa tira.
+
 ### Seguir una estación
 
 En la pestaña Estación, que se abre con un clic en una alerta o en una DXpedición de la pestaña
@@ -1377,8 +1432,9 @@ se prende en **Configuración → Otros → API para otros programas**.
 
 - **Servir la API**: apagada, `/api/v1` no existe y contesta 404.
 - **Tokens**: uno por programa, con su nombre, para poder revocar uno sin tocar los demás. Al
-  crearlo se elige qué puede hacer: `read` (leer) o `write` (escribir en el log, que incluye leer).
-  El texto se muestra una sola vez; después queda solo su hash. El programa lo manda así:
+  crearlo se elige qué puede hacer: `read` (leer), `write` (escribir en el log, que incluye leer) o
+  `station` (mover la radio y el WinKey desde otra máquina, ver abajo). El texto se muestra una sola
+  vez; después queda solo su hash. El programa lo manda así:
   `Authorization: Bearer dxa_...`. Con **Revocar** deja de valer en el acto.
 - **Páginas web permitidas**: si el programa es una página que corre en otro servidor, va su origen
   acá (`http://192.168.1.10:8080`). Vacío, ninguna página puede llamarla.
@@ -1408,11 +1464,13 @@ Para quien programa del otro lado, en [INTEGRACION-API.md](./INTEGRACION-API.md)
 completa: cómo se autentica, los errores, los límites, el cursor, el ETag, el stream y el catálogo de
 rutas con ejemplos.
 
-La radio y el WinKey también están en la API, con un token de scope `write`, pero solo desde la PC
-donde corre DX Agent: `POST /api/v1/cw/send`, `cw/stop`, `cw/speed`, `cw/esm` y `cw/test` para el
-WinKey, y `POST /api/v1/rig/tune`, `rig/freq` y `rig/split` para la radio. El mismo pedido desde otra
-máquina recibe un 403, con token o sin él. El PTT y el modo por separado no están: un programa que los
-necesite usa Hamlib, el mismo `rigctld` o el mismo TCI.
+La radio y el WinKey también están en la API: `POST /api/v1/cw/send`, `cw/stop`, `cw/speed`,
+`cw/esm` y `cw/test` para el WinKey, y `POST /api/v1/rig/tune`, `rig/freq` y `rig/split` para la
+radio. Desde la PC donde corre DX Agent alcanza un token de scope `write`; desde otra máquina hace
+falta un token de scope `station` **y** el interruptor **Mover la estación desde la red** prendido
+(el token solo no abre nada, y con el interruptor apagado el pedido recibe el 403 de siempre). El PIN del panel
+no se usa en la API: el token ya es un secreto largo. El PTT y el modo por separado no están: un
+programa que los necesite usa Hamlib, el mismo `rigctld` o el mismo TCI.
 
 El token viaja sin cifrar porque el servidor es HTTP. Sirve en la red local, así que no lo uses en
 una red ajena (hoteles, eventos) y revocalo si se te escapa.
@@ -1425,12 +1483,27 @@ una red ajena (hoteles, eventos) y revocalo si se te escapa.
   *DNS rebinding* desde sitios web).
 - **Abrirlo desde el celular** es opcional y hay que prenderlo a mano: **Red local**, en la tarjeta
   del panel. Ahí el panel escucha en la red y acepta los nombres propios de la PC, pero **no tiene
-  contraseña**: cualquiera que llegue a esa dirección puede cambiar los ajustes o borrar QSOs. La
-  radio y el WinKey quedan afuera de eso: los pedidos que los mueven se rechazan si no vienen de la
-  propia PC, y en otro dispositivo la página ni siquiera dibuja los botones de Tune ni la caja de CW
-  (en la barra de filtros avisa por qué). Dejalo apagado en redes ajenas (hoteles, eventos) y, si lo
-  prendés, que el firewall deje entrar solo a tu red. Al arrancar, la consola imprime la dirección
-  que usa el celular.
+  contraseña**: cualquiera que llegue a esa dirección puede cambiar los ajustes o borrar QSOs. Dejalo
+  apagado en redes ajenas (hoteles, eventos) y, si lo prendés, que el firewall deje entrar solo a tu
+  red. Al arrancar, la consola imprime las direcciones que usa el celular y qué se puede hacer con la
+  estación desde la red.
+- **Mover la estación desde otra PC**, si el servidor está en el shack y el operador trabaja en otra
+  máquina, es otro interruptor que también hay que prender a mano: **Mover la estación desde la red**
+  (`[ui] station_remote`), en la misma tarjeta, y **solo con Red local encendida**. El PIN se pone
+  ahí mismo, **en la PC de la estación** (desde otra máquina el panel no deja cambiarlo ni sacarlo):
+  4 a 8 dígitos, guardado cifrado como la contraseña de LoTW (con DPAPI en Windows; en Linux y macOS,
+  en un archivo que solo lee tu cuenta). La primera vez que abrís el panel desde otra PC te lo pide,
+  lo guarda en ese navegador y, desde ahí, dibuja Sintonizar, la caja del CW y el botón del keyer: los
+  mismos botones que en la PC de la estación, con los mismos permisos. Un PIN equivocado contesta 403
+  sin decir el correcto, y después de cinco intentos esa dirección espera cinco minutos. Desde la PC
+  de la estación nunca se pide. El PIN viaja sin cifrar, como el token de la API: sirve en tu red, no
+  en una red ajena. Con el interruptor apagado, un pedido de la estación desde otra PC recibe el 403
+  de siempre, y la página no dibuja esos botones.
+- **No existe `[ui] host`**: dónde escucha el panel sale de `lan`, que está en Configuración o en
+  `config.toml`, y una clave que no existe se ignora en silencio. Un **proxy inverso con un nombre
+  propio se rechaza a propósito** (`host_allowed`): el panel contesta solo a `localhost` y a los nombres y direcciones de
+  la propia máquina, y una escritura además revisa su `Origin`. Para usar el panel desde otro equipo,
+  andá por **Red local**, no por un proxy.
 - La configuración solo se puede guardar desde la propia página del panel. Otros
   sitios web que visites no pueden enviar un pedido que la modifique ni mostrar el
   panel dentro de su propia página.
@@ -1469,6 +1542,14 @@ con el logbook de DX Agent como tu log.
   cero** (ver Un log nuevo).
 - La ruta del log ADIF, una por línea. `*` elige el archivo más nuevo, por ejemplo
   `…/CALL_*_backup.adi` para los backups de Log4OM.
+- **El log en otra computadora.** Si DX Agent corre en un servidor y tu programa de log está en
+  otra computadora de la red local, montá en el servidor la carpeta compartida donde ese programa
+  escribe su ADIF (en Linux, el share de Windows o de Samba, por ejemplo en `/mnt/estacion`) y poné
+  ahí la ruta o el patrón: `/mnt/estacion/N0CALL_*_backup.adi`. La otra computadora no cambia nada
+  de su rutina, y DX Agent toma su backup más nuevo cada `logbook.reload_seconds`. Mientras esa
+  computadora está apagada o el share sin montar, DX Agent se queda con los QSOs que ya leyó y sigue
+  consultando; al volver, se pone al día solo y no repite ningún QSO. Si arranca con la computadora
+  apagada, espera y se inicia solo cuando el archivo aparece.
 - **Buscar…** abre la ventana de archivos de Windows para elegirlo. Si elegís un backup de Log4OM
   con fecha, se convierte en `…/CALL_*_backup.adi` para usar siempre el más nuevo.
 - **Probar** muestra qué archivo encontró, su tamaño, su fecha y cuántos QSOs tiene.
@@ -2041,8 +2122,10 @@ mes sino el de hoy:
   ionósfera de hoy y no solo a la del mes: después de una tormenta geomagnética, cuando las bandas
   caen, cae también. Su nombre aparece al lado de cada predicción.
 - **El de NOAA SWPC, como respaldo**: si KC2G lleva 6 horas sin dar uno, o si
-  **Configuración → Propagación → Número de manchas solares** está desmarcado, se usa el que NOAA
-  predice para el mes (se baja una vez por día).
+  **Configuración → Propagación → Número de manchas solares** está desmarcado, se usa el del último
+  mes que NOAA tiene observado (se baja una vez por día). Va un mes atrasado, pero sigue el nivel
+  real. Antes se usaba la predicción suavizada del ciclo, que en noviembre de 2026 decía 83 cuando
+  octubre había dado 46 y el de KC2G andaba en 48.
 
 #### Las ionosondas: la ionósfera de hoy
 
@@ -2548,6 +2631,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | ui          | `enabled`                   | `true`                                            | Iniciar el panel web con `run` |
 | ui          | `port`                      | `8073`                                            | Dirección del panel: `http://localhost:8073`. Se aplica al guardar (el panel se muda ahí) |
 | ui          | `lan`                       | `false`                                           | Escuchar también en la red local, para abrir el panel desde el celular (el panel no tiene contraseña: ver Seguridad). Se aplica al guardar |
+| ui          | `station_remote`            | `false`                                           | Mover la estación (la radio, el WinKey, el keyer) desde otra PC de la red, con el PIN que se pone en Configuración. Solo con `lan` encendido; ver **Seguridad**. Se aplica al guardar |
 | ui          | `open_browser`              | `true`                                            | Abrir el panel automáticamente al iniciar `run` |
 | ui          | `check_updates`             | `true`                                            | Avisar en el panel (una pastilla junto a la versión) cuando sale un DX Agent más nuevo, y dejarlo listo: le pregunta a GitHub cada hora cuál es la última versión del repositorio de descargas, y baja y verifica su paquete. No se manda nada tuyo; se instala cuando hacés clic en **Instalar** |
 | ui          | `install_updates`           | `false`                                           | Instalar una versión nueva sin preguntar, apenas está lista: DX Agent se reinicia solo, aunque estés en medio de un QSO |
@@ -2555,7 +2639,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | ui          | `filters`                   | `["bands", "modes", "search", "continent", "near", "hide_confirmed", "lotw", "activity"]` | Los filtros que se ven sobre la lista de alertas (uno oculto queda apagado, y lo que tenía elegido se destilda); también lo guarda el ⚙ del panel, junto a Limpiar filtros |
 | ui          | `hidden_types`              | `[]`                                              | Tipos de alerta cuyo filtro no se ve (siguen alertando), por su nombre en inglés: `ATNO`, `NEW BAND`... `SELF`, `OPEN` (50-144 MHz); también lo guarda el ⚙ del panel, al final de los tipos de alerta |
 | ui          | `digital_modes`             | `true`                                            | Un filtro para FT8, FT4 y RTTY, además de CW, fonía y digital; los demás modos digitales se ven en su fila y cuentan como digital |
-| logbook     | `reload_seconds`            | `60`                                              | Cada cuánto revisar si cambió el archivo ADIF |
+| logbook     | `reload_seconds`            | `60`                                              | Cada cuánto revisar si cambió el archivo ADIF (con el log en otra computadora, cada cuánto se consulta su share) |
 | logbook     | `live`                      | `true`                                            | Leer también, cada 10 segundos, los QSOs que Log4OM 2 guardó desde su último backup, de su base |
 | logbook     | `udp_port`                  | `12065`                                           | QSOs que tu programa de log manda por UDP al loguearlos (N1MM, DXLog.net, Log4OM, WSJT-X; ver "Tus QSOs a medida que los logueás"); 0 = apagado |
 | logbook     | `udp_group`                 | `""`                                              | Un grupo multicast al que unirse en ese puerto (el UDP Server de WSJT-X, por ejemplo `239.255.0.1`) |
@@ -3120,7 +3204,10 @@ archivo, no se pierden. En el próximo arranque vuelven a contar, y cada uno se 
 log releído ya lo tiene (como máximo 2.000, durante 30 días).
 
 **Log4OM 2** no necesita nada: DX Agent lee los QSOs posteriores al backup directo de la base
-de Log4OM, cada 10 segundos (`logbook.live`).
+de Log4OM, cada 10 segundos (`logbook.live`). Con el log en otra computadora no aplica: esa base es
+de Windows y se lee en la misma máquina. Por la red se toma el backup ADIF, cada
+`logbook.reload_seconds` (ver Estación); para que un QSO cuente enseguida, el UDP sirve igual, con
+la IP del servidor en vez de `127.0.0.1`.
 
 **Por UDP** (`logbook.udp_port`, 12065 de fábrica, en 127.0.0.1; se cambia en Configuración →
 **Puerto UDP de los QSOs logueados**, con el grupo multicast al lado): un mismo puerto recibe el XML
@@ -3348,7 +3435,7 @@ están en pantalla se mantienen.
 | PSKReporter en vivo (MQTT) | Los mismos reportes en el momento, para las estaciones seguidas (PSKReporter → En vivo); y para las aperturas en VHF, los receptores a tu alrededor y tus propios indicativos en 6 m y 2 m | https://mqtt.pskreporter.info/ |
 | Spots de POTA y WWFF | Quién está activando un parque ahora (cada 2 minutos) | https://api.pota.app/spot/activator, https://spots.wwff.co/static/spots.json |
 | Natural Earth (world-atlas) | Costas y fronteras de los países para el mapa | https://www.naturalearthdata.com/ |
-| NOAA SWPC | El número de manchas solares que predice (VOACAP); el Kp planetario, el A, el flujo solar, el número de manchas y las escalas de tormenta G/R/S (la pastilla de propagación y las aperturas en VHF) | https://services.swpc.noaa.gov/ |
+| NOAA SWPC | El número de manchas solares del último mes observado (VOACAP); el Kp planetario, el A, el flujo solar, el número de manchas y las escalas de tormenta G/R/S (la pastilla de propagación y las aperturas en VHF) | https://services.swpc.noaa.gov/ |
 | Open-Meteo | El pronóstico meteorológico para los ductos de tropo en 2 m (gratis para uso no comercial, CC BY 4.0) | https://open-meteo.com/ |
 | Mapas DXCC de GridTracker | Entidades DXCC, fronteras solo DXCC y zonas CQ e ITU para el mapa | https://gitlab.com/gridtracker.org/gridtracker2 |
 
@@ -3577,6 +3664,12 @@ el primer arranque los lee y los renombra `*.migrated`; se pueden borrar cuando 
   con MySQL, ni un log de Log4OM que no es el de la configuración, porque la base tiene que tener el
   QSO más nuevo del backup. Las confirmaciones que Log4OM recibe de QSOs viejos siguen esperando al
   backup, o a la descarga de LoTW de DX Agent.
+- **Un log en otra computadora de la red.** Por la red se lee el backup ADIF del share montado; la
+  base de Log4OM no, porque el log en vivo (`logbook.live`) es de Windows y lee la base local. Con la
+  computadora apagada o el share sin montar, DX Agent se queda con lo que ya leyó (no vuelve a
+  alertar todo como nuevo) y sigue consultando, y si arranca en ese momento espera y se inicia solo
+  al aparecer el archivo. En Linux, montá el share con `soft`: con `hard`, un share caído puede
+  dejar la consulta colgada.
 - **Una estación recién trabajada sigue generando alertas, con otros programas de log.** Salvo
   que el programa le avise cada QSO a DX Agent (por UDP: N1MM Logger+, DXLog.net, WSJT-X...) o
   escriba su ADIF a medida que logueás, un QSO nuevo cuenta recién cuando está en el archivo de

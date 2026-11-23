@@ -70,8 +70,10 @@ right-click the zip → **Properties** → tick **Unblock** → OK.
 opens the dashboard (a newer version you open stops the old one and takes its place). To close it, use the **Stop** button at the top right of the dashboard. To
 see what it is doing, use **start-dx-agent-console.bat**, which runs it in a console window.
 
-You can bookmark the dashboard: `http://localhost:8073`. Only your PC can open it; other
-computers on your network can't.
+You can bookmark the dashboard: `http://localhost:8073`. Out of the box only your PC can open it;
+to open it from the phone or another computer of your network turn on **Local network** (Settings →
+Other), and to move the radio, the WinKey and the keyer from there, **Move the station from the
+network** in the same card with a PIN of 4 to 8 digits, set on the station's PC (section 6).
 
 ### On Linux
 
@@ -157,8 +159,9 @@ Propagation, Marathon, Spot sources, Radio and Other. Saving keeps what you chan
 
 **API for other programs** (Settings → Other), off out of the box: another program can read the
 list as the dashboard shows it, with its filters, the alerts, the log and the awards, and load, edit
-and upload QSOs, at `/api/v1`. Each program gets its own token, to only read or also write; every
-request is logged in `data\api.log`.
+and upload QSOs, at `/api/v1`. Each program gets its own token, to only read, also write, or, from
+another PC, move the radio and the WinKey (scope `station`, with **Local network** and **Move the
+station from the network** on); every request is logged in `data\api.log`.
 
 **Anonymous usage** (Settings → Other), off out of the box: the dashboard asks once, above the list.
 If you say yes, DX Agent sends one ping a day with the version and the system, and nothing else: no
@@ -247,15 +250,30 @@ below).
 
 **Pin a station:** the **anchor** next to the ✕ keeps it in the list on that band however long ago
 it was spotted: neither **Take out of the list after**, nor Clear list, nor restarting DX Agent
-takes it out. It goes on top whatever the order, with its anchor always in sight (in the skin's
-colour), and stays on the radio's panadapter too. It leaves when you work it on that band after
-pinning it (a QSO from before doesn't count), with its ✕, or with another click on its anchor.
+takes it out. Its anchor answers the first click. It goes on top whatever the order; sorted by
+frequency, it stays in its band, in its place by frequency. Its anchor is always in sight (in the
+skin's colour), and it stays on the radio's panadapter too. It leaves when you work it on that band
+after pinning it (a QSO from before doesn't count), with its ✕, or with another click on its anchor.
 
 **Sort by a column:** click a column's header to sort the list by it: by frequency, by band, by
 mode (CW, phone and digital together), by country... **Alert** and **What you need** put the
 most wanted first, **LoTW** the latest uploads first. Click again for the other way round, and a
-third time for newest on top again. An arrow shows the order. New alerts go into their place, and
-the browser remembers the order.
+third time for newest on top again. An arrow shows the order. **Sorted by frequency**, each band
+opens with its own line, in the band's colour and with its name, so its stations stay together and
+the end of one is seen without reading the column; the other orders have no lines. New alerts go
+into their place, and the browser remembers the order.
+
+**The bandmap strip:** with a radio set up, a narrow strip at the right of the list shows that
+radio's band around the VFO, as DXLog's bandmap: the stations spotted in the last 30 minutes, one
+per call at its latest frequency, each in its alert's colour in the list (grey when it made none)
+and fading as it ages. It doesn't show with no radio, nor in a window narrower than 1000 px. The
+wheel zooms (4 to 128 px per kHz), a drag moves along the band and the strip stops following the
+VFO for 15 seconds (◎ brings it back at once); the » button folds it to a 30 px rail with the whole
+band, and a click on the rail opens it there. **CW**, **SSB** and **DIGI** put that mode's stations
+in one label per stretch ("FT8 · 37") that opens with a click; the funnel keeps only the stations
+the list shows, with all its filters but the band's; **a click on a station** selects it in the list
+and tunes the radio. With two radios there are two strips, one per radio, each with its own zoom and
+band, and a click tunes that radio.
 
 **On the right, the Station tab:** clicking a row (on the call or on the frequency) opens the
 station:
@@ -549,7 +567,8 @@ low bands hold better. That is why DX Agent uses today's and not the month's:
   GIRO's ionosondes): the one that best fits what the world's ionosondes measure today, asked once
   an hour. After a storm the prediction drops with the bands.
 - **NOAA's, as a fallback:** if KC2G has had none for 6 hours, or with **Settings → Propagation →
-  Sunspot number** off, it is the one NOAA predicts for the month.
+  Sunspot number** off, it is the last month NOAA has observed, downloaded once a day. It lags a
+  month, but it is what was measured, not the cycle's smoothed prediction.
 
 **The ionosondes: today's ionosphere.** With **Settings → Propagation → Ionosondes** on (it is, out
 of the box), DX Agent reads the ionosondes KC2G publishes (GIRO, INGV, Australia's BoM and others)
@@ -727,7 +746,8 @@ top right says whether it worked.
     VFOs, set **Tune through flrig** to **Yes, with flrig's PTT checked before each command**
     (Settings → Radio; it shows with a radio on flrig). Do it only if flrig has its PTT input set up
     (by CAT or the serial port, as WSJT-X needs): each command goes after flrig says the radio
-    receives. By default flrig only reads.
+    receives. By default flrig only reads. After each Tune the radio is read at once, without
+    waiting for its next poll.
   - **DXLab Commander** reads the radio over the same TCP it is tuned through: frequency, mode,
     split and PTT, and before each Tune it asks whether it is transmitting (`CmdSendTx`). Commander
     needs **Config → General → Net Serv → TCP Network Service** running, Base Port 52000 by default,
@@ -737,7 +757,8 @@ top right says whether it worked.
     for this.
   - **When Commander doesn't report the PTT:** it doesn't for every radio. The radio is read all
     the same, but no Tune goes out unless **Tune when Commander doesn't report the PTT** (Settings →
-    Radio) says Yes. When Commander says the radio transmits, it is never tuned.
+    Radio) says Yes. When Commander says the radio transmits, it is never tuned. After each Tune
+    the radio is read at once, without waiting for the next poll.
   - **The radio box with Commander** shows the frequency with the wheel on each digit, the band and
     mode lists, and in split one more line for VFO B with the transmitting frequency, which the wheel
     moves too; the wheel moves one VFO only. A spot that says where it listens, or the SPLIT button,
@@ -765,7 +786,9 @@ top right says whether it worked.
   Reporting → **Accept UDP requests**. Clicking an FT8/FT4 spot puts the radio on the FT8/FT4
   frequency, fills in **DX Call** and **DX Grid**, and moves the audio to the station's
   frequency; you click **Enable Tx**. With TCI, WSJT-X's slice is the one that moves, so WSJT-X
-  follows a band change.
+  follows a band change. The call goes straight to WSJT-X, where its Status comes from, in a blink
+  (no PowerShell behind it); and if the radio is already on that dial and in that mode, it isn't
+  moved at all: only WSJT-X gets the station.
 
 ## 7. Let DX Agent see your QSOs at once
 
@@ -1151,11 +1174,13 @@ the console's right, with the speed on top, a button per message you set, three 
 - With no call in the form, a message with `{CALL}` isn't sent.
 - Without the WinKey on in Settings, the column doesn't show.
 
-**LU5FF's CW / Voice Keyer (beta):** the Windows package brings Javi – LU5FF's keyer in its `keyer`
-folder. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
+**LU5FF's CW / Voice Keyer 1.0.1:** the Windows package brings Javi – LU5FF's keyer in its `keyer`
+folder, now in 1.0.1. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
 keyer** or **None**. With **None**, DX Agent sends no CW and the console shows neither box. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
-starts it or brings its window to the front, only from the station's PC. It is a beta: tell us what
-you find.
+starts it or brings its window to the front, only from the station's PC. The 1.0.1 adds TX by slice
+and split on demand in AetherSDR, a recorder of voice memories with the microphone or the loopback,
+a mirror of DX Agent's log, the **Normal**, **Compact** and **Very compact** views, free text in
+CW, a **TONE** button and a TCI command window.
 
 **ESM (Enter Sends Message)**, as in N1MM, off by default: turn it on with the **ESM** button in the
 WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.
