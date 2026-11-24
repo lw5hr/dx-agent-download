@@ -107,22 +107,27 @@
   </section>
 
   <figure>
-    <img src="images/station.en.png" alt="DX Agent: the alert list with a station picked, and the Station tab showing what you have of that country by band and mode, its LoTW status, the beam headings and a one-click Log QSO" width="1000" loading="eager">
-    <figcaption>The alert list, and what each station adds to your log: need, LoTW status and the
-      bands and modes you already have.</figcaption>
+    <img src="images/station.en.png" alt="DX Agent: the alert list with a station picked, and the Station tab showing what you have of that country by band and mode, its LoTW status, the beam headings, the watchlist star by the call and the Windows and Spot it buttons" width="1000" loading="eager">
+    <figcaption>The alert list, and what each station adds to your log: need, LoTW status, the
+      bands and modes you already have, and the rings of the ones it is on the air now.</figcaption>
   </figure>
 
   <h2>What it tells you</h2>
   <ul class="features">
     <li><b>ATNO, new band, new mode</b> An alert only when working that station would actually add
       something: the country never worked, the band or the mode you are missing, or a combination
-      you do not have.</li>
+      you do not have. The alerts follow the modes you pick, group by group or one by one (RTTY
+      without FT8, say), and NEW MODE and NEW SLOT count by group or by the exact mode.</li>
     <li><b>Maidenhead grid squares</b> The squares you worked and confirmed on the map (VUCC,
       FFMA), the stations heard with a locator in their square, and a NEW GRID alert when a square
       you still need on that band is on the air.</li>
     <li><b>Your awards on the map</b> DXCC (Mixed, by mode or band, Satellite, Challenge), WAZ
       (5BWAZ too) and WAS (the 50 US states), each country, zone or state painted confirmed, worked
       or missing; click a country to see what you have of it.</li>
+    <li><b>Layers on the map</b> Admin-1 borders and the CQ or ITU zones, from a menu under the zoom;
+      an azimuthal view centred on you, 64× as large; the whole world down to 2° of width; and the
+      APRS layer, with the iGates, digipeaters and fixed stations near you and the RF links heard
+      lately, coloured by distance.</li>
     <li><b>DXpeditions worth your time</b> Announced DXpeditions from NG3K, 425 DX News and Club Log,
       each one saying whether it adds an entity, a band or a mode for you, and whether you are
       already in their online log.</li>
@@ -136,18 +141,35 @@
     <li><b>Ventanas: when to be there</b> For every country you still need, the hours and bands it was
       heard from stations near yours, built from the spots DX Agent already reads and kept month by
       month. At the top of each UTC hour an <b>ITS HOUR</b> alert names one that is usually heard near
-      you then, so you know when to be in the chair.</li>
+      you then, so you know when to be in the chair. The Station tab opens it on any country with one
+      click, even one you already have: what is heard near you does not depend on what you need.</li>
+    <li><b>The band, beside the list</b> With a radio set up, a strip around the VFO shows the band
+      as a bandmap: every station spotted in the last 30 minutes in the colour of its
+      alert, fading as it ages. The wheel zooms, a drag moves along the band, a click tunes there;
+      CW, SSB and DIGI gather them into labels, the » button folds it to a rail with the whole band,
+      and with two radios there are two strips, one per radio.</li>
+    <li><b>Pinned rows, and a line per band</b> The pin beside a row's ✕ keeps that station, on
+      that band and mode, in the list however long ago it was spotted; sorted by frequency, each band
+      opens with its own line, and a newer spot of the same station updates its row instead of adding
+      one.</li>
     <li><b>Propagation: VOACAP and the path</b> The chance of a QSO with each station this hour, both
       ways, with VOACAP built in (nothing to install), the next 24 hours by band, and whether your
       own signal was reported near the station.</li>
     <li><b>Who hears you</b> Your own call spotted: which skimmers and PSKReporter receivers hear
       you, how far away and in which country, on the list and the map.</li>
+    <li><b>Alerts on the phone</b> The same alerts on your own Telegram bot, and each one opens a
+      small page with that station: what it adds, where it is heard from, its grid and VOACAP's
+      chance now.</li>
     <li><b>VHF openings</b> An alert when 6 m or 2 m opens around you, from PSKReporter's live
       reports.</li>
     <li><b>CQ DX Marathon</b> Your score for the year or the Sprint, the countries and CQ zones still
       missing, and an alert when one of them is on the air.</li>
     <li><b>Several callsigns</b> Each with its own log; alerts and awards for all of them together,
       or for the one you pick.</li>
+    <li><b>From another computer, and an API</b> The dashboard on another PC of your network, with
+      the radio where it is, a PIN keeping it yours; and an API with its own tokens, so another
+      program can read the list, the alerts and the awards, load, edit and upload QSOs, or move the
+      radio.</li>
     <li><b>One click to the radio</b> Tune to the spot from the dashboard: Log4OM, N1MM, DXLog.net,
       OmniRig, Hamlib, flrig, DXLab, WSJT-X or TCI (a FlexRadio on AetherSDR, with the alerts on its
       panadapter; in testing). Its frequency, VFOs and S-meter beside the QSO form, one radio or two,
@@ -169,16 +191,26 @@
       <figcaption>Every spot, or only what you need.</figcaption>
     </figure>
     <figure>
-      <img src="images/grid-onair.en.png" alt="DX Agent: the band and mode grid, with a green ring on the band where the station is on the air now" loading="lazy">
-      <figcaption>What you have of that country, band by band and mode by mode.</figcaption>
+      <img src="images/grid-onair.en.png" alt="DX Agent: the band and mode grid, with a green ring on the band where the station is on the air now, and the legend of the ring's colours" loading="lazy">
+      <figcaption>What you have of that country, band by band and mode by mode; the ring is
+        VOACAP's chance where it is on the air now.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/bandmap.en.png" alt="DX Agent: the alert list with the bandmap strip at its right, the stations around the VFO on the radio's band, with the CW, SSB and DIGI labels" loading="lazy">
+      <figcaption>The band beside the list: every station around the VFO, and a click tunes there.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/ventanas.en.png" alt="DX Agent: the Ventanas tab with a country opened, its 24 hours by band and mode, the hours heard near you and the ones VOACAP fills in" loading="lazy">
+      <figcaption>Ventanas: when each country you need is heard from near you, hour by hour.</figcaption>
     </figure>
     <figure>
       <img src="images/dxpeditions.en.png" alt="DX Agent: the DXpeditions tab, with the ones on the air now and what each adds to the log" loading="lazy">
       <figcaption>DXpeditions on the air now, and what each one adds to your log.</figcaption>
     </figure>
     <figure>
-      <img src="images/map.en.png" alt="DX Agent: the world map with the alerts, the DXpeditions on the air, your own station and the night side" loading="lazy">
-      <figcaption>Your DXCC and WAZ standing on a world map.</figcaption>
+      <img src="images/map.en.png" alt="DX Agent: the world map with the alerts, the DXpeditions on the air, your own station and the night side, and the menu of the map's layers" loading="lazy">
+      <figcaption>Your DXCC and WAZ standing on a world map, with the zones, the admin-1 borders
+        and the APRS layer a click away.</figcaption>
     </figure>
     <figure>
       <img src="images/grids.en.png" alt="DX Agent: the map's Grids view, with the grid squares worked and confirmed and the stations on the air in their square" loading="lazy">

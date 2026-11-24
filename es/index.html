@@ -108,21 +108,27 @@
   </section>
 
   <figure>
-    <img src="../images/station.es.png" alt="DX Agent: la lista de alertas con una estación elegida, y la pestaña Estación con lo que tenés de ese país por banda y modo, su estado en LoTW, los rumbos de antena y el botón para cargar el QSO" width="1000" loading="eager">
+    <img src="../images/station.es.png" alt="DX Agent: la lista de alertas con una estación elegida, y la pestaña Estación con lo que tenés de ese país por banda y modo, su estado en LoTW, los rumbos, la estrella de seguimiento al lado del indicativo y los botones Ventanas y Spotear" width="1000" loading="eager">
     <figcaption>La lista de alertas y lo que cada estación suma a tu log: qué te falta, el estado en
-      LoTW y las bandas y modos que ya tenés.</figcaption>
+      LoTW, las bandas y modos que ya tenés y los anillos de las que está usando ahora.</figcaption>
   </figure>
 
   <h2>Qué te avisa</h2>
   <ul class="features">
     <li><b>ATNO, banda nueva, modo nuevo</b> Avisa solo cuando trabajar esa estación suma algo de
-      verdad: el país nunca trabajado, la banda o el modo que te falta, o una combinación que no tenés.</li>
+      verdad: el país nunca trabajado, la banda o el modo que te falta, o una combinación que no tenés.
+      Las alertas siguen los modos que elegís, por grupo o uno por uno (RTTY sin FT8, por ejemplo), y
+      MODO NUEVO y BANDA+MODO se cuentan por grupo o por el modo exacto.</li>
     <li><b>Grids Maidenhead</b> Los grids que trabajaste y confirmaste en el mapa (VUCC,
       FFMA), las estaciones oídas con locator en su grid, y una alerta GRID NUEVO cuando está en el
       aire un grid que te falta en esa banda.</li>
     <li><b>Tus diplomas en el mapa</b> DXCC (Mixto, por modo o banda, Satélite, Challenge), WAZ
       (también 5BWAZ) y WAS (los 50 estados de EE. UU.), cada país, zona o estado pintado confirmado,
       trabajado o faltante; un clic en un país muestra lo que tenés de él.</li>
+    <li><b>Capas en el mapa</b> Los límites admin-1 y las zonas CQ o ITU, desde un menú debajo del
+      zoom; una vista azimutal centrada en vos, 64× más grande; el mundo entero hasta 2° de ancho; y
+      la capa APRS, con los iGates, digipeaters y estaciones fijas cerca tuyo y los enlaces RF
+      escuchados últimamente, coloreados por distancia.</li>
     <li><b>DXpediciones que valen la pena</b> Las DXpediciones anunciadas en NG3K, 425 DX News y Club
       Log, cada una diciendo si te suma una entidad, una banda o un modo, y si ya estás en su log
       online.</li>
@@ -136,18 +142,35 @@
     <li><b>Ventanas: a qué hora estar</b> Para cada país que te falta, las horas y las bandas en que se
       escuchó desde estaciones cerca de la tuya, armado con los spots que DX Agent ya lee y guardado mes
       a mes. Al empezar cada hora UTC una alerta <b>SU HORA</b> te nombra uno que suele escucharse cerca
-      tuyo a esa hora, para saber cuándo sentarte en la silla.</li>
+      tuyo a esa hora, para saber cuándo sentarte en la silla. La pestaña Estación la abre en cualquier
+      país con un clic, aunque ya lo tengas: lo que se escucha cerca tuyo no depende de lo que te falta.</li>
+    <li><b>La tira de la banda, al lado de la lista</b> Con una radio configurada, una tira alrededor
+      del VFO muestra la banda como un bandmap: cada estación spoteada en los
+      últimos 30 minutos en el color de su alerta, que se va apagando con la edad. La rueda hace
+      zoom, arrastrando se recorre la banda y un clic sintoniza ahí; CW, SSB y DIGI las juntan en
+      etiquetas, el botón » la pliega a un riel con la banda entera, y con dos radios hay dos tiras,
+      una por radio.</li>
+    <li><b>Filas fijadas, y una línea por banda</b> El botón de fijar, al lado de la ✕ de una fila, la
+      deja en la lista, en esa banda y modo, por más que se haya spoteado hace rato; ordenada por frecuencia,
+      cada banda abre con su propia línea, y un spot más nuevo de la misma estación actualiza su fila
+      en vez de sumar otra.</li>
     <li><b>Propagación: VOACAP y el camino</b> La chance de un QSO con cada estación a esta hora, en
       los dos sentidos, con VOACAP incluido (no hay nada que instalar), las próximas 24 horas por
       banda, y si tu propia señal se reportó cerca de la estación.</li>
     <li><b>Te escuchan</b> Tu propio indicativo spoteado: qué skimmers y receptores de PSKReporter te
       escuchan, a qué distancia y en qué país, en la lista y en el mapa.</li>
+    <li><b>Alertas en el teléfono</b> Las mismas alertas en tu propio bot de Telegram, y cada una abre
+      una página chica con esa estación: qué suma, desde dónde se escucha, su grid y la chance de
+      VOACAP ahora.</li>
     <li><b>Aperturas en VHF</b> Una alerta cuando 6 m o 2 m se abren a tu alrededor, con los reportes
       en vivo de PSKReporter.</li>
     <li><b>CQ DX Marathon</b> Tu puntaje del año o del Sprint, los países y zonas CQ que te faltan, y
       una alerta cuando sale al aire uno de ellos.</li>
     <li><b>Varios indicativos</b> Cada uno con su log; las alertas y los diplomas de todos juntos, o
       del que elijas.</li>
+    <li><b>Desde otra computadora, y una API</b> El panel en otra PC de tu red, con la radio donde
+      está y un PIN que la mantiene tuya; y una API con sus propios tokens, para que otro programa lea
+      la lista, las alertas y los diplomas, cargue, edite y suba QSOs, o mueva la radio.</li>
     <li><b>Un clic a la radio</b> Sintonizá el spot desde el panel: Log4OM, N1MM, DXLog.net, OmniRig,
       Hamlib, flrig, DXLab, WSJT-X o TCI (una FlexRadio con AetherSDR, con las alertas en su
       panadaptador; en prueba). Su frecuencia, sus VFO y su S-meter al lado del formulario del QSO,
@@ -170,16 +193,26 @@
       <figcaption>Todos los spots, o solo lo que te falta.</figcaption>
     </figure>
     <figure>
-      <img src="../images/grid-onair.es.png" alt="DX Agent: la grilla de bandas y modos, con un anillo verde en la banda donde la estación está en el aire ahora" loading="lazy">
-      <figcaption>Lo que tenés de ese país, banda por banda y modo por modo.</figcaption>
+      <img src="../images/grid-onair.es.png" alt="DX Agent: la grilla de bandas y modos, con un anillo verde en la banda donde la estación está en el aire ahora, y la leyenda de los colores del anillo" loading="lazy">
+      <figcaption>Lo que tenés de ese país, banda por banda y modo por modo; el anillo es la chance
+        de VOACAP donde está en el aire ahora.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/bandmap.es.png" alt="DX Agent: la lista de alertas con la tira de la banda a su derecha, las estaciones alrededor del VFO en la banda de la radio, con las etiquetas CW, SSB y DIGI" loading="lazy">
+      <figcaption>La banda al lado de la lista: cada estación alrededor del VFO, y un clic sintoniza ahí.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/ventanas.es.png" alt="DX Agent: la pestaña Ventanas con un país abierto, sus 24 horas por banda y modo, las horas escuchadas cerca tuyo y las que completa VOACAP" loading="lazy">
+      <figcaption>Ventanas: cuándo se escucha cada país que te falta, hora por hora.</figcaption>
     </figure>
     <figure>
       <img src="../images/dxpeditions.es.png" alt="DX Agent: la pestaña de DXpediciones, con las que están en el aire ahora y lo que cada una suma al log" loading="lazy">
       <figcaption>DXpediciones en el aire ahora, y qué suma cada una a tu log.</figcaption>
     </figure>
     <figure>
-      <img src="../images/map.es.png" alt="DX Agent: el mapa mundial con las alertas, las DXpediciones en el aire, tu propia estación y la zona de noche" loading="lazy">
-      <figcaption>Tu DXCC y tu WAZ en un mapa mundial.</figcaption>
+      <img src="../images/map.es.png" alt="DX Agent: el mapa mundial con las alertas, las DXpediciones en el aire, tu propia estación, la zona de noche y el menú de capas del mapa" loading="lazy">
+      <figcaption>Tu DXCC y tu WAZ en un mapa mundial, con las zonas, los límites admin-1 y la capa
+        APRS a un clic.</figcaption>
     </figure>
     <figure>
       <img src="../images/grids.es.png" alt="DX Agent: la vista Grillas del mapa, con los grids trabajados y confirmados y las estaciones en el aire en su grid" loading="lazy">

@@ -30,7 +30,13 @@ Nothing to install: Python comes inside.
 What it does:
 
 - Alerts for **ATNO**, new band, new mode, DXpeditions you need, and your watchlist, from the
-  cluster and the RBN (CW, RTTY, FT8/FT4).
+  cluster and the RBN (CW, RTTY, FT8/FT4). The modes are picked group by group or one by one, and
+  what counts as a new mode can be the exact mode (FT8 without RTTY).
+- **Ventanas:** when each country you still need is heard from near you, hour by hour, and an
+  **ITS HOUR** alert at the top of each UTC hour.
+- **Bandmap:** with a radio, a strip beside the list with the band around the VFO, the stations in
+  their alert's colour, zoom, a rail with the whole band, CW/SSB/DIGI labels and a click to tune;
+  two strips with two radios.
 - **DXpeditions** from NG3K, 425 DX News and Club Log, with what each one adds to your log and
   whether you're in their log.
 - **Near you:** whether the station is being heard close to your QTH, and whether your own
@@ -42,7 +48,7 @@ What it does:
   the call filled in in Log4OM and WSJT-X; with a FlexRadio on AetherSDR (TCI, in testing) the alerts
   also show on its panadapter.
 - **POTA, SOTA, IOTA, WWFF** and more, with the summits and parks you haven't worked.
-- A **world map** with your DXCC and WAZ standing and your Maidenhead grid squares (VUCC, FFMA); click a country to see what you have of it.
+- A **world map** with your DXCC and WAZ standing and your Maidenhead grid squares (VUCC, FFMA); click a country to see what you have of it. Its layers menu adds the admin-1 borders and the CQ or ITU zones, and the **APRS layer** shows the iGates, digipeaters and RF links near you.
 - The **CQ DX Marathon**, the year or the Sprint: your countries and zones, and alerts for the
   ones you still need.
 - **Several callsigns** (a contest call, say), each with its own log, counted together.
