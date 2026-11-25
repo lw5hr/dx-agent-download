@@ -323,6 +323,16 @@ como HELL. FM y AM no se leen del comentario, porque "fm" suele ser "from": con 
 alerta la fonía que no dice su modo, y no la que dice SSB. Lo elegido en un grupo apagado se guarda
 igual, para cuando lo vuelvas a prender. Lo que cuenta como modo nuevo sigue siendo el grupo.
 
+Debajo de esas filas está la casilla **Cada modo cuenta por separado** (`alerts.each_mode`, #225),
+apagada de fábrica. Si la activás, MODO NUEVO y BANDA+MODO se cuentan por modo y no por grupo: un
+país que trabajaste en FT8 en 15 m no cubre RTTY en 15 m, así que un spot de RTTY de ese país en
+15 m avisa MODO NUEVO si nunca lo trabajaste en RTTY, o BANDA+MODO si lo trabajaste en RTTY en otra
+banda. Pasa lo mismo con una DXpedición o un indicativo de tu lista de seguimiento (con el alcance
+en banda y modo), con lo que dice Qué te falta y con el tiempo de espera. El modo de cada QSO sale
+del SUBMODE del log si lo tiene (FT4, no MFSK) y se nombra como en las filas de arriba. Un spot que
+no dice su modo va por su grupo, igual que en el filtro. Los diplomas (DXCC, WAZ, WAS) siguen
+contando por grupo, como piden sus reglas, y también las estadísticas, el Marathon y Ventanas.
+
 Cada opción dice cuántas estaciones mostraría con los demás filtros como están. Con 20 m
 elegido, los modos dicen cuántas hay en 20 m; una estación en varias bandas cuenta como una.
 Sin ningún botón seleccionado se muestra todo.
@@ -434,7 +444,7 @@ Al hacer clic en una alerta, o al escribir un indicativo en el cuadro, aparece l
 × modo de ese país: **C** verde es confirmado, **W** ámbar trabajado y gris no trabajado. Un
 anillo marca las bandas y modos donde la spotearon en los últimos 15 minutos, con un
 punto sobre la banda, y parpadea el más reciente. El color del anillo es la chance de VOACAP a
-esta hora en esa banda y modo: turquesa desde 50 %, naranja desde 10 % y gris por debajo (ver
+esta hora en esa banda y modo: verde desde 50 %, amarillo desde 10 % y gris por debajo (ver
 **La predicción: VOACAP**).
 
 Debajo está dónde trabajaste ese indicativo exacto, una fila por modo como lo registraste
@@ -444,8 +454,8 @@ igual, con una fila para CW, fonía y digital y solo los NEW, y el título dice 
 log. Siguen el estado de LoTW, los datos de
 la DXpedición, quién lo escucha más cerca tuyo, un botón **Consultar PSKReporter** (o, en
 vivo, los receptores que la reportan a medida que llegan), los botones **Ver solo** este
-indicativo, **☆ seguimiento** y **Spotear**, sus últimos spots y los enlaces a QRZ.com, HamQTH
-y DXWatch.
+indicativo, **Ventanas** y **Spotear**, sus últimos spots y los enlaces a QRZ.com, HamQTH
+y DXWatch. La estrella **☆** al lado del indicativo lo suma a la lista de seguimiento.
 
 **El panel plegado.** La flecha a la derecha de las pestañas lo pliega a una columna con sus
 íconos: una radio, el globo, una montaña y un trofeo. Ahí se siguen viendo las DXpediciones en
@@ -467,10 +477,10 @@ sigue mostrando eso y, si la estación está en el aire, su último spot.
   sobre una **C** confirmada, una **W** trabajada o un cuadro vacío; sobre uno vacío, la
   estación está en el aire en una banda que te falta.
 - **El color del anillo** es la chance de esta hora en esa banda y modo según VOACAP, la misma
-  cifra de la columna de la lista: turquesa desde 50 %, naranja desde 10 % y gris por debajo (ver
-  **La predicción: VOACAP**). Los colores son propios del anillo, así no se confunden con el
-  verde de una **C** ni el ámbar de una **W**. Sin número de VOACAP, como en 6 m, el anillo queda
-  punteado.
+  cifra de la columna de la lista: verde desde 50 %, amarillo desde 10 % y gris por debajo (ver
+  **La predicción: VOACAP**). El anillo va separado del cuadro, y su verde y su amarillo son más
+  vivos que los del relleno, así no se confunde con el verde de una **C** ni el ámbar de una **W**.
+  Sin número de VOACAP, como en 6 m, el anillo queda punteado.
 - **Parpadeo** solo en el cuadro del spot más reciente, donde está ahora. Los otros quedan con
   el anillo fijo, y el parpadeo pasa al cuadro cuando llega un spot en otra banda.
 - **En varias bandas a la vez**, como una DXpedición con varias estaciones (S9R, por ejemplo):
@@ -531,6 +541,11 @@ fecha de fin). Lo que el criterio no separa va por fecha de inicio.
 Cada tarjeta muestra sus fuentes y el puesto en el Most Wanted de Club Log, y las spoteadas en
 los últimos 15 minutos van en verde como **EN EL AIRE**. Al hacer clic se abre su grilla, y la
 **☆** la agrega a tu lista de seguimiento.
+
+Cuando la estación está transmitiendo en vivo en Club Log, la tarjeta suma una línea **EN VIVO**
+con la hora del último QSO que subió y hace cuánto fue, y un clic abre su livestream. Es la señal
+más directa de que están en el aire y con el log al día: si el último QSO es de hace dos minutos,
+lo que trabajaste aparece en su log en minutos.
 
 #### Colores
 
@@ -966,10 +981,15 @@ bandas en las que se lo está escuchando ahora, la chance de esta hora según VO
   tenés), así una DXpedición en el aire nunca aparece con la lista vacía. Arriba de la lista
   aparece el chip **Solo VP8PJ ✕**; hacé clic en él, en **Ver todos** o en **Limpiar filtros**
   para volver a ver todos. El filtro no se guarda: al recargar la página se ve todo.
-- **☆ Agregar a seguimiento / ★ Quitar de seguimiento** suma el indicativo a tu lista o lo saca.
-  Se guarda en `config.toml` y vale al instante, sin reiniciar. Si el indicativo entra por un
-  comodín como `VP8*`, se ve **★ En seguimiento (VP8*)**, y los comodines se editan en
-  Configuración. La pestaña DXpediciones tiene la misma estrella en cada tarjeta.
+- **Ventanas** abre la pestaña Ventanas en el país de esta estación, con sus 24 horas por banda
+  y modo y quién lo escuchó cerca tuyo. Va aunque ya tengas el país: lo que se escucha cerca
+  tuyo no depende de lo que te falte. Si nadie de ese país se escuchó cerca tuyo todavía, lo
+  dice y queda **Volver a la lista**. Sale solo con Ventanas activo (ver Ventanas).
+- **La estrella ☆** al lado del indicativo, arriba de la pestaña, lo suma a tu lista de
+  seguimiento o lo saca, y queda **★** mientras está ahí. Se guarda en `config.toml` y vale al
+  instante, sin reiniciar. Si el indicativo entra por un comodín como `VP8*`, el tooltip dice
+  «En seguimiento (VP8*)» y la estrella no lo saca: los comodines se editan en Configuración.
+  La pestaña DXpediciones tiene la misma estrella en cada tarjeta.
 - **Spotear** publica un spot de la estación en el DX cluster al que está conectado DX Agent
   (Configuración → Fuentes de spots), con tu indicativo: `DX 14025.0 3Y0K up 2`. Abre un
   formulario chico con la frecuencia de su último spot, que podés cambiar, y un comentario de
@@ -1199,7 +1219,8 @@ mismas alertas en un mapa del mundo. Los filtros valen para las dos vistas.
   búsqueda o en la pestaña DXpediciones. Si al elegirla estaba fuera de la vista, el mapa se
   centra en ella; si ya estaba a la vista, no se mueve.
 - **Zoom** con la rueda del mouse o los botones **+ / −**, **arrastrar** para moverse y
-  **⟲** para ver el mundo entero. Al hacer zoom aparecen los indicativos de todas las estaciones;
+  **⟲** para ver el mundo entero. De cerca, el mapa baja a unos 2° de longitud en pantalla,
+  una provincia por vez. Al hacer zoom aparecen los indicativos de todas las estaciones;
   donde se pisarían, se muestran los más importantes (pasá el mouse por un punto para ver su indicativo).
 - La pestaña Estación también muestra los dos **rumbos**, grandes, cada uno con una brújula
   que apunta hacia ahí y su distancia: el paso corto en azul y el paso largo (dando la vuelta
@@ -1213,6 +1234,15 @@ mismas alertas en un mapa del mundo. Los filtros valen para las dos vistas.
   entidades DXCC y las fronteras que los países no tienen, del mapa DXCC de GridTracker
   (licencia BSD). Se descargan la primera vez que abrís el mapa y se guardan en
   `data/world-countries-50m.json` y `data/dxcc-shapes.json`.
+- El botón de **capas**, debajo de los del zoom, abre las capas del mapa: **Admin-1**, los límites
+  admin-1 de Natural Earth 1:10m (dominio público): provincias, estados, regiones; y las líneas de
+  **zonas CQ** o **zonas ITU**, una u otra. El navegador recuerda cada una.
+- **Admin-1** arranca apagada y se ve desde 6× (60° de ancho): con el mundo entero sería una trama
+  de líneas finísimas. La primera vez que la prendés se bajan 21 MB, que quedan en
+  `data/admin1-lines-10m.geojson`, y las líneas listas para dibujar en `data/world-admin1.json`.
+  Son los límites entre unidades: donde el de una unidad es toda costa, como en una isla, no se
+  dibuja, porque esa costa ya está. La fuente tampoco trae Sudán del Sur ni Palestina. En la vista
+  azimutal solo se dibujan las fronteras de los países.
 - Un link directo al mapa: `http://localhost:8073/?view=map`.
 
 #### Tu DXCC en el mapa
@@ -1377,6 +1407,41 @@ locator: los decodes de tu WSJT-X y los spots de FT8/FT4 de la RBN, no los del D
 
 **Zonas** (el menú: ninguna, CQ o ITU) muestra los bordes y números de las zonas en cualquier
 vista, con DXCC o sin nada.
+
+#### Estaciones APRS en el mapa
+
+Muestra la red APRS de 2 m alrededor tuyo: quién puede oír tu señal y qué se está escuchando
+ahora por RF.
+
+- **■ iGate**, **▲ digipeater** y **● estación fija**, a menos de 400 km tuyo. Un iGate se
+  reconoce por su símbolo, porque lo dice en su comentario o porque pasa paquetes a internet.
+- **Una línea fina** une una estación con el iGate que la oyó directo, sin digipeater de por
+  medio, en los últimos 10 minutos. El color dice la distancia: gris por debajo de 150 km, que
+  es lo habitual, y colores más vivos desde 150, 300 y 600 km (la leyenda los muestra). Un día
+  normal se ven líneas cortas; en una apertura aparecen las largas.
+
+Se prende en **Configuración → Propagación**, en la tarjeta de VHF, con la casilla **APRS**, y
+ahí mismo se cambian el radio y los minutos de las líneas. Necesita tu indicativo y tu grid
+square. Viene apagado porque deja abierta una conexión permanente a APRS-IS
+(`rotate.aprs2.net`), de solo lectura: no manda nada a la red. Esa conexión pide lo que pasa hasta
+1.500 km del centro de tu cuadrado de 4 caracteres, más que el radio del mapa, para que entre
+también una estación lejana que oye un iGate cerca tuyo.
+
+En la barra del mapa, el menú **APRS** oculta la capa, muestra la infraestructura o suma los
+móviles (autos, caminantes, barcos), que vienen ocultos. Con el mouse sobre una estación o una
+línea se ven el indicativo, lo que dice de sí misma, la distancia y hace cuánto se la oyó.
+
+Lo que queda afuera:
+
+- **LoRa APRS** (433 MHz): no dice nada de 2 m.
+- Como líneas, **globos y aviones**, que ven lejos sin ninguna apertura, y las distancias
+  imposibles en 2 m (más de 2.500 km), que salen de una posición mal cargada.
+
+Lo que se va conociendo queda en `data/aprs.json`, así el mapa no arranca vacío después de
+reiniciar.
+
+Una limitación de APRS-IS: de cada paquete se queda con la primera copia, así que lo que oye un
+iGate lejano aparece solo cuando ningún iGate más cercano lo pasó antes.
 
 ### Leer la lista desde otro programa
 
@@ -1823,7 +1888,7 @@ alertas guardadas en `data/dxagent.db` siempre usan los nombres en inglés.
 | DXPED CONFIRMAR   | DXPED CFM           | DXpedición activa de un país que trabajaste pero no confirmaste en esta banda o modo | activada |
 | DXPED YA TENGO    | DXPED HAVE          | DXpedición activa que ya tenés confirmada en esta banda y modo (gris, sin notificación) | activada |
 | BANDA NUEVA       | NEW BAND            | País trabajado, pero no en esta banda                              | activada    |
-| MODO NUEVO        | NEW MODE            | País trabajado, pero no en este grupo de modos (CW, FONÍA, DIGI)   | activada    |
+| MODO NUEVO        | NEW MODE            | País trabajado, pero no en este grupo de modos (CW, FONÍA, DIGI); con **Cada modo cuenta por separado**, no en este modo (FT8 no cubre RTTY) | activada    |
 | SIGUIENDO         | WATCHLIST           | Un indicativo de tu lista de seguimiento, todavía no trabajado     | activada    |
 | BANDA+MODO        | NEW SLOT            | País no trabajado en esta combinación de banda y modo              | desactivada |
 | GRID NUEVO        | NEW GRID            | Grid no trabajado en esta banda, en cualquier modo (VUCC, FFMA). Solo los spots que dicen el locator: los decodes de tu WSJT-X y FT8/FT4 de la RBN (ver Tus grids en el mapa) | desactivada |
@@ -1908,6 +1973,15 @@ aparece ahí cuando lo suben.
 Muchas DXpediciones no usan Club Log: en ese
 caso muestra las direcciones web de su anuncio (NG3K, 425 DX News), donde suele estar su
 propio buscador de log u OQRS.
+
+**En vivo.** Con cualquier estación que esté transmitiendo en vivo en Club Log, aunque no sea una
+DXpedición, el recuadro aparece igual y lleva una línea **EN VIVO**: la hora de su último QSO
+subido y hace cuánto fue. Con eso se lee distinto el aviso de arriba: si están subiendo ahora, un
+QSO tuyo que no está en su log es para revisar; si su log no se mueve desde hace horas, puede ser
+que todavía no lo hayan subido. Al guardar un QSO con una estación en vivo, DX Agent vuelve a
+consultar su log al minuto y otra vez a los cuatro, y avisa cuando el contacto aparece. Las
+estaciones en vivo se leen de Club Log cada 90 segundos (Configuración → DXpediciones,
+`livestreams`); apagado, no se hace ningún pedido.
 
 ### ¿Necesito esta DXpedición?
 
@@ -2106,7 +2180,7 @@ Dónde se ve:
   la fila ahora. Rayadas, las horas mejores por paso largo; abajo, la distancia y el rumbo de cada
   camino.
 - **El anillo de la grilla** de la pestaña Estación: el de cada slot spoteado en los últimos 15
-  minutos toma el color de la chance en esa banda y modo (turquesa alta, naranja media, gris baja);
+  minutos toma el color de la chance en esa banda y modo (verde alta, amarilla media, gris baja);
   al pasar el mouse, el porcentaje y las próximas 24 horas de ese slot. Sin número, punteado.
 
 #### De dónde sale el número de manchas solares
@@ -2474,8 +2548,11 @@ barras siguen mostrando el historial, no la actividad actual.
 
 Al hacer clic en un país se ve cada banda y modo en que se escuchó cerca tuyo, hora por hora: sólido
 donde se escuchó, con quién lo escuchó y a qué distancia, y tenue donde no, porque esas horas son la
-predicción de VOACAP, la misma de la pestaña Estación. **Todos** muestra todos los países,
-trabajados o no, para planificar en vez de perseguir.
+predicción de VOACAP, la misma de la pestaña Estación. Lo escuchado aparece en el acto; las horas
+tenues se completan un segundo después, mientras VOACAP las calcula. Se llega ahí con un clic en la fila o, para el
+país de la estación abierta en la pestaña Estación, con su botón **Ventanas**, aunque sea un país que
+ya tenés. Si de ese país no se escuchó nada cerca tuyo todavía, lo dice. **Todos** muestra todos los
+países, trabajados o no, para planificar en vez de perseguir.
 Al empezar cada hora UTC, **El aviso de la hora** pone una fila en la lista, **SU HORA**, con los
 países que te faltan que se suelen escuchar justo ahora (escuchados en esa hora al menos en dos días, y
 dentro de 45 días), y nombra los siguientes. Es la respuesta a "qué tendría que estar escuchando a
@@ -2523,6 +2600,8 @@ La misma alerta no se repite dentro del tiempo de espera (15 minutos por defecto
 - **Alertas de indicativo** (DXPEDITION, WATCHLIST, NEW CALL, TE ESCUCHAN, SU HORA): se
   limitan por indicativo + banda + modo, así que la DXpedición vuelve a avisar cuando pasa a otra
   banda o modo.
+- En los dos casos, el modo es el grupo (CW, fonía, digital). Con **Cada modo cuenta por
+  separado** es el modo del spot cuando lo dice, así que FT8 y RTTY se limitan cada uno por su lado.
 - **GRID NUEVO** se limita por grid + banda: con una estación en FN31 en 6 m alcanza.
 - **PREFIJO NUEVO** se limita por prefijo + banda: con una estación HG19 en 20 m alcanza.
 - **MARATHON** se limita por país + banda + modo, y la zona CQ por zona + banda + modo.
@@ -2607,6 +2686,7 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | alerts      | `bands`                     | 160m–6m (sin 60m)                                 | Los spots en otras bandas se ignoran |
 | alerts      | `modes`                     | `CW, PHONE, DIGI`                                 | Grupos de modos con alertas; la lista desglosa los digitales por modo |
 | alerts      | `only_modes`                | `[]`                                              | Modos sueltos, por ejemplo `["FT8", "FT4"]`: un grupo con alguno elegido alerta solo por esos, uno sin ninguno por todos sus modos. Los de un grupo apagado en `modes` se guardan pero no cuentan |
+| alerts      | `each_mode`                 | `false`                                           | MODO NUEVO y BANDA+MODO por modo (FT8, RTTY, SSB…) y no por grupo de DXCC: FT8 trabajado no cubre RTTY. Un spot que no dice su modo va por su grupo |
 | alerts      | `activities`                | `[]`                                              | Programas cuya referencia nueva avisa: `POTA`, `SOTA`, `WWFF`, `IOTA`, `COTA`. Una referencia que no trabajaste en esa banda es una alerta ACTIVIDAD |
 | alerts      | `watchlist`                 | vacío                                             | Indicativos a buscar siempre; admite comodines, por ejemplo `"VP8*"` |
 | alerts      | `ignore`                    | vacío                                             | Indicativos que nunca generan alerta; admite comodines |
@@ -2649,6 +2729,8 @@ Todo lo de la página de configuración se guarda en `config.toml`, en tu carpet
 | dxpeditions | `refresh_hours`             | `6`                                               | Cada cuánto releer las fuentes de DXpediciones |
 | dxpeditions | `sources`                   | `["ng3k", "425dxn", "clublog"]`         | Dónde buscar DXpediciones: NG3K ADXO, 425 DX News, Club Log |
 | dxpeditions | `show_have`                 | `true`                                            | Mostrar las líneas DXPED HAVE (gris, sin notificación) |
+| dxpeditions | `livestreams`               | `true`                                            | Club Log livestreams: qué estaciones están subiendo su log ahora, y hace cuánto lo hicieron |
+| dxpeditions | `livestreams_refresh_s`     | `90`                                              | Cada cuántos segundos se relee la lista de livestreams |
 | lotw        | `enabled`                   | `true`                                            | Descargar tus confirmaciones de LoTW |
 | lotw        | `username`                  | vacío (= tu indicativo)                           | Usuario de LoTW (vacío = tu indicativo) |
 | lotw        | `password_env`              | `LOTW_PASSWORD`                                   | Nombre de una variable de entorno de la que leer la contraseña (opcional, ver LoTW) |
@@ -2884,7 +2966,7 @@ necesitan archivo: cada uno tiene su logbook.
   anteriores), y se va lo que DX Agent había llenado para la anterior (nombre, QTH, grid,
   referencias); lo que escribiste vos queda. **Esc** en el indicativo lo borra, y con él lo que DX
   Agent había llenado para esa estación.
-- **Guardar QSO**, ahí o en el tab Estación, lo guarda y dice qué te suma («te suma: banda
+- **Guardar QSO** lo guarda y dice qué te suma («te suma: banda
   nueva»), según tu log antes de ese QSO. Guardado, el formulario queda vacío para el próximo, con
   el cursor otra vez en el indicativo: se limpian el indicativo y los reportes, que vuelven a los
   del modo (599 o 59), y la hora vuelve al reloj; la frecuencia y el modo quedan.
@@ -3428,6 +3510,7 @@ están en pantalla se mantienen.
 | Calendario ADXO de NG3K | DXpediciones anunciadas | https://www.ng3k.com/Misc/adxo.html |
 | Calendario de 425 DX News | DXpediciones anunciadas | https://www.425dxn.org/index.php?op=wcal |
 | Club Log | DXpediciones subiendo su log ahora, sus logs y OQRS, Most Wanted de DXCC | https://clublog.org/expeditions.php |
+| Club Log livestreams | Qué estaciones están subiendo su log ahora y cuándo fue su último QSO | https://clublog.org/livestreams.php |
 | Actividad de usuarios de LoTW (ARRL) | Quién sube a LoTW | https://lotw.arrl.org/lotw-user-activity.csv |
 | Informe de LoTW (ARRL) | Tus confirmaciones | https://lotw.arrl.org/lotwuser/lotwreport.adi |
 | Lista de skimmers de la RBN | Dónde está cada skimmer (grid locator) | https://www.reversebeacon.net/nodes/ |
@@ -3566,6 +3649,7 @@ hace falta.
 | `dxagent/refinfo.py`        | La página de un parque POTA o una cumbre SOTA, para la pestaña Estación |
 | `dxagent/geo.py`            | Grid locators y distancias |
 | `dxagent/onlinelog.py`      | Busca tus QSOs en el log de una DXpedición en Club Log |
+| `dxagent/livestreams.py`    | Los livestreams de Club Log: quién está subiendo su log ahora, y cuándo subió el último QSO |
 | `dxagent/wsjtx.py`          | Manda un indicativo a WSJT-X (mensaje UDP Configure) |
 | `dxagent/activities.py`    | Activaciones (POTA, SOTA, IOTA...) leídas del comentario de los spots |
 | `dxagent/hunting.py`       | Cumbres, parques, islas... que trabajaste, banda por banda |
@@ -3594,6 +3678,7 @@ hace falta.
 | `data/MASTER.SCP`                             | supercheckpartial.com | cada mes, con el logbook de DX Agent |
 | `data/dxped-ng3k.json`, `dxped-425dxn.json`, `dxped-clublog.json` | NG3K, 425 DX News, Club Log | cada 6 horas |
 | `data/clublog-mostwanted.json`                | Most Wanted de Club Log | cada día    |
+| `data/livestreams.json`                       | Club Log livestreams | cada 90 segundos |
 | `data/lotw-user-activity.csv`                 | ARRL LoTW            | cada día       |
 | `data/lotw_qsls.adi` + `data/lotw_state.json` | tu cuenta de LoTW    | cada 12 horas  |
 | `data/log-<INDICATIVO>.db`, `data/backups/`   | el logbook de DX Agent (experimental) | al loguear; un backup por día |

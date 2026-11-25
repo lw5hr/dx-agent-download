@@ -278,7 +278,8 @@ band, and a click tunes that radio.
 **On the right, the Station tab:** clicking a row (on the call or on the frequency) opens the
 station:
 
-- a card with the call, its country, zones and **Most Wanted** rank on Club Log;
+- a card with the call, its country, zones and **Most Wanted** rank on Club Log, and the **☆**
+  star in its corner, which adds the call to your watchlist (**★** while it is on it);
 - both **beam headings**, large, each with its compass and distance: the short path in blue,
   the long path in orange. Under each one, VOACAP's chance by that way on the band and mode picked,
   and when a later hour of the next 24 is clearly better by it ("34% at 21Z");
@@ -287,7 +288,7 @@ station:
   you see at once whether that 20 m QSO was this DXpedition or another station years ago;
 - **where it's on the air now**, in that same grid: a **ring** on each band and mode where it was
   spotted in the last 15 minutes, coloured by VOACAP's chance this hour on that band and mode
-  (turquoise from 50%, orange from 10%, grey below; dotted when VOACAP has no figure), and a dot ●
+  (green from 50%, yellow from 10%, grey below; dotted when VOACAP has no figure), and a dot ●
   over the band. The cell of the
   **latest spot blinks**: that's where the station is now; the others keep a steady ring, and
   the blinking moves when it's spotted on another band. A DXpedition on several bands at
@@ -313,7 +314,8 @@ station:
   of the station's path: heard on 20 m (your own WSJT-X too) says nothing about 17 m, so it says
   "On 17m, no reports in the last 15 minutes. Heard near you on 20m." The list below keeps every
   band's reports, each with its band;
-- **Show only** this call, **☆ Add to watchlist**, **Spot it** (below), its **Latest spots**, and
+- **Show only** this call, **Ventanas** (the Ventanas tab on this station's country, even one you
+  already have), **Spot it** (below), its **Latest spots**, and
   links to QRZ.com, HamQTH and DXWatch. **Latest spots** and **Who hears it** are pills: hover one
   to see what it lists;
 - a strip of **icons at its right**, one per section: a click hides that section for every
@@ -397,6 +399,11 @@ with your radio and the WinKey, sits under all three (section 13).
   picked alerts only on those; one with none picked alerts on all its modes. With FT8 and FT4
   picked, an RTTY spot doesn't alert, and CW and phone stay as they were. A spot that doesn't say
   its mode goes by its group. D-STAR, C4FM, DMR and FreeDV count as phone, as DXCC counts them.
+- **Count each mode on its own** (Settings → Alerts → **Modes**, off by default): NEW MODE and
+  NEW SLOT count by mode (FT8, RTTY, SSB...) and not by group (CW, phone, digital). A country
+  worked only in FT8 on 15 m alerts again on RTTY on 15 m: NEW MODE if you never worked it in
+  RTTY, NEW SLOT if you did on another band. A spot that doesn't say its mode goes by its group.
+  Awards, statistics, the Station tab's grid, the Marathon and Ventanas still count by group.
 - **An alert type turned off in Settings also leaves the list:** an alert only for it goes, and
   one with another reason shows that one (NEW BAND rather than NEW CALL).
 - An alert can be of several types: a NEW BAND that is a new grid square too shows under the
@@ -658,7 +665,7 @@ your "near you" distance.
 - **One row per country,** with its 24 hours as a line of bars and its Club Log **Most Wanted** rank.
   **Order:** A–Z, Most Wanted or This hour. A country with a spot in the last 15 minutes is green.
 - **Click a country** for every band and mode hour by hour: solid where it was heard, faint where
-  VOACAP predicts it.
+  VOACAP predicts it. The heard hours show at once and VOACAP's fill in a moment later.
 - **The ITS HOUR alert:** at the top of each UTC hour, the country you need that is heard the most at
   that hour, if it was heard on 2 days or more (within the last 45). It takes a few days of counting;
   until then, filtering by ITS HOUR says why the list is empty. Set up in Settings → Ventanas.
@@ -867,6 +874,13 @@ gathered from NG3K, 425 DX News and Club Log.
 - When you open a DXpedition that uploads its log to Club Log, DX Agent looks for your call in
   their log: it shows the bands and modes you're in, and warns you if a QSO of yours isn't in
   theirs.
+- **LIVE:** a station that is uploading its log to Club Log right now shows a line with the UTC
+  time of its last QSO and how long ago it was; a click opens its livestream. The Station tab's
+  **Log on Club Log** box shows the same line for any live station, DXpedition or not. If they are
+  uploading now, a QSO of yours missing from their log is worth checking; if their log hasn't
+  moved for hours, they may not have uploaded it yet. After you log a QSO with a live station,
+  DX Agent looks at their log again at 75 seconds and at 4 minutes, and tells you when the
+  contact shows up.
 - **One that hasn't started yet** also shows its box in the Station tab, with its dates and
   **starts in 17 days** (or **starts tomorrow**). It doesn't alert until it starts.
 
@@ -920,7 +934,7 @@ Click **Map** (next to **List**). The filters work the same as in the list.
   that heard it.
 - **Click a country** (or near a small island): the Station tab shows it as a lookup does: its
   card, the beam headings to its centre, its status and grid.
-- Mouse wheel or **+ / −** to zoom, drag to move, **⟲** for the whole world. Dragging east or
+- Mouse wheel or **+ / −** to zoom (down to 2° across; the azimuthal map to 64×), drag to move, **⟲** for the whole world. Dragging east or
   west goes round the world (past the Pacific, the map continues on the other side).
 - **Rectangular / Azimuthal** (the first menu in the map's bar): the azimuthal map is centred on
   your grid square, so the short path to any station is a straight line from the centre: its
@@ -933,8 +947,7 @@ Click **Map** (next to **List**). The filters work the same as in the list.
 - **WAZ** paints the 40 CQ zones the same way, with its variants (by mode, by band, 5BWAZ...).
 - **WITUZ** paints the ITU zones by the RSGB's Worked ITU Zones: WITUZ (70 of the 75 zones on
   80-10 m), 5BWITUZ, WARC and Top Band with their classes, or Mixed, Phone, CW and Digital by band.
-  Confirmed by LoTW or a paper QSL (no eQSL). The **Zones** menu shows the CQ or ITU zones' borders
-  over any view.
+  Confirmed by LoTW or a paper QSL (no eQSL).
 - **WAS** paints the 50 US states by your standing: green confirmed (LoTW or a paper QSL), amber
   worked. Pick Mixed, Phone, CW or Digital, and a band. The state is the one your logger saved
   with the QSO.
@@ -968,6 +981,17 @@ Click **Map** (next to **List**). The filters work the same as in the list.
   remembers it.
 - **The heading box** (the station picked, its beam, the long path and the distance) sits at the
   right of that bar, or under it when the map is too narrow.
+- **Layers** (the button under the zoom): **Admin-1**, the boundaries of provinces, states and
+  regions (Natural Earth, 1:10m), and the **CQ** or **ITU** zone lines, one or the other, over any
+  view. Admin-1 starts off, downloads 21 MB the first time you turn it on and shows from 6× in;
+  not on the azimuthal map. The browser remembers each layer.
+- **APRS** (2 m): the APRS network around you, within 400 km: **■ iGates**, **▲ digipeaters** and
+  **● fixed stations**, and a thin line from a station to the iGate that heard it directly in the
+  last 10 minutes, grey below 150 km and brighter from 150, 300 and 600 km. On a normal day the
+  lines are short; in an opening the long ones show up. Turn it on in Settings → Propagation
+  (VOACAP), in the VHF card, with the **APRS** box (it needs your callsign and grid square); the
+  connection to APRS-IS is read only, nothing is sent. The **APRS** menu on the map's bar hides
+  the layer, shows the infrastructure or adds the mobiles. LoRa APRS is left out.
 
 ![The Grids view: the squares you worked and confirmed, and the stations on the air in their square](images/grids.en.png)
 
@@ -1174,13 +1198,15 @@ the console's right, with the speed on top, a button per message you set, three 
 - With no call in the form, a message with `{CALL}` isn't sent.
 - Without the WinKey on in Settings, the column doesn't show.
 
-**LU5FF's CW / Voice Keyer 1.0.1:** the Windows package brings Javi – LU5FF's keyer in its `keyer`
-folder, now in 1.0.1. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
+**LU5FF's CW / Voice Keyer 1.0.2:** the Windows package brings Javi – LU5FF's keyer in its `keyer`
+folder, now in 1.0.2. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
 keyer** or **None**. With **None**, DX Agent sends no CW and the console shows neither box. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
 starts it or brings its window to the front, only from the station's PC. The 1.0.1 adds TX by slice
 and split on demand in AetherSDR, a recorder of voice memories with the microphone or the loopback,
 a mirror of DX Agent's log, the **Normal**, **Compact** and **Very compact** views, free text in
-CW, a **TONE** button and a TCI command window.
+CW, a **TONE** button and a TCI command window. The 1.0.2 makes its band map faster, reads and
+drives OmniRig directly, keeps its dialogs in front with **Always on top**, warns about the voice
+recorder's level and errors, and puts a brake on TX frequency jumps.
 
 **ESM (Enter Sends Message)**, as in N1MM, off by default: turn it on with the **ESM** button in the
 WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.

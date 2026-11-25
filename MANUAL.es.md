@@ -295,7 +295,9 @@ un clic sintoniza esa radio.
 **A la derecha, la pestaña Estación:** al hacer clic en una fila (en el indicativo o en la
 frecuencia) se abre la estación:
 
-- una tarjeta con el indicativo, el país, sus zonas y su puesto en el **Most Wanted** de Club Log;
+- una tarjeta con el indicativo, el país, sus zonas y su puesto en el **Most Wanted** de Club Log,
+  y la estrella **☆** en su esquina, que suma el indicativo a tu lista de seguimiento (**★**
+  mientras está en ella);
 - los dos **rumbos de antena**, grandes, cada uno con su brújula y su distancia: el paso corto en
   azul y el paso largo en naranja. Debajo de cada uno, la chance de VOACAP por ese camino en la
   banda y el modo elegidos, y cuándo una hora de las próximas 24 es claramente mejor («34 % a las
@@ -306,7 +308,7 @@ frecuencia) se abre la estación:
   otra estación de hace años;
 - **dónde está en el aire ahora**, en esa misma grilla: un **anillo** en cada banda y modo donde
   la spotearon en los últimos 15 minutos, con el color de la chance de VOACAP de esta hora en esa
-  banda y modo (turquesa desde 50 %, naranja desde 10 %, gris por debajo; punteado si VOACAP no
+  banda y modo (verde desde 50 %, amarillo desde 10 %, gris por debajo; punteado si VOACAP no
   tiene cifra), y un punto ● sobre la banda. El cuadro del
   **spot más reciente parpadea**: ahí está ahora la estación; los otros quedan con el anillo
   fijo, y el parpadeo se mueve cuando la spotean en otra banda. Una DXpedición en varias bandas
@@ -335,8 +337,8 @@ frecuencia) se abre la estación:
   (también con tu propio WSJT-X) no dice nada de 17 m, así que dice «En 17m nadie la reportó en
   los últimos 15 minutos. Sí se escucha cerca tuyo en 20m.». La lista de abajo sigue con los
   reportes de todas las bandas, cada uno con la suya;
-- **Ver solo** este indicativo, **☆ seguimiento** para sumarlo a tu lista de seguimiento,
-  **Spotear** (ver abajo), sus **Últimos spots** y enlaces a QRZ.com, HamQTH y DXWatch.
+- **Ver solo** este indicativo, **Ventanas** (la pestaña Ventanas en el país de esta estación,
+  aunque ya lo tengas), **Spotear** (ver abajo), sus **Últimos spots** y enlaces a QRZ.com, HamQTH y DXWatch.
   **Últimos spots** y **Quién lo escucha** son pastillas: al pasar el mouse dicen qué lista cada
   una;
 - una tira de **íconos a su derecha**, uno por sección: un clic oculta esa sección para todas las
@@ -424,6 +426,12 @@ y, con el logbook de DX Agent, tu log (sección 13). Con el logbook, debajo de l
   con modos elegidos alerta solo por esos; uno sin ninguno elegido alerta por todos sus modos. Con
   FT8 y FT4 elegidos, un spot de RTTY no alerta, y CW y fonía siguen igual. Un spot que no dice su
   modo va por su grupo. D-STAR, C4FM, DMR y FreeDV cuentan como fonía, igual que en el DXCC.
+- **Cada modo cuenta por separado** (Configuración → Alertas → **Modos**, apagada de fábrica):
+  MODO NUEVO y BANDA+MODO se cuentan por modo (FT8, RTTY, SSB...) y no por grupo (CW, fonía,
+  digital). Un país trabajado solo en FT8 en 15 m vuelve a avisar en RTTY en 15 m: MODO NUEVO si
+  nunca lo trabajaste en RTTY, BANDA+MODO si lo trabajaste en otra banda. Un spot que no dice su
+  modo va por su grupo. Los diplomas, las estadísticas, la grilla de la pestaña Estación, el
+  Marathon y Ventanas siguen por grupo.
 - **Un tipo de alerta que apagás en Configuración también sale de la lista:** una alerta solo de
   ese tipo se va, y una que tiene otro motivo pasa a mostrarlo (BANDA NUEVA en vez de INDICATIVO
   NUEVO).
@@ -697,7 +705,8 @@ dentro de tu distancia "cerca tuyo".
   de Club Log. **Orden:** A–Z, Most Wanted o Esta hora. Un país con un spot en los últimos 15 minutos
   va en verde.
 - **Un clic en un país** muestra cada banda y modo hora por hora: lleno donde se escuchó, tenue
-  donde VOACAP lo predice.
+  donde VOACAP lo predice. Las horas escuchadas aparecen enseguida y las de VOACAP se completan
+  un momento después.
 - **La alerta SU HORA:** al empezar cada hora UTC, el país que te falta que más se escucha a esa
   hora, si se escuchó en 2 días o más (y en los últimos 45). Hacen falta unos días de conteo; hasta
   entonces, filtrar por SU HORA dice por qué la lista está vacía. Se configura en Configuración →
@@ -917,6 +926,13 @@ reunidas de NG3K, 425 DX News y Club Log.
   antes de sacarla de la lista. Si alguna la extendió, sigue con la fecha nueva.
 - Al abrir una DXpedición que sube su log a Club Log, DX Agent busca tu indicativo en su log:
   te dice en qué bandas y modos estás, y te avisa si un QSO tuyo no figura en el de ellos.
+- **EN VIVO:** una estación que está subiendo su log a Club Log en este momento muestra una línea
+  con la hora UTC de su último QSO y hace cuánto fue; un clic abre su livestream. La caja **Log en
+  Club Log** de la pestaña Estación muestra la misma línea para cualquier estación en vivo, sea
+  DXpedición o no. Si están subiendo ahora, un QSO tuyo que falta en su log es para revisar; si su
+  log no se mueve desde hace horas, puede ser que todavía no lo hayan subido. Después de loguear un
+  QSO con una estación en vivo, DX Agent vuelve a mirar su log a los 75 segundos y a los 4
+  minutos, y te avisa cuando aparece el contacto.
 - **Una que todavía no empezó** también muestra su recuadro en la pestaña Estación, con sus fechas y
   **empieza en 17 días** (o **empieza mañana**). No avisa hasta que empieza.
 
@@ -973,7 +989,8 @@ Clic en **Mapa** (al lado de **Lista**). Los filtros valen igual que en la lista
   receptores que la escucharon.
 - **Clic en un país** (o cerca de una isla chica): la pestaña Estación lo muestra como cuando
   consultás un indicativo: su tarjeta, los rumbos a su centro, el estado y la grilla.
-- Rueda del mouse o **+ / −** para el zoom, arrastrar para moverse, **⟲** para ver el mundo.
+- Rueda del mouse o **+ / −** para el zoom (hasta 2° de ancho; el mapa azimutal hasta 64×),
+  arrastrar para moverse, **⟲** para ver el mundo.
   Arrastrando hacia el este o el oeste se da la vuelta al mundo (pasando el Pacífico, el mapa
   sigue del otro lado).
 - **Rectangular / Azimutal** (el primer menú de la barra del mapa): el mapa azimutal está
@@ -989,8 +1006,7 @@ Clic en **Mapa** (al lado de **Lista**). Los filtros valen igual que en la lista
   5BWAZ...).
 - **WITUZ** pinta las zonas ITU según el Worked ITU Zones de la RSGB: WITUZ (70 de las 75 zonas en
   80-10 m), 5BWITUZ, WARC y Top Band con sus clases, o Mixto, Fonía, CW y Digital por banda.
-  Confirmada es LoTW o QSL en papel (sin eQSL). El menú **Zonas** muestra los bordes de las zonas
-  CQ o ITU sobre cualquier vista.
+  Confirmada es LoTW o QSL en papel (sin eQSL).
 - **WAS** pinta los 50 estados de EE. UU. según cómo estás: verde confirmado (LoTW o QSL en papel),
   ámbar trabajado. Se elige Mixto, Fonía, CW o Digital, y una banda. El estado es el que guardó tu
   programa de log con el QSO.
@@ -1023,6 +1039,18 @@ Clic en **Mapa** (al lado de **Lista**). Los filtros valen igual que en la lista
   un chevron que las pliega a una línea, para dejarle más lugar al mapa. El navegador lo recuerda.
 - **El recuadro de rumbo** (la estación elegida, su rumbo, el paso largo y la distancia) va a la
   derecha de esa barra, o debajo cuando el mapa es muy angosto.
+- **Capas** (el botón debajo del zoom): **Admin-1**, los límites de provincias, estados y regiones
+  (Natural Earth, 1:10m), y las líneas de las zonas **CQ** o **ITU**, una u otra, sobre cualquier
+  vista. Admin-1 arranca apagada, la primera vez que la prendés baja 21 MB y se ve desde 6×; en el
+  mapa azimutal no se dibuja. El navegador recuerda cada capa.
+- **APRS** (2 m): la red APRS a tu alrededor, hasta 400 km: **■ iGates**, **▲ digipeaters** y
+  **● estaciones fijas**, y una línea fina de una estación al iGate que la oyó en forma directa en
+  los últimos 10 minutos, gris por debajo de 150 km y en colores más vivos desde 150, 300 y
+  600 km. Un día normal las líneas son cortas; en una apertura aparecen las largas. Se prende en
+  Configuración → Propagación (VOACAP), en la tarjeta de VHF, con la casilla **APRS** (necesita tu
+  indicativo y tu grid); la conexión a APRS-IS es de solo lectura y no se manda nada. El menú
+  **APRS** de la barra del mapa oculta la capa, muestra la infraestructura o suma los móviles.
+  LoRa APRS queda afuera.
 
 ![La vista Grillas: los grids que trabajaste y confirmaste, y las estaciones en el aire en su grid](images/grids.es.png)
 
@@ -1237,14 +1265,17 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
 - Sin indicativo en el formulario, un mensaje con `{CALL}` no se manda.
 - Sin el WinKey activado en Configuración, la columna no aparece.
 
-**El CW / Voice Keyer de LU5FF 1.0.1:** el paquete de Windows trae el keyer de Javi – LU5FF en su
-carpeta `keyer`, ahora en la 1.0.1. En Configuración → Radio → **Quién manda el CW** elegís **El
+**El CW / Voice Keyer de LU5FF 1.0.2:** el paquete de Windows trae el keyer de Javi – LU5FF en su
+carpeta `keyer`, ahora en la 1.0.2. En Configuración → Radio → **Quién manda el CW** elegís **El
 WinKey de DX Agent**, **El keyer externo** o **Ninguno**. Con **Ninguno**, DX Agent no manda CW y la
 consola no muestra ninguna de las dos cajas. Con el keyer, la columna del WinKey deja lugar a una caja
 con **Abrir el keyer** (Alt+K), que lo arranca o trae su ventana al frente, solo desde la PC de la
 estación. La 1.0.1 suma TX por slice y split a pedido en AetherSDR, grabador de memorias de voz con
 micrófono o loopback, espejo del log de DX Agent, las vistas **Normal**, **Compacta** y **Muy
-compacta**, texto libre en CW, botón **TONO** y ventana de comandos TCI.
+compacta**, texto libre en CW, botón **TONO** y ventana de comandos TCI. La 1.0.2 hace más rápido
+su band map, lee y maneja OmniRig en forma directa, deja sus diálogos adelante con **Siempre
+visible**, avisa el nivel y los errores del grabador de voz y le pone un freno a los saltos de
+frecuencia del TX.
 
 **ESM (Enter Sends Message)**, como en N1MM, apagado de fábrica: se prende con el botón **ESM** de
 la columna del WinKey, en Configuración o escribiendo `ESMON` (`ESMOF` lo apaga) en el indicativo y

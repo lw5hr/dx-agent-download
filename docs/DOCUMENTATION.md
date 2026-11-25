@@ -192,10 +192,10 @@ python -m dxagent run --no-ui       # console only
 | Area | What it shows |
 |------|---------------|
 | **Header** | Your call; one pill per feed (green = online, amber = connecting, red = down) with its spot count (hover for the server and last spot time; a click leaves in the list and the map only the stations it heard, see Filters); a **DXpeditions** pill next to them: how many are within their dates and how many of them were spotted in the last 15 minutes ("48 · 6 on the air", its dot green while one is; a click opens the DXpeditions tab); a **propagation** pill at their side: SFI, SN, A and K, the field's state in its dot, and the storm's level when there is one (**G2** red while it lasts, softer when it is only today's forecast; **R1** for a radio blackout; grey dashes when NOAA SWPC has nothing fresh), its tip saying how old each value is, what A and K mean and the G/R/S scales; your log totals; icon buttons (hover for what each does): **About** ⓘ (what DX Agent is, who made it, the collaborators, how to support it, and help: the website, the user manual and the issues page), **Settings** ⚙ (on the Settings page, a list icon back to the alerts), **EN/ES/PT/FR** (language), **Theme** (half circle = Auto, sun = Light, moon = Dark, a palette = another theme; a click opens the menu of themes), **Browser sound** (speaker, crossed out when off), **Full screen** (four corners; the **F** key too, F or Esc to leave) and **Stop** (red); UTC clock. `#about` opens the About window. On a narrower window (up to 1800 px) the pills go below your call and the buttons, the whole width; the chevron after them folds them to their status dots, in one highlighted pill next to your call (a click on it opens them again; remembered in the browser) |
-| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip. All that is the list's. The alerts have a mode filter of their own, in Settings → Alerts → **Modes** (#158): under the three group chips there is a row of chips per category, **Phone** (SSB, AM, FM), **Digital** (FT8, FT4, RTTY, PSK, JS8, JT65, JT9, MSK144, OLIVIA, HELL, SSTV, PACKET, Q65, VARA) and **Digital voice** (D-STAR, C4FM, DMR, FreeDV), and an **Other** box for any mode not listed, comma separated. A category's row is off while its group is, and digital voice goes with phone: D-STAR, C4FM, DMR and FreeDV count as phone, as DXCC counts them. Pick single modes within a group and that group alerts only on those; a group with none picked alerts on all its modes. With FT8 and FT4 picked, an RTTY spot doesn't alert, and CW and phone stay as they were. A spot that doesn't say its mode (none at all, or only the band plan's) goes by its group and passes; FT8 on its dial frequencies does count as a known mode, and FT4 doesn't, since its frequencies sit among the RTTY ones. USB and LSB count as SSB, PSK31 and PSK63 as PSK, JT65A as JT65 and FELDHELL as HELL. FM and AM aren't read from the comment, since "fm" is often "from": with only FM picked, the phone spots that don't say their mode alert and the ones that say SSB don't. What's picked in a group that is off is kept, for when it's turned on again. What counts as a new mode is still the group; the ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that row —that station on that band and mode— in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order (sorted by frequency, in its band's place), highlighted with its anchor always in sight, and on the radio's panadapter. Each row has its own: with the station on 20 m CW and FT8, pinning one leaves the other as it was. It stays pinned until you take it out with its ✕, work it on that band after pinning it (your log says so; it keeps the band, so every anchor of that station on that band is released) or click its anchor again. An earlier QSO doesn't count: a DXpedition you already have on that band and need in another mode stays pinned while you log other QSOs. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
+| **Filters** | Three rows, a line between them: alert type (with **List** / **Map** and **Clear list**); band, mode and the others; continent and a search box for call or country (the country in English or in the dashboard's language, accents or not: **United States**, **Estados Unidos**). **Continent** (AF, AN, AS, EU, NA, OC, SA) leaves the stations from the continents picked, to keep to where your antenna points; your own call spotted always shows. Only the alert types, bands and modes you alert on in Settings get a chip; the modes go in two levels: the group (CW, phone, digital) is what alerts, what counts as a new mode and what a row says, and under it, with **Digital modes in the filters** ticked in Settings, each of the three digital modes that are broken down gets a chip: **FT8** and **FT4** (the RBN's skimmers hear them, each with its dial) and **RTTY** (the RBN reports it, the contests use it), so you can keep only RTTY without touching anything else — the group's chip takes them all, and a spot that doesn't say its mode shows there and not in a single mode's, the digital part of the band plan not telling which it is; every other digital mode (JT65, PSK31, JS8, MSK144...) shows on its row and counts as digital, no chip. All that is the list's. The alerts have a mode filter of their own, in Settings → Alerts → **Modes** (#158): under the three group chips there is a row of chips per category, **Phone** (SSB, AM, FM), **Digital** (FT8, FT4, RTTY, PSK, JS8, JT65, JT9, MSK144, OLIVIA, HELL, SSTV, PACKET, Q65, VARA) and **Digital voice** (D-STAR, C4FM, DMR, FreeDV), and an **Other** box for any mode not listed, comma separated. A category's row is off while its group is, and digital voice goes with phone: D-STAR, C4FM, DMR and FreeDV count as phone, as DXCC counts them. Pick single modes within a group and that group alerts only on those; a group with none picked alerts on all its modes. With FT8 and FT4 picked, an RTTY spot doesn't alert, and CW and phone stay as they were. A spot that doesn't say its mode (none at all, or only the band plan's) goes by its group and passes; FT8 on its dial frequencies does count as a known mode, and FT4 doesn't, since its frequencies sit among the RTTY ones. USB and LSB count as SSB, PSK31 and PSK63 as PSK, JT65A as JT65 and FELDHELL as HELL. FM and AM aren't read from the comment, since "fm" is often "from": with only FM picked, the phone spots that don't say their mode alert and the ones that say SSB don't. What's picked in a group that is off is kept, for when it's turned on again. What counts as a new mode is still the group, unless you tick **Count each mode on its own** under those rows (`alerts.each_mode`, #225, off by default): then NEW MODE and NEW SLOT count by mode instead of by group, so a country worked in FT8 on 15 m doesn't cover RTTY on 15 m, and an RTTY spot of it there alerts NEW MODE if you never worked it in RTTY, or NEW SLOT if you did on another band. The same goes for a DXpedition or a watchlist call (with the band-and-mode scope), for What you need and for the cooldown. A QSO's mode comes from the log's SUBMODE when it has one (FT4, not MFSK), named as in the rows above; a spot that doesn't say its mode goes by its group, as in the filter. The awards (DXCC, WAZ, WAS) still count by group, as their rules say, and so do the statistics, the Marathon and Ventanas. The ⚙ next to Clear filters (or Settings → Filters above the list) picks which of Band, Mode, Search, Continent, Near you only, Hide confirmed, Only LoTW and Activity show, a hidden one turned off and what it had picked cleared. The ⚙ at the end of the alert types (or Settings → Alert types above the list) does the same for them: a type hidden there still alerts, only its filter goes. Each option says how many stations it would show, with the other filters as they are (with 20 m picked, the modes say how many on 20 m; a station on several bands is one). No chip selected = show everything. An alert counts for each of its reasons, so a DXpedition on your watchlist shows under both **DXPED NEED** and **WATCHLIST**; **WATCHLIST** also lists your watchlist calls' spots that made no alert (grey **SPOT** rows), so you see when they are on the air. Several types picked show any of them, except **WATCHLIST**: with another type, only your watchlist calls that are also that type (**WATCHLIST** + **NEW SLOT**: the calls you follow on a band and mode you still need; their SPOT rows by what they add). SPOT rows are one per station, band and mode: the latest spot, with **×N** for how many (a CQ is heard by several RBN skimmers at once; hover for who heard it); those before an alert of the same station, band and mode are that alert's. A SPOT row that still adds to your log (it made no alert of its own because the same alert isn't repeated within the cooldown) is coloured like what it adds, not grey. **Hide confirmed** leaves out stations whose entity you already have confirmed on that band and mode (an alert for a new call, a SPOT row): only what adds to your log stays. **Only LoTW** leaves the stations that uploaded to LoTW in the last 12 months and every DXpedition, LoTW announced or not: the ones likely to confirm there, or worth the QSO anyway. A click on a feed's pill in the header (Cluster, RBN CW, RBN FT8, PSKReporter, WSJT-X) leaves the rows it spotted (the list's are alerts, what adds to your log: far fewer than the spots the pill counts) and the stations it heard on that band in the last 15 minutes, whoever spotted them first (WSJT-X: those your own WSJT-X or JTDX decoded, heard where you are); the pill is highlighted and the folded filters say it, another click or **Clear filters** shows every feed again. Your filters are remembered in the browser. **Clear list** (after confirming) empties the alert list, in every open dashboard and after a reload, and starts the cooldown again: whatever is still on the air alerts again at its next spot. The alert history (`data/dxagent.db`) and the Station tab's latest spots are kept. One station only: the **✕** next to its call (it shows with the mouse on the row), or a right click on the row → **Remove from the list**, takes that station on that band out of the list (and off the radio's panadapter) in every open dashboard; its cooldown goes on, so it alerts again once that is over. A right click → **Never alert on this call** puts that call on the ignore list at once, without going through Settings: its rows on every band leave the list and the radio's panadapter, here and in every open dashboard, and it doesn't alert again from any feed (another right click, **Alert on this call again**, takes it off the list). The **anchor** next to the ✕ (**Pin to the list**) keeps that row —that station on that band and mode— in the list however long ago it was spotted (neither **Take out of the list after**, nor a full list, nor **Clear list**, nor restarting DX Agent takes it out), on top whatever the order (sorted by frequency, in its band's place), highlighted with its anchor always in sight, and on the radio's panadapter. Each row has its own: with the station on 20 m CW and FT8, pinning one leaves the other as it was. It stays pinned until you take it out with its ✕, work it on that band after pinning it (your log says so; it keeps the band, so every anchor of that station on that band is released) or click its anchor again. An earlier QSO doesn't count: a DXpedition you already have on that band and need in another mode stays pinned while you log other QSOs. In every open dashboard. The chevron next to **List** / **Map** folds the filters to one line that says what is picked ("FILTERS 20m · CW", highlighted while a filter is on); the search, Clear filters, the count and Clear list stay. Folded or not, it is remembered in the browser |
 | **Alert table** | One row per alert, newest on top, coloured by type: UTC, alert, call, kHz, band, mode, country, what you need, LoTW, **VOACAP** (the chance of a QSO this hour, see The prediction: VOACAP), **near you** (see below), who heard it. Click a column header to sort by it (kHz, band, mode grouped CW / phone / digital, country...; **Alert** and **What you need** put the most wanted first, **LoTW** the latest uploads first); click again for the other way round, a third time for newest first again. The arrow shows the order; rows with nothing in that column go last, ties stay newest first, new alerts slot into place, and the order is remembered in the browser. **Sorted by kHz**, each band opens with its own line, in the band's colour and with its name, so its stations stay together and the end of one is seen without reading the column (a pinned row stays in its band, in its place by frequency, so the band's line isn't repeated; the other orders have no lines and keep them on top). When the columns don't fit your screen, a right click on any header (or the menu key, or Shift+F10, on a focused one) lists them with a tick box each: untick the ones you don't read and the table narrows at once; the menu stays open while you tick, **Show all** brings them back, the call always shows, and your choice is remembered in the browser. New rows flash. A newer spot of the station on the same band and mode (one the cooldown kept from alerting again) updates its row: time, frequency, mode, who heard it (×N) — so the row shows where the station is now, and the Tune button goes there. Rows fade 10 minutes after the station's last spot and fade more after 30 (hover a row for its age and the alert's own time); with **Take out of the list after** set in Settings, they leave the list after that many minutes |
 | **Bandmap strip** | The radio's band by frequency, around the VFO (with a radio set up) |
-| **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a ring marks the bands and modes where the station was spotted in the last 15 minutes — cyan, orange or grey by VOACAP's chance this hour, its own colours so they never read as the cells', see below — the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **☆ watchlist** and **Spot it** buttons, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
+| **Station tab** | Click any alert, or type a call in the box, to see that country's band × mode grid (green C = confirmed, amber W = worked, grey = not worked; a ring marks the bands and modes where the station was spotted in the last 15 minutes — green, yellow or grey by VOACAP's chance this hour, in its own brighter green and yellow, apart from the cells' fills, see below — the latest one blinking, and a dot sits over the band), under it, where you worked this exact call (a row per mode as you logged it, FT8, FT4, SSB..., in the same columns: ✓ green confirmed, ✓ amber worked, NEW a band and mode still new for the country; never worked, the table is there all the same, a row each for CW, phone and digital with only its NEWs, its title saying it isn't in your log), LoTW status, DXpedition details, who hears it nearest you, a **Check PSKReporter** button (or, live, the receivers reporting it as they arrive), **Show only** this call, **Windows** and **Spot it** buttons, the **☆** beside its call adding it to your watchlist, its latest spots, and links to QRZ.com, HamQTH and DXWatch. The chevron right of the tabs folds the panel to a strip of their icons (a radio, the globe, a summit, a trophy), with the DXpeditions on the air and the Marathon score still showing; a click on an icon opens it at that tab (below the list on a narrow screen: only the row of tabs). While it is folded, hovering over a row of the list shows that station's card: its country, status and band × mode grid. Folded or not, it is remembered in the browser |
 | **Ventanas tab** | When each country you still need is heard from near you: one row per country, with its Most Wanted rank and 24 hours as a line of bars. Order by **A–Z**, **Most Wanted** or **This hour**. Click one for every band and mode, hour by hour, with who heard it and how far, the empty hours filled with VOACAP. **Needed** / **All** (see Ventanas) |
 | **DXpeditions tab** | Active DXpeditions and those starting in the next 30 days. Badge: **ATNO**, **Not confirmed**, or how many bands you have (e.g. "1 of 10 bands": teal when fewer than half, violet when half or more but not all, grey only when you have the country on all your bands). Tick **only needed** to hide ones you already have on most bands. Sorted by what's **on the air** (spotted in the last 15 minutes, the latest on top), by Club Log's **Most Wanted** rank (most wanted country first) or by start date: **Order** at the top. **List** / **Timeline** swaps the cards for a calendar, one row per DXpedition (see DXpeditions). Each card shows its sources and Club Log's **Most Wanted** rank; one spotted in the last 15 minutes is framed in green as **ON THE AIR**. Click one to open its grid; the **☆** adds it to your watchlist |
 
@@ -219,9 +219,9 @@ is transmitting now:
   on a confirmed **C**, a worked **W** or an empty cell alike; on an empty one, it's on the
   air on a band you still need.
 - **The ring's colour** is VOACAP's chance this hour on that band and mode, the list's column
-  figure: cyan from 50 %, orange from 10 %, grey below (see The prediction: VOACAP). Its own
-  colours, so they never read as a C's green or a W's amber. Without a VOACAP figure, like on
-  6 m, the ring turns dotted.
+  figure: green from 50 %, yellow from 10 %, grey below (see The prediction: VOACAP). Its own
+  green and yellow, brighter than the C cell's green and the W's amber fills, so they never read
+  as either. Without a VOACAP figure, like on 6 m, the ring turns dotted.
 - **Blinking:** only the cell of the **latest spot**, where the station is now. The others
   keep a steady ring. When a spot comes in on another band, the blinking moves there.
 - **On several bands at once** (a DXpedition with several stations, S9R say): every band
@@ -643,11 +643,16 @@ below). It needs **Local network** on (see Safety).
   DXpedition on the air never shows an empty list. A **Only VP8PJ ✕** chip
   appears above the list; click it (or **Show all calls**, or **Clear filters**) to see
   every call again. This filter is not saved, so a reload shows everything.
-- **☆ Add to watchlist / ★ Remove from watchlist** adds the call to your watchlist or
-  takes it off. It's saved in `config.toml` and takes effect at once, without a restart.
-  A call covered by a wildcard such as `VP8*` shows **★ In the watchlist (VP8*)**;
-  wildcards are edited on the Settings page. The DXpeditions tab has the same star on
-  each card.
+- **Windows** opens the Ventanas tab on this station's country, with its 24 hours by band and
+  mode and who heard it from near you. It goes even for a country you already have: what is
+  heard from near you doesn't depend on what you still need. If nobody from that country has
+  been heard from near you yet, it says so and leaves **Back to the list**. It only shows up
+  while Ventanas is on (see Ventanas).
+- **The ☆ beside the call**, at the top of the tab, adds it to your watchlist or takes it off,
+  and it stays **★** while it's there. It's saved in `config.toml` and takes effect at once,
+  without a restart. A call covered by a wildcard such as `VP8*` says "In the watchlist
+  (VP8*)" in its tooltip and the star doesn't take it off; wildcards are edited on the
+  Settings page. The DXpeditions tab has the same star on each card.
 - **Spot it** posts a DX spot of the station on the DX cluster DX Agent is logged in to
   (Settings → Spot sources), as your callsign: `DX 14025.0 3Y0K up 2`. It opens a small form
   with the frequency of its latest spot (you can change it) and a comment (at most 30 plain
@@ -845,7 +850,8 @@ world map. The filters apply to both views.
   on the panadapter, in the lookup or in the DXpeditions tab). Picked while out of sight, the
   map centres on it; already in sight, the map stays as it is.
 - **Zoom** with the mouse wheel or the **+ / −** buttons, **drag** to move,
-  **⟲** to see the whole world again. Call signs of all stations appear once you zoom in;
+  **⟲** to see the whole world again. Close in, the map goes down to about 2° of longitude
+  across the screen, a province at a time. Call signs of all stations appear once you zoom in;
   where they would overlap, the most important ones are shown (hover a dot for its call).
 - The Station tab also shows both **beam headings**, big, each with a compass pointing that
   way and its distance: the short path in blue, the long path (the other way round the
@@ -858,6 +864,15 @@ world map. The filters apply to both views.
   entities and the borders countries don't have, from GridTracker's DXCC map (BSD licence).
   Both are downloaded the first time you open the map and kept in
   `data/world-countries-50m.json` and `data/dxcc-shapes.json`.
+- The **layers** button, under the zoom buttons, opens the map's layers: **Admin-1**, Natural
+  Earth's 1:10m admin-1 boundaries (public domain: provinces, states, regions), and the
+  **CQ zones** or **ITU zones** lines, one or the other. The browser remembers each one.
+- **Admin-1** starts off and shows from 6× in (60° across): at the whole-world view it would be a
+  mesh of hair-thin lines. The first time you turn it on it downloads 21 MB and keeps them in
+  `data/admin1-lines-10m.geojson`, with the lines ready to draw in `data/world-admin1.json`. They
+  are the boundaries between units: where a unit's border is all coastline, as on an island, it is
+  not drawn, because that coast is already there. The source has no South Sudan or Palestine
+  either. In the azimuthal view only the countries' borders are drawn.
 - A link straight to the map: `http://localhost:8073/?view=map`.
 
 #### Your DXCC on the map
@@ -1012,6 +1027,40 @@ FT8/FT4 spots, not the DX cluster's.
 
 **Zones** (the menu: none, CQ or ITU) shows the zones' borders and numbers in any view, DXCC
 or none.
+
+#### APRS stations on the map
+
+The 2 m APRS network around you: who can hear your signal, and what is being heard by RF
+right now.
+
+- **■ iGate**, **▲ digipeater** and **● fixed station**, within 400 km of you. An iGate is known
+  by its symbol, by saying so in its comment, or by gating packets to the internet.
+- **A thin line** joins a station to the iGate that heard it directly, with no digipeater in
+  between, in the last 10 minutes. Its colour is the distance: grey below 150 km, the usual,
+  and brighter colours from 150, 300 and 600 km (the legend shows them). On a normal day the
+  lines are short; in an opening the long ones show up.
+
+Turn it on in **Settings → Propagation**, in the VHF card, with the **APRS** box; the radius and
+the lines' minutes are there too. It needs your callsign and grid square. It's off by default
+because it keeps a connection to APRS-IS (`rotate.aprs2.net`) open, read only: nothing is sent
+to the network. That connection asks for what happens within 1,500 km of the centre of your
+4-character square, more than the map's radius, so a far station heard by an iGate near you
+comes in too.
+
+On the map's bar, the **APRS** menu hides the layer, shows the infrastructure, or adds the
+mobiles (cars, walkers, boats), hidden by default. Hovering a station or a line shows its call,
+what it says of itself, the distance and how long ago it was heard.
+
+Left out:
+
+- **LoRa APRS** (433 MHz): it says nothing about 2 m.
+- As lines, **balloons and aircraft**, which see far with no opening at all, and distances 2 m
+  can't make (over 2,500 km), which come from a position typed wrong.
+
+What it learns is kept in `data/aprs.json`, so the map doesn't start empty after a restart.
+
+One limit of APRS-IS: it keeps the first copy of each packet, so what a far iGate hears shows
+only when no nearer iGate gated it first.
 
 ### Reading the list from another program
 
@@ -1273,7 +1322,7 @@ headline, call, frequency (kHz), band, mode, country, then details separated by 
 | DXPED CFM  | Active DXpedition for a country you worked but haven't confirmed on this band or mode | on |
 | DXPED HAVE | Active DXpedition you already have confirmed on this band and mode (grey, no pop-up) | on |
 | NEW BAND   | Country worked, but not on this band                                         | on      |
-| NEW MODE   | Country worked, but not in this mode group (CW, PHONE, DIGI)                 | on      |
+| NEW MODE   | Country worked, but not in this mode group (CW, PHONE, DIGI); with **Count each mode on its own**, not in this mode (FT8 doesn't cover RTTY) | on      |
 | WATCHLIST  | A call from your watchlist, not yet worked                                   | on      |
 | NEW SLOT   | Country not worked on this band+mode combination                             | off     |
 | NEW GRID   | Grid square not worked on this band, any mode (VUCC, FFMA). Only spots that say the locator: your WSJT-X's decodes and RBN's FT8/FT4 (see Your grid squares on the map) | off |
@@ -1329,7 +1378,11 @@ already on.
 
 **On the air.** A DXpedition spotted (cluster or RBN) in the last 15 minutes gets a
 green frame and an **ON THE AIR** line with the frequency (click it to tune), band,
-mode, how long ago and who spotted it. The DXpeditions tab shows how many are on the
+mode, how long ago and who spotted it. When the station is live streaming on Club Log,
+the card adds a **LIVE** line with the time of the last QSO it uploaded and how long ago
+that was; a click opens its livestream. It is the most direct sign that they are on the
+air and their log is current: if the last QSO is two minutes old, what you just worked
+shows up in their log within minutes. The DXpeditions tab shows how many are on the
 air (**● 4**) even while you look at the Station tab, the map rings their diamonds,
 and a message pops up in the dashboard the moment one comes on. This happens for every
 active DXpedition, needed or not and on your watchlist or not; **only needed** never
@@ -1374,6 +1427,15 @@ the answer for 10 minutes; it says when it asked. Just worked them? **↻ Refres
 Club Log again at once (your QSO shows there once they upload it). Many DXpeditions don't use Club Log: then it shows the web
 addresses from their announcement (NG3K, 425 DX News), where their own log search or
 OQRS usually is.
+
+**Live.** Any station live streaming on Club Log, DXpedition or not, gets this box with a
+**LIVE** line: the time of the last QSO it uploaded and how long ago that was. That changes
+how the warning above reads: if they are uploading right now, a QSO of yours that isn't in
+their log is worth a look; if their log hasn't moved for hours, it may simply not be
+uploaded yet. When you save a QSO with a live station, DX Agent asks their log again after a
+minute and once more four minutes later, and says so the moment the contact shows up. The
+live stations are read from Club Log every 90 seconds (Settings → DXpeditions,
+`livestreams`); turned off, no request is made.
 
 ### Do I need this DXpedition?
 
@@ -1617,7 +1679,7 @@ Where to see it:
   hover a square for its figures. Above it, the row's band now. Striped, the hours better by the
   long path; under it, each path's distance and bearing.
 - **The grid's ring** in the Station tab: each slot spotted in the last 15 minutes takes the
-  colour of its chance on that band and mode (cyan high, orange medium, grey low); hover for the
+  colour of its chance on that band and mode (green high, yellow medium, grey low); hover for the
   percentage and the slot's next 24 hours. Dotted without a figure.
 
 #### Where the sunspot number comes from
@@ -1951,8 +2013,11 @@ Countries with a spot in the visible list in the last 15 minutes are green and h
 updates as spots arrive, filters change, or the spot expires; the bars still show history, not live activity.
 Click a country and it shows every band and mode it was heard on
 near you, hour by hour — solid where it was heard, with who heard it and how far, and faint where it
-wasn't: those hours are VOACAP's own prediction, the same as the Station tab's.
-**All** shows every country, worked or not, to plan rather than to chase.
+wasn't: those hours are VOACAP's own prediction, the same as the Station tab's. What was heard is
+there at once; the faint hours fill in a second later, while VOACAP works them out. A country is also
+reached from the Station tab's **Windows** button, which opens it here — even for a country you
+already have; one nobody near you has heard yet says so. **All** shows every country, worked or not,
+to plan rather than to chase.
 
 At the top of each UTC hour, **The hour's alert** puts one row in the list — **ITS HOUR** — with the
 countries you miss that are usually heard right now (heard in that hour on at least two days, and
@@ -1996,6 +2061,8 @@ The same alert isn't repeated within the cooldown (default 15 minutes):
   for every other US station on 30 m CW for the next 15 minutes.
 - **Call alerts** (DXPEDITION, WATCHLIST, NEW CALL, YOU'RE HEARD, ITS HOUR) are limited per
   call + band + mode, so the DXpedition alerts again when it moves to another band or mode.
+- In both, the mode is the group (CW, phone, digital). With **Count each mode on its own** it is
+  the spot's own mode when it says it, so FT8 and RTTY are limited each on its own.
 - **NEW GRID** is limited per grid square + band: one station in FN31 on 6 m is enough.
 - **NEW PREFIX** is limited per prefix + band: one HG19 station on 20 m is enough.
 - **MARATHON** is limited per country + band + mode, and the CQ zone per zone + band + mode.
@@ -2080,6 +2147,7 @@ You can also edit it by hand; restart `run` afterwards.
 | alerts      | `bands`                     | 160m–6m (no 60m)                                  | Spots on other bands are ignored |
 | alerts      | `modes`                     | `CW, PHONE, DIGI`                                 | Mode groups to alert on; the list breaks the digital ones down by mode |
 | alerts      | `only_modes`                | `[]`                                              | Single modes, e.g. `["FT8", "FT4"]`: a group with any of them picked alerts only on those, one with none on all its modes. The ones in a group that is off in `modes` are kept but don't count |
+| alerts      | `each_mode`                 | `false`                                           | NEW MODE and NEW SLOT by mode (FT8, RTTY, SSB…) instead of by DXCC group: FT8 worked doesn't cover RTTY. A spot that doesn't say its mode goes by its group |
 | alerts      | `activities`                | `[]`                                              | Programs whose new references alert: `POTA`, `SOTA`, `WWFF`, `IOTA`, `COTA`. A reference you haven't worked on that band is an ACTIVITY alert |
 | alerts      | `watchlist`                 | empty                                             | Calls to always look for; wildcards allowed, e.g. `"VP8*"` |
 | alerts      | `ignore`                    | empty                                             | Calls never to alert on; wildcards allowed |
@@ -2122,6 +2190,8 @@ You can also edit it by hand; restart `run` afterwards.
 | dxpeditions | `refresh_hours`             | `6`                                               | How often to re-read the DXpedition sources |
 | dxpeditions | `sources`                   | `["ng3k", "425dxn", "clublog"]`         | Where to find DXpeditions: NG3K ADXO, 425 DX News, Club Log |
 | dxpeditions | `show_have`                 | `true`                                            | Show DXPED HAVE lines (grey, no pop-up) |
+| dxpeditions | `livestreams`               | `true`                                            | Club Log livestreams: which stations are uploading their log right now, and when they last did |
+| dxpeditions | `livestreams_refresh_s`     | `90`                                              | How often, in seconds, the livestreams list is read again |
 | lotw        | `enabled`                   | `true`                                            | Download your LoTW confirmations |
 | lotw        | `username`                  | empty (= your call)                               | LoTW login (empty = your call) |
 | lotw        | `password_env`              | `LOTW_PASSWORD`                                   | Name of an environment variable to read the password from (optional, see LoTW) |
@@ -2329,7 +2399,7 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   filters (callbook, worked grid, earlier QSOs) and what
   DX Agent filled for the one before (name, QTH, grid square, references) goes; what you typed
   stays. **Esc** in the call takes it out, and what DX Agent filled for that station with it.
-  **Log QSO**, there or in the Station tab, saves
+  **Log QSO** saves
   it, and says what it adds to your log ("new for you: new band"), as your log was before it. Logged,
   the form is empty for the next one, the cursor back in the call: the call, the reports
   (back to the mode's, 599 or 59) and the time (on the clock again); the frequency and the mode
@@ -2795,6 +2865,7 @@ stay.
 | NG3K ADXO calendar | Announced DXpeditions | https://www.ng3k.com/Misc/adxo.html |
 | 425 DX News calendar | Announced DXpeditions | https://www.425dxn.org/index.php?op=wcal |
 | Club Log | DXpeditions uploading now, their logs and OQRS, DXCC Most Wanted | https://clublog.org/expeditions.php |
+| Club Log livestreams | Which stations are uploading their log right now, and when their last QSO was | https://clublog.org/livestreams.php |
 | ARRL LoTW user activity | Who uploads to LoTW | https://lotw.arrl.org/lotw-user-activity.csv |
 | ARRL LoTW report | Your confirmations | https://lotw.arrl.org/lotwuser/lotwreport.adi |
 | RBN skimmer list | Where each skimmer is (grid square) | https://www.reversebeacon.net/nodes/ |
@@ -2922,7 +2993,8 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `dxagent/pskmqtt.py`        | PSKReporter live: an MQTT client for mqtt.pskreporter.info, and the stations followed |
 | `dxagent/refinfo.py`        | A POTA park's or SOTA summit's page, for the Station tab |
 | `dxagent/geo.py`            | Grid squares and distances |
-| `dxagent/onlinelog.py`      | Checks a DXpedition's log on Club Log |
+| `dxagent/onlinelog.py`      | Checks a DXpedition's log on Club Log, and for a livestream, when they last uploaded a QSO |
+| `dxagent/livestreams.py`    | Club Log's livestreams: who is uploading their log now, and when their last QSO went up |
 | `dxagent/wsjtx.py`          | Sends a call to WSJT-X (UDP Configure message) |
 | `dxagent/activities.py`    | Activations (POTA, SOTA, IOTA...) found in the spots' comments |
 | `dxagent/hunting.py`       | Summits, parks, islands... you have worked, band by band |
@@ -2951,6 +3023,7 @@ downloaded goes to `data/` and can be deleted at any time; it is downloaded agai
 | `data/MASTER.SCP`                             | supercheckpartial.com | monthly, with DX Agent's logbook |
 | `data/dxped-ng3k.json`, `dxped-425dxn.json`, `dxped-clublog.json` | NG3K, 425 DX News, Club Log | every 6 hours |
 | `data/clublog-mostwanted.json`                | Club Log Most Wanted | daily        |
+| `data/livestreams.json`                       | Club Log livestreams | every 90 seconds |
 | `data/lotw-user-activity.csv`                 | ARRL LoTW          | daily          |
 | `data/lotw_qsls.adi` + `data/lotw_state.json` | your LoTW account  | every 12 hours |
 | `data/log-<CALL>.db`, `data/backups/`         | DX Agent's logbook (experimental) | as you log; a backup a day |
