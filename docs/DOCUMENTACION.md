@@ -953,8 +953,12 @@ banda, porque la tira ya muestra la de la radio. Sirve para ver alrededor del VF
 en la lista.
 
 **Un clic sintoniza.** Un clic en una estación la selecciona como una fila de la lista y sintoniza
-la radio. La estación seleccionada queda marcada con una banda del color de acento. Cualquier Tune
-del panel mueve la tira en el acto, sin esperar a que se vuelva a leer la radio.
+la radio. La estación seleccionada queda marcada con una banda del color de acento. Un clic en la
+escala de la izquierda lleva la radio a esa frecuencia, a la marca más cercana: si clicás un número,
+va a ese número, y entre números, a la marca de la escala (0,5 kHz con el zoom de entrada, 0,1 kHz
+con más zoom). Al pasar por la escala, el cartelito muestra adónde va a ir. El modo queda como
+está. Cualquier Tune del panel mueve la tira en el acto, sin esperar a que se vuelva a leer la
+radio.
 
 **Dos radios (SO2R).** Con dos radios configuradas hay dos tiras, una al lado de la otra: la de la
 Radio 1 y después la de la Radio 2. Cada una muestra la banda y el VFO de su radio, con su propio
@@ -3261,6 +3265,14 @@ Al editar un QSO
   trajo al frente, y cuando no puede, por qué: no encuentra el programa, se cerró al arrancar, o no
   contestó. Cerrado, lo abre DX Agent en un proceso propio, que sigue abierto cuando DX Agent se
   cierra, y espera hasta 20 s a que conteste; mientras espera, el panel sigue andando.
+- La estación que elegís en la lista o en el mapa le llega al keyer, si está abierto: el indicativo
+  pasa a su panel del QSO, con el nombre y el QTH de tus callbooks y la grilla del spot, y el panel
+  se pone en CW o en voz según el modo. Solo se mandan las estaciones de CW o SSB; una de datos no
+  va. Mientras el keyer transmite no se toca nada, y el nombre o el QTH que escribiste a mano no se
+  pisan. Si el keyer no tiene radio sintonizada, el QSO toma la frecuencia de la estación elegida y
+  la grilla va al ADIF. Al revés también anda, si el keyer está conectado a DX Agent: la estación que
+  elegís o cargás ahí aparece en el panel como si la hubieras elegido vos, con la fila marcada y el
+  mapa en ella; la que DX Agent acaba de mandarle no vuelve, para que no rebote entre los dos.
 - El botón no aparece desde otro equipo de la red, igual que el Tune y el CW: el keyer corre en la
   PC de la estación. El paquete de Windows ya lo trae en `keyer/`, así que no hay nada que instalar
   aparte: el botón lo abre de ahí. En `config.toml` está en `[keyer]`: `use` (`winkey`, `external`

@@ -289,7 +289,8 @@ momento); el botón » la pliega a un riel de 30 px con la banda entera, y un cl
 ahí. **CW**, **SSB** y **DIGI** juntan las estaciones de ese modo en una etiqueta por tramo
 («FT8 · 37») que se abre con un clic; el embudo deja solo las estaciones que muestra la lista, con
 todos sus filtros menos el de banda; **un clic en una estación** la selecciona en la lista y
-sintoniza la radio. Con dos radios hay dos tiras, una por radio, cada una con su zoom y su banda, y
+sintoniza la radio, y **un clic en la escala** de la izquierda lleva la radio a esa frecuencia (a la
+marca más cercana, sin cambiar el modo). Con dos radios hay dos tiras, una por radio, cada una con su zoom y su banda, y
 un clic sintoniza esa radio.
 
 **A la derecha, la pestaña Estación:** al hacer clic en una fila (en el indicativo o en la
@@ -1265,8 +1266,8 @@ configuraste, tres por fila, y **Parar** abajo, al lado de lo que está saliendo
 - Sin indicativo en el formulario, un mensaje con `{CALL}` no se manda.
 - Sin el WinKey activado en Configuración, la columna no aparece.
 
-**El CW / Voice Keyer de LU5FF 1.0.2:** el paquete de Windows trae el keyer de Javi – LU5FF en su
-carpeta `keyer`, ahora en la 1.0.2. En Configuración → Radio → **Quién manda el CW** elegís **El
+**El CW / Voice Keyer de LU5FF 1.0.3:** el paquete de Windows trae el keyer de Javi – LU5FF en su
+carpeta `keyer`, ahora en la 1.0.3. En Configuración → Radio → **Quién manda el CW** elegís **El
 WinKey de DX Agent**, **El keyer externo** o **Ninguno**. Con **Ninguno**, DX Agent no manda CW y la
 consola no muestra ninguna de las dos cajas. Con el keyer, la columna del WinKey deja lugar a una caja
 con **Abrir el keyer** (Alt+K), que lo arranca o trae su ventana al frente, solo desde la PC de la
@@ -1275,7 +1276,10 @@ micrófono o loopback, espejo del log de DX Agent, las vistas **Normal**, **Comp
 compacta**, texto libre en CW, botón **TONO** y ventana de comandos TCI. La 1.0.2 hace más rápido
 su band map, lee y maneja OmniRig en forma directa, deja sus diálogos adelante con **Siempre
 visible**, avisa el nivel y los errores del grabador de voz y le pone un freno a los saltos de
-frecuencia del TX.
+frecuencia del TX. La 1.0.3 comparte la estación elegida con DX Agent: la que elegís en la lista o
+en el mapa pasa a su panel del QSO (con el nombre y el QTH de tus callbooks y la grilla), y la que
+elegís o escribís en el keyer aparece en el panel; además oculta las opciones de TCI cuando la radio
+no está por TCI.
 
 **ESM (Enter Sends Message)**, como en N1MM, apagado de fábrica: se prende con el botón **ESM** de
 la columna del WinKey, en Configuración o escribiendo `ESMON` (`ESMOF` lo apaga) en el indicativo y

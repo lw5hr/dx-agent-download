@@ -272,7 +272,8 @@ VFO for 15 seconds (◎ brings it back at once); the » button folds it to a 30 
 band, and a click on the rail opens it there. **CW**, **SSB** and **DIGI** put that mode's stations
 in one label per stretch ("FT8 · 37") that opens with a click; the funnel keeps only the stations
 the list shows, with all its filters but the band's; **a click on a station** selects it in the list
-and tunes the radio. With two radios there are two strips, one per radio, each with its own zoom and
+and tunes the radio, and **a click on the scale** at the left takes the radio to that frequency (the
+nearest tick, the mode left as it is). With two radios there are two strips, one per radio, each with its own zoom and
 band, and a click tunes that radio.
 
 **On the right, the Station tab:** clicking a row (on the call or on the frequency) opens the
@@ -1198,15 +1199,18 @@ the console's right, with the speed on top, a button per message you set, three 
 - With no call in the form, a message with `{CALL}` isn't sent.
 - Without the WinKey on in Settings, the column doesn't show.
 
-**LU5FF's CW / Voice Keyer 1.0.2:** the Windows package brings Javi – LU5FF's keyer in its `keyer`
-folder, now in 1.0.2. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
+**LU5FF's CW / Voice Keyer 1.0.3:** the Windows package brings Javi – LU5FF's keyer in its `keyer`
+folder, now in 1.0.3. In Settings → Radio → **Who sends the CW** pick **DX Agent's WinKey**, **The external
 keyer** or **None**. With **None**, DX Agent sends no CW and the console shows neither box. With the keyer, the WinKey column gives way to a box with **Open the keyer** (Alt+K), which
 starts it or brings its window to the front, only from the station's PC. The 1.0.1 adds TX by slice
 and split on demand in AetherSDR, a recorder of voice memories with the microphone or the loopback,
 a mirror of DX Agent's log, the **Normal**, **Compact** and **Very compact** views, free text in
 CW, a **TONE** button and a TCI command window. The 1.0.2 makes its band map faster, reads and
 drives OmniRig directly, keeps its dialogs in front with **Always on top**, warns about the voice
-recorder's level and errors, and puts a brake on TX frequency jumps.
+recorder's level and errors, and puts a brake on TX frequency jumps. The 1.0.3 shares the picked station with DX Agent: the one
+you pick in the list or on the map goes to its QSO form (with the name and QTH from your callbooks
+and the grid square), and the one you pick or type in the keyer shows up in the dashboard; it also
+hides the TCI options when the radio isn't on TCI.
 
 **ESM (Enter Sends Message)**, as in N1MM, off by default: turn it on with the **ESM** button in the
 WinKey column, in Settings, or by typing `ESMON` (`ESMOF` turns it off) in the call field and Enter.

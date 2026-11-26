@@ -617,7 +617,10 @@ near instead of making one of its own. Each browser remembers the choice.
 since the strip already shows the radio's. It is for seeing around the VFO the same as in the list.
 
 **A click tunes.** A click on a station selects it as a row of the list and tunes the radio. The
-selected station is marked with a band of the accent colour. Any Tune from the page moves the strip
+selected station is marked with a band of the accent colour. A click on the scale at the left takes
+the radio to that frequency, the nearest tick: a number clicked is that number, between numbers the
+scale's nearest step (0.5 kHz at the zoom it starts with, 0.1 kHz zoomed in). Hovering the scale,
+the tooltip says where it will go. The mode is left as it is. Any Tune from the page moves the strip
 at once, without waiting for the radio to be read again.
 
 **Two radios (SO2R).** With two radios set up there are two strips, side by side: radio 1's and then
@@ -2625,6 +2628,15 @@ as its callsign); alerts, DXCC and WAZ still count them together, as with severa
   brought to the front, and when it can't, why: no program to run, it closed right away, or no
   answer. Closed, DX Agent starts it in a process of its own, which stays open when DX Agent closes,
   and waits up to 20 s for it to answer; the dashboard keeps going while it waits.
+- The station picked in the list or on the map reaches the keyer when it is open: the call goes to
+  its QSO form, with the name and QTH from your callbooks and the spot's grid square, and the form
+  switches to CW or to voice with the mode. Only CW and SSB stations are sent; a data one is not.
+  Nothing changes while the keyer transmits, and a name or QTH typed in by hand is not overwritten.
+  With no radio tuned in the keyer, the QSO takes the picked station's frequency and its grid square
+  goes into the ADIF. The other way works too, with the keyer connected to DX Agent: the station you
+  pick or load there shows up in the dashboard as if you had picked it here, its row marked and the
+  map on it; the one DX Agent just handed to the keyer doesn't come back, so it can't bounce between
+  the two.
 - The button isn't drawn on another device on the network, as with Tune and CW: the keyer runs on the
   station's PC. The Windows package already carries it in `keyer/`, so there is nothing to install:
   the button starts it from there. In `config.toml`: `[keyer]` (`use` (`winkey`, `external` or
